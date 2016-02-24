@@ -7,7 +7,7 @@
 
 	@include('errors.list')
 
-	{!! Form::model($article = new \App\article, ['url' => 'articles', 'files' => true ]) !!}
+	{!! Form::model($article = new \App\article, ['url' => 'articles', 'files' => 'true', 'data-parsley-validate' ]) !!}
 
 		@include('articles.form')
 

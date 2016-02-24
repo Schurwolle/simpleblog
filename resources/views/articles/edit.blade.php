@@ -6,7 +6,7 @@
 
 	<h1>Edit: {!! $article->title !!}</h1>
 
-	{!! Form::model($article, ['method' => 'PATCH', 'url' => 'articles/'.$article->id, 'files' => 'true' ] ) !!}
+	{!! Form::model($article, ['method' => 'PATCH', 'url' => 'articles/'.$article->id, 'files' => 'true', 'data-parsley-validate' ] ) !!}
 
 		@include('articles.form')
 

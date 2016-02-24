@@ -74,15 +74,13 @@ class ArticlesController extends Controller
 
     public function edit(article $article)
     {
-        if (Auth::id() == $article->user_id)
-        {
+        $this->authorize('articleAuth', $article);
+
+        
     	   $tags = Tag::lists('name', 'id');
 
     	   return view('articles.edit', compact('article', 'tags'));
-        } else
-        {
-            return redirect('articles');
-        }
+       
 
     }
 
@@ -110,13 +108,14 @@ class ArticlesController extends Controller
 
     public function delete(article $article)
     {
-        if(Auth::id() == $article->user_id)
-        {
+        $this->authorize('articleAuth', $article);
+
+       
             $article->delete();
             \Session::flash('flash_message', 'Your article has been deleted!');
-        }
+        
 
-        return redirect('articles');
+            return redirect('articles');
     }
 
 

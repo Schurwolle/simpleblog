@@ -11,49 +11,39 @@ use Auth;
 
 class UserController extends Controller
 {
-    public function showPosts($name)
+    public function showPosts(User $user)
     {
-        $user = User::where('name', '=', $name)->first();
 
         $articles = $user->articles()->latest('published_at')->published()->paginate(5);
 
         return view('articles.users', compact('articles'));
     }
 
-    public function showProfile($name)
+    public function showProfile(User $user)
     {
-        $user = User::where('name', '=', $name)->first();
 
         return view('articles.profile', compact('user'));
     }
 
-    public function unpublished($name)
+    public function unpublished(User $user)
     {
-        $user = User::where('name', '=', $name)->first();
+        $this->authorize('userAuth', $user);
 
-        if (Auth::id() == $user->id) 
-        {
-        $articles = $user->articles()->latest('published_at')->unpublished()->paginate(5);
+            $articles = $user->articles()->latest('published_at')->unpublished()->paginate(5);
 
-        return view('articles.unpublished', compact('articles'));
-        } else
-        {
-            return redirect('articles');
-        }
+            return view('articles.unpublished', compact('articles'));
+
     }
 
-    public function delete($name)
+    public function delete(User $user)
     {
-        $user = User::where('name', '=', $name)->first();
 
-        if (Auth::id() == $user->id) 
-        {
+        $this->authorize('userAuth', $user);
+
             $user->delete();
             \Session::flash('flash_message', 'Your profile has been deleted!');
             return redirect('login');
-        }
-
-        return redirect('articles');
+        
 
     }
 }
