@@ -37,6 +37,11 @@ class RouteServiceProvider extends ServiceProvider
             return \App\Tag::where('name', $name)->firstOrFail();
         });
         
+        $router->bind('user', function($name)
+        {
+            return \App\User::where('name', $name)->firstOrFail();
+        });
+        
     }
 
     /**
