@@ -111,6 +111,15 @@ class ArticlesController extends Controller
             
 
             $request->file('image')->move($destinationPath, $fileName);
+        } else 
+        {
+            if($request->remove == true)
+            {
+                if (file_exists('pictures/'.$article->id))
+                {
+                    unlink('pictures/'.$article->id);
+                }
+            }
         }
 
         \Session::flash('flash_message', 'Your article has been updated!');
@@ -122,7 +131,11 @@ class ArticlesController extends Controller
     {
         $this->authorize('articleAuth', $article);
 
-       
+            if (file_exists('pictures/'.$article->id))
+            {
+                unlink('pictures/'.$article->id);
+            }
+
             $article->delete();
             \Session::flash('flash_message', 'Your article has been deleted!');
         

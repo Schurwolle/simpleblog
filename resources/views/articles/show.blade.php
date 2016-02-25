@@ -22,6 +22,7 @@
 			@endforeach
 		</h5>
 	@endunless
+	<br>
 	<table><tr>
 	<td>
 	<button class="btn btn-primary" onclick="history.go(-1)">
@@ -49,7 +50,7 @@
     </a>on {{ $article->published_at }}.</article>
 
 
-    <h3>Leave a Comment</h3>
+    <h3>Leave a Comment:</h3>
     <div class="panel-body">
       <form method="post" action="/comment/add">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
