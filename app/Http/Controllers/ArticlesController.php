@@ -12,18 +12,31 @@ use App\Http\Requests\UpdateArticleRequest;
 use App\Tag;
 use App\User;
 use Carbon\Carbon;
+use App\Repositories\ArticleRepository;
+use App\Repositories\CommentRepository;
+use App\Repositories\TagRepository;
 
 class ArticlesController extends Controller
 {	
-	public function __construct()
+    protected $articles;
+    protected $comments;
+    protected $tags;
+
+
+	public function __construct(ArticleRepository $articles,CommentRepository $comments,TagRepository $tags)
 	{
 		$this->middleware('auth');
+
+        $this->articles = $articles;
+        $this->comments = $comments;
+        $this->tags     = $tags;
 	}
+
+
 
     public function index()
     {	
-
-    	$articles = article::latest('published_at')->published()->paginate(5);
+        $articles = $this->articles->showAll();
 
     	return view('articles.articles', compact('articles'));
     }
@@ -36,7 +49,7 @@ class ArticlesController extends Controller
             return redirect('articles');
         }else
         {
-            $comments = $article->comments()->latest('created_at')->get();
+            $comments = $this->comments->forArticle($article);
 
     	    return view('articles.show', compact('article', 'comments'));
         }
@@ -44,8 +57,7 @@ class ArticlesController extends Controller
 
     public function create()
     {
-
-        $tags = Tag::lists('name', 'id'); 
+        $tags = $this->tags->lists();
 
     	return view('articles.create', compact('tags'));
     }
@@ -77,7 +89,7 @@ class ArticlesController extends Controller
         $this->authorize('articleAuth', $article);
 
         
-    	   $tags = Tag::lists('name', 'id');
+    	   $tags = $this->tags->lists();
 
     	   return view('articles.edit', compact('article', 'tags'));
        

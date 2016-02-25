@@ -31,7 +31,7 @@
      	Edit
     </button></a>
     <a href="{{ $article->id }}/delete"><button class="btn btn-danger">
-     	Delete 
+    <i class="fa fa-btn fa-trash"></i>Delete 
     </button></a>
     @endif
     <hr>
@@ -68,7 +68,7 @@
 	              <p>
 	              	<a href="/comment/delete/{{$comment->id}}">
 	              	<button class="btn btn-danger">
-	              	Delete</button></a>
+	              	<i class="fa fa-btn fa-trash"></i>Delete</button></a>
 	              </p>
 	              @endif
 	            </div>

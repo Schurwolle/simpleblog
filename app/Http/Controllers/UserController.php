@@ -7,14 +7,23 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
-use Auth;
+use App\Repositories\ArticleRepository;
 
 class UserController extends Controller
 {
+    protected $articles;
+
+
+    public function __construct(ArticleRepository $articles)
+    {
+        $this->articles = $articles;
+    }
+
+
+
     public function showPosts(User $user)
     {
-
-        $articles = $user->articles()->latest('published_at')->published()->paginate(5);
+        $articles = $this->articles->forUser($user);
 
         return view('articles.users', compact('articles'));
     }
@@ -29,7 +38,7 @@ class UserController extends Controller
     {
         $this->authorize('userAuth', $user);
 
-            $articles = $user->articles()->latest('published_at')->unpublished()->paginate(5);
+            $articles = $this->articles->forUserUnpublished($user);
 
             return view('articles.unpublished', compact('articles'));
 

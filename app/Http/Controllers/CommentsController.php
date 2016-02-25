@@ -8,7 +8,6 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Comment;
 use App\article;
-use Auth;
 use Illuminate\Support\Facades\Input;
 
 class CommentsController extends Controller
@@ -25,16 +24,16 @@ class CommentsController extends Controller
     	return redirect('articles/'.$input['article_id']);
     }
 
-    public function delete(article $article, $id)
+    public function delete(article $article, Comment $comment)
     {
-    	$comment = Comment::findOrFail($id);
 
-    	if(Auth::id() == $comment->user_id)
-        {	
+        $this->authorize('commentAuth', $comment);
+    	// if(Auth::id() == $comment->user_id)
+     //    {	
         	$articleid = $comment->article_id;
             $comment->delete();
             \Session::flash('flash_message', 'Your comment has been deleted!');
-        }
+        // }
 
         return redirect('articles/'.$articleid);
 

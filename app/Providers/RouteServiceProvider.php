@@ -42,6 +42,11 @@ class RouteServiceProvider extends ServiceProvider
             return \App\User::where('name', $name)->firstOrFail();
         });
         
+        $router->bind('comment', function($id)
+        {
+            return \App\Comment::where('id', $id)->firstOrFail();    
+        });
+        
     }
 
     /**

@@ -4,7 +4,7 @@
 			 [
 			 	'class' => 'form-control', 
 			 	'required', 
-			 	'data-parsley-required-message' => 'Publish on field is required.', 
-			 	'data-parsley-type' => 'date',  
-			 	'data-parsley-trigger' => 'change focusout']) !!}
+			 	'data-parsley-required-message' => 'Must be a valid date.',
+			 	'data-parsley-trigger' => 'change focusout'
+			 	]) !!}
 	</div>

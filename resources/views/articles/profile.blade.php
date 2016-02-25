@@ -37,19 +37,19 @@
     </li>
   </ul>
 
- @unless($user->articles->isEmpty())
+ @unless($user->articles()->published()->count()==0)
  <div class="panel panel-default">
   <div class="panel-heading"><h4>Latest Article</h4></div>
   <div class="panel-body">
   
     <table class="table-padding">
       <tr>
-        <td><a href="/articles/{{$user->articles()->latest('published_at')->first()->id}}">
-        {{$user->articles()->latest('published_at')->first()->title}}
+        <td><a href="/articles/{{$user->articles()->latest('published_at')->published()->first()->id}}">
+        {{$user->articles()->latest('published_at')->published()->first()->title}}
         </a></td>
         <td>{{ $user->articles()->latest('published_at')->first()->published_at }}</td>
       </tr>
-      <tr><td>{!! html_entity_decode(str_limit($user->articles()->latest('published_at')->first()->body)) !!}</td></tr>
+      <tr><td>{!! html_entity_decode(str_limit($user->articles()->latest('published_at')->published()->first()->body)) !!}</td></tr>
     </table>
  
   </div>
@@ -80,7 +80,7 @@
 
  @if($user->id == Auth::id())
     <a href="/{{ $user->name }}/delete"><button class="btn btn-danger">
-      Delete Profile
+      <i class="fa fa-btn fa-trash"></i>Delete Profile
     </button></a>
  @endif
 

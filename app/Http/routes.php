@@ -51,7 +51,7 @@ Route::get('{user}/unpublished', 'UserController@unpublished');
 Route::get('{user}/delete', 'UserController@delete');
 
 Route::post('comment/add','CommentsController@store');
-Route::get('comment/delete/{id}','CommentsController@delete');
+Route::get('comment/delete/{comment}','CommentsController@delete');
 
 });
 
