@@ -8,3 +8,4 @@
 			 	'data-parsley-required-message' => 'Must be a valid date.',
 			 	'data-parsley-trigger' => 'change focusout'
 			 	]) !!}
+	</div>

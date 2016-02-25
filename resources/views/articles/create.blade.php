@@ -13,12 +13,12 @@
 
 		@include('articles.publish')
 
-		@include('articles.submit', ['submitButton' => 'Add Article'])
+		@include('articles.submit', ['submitButton' => '<i class="fa fa-plus"></i> Add Article'])
 
 
 	{!! Form::close() !!}
 
 
 
-	@stop
+	@endsection
 

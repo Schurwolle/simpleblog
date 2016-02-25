@@ -35,7 +35,7 @@ Route::group(['middleware' => ['web']], function () {
 
 Route::resource('articles', 'ArticlesController');
 
-Route::get('articles/{article}/delete', 'ArticlesController@delete');
+Route::delete('articles/{article}/delete', 'ArticlesController@delete');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
@@ -48,10 +48,10 @@ Route::get('tags/{tags}', 'TagsController@show');
 Route::get('{user}/articles', 'UserController@showPosts');
 Route::get('{user}/profile', 'UserController@showProfile');
 Route::get('{user}/unpublished', 'UserController@unpublished');
-Route::get('{user}/delete', 'UserController@delete');
+Route::delete('{user}/delete', 'UserController@delete');
 
 Route::post('comment/add','CommentsController@store');
-Route::get('comment/delete/{comment}','CommentsController@delete');
+Route::delete('comment/delete/{comment}','CommentsController@delete');
 
 });
 

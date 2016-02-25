@@ -10,7 +10,7 @@
 
 		@include('articles.form')
 
-		@include('articles.submit', ['submitButton' => 'Update Article'])
+		@include('articles.submit', ['submitButton' => '<i class="fa fa-plus"></i> Update Article'])
 
 	{!! Form::close() !!}
 

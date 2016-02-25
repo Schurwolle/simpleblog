@@ -28,12 +28,11 @@ class CommentsController extends Controller
     {
 
         $this->authorize('commentAuth', $comment);
-    	// if(Auth::id() == $comment->user_id)
-     //    {	
+    		
         	$articleid = $comment->article_id;
             $comment->delete();
             \Session::flash('flash_message', 'Your comment has been deleted!');
-        // }
+        
 
         return redirect('articles/'.$articleid);
 

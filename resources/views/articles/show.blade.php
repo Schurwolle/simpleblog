@@ -22,22 +22,31 @@
 			@endforeach
 		</h5>
 	@endunless
-
+	<table><tr>
+	<td>
 	<button class="btn btn-primary" onclick="history.go(-1)">
       « Back
     </button>
+    </td>
     @if($article->user_id == Auth::id())
+    <td>
     <a href="{{ $article->id }}/edit"><button class="btn btn-primary">
      	Edit
     </button></a>
-    <a href="{{ $article->id }}/delete"><button class="btn btn-danger">
-    <i class="fa fa-btn fa-trash"></i>Delete 
-    </button></a>
+    </td>
+    <td>
+    {!!Form::open(['method' => 'DELETE', 'url' =>'/articles/'.$article->id.'/delete', 'onsubmit' => 'return ConfirmDelete()' ])!!}
+
+		{!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete', array('type' => 'submit', 'class' => 'btn btn-danger'))!!}
+
+	{!!Form::close()!!}
+	</td>
     @endif
+    </tr>
+    </table>
     <hr>
-    <article>Article published by <a href="/{{ $article->user->name }}/profile">{{ $article->user->name }}</a>
-    		 on {{ $article->published_at }}.
-    </article>
+    <article>Article published by <a href="/{{ $article->user->name }}/profile">{{ $article->user->name }}
+    </a>on {{ $article->published_at }}.</article>
 
 
     <h3>Leave a Comment</h3>
@@ -66,9 +75,11 @@
 	              <p>{{ $comment->body }}</p>
 	              @if($comment->user_id == Auth::id())
 	              <p>
-	              	<a href="/comment/delete/{{$comment->id}}">
-	              	<button class="btn btn-danger">
-	              	<i class="fa fa-btn fa-trash"></i>Delete</button></a>
+	              {!!Form::open(['method' => 'DELETE', 'url' => '/comment/delete/'.$comment->id, 'onsubmit' => 'return ConfirmDelete()' ])!!}
+
+	              	{!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete', array('type' => 'submit', 'class' => 'btn btn-danger'))!!}
+	              	
+	              {!!Form::close()!!}
 	              </p>
 	              @endif
 	            </div>
@@ -78,4 +89,19 @@
 	    </ul>
 	    @endunless
   </div>
+@stop
+
+@section('footer')
+<script>
+
+  function ConfirmDelete()
+  {
+  var x = confirm("Are you sure you want to delete?");
+  if (x)
+    return true;
+  else
+    return false;
+  }
+
+</script>
 @stop

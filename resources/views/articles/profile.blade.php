@@ -78,11 +78,28 @@
  @endunless
 </div>
 
- @if($user->id == Auth::id())
-    <a href="/{{ $user->name }}/delete"><button class="btn btn-danger">
-      <i class="fa fa-btn fa-trash"></i>Delete Profile
-    </button></a>
- @endif
+@if($user->id == Auth::id())
+    {!!Form::open(['method' => 'DELETE', 'url' => $user->name.'/delete', 'onsubmit' => 'return ConfirmDelete()' ])!!}
+
+      {!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete Profile', array('type' => 'submit', 'class' => 'btn btn-danger'))!!}
+
+    {!!Form::close()!!}
+@endif
 
 
- @stop
+@stop
+
+@section('footer')
+<script>
+
+  function ConfirmDelete()
+  {
+  var x = confirm("Are you sure you want to delete?");
+  if (x)
+    return true;
+  else
+    return false;
+  }
+
+</script>
+@endsection
