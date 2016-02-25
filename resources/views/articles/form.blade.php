@@ -6,6 +6,7 @@
 
 	<div class="form-group">
 	{!! Form::label('title', 'Title:') !!}
+
 	{!! Form::text('title', null, 
 						[
 							'class' 						=> 'form-control',  
@@ -14,6 +15,7 @@
 							'data-parsley-required-message' => 'Title is required.',
 							'data-parsley-trigger' 			=> 'change focusout'
 							]) !!}
+
 	</div>
 
 	<div class="form-group">
@@ -53,6 +55,7 @@
 		CKEDITOR.replace('body');
 	</script>
 	<script type="text/javascript">
+
         window.ParsleyConfig = {
             errorsWrapper: '<div></div>',
             errorTemplate: '<div class="alert alert-danger parsley" role="alert"></div>'
@@ -60,3 +63,12 @@
     </script>
     {{Html::script('/parsley.min.js')}}
 	@stop	
+
+	        window.ParsleyConfig = {
+	            errorsWrapper: '<div></div>',
+	            errorTemplate: '<div class="alert alert-danger parsley" role="alert"></div>'
+	        };
+    	</script>
+    	{{Html::script('/parsley.min.js')}}
+	@stop	
+
