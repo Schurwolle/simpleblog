@@ -46,52 +46,53 @@
     </tr>
     </table>
     <hr>
-    @if($article->published_at <= Carbon\Carbon::now())
-	    <article>Article published by <a href="/{{ $article->user->name }}/profile">{{ $article->user->name }}</a> on {{ $article->published_at }}.</article>
+    @if($article->published_at > Carbon\Carbon::now())
+	    <article>Article set to be published on {{ $article->published_at }} by <a href="/{{ $article->user->name }}/profile">{{ $article->user->name }}</a>.</article>
     @else
-    	<article>Article set to be published on {{ $article->published_at }} by <a href="/{{ $article->user->name }}/profile">{{ $article->user->name }}</a>.</article>
-    @endif
+    	<article>Article published by <a href="/{{ $article->user->name }}/profile">{{ $article->user->name }}</a> on {{ $article->published_at }}.</article>
+    
 
-    <h3>Leave a Comment:</h3>
-    <div class="panel-body">
-      <form method="post" action="/comment/add">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        <input type="hidden" name="article_id" value="{{ $article->id }}">
-        <div class="form-group">
-          <textarea required="required" placeholder="Your Comment" name = "body" class="form-control"></textarea>
-        </div>
-        <input type="submit" name='article_comment' class="btn btn-primary" value = "Post"/>
-      </form>
-    </div>
-    <div>
-	    @unless($comments->isEmpty())
-	    <h3>Comments: </h3>
-	    <ul style="list-style: none; padding: 0">
-	      @foreach($comments as $comment)
-	        <li class="panel-body">
-	          <div class="list-group">
-	            <div class="list-group-item">
-	              <h3>{{ $comment->user->name }}</h3>
-	              <p>{{ $comment->created_at->diffForHumans() }}</p>
-	            </div>
-	            <div class="list-group-item">
-	              <p>{{ $comment->body }}</p>
-	              @if($comment->user_id == Auth::id() || Auth::user()->isAdmin())
-	              <p>
-	              {!!Form::open(['method' => 'DELETE', 'url' => '/comment/delete/'.$comment->id, 'onsubmit' => 'return ConfirmDelete()' ])!!}
+	    <h3>Leave a Comment:</h3>
+	    <div class="panel-body">
+	      <form method="post" action="/comment/add">
+	        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+	        <input type="hidden" name="article_id" value="{{ $article->id }}">
+	        <div class="form-group">
+	          <textarea required="required" placeholder="Your Comment" name = "body" class="form-control"></textarea>
+	        </div>
+	        <input type="submit" name='article_comment' class="btn btn-primary" value = "Post"/>
+	      </form>
+	    </div>
+	    <div>
+		    @unless($comments->isEmpty())
+			    <h3>Comments: </h3>
+			    <ul style="list-style: none; padding: 0">
+			      @foreach($comments as $comment)
+			        <li class="panel-body">
+			          <div class="list-group">
+			            <div class="list-group-item">
+			              <h3>{{ $comment->user->name }}</h3>
+			              <p>{{ $comment->created_at->diffForHumans() }}</p>
+			            </div>
+			            <div class="list-group-item">
+			              <p>{{ $comment->body }}</p>
+			              @if($comment->user_id == Auth::id() || Auth::user()->isAdmin())
+			              <p>
+			              {!!Form::open(['method' => 'DELETE', 'url' => '/comment/delete/'.$comment->id, 'onsubmit' => 'return ConfirmDelete()' ])!!}
 
-	              	{!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete', array('type' => 'submit', 'class' => 'btn btn-danger'))!!}
-	              	
-	              {!!Form::close()!!}
-	              </p>
-	              @endif
-	            </div>
-	          </div>
-	        </li>
-	      @endforeach
-	    </ul>
-	    @endunless
-  </div>
+			              	{!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete', array('type' => 'submit', 'class' => 'btn btn-danger'))!!}
+			              	
+			              {!!Form::close()!!}
+			              </p>
+			              @endif
+			            </div>
+			          </div>
+			        </li>
+			      @endforeach
+			    </ul>
+		    @endunless
+	  	</div>
+  	@endif
 @stop
 
 @section('footer')
