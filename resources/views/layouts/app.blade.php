@@ -46,7 +46,11 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/articles') }}">Home</a></li>
+                    <li><a href="{{ url('/articles') }}">Articles</a></li>
+
+                    @if(Auth::check() && Auth::user()->isAdmin())
+                        <li><a href="{{ url('/unpublished') }}">Unpublished Articles</a></li>
+                    @endif
                     <li><a href="{{ url('/articles/create') }}">New Article</a></li>
                 </ul>
 
@@ -59,6 +63,9 @@
                     @else
                     @if($latest)
                         <li><a href="/articles/{{ $latest->id }}">{{str_limit($latest->title)}}</a></li>
+                    @endif
+                    @if(Auth::check() && Auth::user()->isAdmin())
+                        <li><a href="{{ url('/users') }}">Users</a></li>
                     @endif
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">

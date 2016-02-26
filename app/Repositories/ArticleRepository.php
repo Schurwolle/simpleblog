@@ -10,9 +10,14 @@ class ArticleRepository
 {
 
 
-	public function showAll()
+	public function showPublished()
 	{
 		return article::latest('published_at')->published()->paginate(5);
+	}
+
+	public function showUnpublished()
+	{
+		return article::latest('published_at')->unpublished()->paginate(5);
 	}
 
 	public function forUser(User $user)

@@ -15,6 +15,10 @@ class AuthPolicy
 
 
  
+    public function adminAuth(User $user)
+    {
+        return $user->isAdmin();
+    }
 
     public function userAuth(User $user, User $user1)
     {

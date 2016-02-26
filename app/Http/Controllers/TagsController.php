@@ -26,6 +26,6 @@ class TagsController extends Controller
     {
     	$articles = $this->articles->forTag($tag);
 
-    	return view('articles.tags', compact('articles', 'tag'));
+    	return view('articles.headings.tags', compact('articles', 'tag'));
     }
 }

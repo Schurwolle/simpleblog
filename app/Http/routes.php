@@ -18,7 +18,6 @@ Route::get('/', function () {
 
 
 
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -34,7 +33,7 @@ Route::group(['middleware' => ['web']], function () {
 	
 
 Route::resource('articles', 'ArticlesController');
-
+Route::get('unpublished', 'ArticlesController@unpublished');
 Route::delete('articles/{article}/delete', 'ArticlesController@delete');
 
 Route::controllers([
@@ -45,6 +44,7 @@ Route::controllers([
 
 Route::get('tags/{tags}', 'TagsController@show');
 
+Route::get('users','UserController@index');
 Route::get('{user}/articles', 'UserController@showPosts');
 Route::get('{user}/profile', 'UserController@showProfile');
 Route::get('{user}/unpublished', 'UserController@unpublished');

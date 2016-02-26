@@ -46,9 +46,11 @@
     </tr>
     </table>
     <hr>
-    <article>Article published by <a href="/{{ $article->user->name }}/profile">{{ $article->user->name }}
-    </a>on {{ $article->published_at }}.</article>
-
+    @if($article->published_at <= Carbon\Carbon::now())
+	    <article>Article published by <a href="/{{ $article->user->name }}/profile">{{ $article->user->name }}</a> on {{ $article->published_at }}.</article>
+    @else
+    	<article>Article set to be published on {{ $article->published_at }} by <a href="/{{ $article->user->name }}/profile">{{ $article->user->name }}</a>.</article>
+    @endif
 
     <h3>Leave a Comment:</h3>
     <div class="panel-body">

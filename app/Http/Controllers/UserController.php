@@ -8,25 +8,36 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Repositories\ArticleRepository;
+use App\Repositories\UserRepository;
 use Auth;
 
 class UserController extends Controller
 {
     protected $articles;
+    protected $users;
 
 
-    public function __construct(ArticleRepository $articles)
+    public function __construct(ArticleRepository $articles, UserRepository $users)
     {
         $this->articles = $articles;
+        $this->users = $users;
     }
 
+    public function index()
+    {
+        $this->authorize('adminAuth', Auth::user());
+
+            $users = $this->users->showAll();
+
+            return view('users', compact('users'));
+    }
 
 
     public function showPosts(User $user)
     {
         $articles = $this->articles->forUser($user);
 
-        return view('articles.users', compact('articles'));
+        return view('articles.headings.userarticles', compact('articles'));
     }
 
     public function showProfile(User $user)
@@ -41,7 +52,7 @@ class UserController extends Controller
 
             $articles = $this->articles->forUserUnpublished($user);
 
-            return view('articles.unpublished', compact('articles'));
+            return view('articles.headings.unpublishedbyuser', compact('articles'));
 
     }
 
@@ -54,7 +65,7 @@ class UserController extends Controller
             if(Auth::user()->isAdmin())
             {
                 \Session::flash('flash_message', 'The profile has been deleted!');
-                return redirect ('articles');
+                return redirect ('users');
             }else
             {
                 \Session::flash('flash_message', 'Your profile has been deleted!');

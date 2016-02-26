@@ -35,9 +35,18 @@ class ArticlesController extends Controller
 
     public function index()
     {	
-        $articles = $this->articles->showAll();
+        $articles = $this->articles->showPublished();
 
-    	return view('articles.articles', compact('articles'));
+    	return view('articles.headings.articles', compact('articles'));
+    }
+
+    public function unpublished()
+    {
+        $this->authorize('adminAuth', Auth::user());
+
+            $articles = $this->articles->showUnpublished();
+
+            return view('articles.headings.unpublished', compact('articles'));
     }
 
 
