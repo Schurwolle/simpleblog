@@ -11,7 +11,6 @@ use App\Http\Requests\ArticleRequest;
 use App\Http\Requests\UpdateArticleRequest;
 use App\Tag;
 use App\User;
-use Carbon\Carbon;
 use App\Repositories\ArticleRepository;
 use App\Repositories\CommentRepository;
 use App\Repositories\TagRepository;
@@ -44,15 +43,12 @@ class ArticlesController extends Controller
 
     public function show(article $article)
     {
-        if ($article->published_at > Carbon::now() && Auth::id() != $article->user_id)
-        {
-            return redirect('articles');
-        }else
-        {
+        $this->authorize('unpublishedAuth', $article);
+
             $comments = $this->comments->forArticle($article);
 
     	    return view('articles.show', compact('article', 'comments'));
-        }
+        
     }
 
     public function create()
@@ -122,7 +118,7 @@ class ArticlesController extends Controller
             }
         }
 
-        \Session::flash('flash_message', 'Your article has been updated!');
+        \Session::flash('flash_message', 'The article has been updated!');
 
     	return redirect('articles');
     }
@@ -137,7 +133,7 @@ class ArticlesController extends Controller
             }
 
             $article->delete();
-            \Session::flash('flash_message', 'Your article has been deleted!');
+            \Session::flash('flash_message', 'The article has been deleted!');
         
 
             return redirect('articles');

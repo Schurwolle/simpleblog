@@ -34,5 +34,10 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Comment');
     }
+
+    public function isAdmin()
+    {
+        return $this->admin;
+    }
 }
 

@@ -23,7 +23,7 @@
             <td><a href="/{{$user->name}}/articles">Show All</a></td>
           @endunless
         </tr>
-        @if($user->id == Auth::id())
+        @if($user->id == Auth::id() || Auth::user()->isAdmin())
           <tr>
             <td>Unpublished Articles:</td>
             <td> {{ $user->articles()->unpublished()->count() }} </td>
@@ -78,7 +78,7 @@
  @endunless
 </div>
 
-@if($user->id == Auth::id())
+@if($user->id == Auth::id() || Auth::user()->isAdmin())
     {!!Form::open(['method' => 'DELETE', 'url' => $user->name.'/delete', 'onsubmit' => 'return ConfirmDelete()' ])!!}
 
       {!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete Profile', array('type' => 'submit', 'class' => 'btn btn-danger'))!!}

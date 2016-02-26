@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Repositories\ArticleRepository;
+use Auth;
 
 class UserController extends Controller
 {
@@ -50,9 +51,15 @@ class UserController extends Controller
         $this->authorize('userAuth', $user);
 
             $user->delete();
-            \Session::flash('flash_message', 'Your profile has been deleted!');
-            return redirect('login');
-        
+            if(Auth::user()->isAdmin())
+            {
+                \Session::flash('flash_message', 'The profile has been deleted!');
+                return redirect ('articles');
+            }else
+            {
+                \Session::flash('flash_message', 'Your profile has been deleted!');
+                return redirect('login');
+            }
 
     }
 }

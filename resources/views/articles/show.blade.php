@@ -29,7 +29,7 @@
       « Back
     </button>
     </td>
-    @if($article->user_id == Auth::id())
+    @if($article->user_id == Auth::id() || Auth::user()->isAdmin())
     <td>
     <a href="{{ $article->id }}/edit"><button class="btn btn-primary">
      	Edit
@@ -74,7 +74,7 @@
 	            </div>
 	            <div class="list-group-item">
 	              <p>{{ $comment->body }}</p>
-	              @if($comment->user_id == Auth::id())
+	              @if($comment->user_id == Auth::id() || Auth::user()->isAdmin())
 	              <p>
 	              {!!Form::open(['method' => 'DELETE', 'url' => '/comment/delete/'.$comment->id, 'onsubmit' => 'return ConfirmDelete()' ])!!}
 

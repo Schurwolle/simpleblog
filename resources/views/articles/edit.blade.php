@@ -10,10 +10,12 @@
 
 		@include('articles.form')
 
-		<div class="form-group">
-		<label for="remove">Remove Previously Uploaded Image?</label>
-		<input type="checkbox" name="remove">
-		</div>
+		@if (file_exists('pictures/'.$article->id))
+			<div class="form-group">
+			<label for="remove">Remove Previously Uploaded Image?</label>
+			<input type="checkbox" name="remove">
+			</div>
+		@endif
 
 		@include('articles.submit', ['submitButton' => '<i class="fa fa-plus"></i> Update Article'])
 

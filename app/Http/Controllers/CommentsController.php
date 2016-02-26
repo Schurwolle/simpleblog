@@ -31,7 +31,7 @@ class CommentsController extends Controller
     		
         	$articleid = $comment->article_id;
             $comment->delete();
-            \Session::flash('flash_message', 'Your comment has been deleted!');
+            \Session::flash('flash_message', 'The comment has been deleted!');
         
 
         return redirect('articles/'.$articleid);

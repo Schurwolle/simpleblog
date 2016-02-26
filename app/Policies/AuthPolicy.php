@@ -7,6 +7,7 @@ use Auth;
 use App\User;
 use App\article;
 use App\Comment;
+use Carbon\Carbon;
 
 class AuthPolicy
 {
@@ -17,17 +18,46 @@ class AuthPolicy
 
     public function userAuth(User $user, User $user1)
     {
-        return $user1->id == $user->id;
+       if($user1->id == $user->id || $user->isAdmin())
+       {
+            return true;
+       }else
+       {
+            return false;
+       }
     }
 
 
     public function articleAuth(User $user, article $article)
     {
-        return $user->id == $article->user_id;
+        if($user->id == $article->user_id || $user->isAdmin())
+        {
+            return true;
+        }else
+        {
+            return false;
+        }
     }
 
     public function commentAuth(User $user, Comment $comment)
     {
-    	return $user->id == $comment->user_id;
+    	if($user->id == $comment->user_id || $user->isAdmin())
+        {
+            return true;
+        }else
+        {
+            return false;
+        }
+    }
+
+    public function unpublishedAuth(User $user, article $article)
+    {
+        if ($article->published_at > Carbon::now() && $user->id != $article->user_id && (!$user->isAdmin()))
+        {
+            return false;
+        }else
+        {
+            return true;
+        }
     }
 }
