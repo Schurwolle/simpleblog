@@ -77,13 +77,23 @@
 			            <div class="list-group-item">
 			              <p>{{ $comment->body }}</p>
 			              @if($comment->user_id == Auth::id() || Auth::user()->isAdmin())
-			              <p>
+			              <table><tr><td>
+			              	<a href="/comment/{{ $comment->id }}/edit"><button class="btn btn-primary">
+     									Edit
+    						</button></a>
+    					  </td>
+			              <td>
 			              {!!Form::open(['method' => 'DELETE', 'url' => '/comment/delete/'.$comment->id, 'onsubmit' => 'return ConfirmDelete()' ])!!}
 
 			              	{!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete', array('type' => 'submit', 'class' => 'btn btn-danger'))!!}
 			              	
 			              {!!Form::close()!!}
-			              </p>
+			              </td>
+			              </tr>
+			              </table>
+			              @endif
+			              @if ($comment->updated_at > $comment->created_at)
+			              	<p>Comment last updated {{ $comment->updated_at->diffForHumans() }}.</p>
 			              @endif
 			            </div>
 			          </div>
