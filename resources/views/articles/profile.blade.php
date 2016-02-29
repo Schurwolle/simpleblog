@@ -49,7 +49,7 @@
         </a></td>
         <td>{{ $user->articles()->latest('published_at')->first()->published_at }}</td>
       </tr>
-      <tr><td>{!! html_entity_decode(str_limit($user->articles()->latest('published_at')->published()->first()->body)) !!}</td></tr>
+      <tr><td>{!! html_entity_decode(str_limit($user->articles()->latest('published_at')->published()->first()->body, 60)) !!}</td></tr>
     </table>
  
   </div>
@@ -63,7 +63,7 @@
 
   <table class="table-padding">
       <tr>
-        <td>"{{ str_limit($user->comments()->latest('created_at')->first()->body) }}"</td>
+        <td>"{{ str_limit($user->comments()->latest('created_at')->first()->body, 60) }}"</td>
         <td>{{ $user->comments()->latest('created_at')->first()->created_at->format('d M, Y \a\t H:i') }}.</td>
       </tr>
       <tr>
@@ -85,8 +85,7 @@
 
     {!!Form::close()!!}
 @endif
-
-
+<hr>
 @stop
 
 @section('footer')

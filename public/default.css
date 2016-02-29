@@ -1,0 +1,59 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  font-family: 'Lato';
+  margin-bottom: 60px;
+}
+
+.fa-btn {
+  margin-right: 6px;
+}
+
+.navbar {
+   background-color: black;
+}
+
+.dropdown:hover {
+  background-color: white;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+    border-left: solid 1px black;
+    border-bottom: solid 1px black;
+    border-right: solid 1px black;
+}
+
+.dropdown-menu > li > a:hover  {
+    background-color: black;
+    font-family: 'Lato';color:white;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: black;
+}
+.text-muted > a {
+  font-family: 'Lato'; color: white;
+}
+
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+.container {
+  width: auto;
+  max-width: 680px;
+  padding: 0 15px;
+}
+.container .text-muted {
+  margin: 20px 0;
+}

@@ -1,5 +1,15 @@
 @extends('layouts.app')
 
+@section('head')
+    <style>
+        .container {
+          width: auto;
+          max-width: 1024px;
+          padding: 0 15px;
+        }
+    </style>
+@stop
+
 @section('content')
 <div class="container">
     <div class="row">
