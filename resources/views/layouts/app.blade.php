@@ -56,7 +56,7 @@
                         <li><a href="{{ url('/register') }}">Register</a></li>
                     @else
                     @if($latest)
-                        <li><a href="/articles/{{ $latest->id }}">{{str_limit($latest->title)}}</a></li>
+                        <li><a href="/articles/{{ $latest->slug }}">{{str_limit($latest->title)}}</a></li>
                     @endif
                     @if(Auth::check() && Auth::user()->isAdmin())
                         <li><a href="{{ url('/users') }}">Users</a></li>
@@ -96,7 +96,7 @@
 
     <footer class="footer">
       <div class="container">
-        <p align="center" class="text-muted"><a href="{{ url('/articles') }}" style="border-right:solid 16px black;">Articles</a><a href="">Logout</a></p>
+        <p align="center" class="text-muted"><a href="{{ url('/articles') }}" style="border-right:solid 16px black;">Articles</a><a href="{{ url('/logout') }}">Logout</a></p>
       </div>
     </footer>
 

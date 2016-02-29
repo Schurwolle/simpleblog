@@ -44,7 +44,7 @@
   
     <table class="table-padding">
       <tr>
-        <td><a href="/articles/{{$user->articles()->latest('published_at')->published()->first()->id}}">
+        <td><a href="/articles/{{$user->articles()->latest('published_at')->published()->first()->slug}}">
         {{$user->articles()->latest('published_at')->published()->first()->title}}
         </a></td>
         <td>{{ $user->articles()->latest('published_at')->first()->published_at }}</td>
@@ -68,7 +68,7 @@
       </tr>
       <tr>
         <td>On article:</td>
-        <td><a href="/articles/{{$user->comments()->latest('created_at')->first()->article->id}}">
+        <td><a href="/articles/{{$user->comments()->latest('created_at')->first()->article->slug}}">
         {{ $user->comments()->latest('created_at')->first()->article->title }}</a></td>
       </tr>
     </table>

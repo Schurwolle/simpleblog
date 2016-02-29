@@ -70,7 +70,9 @@ class ArticlesController extends Controller
     public function store(ArticleRequest $request)
     {
 
-    	$article = Auth::user()->articles()->create($request->all());
+        $article = Auth::user()->articles()->create($request->all());
+        $article->slug = str_slug($article->title, '-');
+        $article->save();
 
         $this->syncTags($article, $request);
 

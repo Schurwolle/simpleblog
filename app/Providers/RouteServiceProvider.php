@@ -27,9 +27,9 @@ class RouteServiceProvider extends ServiceProvider
         //
         parent::boot($router);
 
-        $router->bind('articles', function($id)
+        $router->bind('articles', function($slug)
         {
-            return \App\article::findOrFail($id);
+            return \App\article::where('slug', $slug)->firstOrFail();
         });
 
         $router->bind('tags', function($name)

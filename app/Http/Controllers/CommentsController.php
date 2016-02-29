@@ -18,10 +18,10 @@ class CommentsController extends Controller
     	$input['article_id'] = $request->input('article_id');
     	$input['body'] = $request->input('body');
 
-    	Comment::create($input);
+    	$comment = Comment::create($input);
 
     	\Session::flash('flash_message', 'Your comment has been published!');
-    	return redirect('articles/'.$input['article_id']);
+    	return redirect('articles/'.$comment->article->slug);
     }
 
     public function delete(article $article, Comment $comment)
@@ -29,12 +29,12 @@ class CommentsController extends Controller
 
         $this->authorize('commentAuth', $comment);
     		
-        	$articleid = $comment->article_id;
+        	$articleslug = $comment->article->slug;
             $comment->delete();
             \Session::flash('flash_message', 'The comment has been deleted!');
         
 
-        return redirect('articles/'.$articleid);
+        return redirect('articles/'.$articleslug);
 
     	
     }

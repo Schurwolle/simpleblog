@@ -31,12 +31,12 @@
     </td>
     @if($article->user_id == Auth::id() || Auth::user()->isAdmin())
     <td>
-    <a href="{{ $article->id }}/edit"><button class="btn btn-primary">
+    <a href="{{ $article->slug }}/edit"><button class="btn btn-primary">
      	Edit
     </button></a>
     </td>
     <td>
-    {!!Form::open(['method' => 'DELETE', 'url' =>'/articles/'.$article->id.'/delete', 'onsubmit' => 'return ConfirmDelete()' ])!!}
+    {!!Form::open(['method' => 'DELETE', 'url' =>'/articles/'.$article->slug.'/delete', 'onsubmit' => 'return ConfirmDelete()' ])!!}
 
 		{!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete', array('type' => 'submit', 'class' => 'btn btn-danger'))!!}
 
