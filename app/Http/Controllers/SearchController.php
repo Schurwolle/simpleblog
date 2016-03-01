@@ -26,7 +26,6 @@ class SearchController extends Controller
     	$query = $request->input('search');
 
     	$articles = $this->articles->forQuery($query);
-    	// $articles = article::where('body', 'LIKE', '%'. $query. '%')->latest('published_at')->published()->paginate(5);
 
     	return view('articles.headings.search', compact('articles', 'query'));
     }

@@ -30,7 +30,7 @@
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
                     <span class="sr-only">Toggle Navigation</span>
                     <span class="icon-bar"></span>
-       0             <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
 
@@ -93,9 +93,6 @@
         @endif
         @yield('content')
     </div>
-    <div class="container">
-        
-    </div>
     <footer class="footer">
       <div class="container">
           @if (Auth::check())
@@ -111,13 +108,20 @@
                </table>
                 <div class="pull-right">
                     {!! Form::open(array('url' => 'search', 'class'=>'form navbar-form navbar-right searchform')) !!}
+
                         {!! Form::text('search', null,
                                                     [
                                                     'required',
                                                     'class'         => 'form-control',
                                                     'placeholder'   => 'Search'
                                                     ]) !!}
-                         {!! Form::submit('Search', ['class'=>'btn btn-default']) !!}
+                                                    
+                         {!! Form::button('<i class="glyphicon glyphicon-search"></i>', 
+                         [
+                            'class'=>'btn btn-default', 
+                            'type' => 'submit'
+                         ]) !!}
+
                     {!! Form::close() !!}
                 </div>
             @endif
