@@ -24,7 +24,7 @@ class CommentsController extends Controller
     	return redirect('articles/'.$comment->article->slug);
     }
 
-    public function delete(article $article, Comment $comment)
+    public function destroy(article $article, Comment $comment)
     {
 
         $this->authorize('commentAuth', $comment);

@@ -50,10 +50,7 @@ Route::get('{user}/profile', 'UserController@showProfile');
 Route::get('{user}/unpublished', 'UserController@unpublished');
 Route::delete('{user}/delete', 'UserController@delete');
 
-Route::post('comment/add','CommentsController@store');
-Route::delete('comment/delete/{comment}','CommentsController@delete');
-Route::get('comment/{comment}/edit','CommentsController@edit');
-Route::patch('comment/{comment}/update', 'CommentsController@update');
+Route::resource('comment', 'CommentsController');
 
 });
 

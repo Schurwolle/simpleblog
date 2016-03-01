@@ -4,7 +4,7 @@
 <h3>Edit Your Comment:</h3>
 
 		<div class="panel-body">
-		{!! Form::model($comment, ['method' => 'PATCH', 'url' => '/comment/'.$comment->id.'/update' ] ) !!}
+		{!! Form::model($comment, ['method' => 'PATCH', 'url' => '/comment/'.$comment->id ] ) !!}
 	        <div class="form-group">
 	        {!! Form::textarea('body', null, ['id' =>'body' , 'class' => 'form-control', 'required']) !!}
 	        </div>

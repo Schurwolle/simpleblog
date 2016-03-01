@@ -54,7 +54,7 @@
 
 	    <h3>Leave a Comment:</h3>
 	    <div class="panel-body">
-	      <form method="post" action="/comment/add">
+	      <form method="post" action="/comment">
 	        <input type="hidden" name="_token" value="{{ csrf_token() }}">
 	        <input type="hidden" name="article_id" value="{{ $article->id }}">
 	        <div class="form-group">
@@ -83,7 +83,7 @@
     						</button></a>
     					  </td>
 			              <td>
-			              {!!Form::open(['method' => 'DELETE', 'url' => '/comment/delete/'.$comment->id, 'onsubmit' => 'return ConfirmDelete()' ])!!}
+			              {!!Form::open(['method' => 'DELETE', 'url' => '/comment/'.$comment->id, 'onsubmit' => 'return ConfirmDelete()' ])!!}
 
 			              	{!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete', array('type' => 'submit', 'class' => 'btn btn-danger'))!!}
 			              	
