@@ -95,7 +95,7 @@
 			              </table>
 			              @endif
 			              @if ($comment->updated_at > $comment->created_at)
-			              	<p>Comment last updated {{ $comment->updated_at->diffForHumans() }}.</p>
+			              	<p>Comment last edited {{ $comment->updated_at->diffForHumans() }}.</p>
 			              @endif
 			            </div>
 			          </div>

@@ -34,4 +34,9 @@ class ArticleRepository
 	{
 		return $tag->articles()->latest('published_at')->published()->paginate(5);
 	}
+
+	public function forQuery($query)
+	{
+		return article::where('body', 'LIKE', '%'. $query. '%')->latest('published_at')->published()->paginate(5);
+	}
 }

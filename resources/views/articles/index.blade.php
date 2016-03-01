@@ -13,9 +13,11 @@
 			<div class ="body">{!! html_entity_decode(str_limit($article->body, 1000)) !!}</div>
 			@if (file_exists('pictures/'.$article->id))
 				<article><a href="/articles/{{ $article->slug }}"> 
-					{{ Html::image(('pictures/'.$article->id), null, ['style' => 'max-width: 650px; height: auto;']) }}
+					{{ Html::image(('pictures/'.$article->id), null, ['style' => 'max-width: 650px;max-height:650px; height: auto; ']) }}
 				</a></article>
 				<br>
+			@else
+				<a href="/articles/{{ $article->slug }}"><button class="btn btn-primary">Read More</button></a>
 			@endif
 			<hr>
 		</td></tr>

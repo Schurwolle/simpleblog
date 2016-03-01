@@ -30,7 +30,7 @@ Route::get('/', function () {
 */
 
 Route::group(['middleware' => ['web']], function () {
-	
+Route::auth();
 
 Route::resource('articles', 'ArticlesController');
 Route::get('unpublished', 'ArticlesController@unpublished');
@@ -50,6 +50,8 @@ Route::get('{user}/unpublished', 'UserController@unpublished');
 Route::delete('{user}/delete', 'UserController@delete');
 
 Route::resource('comment', 'CommentsController');
+
+Route::post('search', 'SearchController@search');
 
 });
 

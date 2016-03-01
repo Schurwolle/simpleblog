@@ -17,6 +17,8 @@ class TagsController extends Controller
 
 	public function __construct(ArticleRepository $articles)
 	{
+		$this->middleware('auth');
+		
 		$this->articles = $articles;
 	}
 
