@@ -34,7 +34,6 @@ Route::group(['middleware' => ['web']], function () {
 
 Route::resource('articles', 'ArticlesController');
 Route::get('unpublished', 'ArticlesController@unpublished');
-Route::delete('articles/{articles}/delete', 'ArticlesController@delete');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
@@ -54,8 +53,3 @@ Route::resource('comment', 'CommentsController');
 
 });
 
-Route::group(['middleware' => 'web'], function () {
-    Route::auth();
-
-    Route::get('/home', 'HomeController@index');
-});

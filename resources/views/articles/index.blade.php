@@ -11,7 +11,12 @@
 		<tr><td>
 			<h2><a href="/articles/{{ $article->slug }}">{{ $article->title }}</a></h2>
 			<div class ="body">{!! html_entity_decode(str_limit($article->body, 1000)) !!}</div>
-			<a href="/articles/{{ $article->slug }}"><button class="btn btn-primary">Read More</button></a>
+			@if (file_exists('pictures/'.$article->id))
+				<article><a href="/articles/{{ $article->slug }}"> 
+					{{ Html::image(('pictures/'.$article->id), null, ['style' => 'max-width: 650px; height: auto;']) }}
+				</a></article>
+				<br>
+			@endif
 			<hr>
 		</td></tr>
 		@endforeach

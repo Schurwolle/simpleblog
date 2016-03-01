@@ -131,10 +131,10 @@ class ArticlesController extends Controller
 
         \Session::flash('flash_message', 'The article has been updated!');
 
-    	return redirect('articles');
+    	return redirect('articles/'.$article->slug);
     }
 
-    public function delete(article $article)
+    public function destroy(article $article)
     {
         $this->authorize('articleAuth', $article);
 

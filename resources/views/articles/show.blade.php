@@ -10,7 +10,9 @@
 	</article>
 	<hr>
 	@if (file_exists('pictures/'.$article->id))
-	{{ Html::image('pictures/'.$article->id) }}
+		<article>
+			{{ Html::image(('pictures/'.$article->id), null, ['style' => 'max-width: 650px; height: auto;']) }}
+		</article>
 	<br>
 	@endif
 	
@@ -36,7 +38,7 @@
     </button></a>
     </td>
     <td>
-    {!!Form::open(['method' => 'DELETE', 'url' =>'/articles/'.$article->slug.'/delete', 'onsubmit' => 'return ConfirmDelete()' ])!!}
+    {!!Form::open(['method' => 'DELETE', 'url' =>'/articles/'.$article->slug, 'onsubmit' => 'return ConfirmDelete()' ])!!}
 
 		{!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete', array('type' => 'submit', 'class' => 'btn btn-danger'))!!}
 
