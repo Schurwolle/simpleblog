@@ -78,7 +78,10 @@
     </nav>
     <hr>
     <hr>
+
     <div class="container">
+      @yield('sides')
+      <div class="center">
         @if(Session::has('flash_message'))
             <div class="alert alert-success">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -92,9 +95,14 @@
             </div>
         @endif
         @yield('content')
+      </div>
     </div>
+
+
+
     <footer class="footer">
       <div class="container">
+         <div class="center">
           @if (Auth::check())
               <table class="navbar-text">
                   <tr>
@@ -125,6 +133,7 @@
                     {!! Form::close() !!}
                 </div>
             @endif
+          </div>
       </div>
     </footer>
 

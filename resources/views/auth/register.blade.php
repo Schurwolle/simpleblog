@@ -2,11 +2,9 @@
 
 @section('head')
     <style>
-        .container {
+        .center {
           width: auto;
-          max-width: 1024px;
-          padding: 0 15px;
-        }
+          }
     </style>
 @stop
 

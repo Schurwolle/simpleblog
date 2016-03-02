@@ -1,10 +1,14 @@
 @extends('layouts.app')
 
+@section('sides')
+	@include('leftandright')
+@endsection
+
 @section('content')
 
 	@yield('h1')
-	{!! $articles->links() !!}
-	<hr>
+	
+
 	<table>
 	@if($articles->count() > 0)
 		@foreach ($articles as $article)
@@ -20,7 +24,7 @@
 				<td>
 					@if (file_exists('pictures/'.$article->id))
 						<article><a href="/articles/{{ $article->slug }}"> 
-							{{ Html::image(('pictures/'.$article->id), null, ['style' => 'max-width: 650px;max-height:650px; height: auto; ']) }}
+							{{ Html::image(('pictures/'.$article->id), null, ['style' => 'max-width: 670px;max-height:650px; height: auto; ']) }}
 						</a></article>
 						<br>
 					@else

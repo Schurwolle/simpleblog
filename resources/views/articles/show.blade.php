@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('sides')
+	@include('leftandright')
+@endsection
+
 @section('content')
 
 	<h1>{{ $article->title }} </h1>
@@ -72,7 +76,7 @@
 			        <li class="panel-body">
 			          <div class="list-group">
 			            <div class="list-group-item">
-			              <h3>{{ $comment->user->name }}</h3>
+			              <h3><a href="/{{$comment->user->name}}/profile">{{ $comment->user->name }}</a></h3>
 			              <p>{{ $comment->created_at->diffForHumans() }}</p>
 			            </div>
 			            <div class="list-group-item">
