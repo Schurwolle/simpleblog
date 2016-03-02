@@ -14,6 +14,11 @@ body {
 
 .navbar {
    background-color: black;
+
+}
+
+.navbar .navbar-nav > li > a {
+  color: white;
 }
 
 .dropdown:hover {
@@ -29,7 +34,7 @@ body {
 
 .dropdown-menu > li > a:hover  {
     background-color: black;
-    font-family: 'Lato';color:white;
+    color:white;
 }
 
 .footer {
@@ -40,10 +45,6 @@ body {
   height: 60px;
   background-color: black;
 }
-.text-muted > a {
-  font-family: 'Lato'; color: white;
-}
-
 
 /* Custom page CSS
 -------------------------------------------------- */

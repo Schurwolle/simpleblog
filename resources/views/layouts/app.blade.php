@@ -99,10 +99,10 @@
               <table class="navbar-text">
                   <tr>
                     <td>
-                        <a href="{{ url('/articles') }}" style="border-right:solid 16px black; font-family: 'Lato';color: white;">Articles</a>
+                        <a href="{{ url('/articles') }}" style="border-right:solid 16px black; color: white;">Articles</a>
                     </td>
                     <td>
-                        <a style="font-family:'Lato';color: white;" href="{{ url('/logout') }}">Logout</a>
+                        <a style="color: white;" href="{{ url('/logout') }}">Logout</a>
                     </td>
                    </tr>
                </table>

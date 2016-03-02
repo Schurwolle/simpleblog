@@ -17,10 +17,9 @@
 	@endif
 	
 	@unless ($article->tags->isEmpty())
-		<h5>Tags:
-		
+		<h5>Tags: 
 			@foreach($article->tags as $tag)
-				<a href="/tags/{{ $tag->name }}"> {{ $tag->name }} </a>
+				<a href="/tags/{{ $tag->name }}"><button class="btn btn-default btn-xs"> {{ $tag->name }} </button></a>
 			@endforeach
 		</h5>
 	@endunless

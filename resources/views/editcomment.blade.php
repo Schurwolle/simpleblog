@@ -8,7 +8,7 @@
 	        <div class="form-group">
 	        {!! Form::textarea('body', null, ['id' =>'body' , 'class' => 'form-control', 'required']) !!}
 	        </div>
-	        @include('articles.submit', ['submitButton' => 'Update', 'class' => 'btn btn-primary'])
+	        @include('articles.submit', ['submitButton' => 'Update'])
 	      {!!Form::close()!!}
 	    </div>
 

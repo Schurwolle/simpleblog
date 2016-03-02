@@ -9,7 +9,7 @@
 	@if($articles->count() > 0)
 		@foreach ($articles as $article)
 		<tr><td>
-			<h2><a href="/articles/{{ $article->slug }}">{{ $article->title }}</a></h2>
+			<h2><a style="font-weight: bold;color: black;" href="/articles/{{ $article->slug }}">{{ $article->title }}</a></h2>
 			<div class ="body">{!! html_entity_decode(str_limit($article->body, 1000)) !!}</div>
 			@if (file_exists('pictures/'.$article->id))
 				<article><a href="/articles/{{ $article->slug }}"> 
