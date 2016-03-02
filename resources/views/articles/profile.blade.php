@@ -49,7 +49,7 @@
         </a></td>
         <td>{{ $user->articles()->latest('published_at')->first()->published_at }}</td>
       </tr>
-      <tr><td>{!! html_entity_decode(str_limit($user->articles()->latest('published_at')->published()->first()->body, 60)) !!}</td></tr>
+      <tr><td>{!! \Illuminate\Support\Str::words(html_entity_decode($user->articles()->latest('published_at')->published()->first()->body), 15) !!}</td></tr>
     </table>
  
   </div>
