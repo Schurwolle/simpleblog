@@ -107,6 +107,9 @@ class ArticlesController extends Controller
     {
 
     	$article->update($request->all());
+
+        $article->slug = str_slug($article->title, '-');
+        $article->save();
         
         $this->syncTags($article, $request);
 
