@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e254974148dd2465477e2b2fa8477379",
-    "content-hash": "dfadee53552d022502f780709d526cb8",
+    "hash": "eb0655bc3f1c153f6f84b7a055ab7306",
+    "content-hash": "d6f944f7423db2fe1d5ee98b938aa085",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -1350,6 +1350,50 @@
                 "shell"
             ],
             "time": "2015-11-12 16:18:56"
+        },
+        {
+            "name": "suin/php-rss-writer",
+            "version": "1.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/suin/php-rss-writer.git",
+                "reference": "cefbcbe5a85f20d2d0ea1eeb9a6345cafc1803ac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/suin/php-rss-writer/zipball/cefbcbe5a85f20d2d0ea1eeb9a6345cafc1803ac",
+                "reference": "cefbcbe5a85f20d2d0ea1eeb9a6345cafc1803ac",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Suin\\RSSWriter": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Hidehito Nozawa aka Suin",
+                    "email": "suinyeze@gmail.com"
+                }
+            ],
+            "description": "Yet another simple RSS writer library for PHP 5.4 or later.",
+            "homepage": "https://github.com/suin/php-rss-writer",
+            "keywords": [
+                "feed",
+                "generator",
+                "php",
+                "rss",
+                "writer"
+            ],
+            "time": "2016-03-01 12:50:23"
         },
         {
             "name": "swiftmailer/swiftmailer",

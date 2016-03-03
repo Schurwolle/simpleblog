@@ -7,7 +7,7 @@
 @section('content')
 
 	@yield('h1')
-	
+	{!! $articles->links() !!}
 
 	<table>
 	@if($articles->count() > 0)

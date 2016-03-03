@@ -178,7 +178,6 @@ class ArticlesController extends Controller
         $article->tags()->sync($allTagIds);
     }
 
-
 }
 
 

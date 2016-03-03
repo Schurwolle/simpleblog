@@ -10,10 +10,14 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+Route::get('rss','RssController@rss');
+
 
 Route::get('/', function () {
     return redirect('articles');
 });
+
+
 
 
 
@@ -52,6 +56,8 @@ Route::delete('{user}/delete', 'UserController@delete');
 Route::resource('comment', 'CommentsController');
 
 Route::post('search', 'SearchController@search');
+
+
 
 });
 
