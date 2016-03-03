@@ -24,9 +24,23 @@ class ViewComposerServiceProvider extends ServiceProvider
 
         view()->composer('leftandright', function ($view)
         {
-            $view->with('tags', Tag::latest('created_at')->get());
+            
+            $tags = Tag::get();
 
-            $view->with('users', User::get());
+            $tagssorted = $tags->sortByDesc(function ($tag, $key){
+                return count($tag->articles);
+            });
+
+
+            $users = User::get();
+
+            $userssorted = $users->sortByDesc(function ($user, $key){
+                return count($user->articles);
+            });
+
+            $view->with('tags', $tagssorted);
+
+            $view->with('users', $userssorted);
         });
     }
 
