@@ -14,24 +14,13 @@ use Auth;
 class UserController extends Controller
 {
     protected $articles;
-    protected $users;
 
 
-    public function __construct(ArticleRepository $articles, UserRepository $users)
+    public function __construct(ArticleRepository $articles)
     {
         $this->middleware('auth');
         
         $this->articles = $articles;
-        $this->users = $users;
-    }
-
-    public function index()
-    {
-        $this->authorize('adminAuth', Auth::user());
-
-            $users = $this->users->showAll();
-
-            return view('users', compact('users'));
     }
 
 

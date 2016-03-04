@@ -40,15 +40,6 @@ class ArticlesController extends Controller
     	return view('articles.headings.articles', compact('articles'));
     }
 
-    public function unpublished()
-    {
-        $this->authorize('adminAuth', Auth::user());
-
-            $articles = $this->articles->showUnpublished();
-
-            return view('articles.headings.unpublished', compact('articles'));
-    }
-
 
     public function show(article $article)
     {
@@ -168,7 +159,7 @@ class ArticlesController extends Controller
         {
             if (substr($tagId, 0, 4) == 'new:')
             {
-                $newTag = Tag::create(['name' => substr($tagId, 4)]);
+                $newTag = Tag::create(['name' => strtolower(substr($tagId, 4))]);
                 $allTagIds[] = $newTag->id;
                 continue;
             }

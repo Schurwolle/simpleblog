@@ -37,7 +37,6 @@ Route::group(['middleware' => ['web']], function () {
 Route::auth();
 
 Route::resource('articles', 'ArticlesController');
-Route::get('unpublished', 'ArticlesController@unpublished');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
@@ -46,8 +45,9 @@ Route::controllers([
 	
 
 Route::get('tags/{tags}', 'TagsController@show');
+Route::delete('tags/{tags}', 'TagsController@destroy');
 
-Route::get('users','UserController@index');
+
 Route::get('{user}/articles', 'UserController@showPosts');
 Route::get('{user}/profile', 'UserController@showProfile');
 Route::get('{user}/unpublished', 'UserController@unpublished');
@@ -56,6 +56,10 @@ Route::delete('{user}/delete', 'UserController@delete');
 Route::resource('comment', 'CommentsController');
 
 Route::post('search', 'SearchController@search');
+
+Route::get('tags', 'AdminController@showTags');
+Route::get('users','AdminController@showUsers');
+Route::get('unpublished', 'AdminController@showUnpublished');
 
 
 
