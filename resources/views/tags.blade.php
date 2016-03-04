@@ -8,7 +8,7 @@
 	@if($tags->count() > 0)
 		@foreach ($tags as $tag)
 			<tr><td>
-					<a href="/tags/{{ $tag->name }}"><button class="btn btn-default">{{ $tag->name }}({{ $tag->articles->count() }})</button></a>
+					<a href="/tags/{{ $tag->name }}"><button class="btn btn-default">{{ $tag->name }} ({{ $tag->articles->count() }})</button></a>
 				</td>
 				<td>
 				{!!Form::open(['method' => 'DELETE', 'url' => 'tags/'.$tag->name, 'onsubmit' => 'return ConfirmDelete()' ])!!}
