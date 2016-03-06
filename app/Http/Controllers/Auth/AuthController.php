@@ -8,6 +8,8 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Socialite;
+use Auth;
 
 class AuthController extends Controller
 {
@@ -70,5 +72,49 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    public function redirectToFacebook()
+    {
+        return Socialite::with('facebook')->redirect();
+    }
+
+    public function getFacebook()
+    {
+
+        $data = Socialite::with('facebook')->user();
+        $user = User::where('facebook_id', $data->id)->first();
+
+        if(!is_null($user))
+        {
+            Auth::login($user);
+
+        } else {
+
+            $user = User::where('email', $data->email)->first();
+
+            if(!is_null($user)) 
+            {
+                Auth::login($user);
+
+                $user->facebook_id = $data->id;
+                $user->save();
+
+            } else {
+                
+                $user = new User();
+                $user->name = $data->user['first_name'].' '.$data->user['last_name'];
+                $user->email = $data->email;
+                $user->facebook_id = $data->id;
+                $user->save();
+
+                Auth::login($user);
+
+            } 
+        }
+
+        \Session::flash('flash_message', 'You are logged in!');
+
+        return redirect('articles');
     }
 }

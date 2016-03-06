@@ -36,13 +36,15 @@ Route::get('/', function () {
 Route::group(['middleware' => ['web']], function () {
 Route::auth();
 
-Route::resource('articles', 'ArticlesController');
-
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 	]);
-	
+
+Route::get('login/facebook', 'Auth\AuthController@redirectToFacebook');
+Route::get('login/facebook/callback', 'Auth\AuthController@getFacebook');
+
+Route::resource('articles', 'ArticlesController');
 
 Route::get('tags/{tags}', 'TagsController@show');
 Route::delete('tags/{tags}', 'TagsController@destroy');
