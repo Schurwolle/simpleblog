@@ -11,6 +11,8 @@
 |
 */
 Route::get('rss','RssController@rss');
+Route::get('sitemap', 'SitemapController@generate');
+
 
 
 Route::get('/', function () {
