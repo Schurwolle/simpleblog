@@ -10,6 +10,9 @@ use App\User;
 use App\Repositories\ArticleRepository;
 use App\Repositories\UserRepository;
 use Auth;
+use Hash;
+use Validator;
+use Input;
 
 class UserController extends Controller
 {
@@ -63,5 +66,43 @@ class UserController extends Controller
                 return redirect('login');
             }
 
+    }
+
+    public function changePassword(User $user)
+    {
+        $this->authorize('userAuth', $user);
+
+            return view('changePassword', compact('user'));
+    }
+
+    public function updatePassword(User $user, Request $request)
+    {
+        $this->authorize('userAuth', $user);
+
+            $newPassword = array('newPassword' => $request->newPassword);
+              
+            $rules = array('newPassword' => 'required|min:6',); 
+
+            $validator = Validator::make($newPassword, $rules);
+
+            if ($validator->fails()) 
+            {
+                return redirect ($user->name.'/changepassword')->withErrors($validator);;
+            }
+
+            if (Hash::check($request->oldPassword, $user->password)) 
+            {
+                $user->password = bcrypt($request->newPassword);
+                $user->save();
+
+                \Session::flash('flash_message', 'Your password has been changed!');
+
+                return redirect ($user->name.'/profile');
+            } else {
+
+                \Session::flash('alert_message', 'Wrong current password!');
+
+                return redirect ($user->name.'/changepassword');
+            }
     }
 }

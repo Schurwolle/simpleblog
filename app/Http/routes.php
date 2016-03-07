@@ -55,6 +55,8 @@ Route::delete('tags/{tags}', 'TagsController@destroy');
 Route::get('{user}/articles', 'UserController@showPosts');
 Route::get('{user}/profile', 'UserController@showProfile');
 Route::get('{user}/unpublished', 'UserController@unpublished');
+Route::get('{user}/changepassword', 'UserController@changePassword');
+Route::post('{user}/updatepassword', 'UserController@updatePassword');
 Route::delete('{user}/delete', 'UserController@delete');
 
 Route::resource('comment', 'CommentsController');
