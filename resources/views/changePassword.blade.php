@@ -37,6 +37,22 @@
 		</div>
 
 		<div class="form-group">
+		{!! Form::label('confirmPassword', 'Confirm new password:') !!}
+
+		{!! Form::password('confirmPassword', 
+							[
+								'class' 						=> 'form-control',  
+								'placeholder'					=> 'Enter new password again',
+								'required',
+								'data-parsley-minlength'		=> '6',
+								'data-parsley-trigger' 			=> 'change focusout',
+								'data-parsley-equalto'			=> '#newPassword',
+								'data-parsley-equalto-message'  => 'Passwords do not match.'
+								]) !!}
+
+		</div>
+
+		<div class="form-group">
 			{!! Form::button('Change Password', ['class' => 'btn btn-primary form-control', 'type' => 'submit']) !!}
 		</div>
 	{!!Form::close()!!}

@@ -77,20 +77,21 @@
   </div>
  @endunless
 </div>
+<table><tr>
+  @if($user->id == Auth::id())
+      <td><a href="/{{$user->name}}/changepassword"><button class="btn btn-primary"> Change Password </button></a></td>
+  @endif
 
-@if($user->id == Auth::id())
-    <table><tr><td><a href="/{{$user->name}}/changepassword"><button class="btn btn-primary"> Change Password </button></a></td>
-@endif
+  @if($user->id == Auth::id() || Auth::user()->isAdmin())
+    <td>
+      {!!Form::open(['method' => 'DELETE', 'url' => $user->name.'/delete', 'onsubmit' => 'return ConfirmDelete()' ])!!}
 
-@if($user->id == Auth::id() || Auth::user()->isAdmin())
-  <td>
-    {!!Form::open(['method' => 'DELETE', 'url' => $user->name.'/delete', 'onsubmit' => 'return ConfirmDelete()' ])!!}
+        {!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete Profile', array('type' => 'submit', 'class' => 'btn btn-danger'))!!}
 
-      {!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete Profile', array('type' => 'submit', 'class' => 'btn btn-danger'))!!}
-
-    {!!Form::close()!!}
-  </td></tr></table>
-@endif
+      {!!Form::close()!!}
+    </td>
+  @endif
+</tr></table>
 <hr>
 @stop
 

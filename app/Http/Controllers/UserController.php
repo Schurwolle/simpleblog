@@ -79,11 +79,13 @@ class UserController extends Controller
     {
         $this->authorize('userAuth', $user);
 
-            $newPassword = array('newPassword' => $request->newPassword);
+            $inputs = array('newPassword'     => $request->newPassword,
+                            'confirmPassword' => $request->confirmPassword,);
               
-            $rules = array('newPassword' => 'required|min:6',); 
+            $rules = array('newPassword'     => 'required|min:6',
+                           'confirmPassword' => 'required|same:newPassword'); 
 
-            $validator = Validator::make($newPassword, $rules);
+            $validator = Validator::make($inputs, $rules);
 
             if ($validator->fails()) 
             {
