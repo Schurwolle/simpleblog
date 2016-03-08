@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
 @section('head')
-	 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2-rc.1/css/select2.min.css" rel="stylesheet" />
-	 {!!Html::style('/parsley.css')!!}
+	 @include('parsleyhead')
 @stop
 
 
@@ -18,6 +17,7 @@
 								'class' 						=> 'form-control',  
 								'placeholder'					=> 'Enter current password',
 								'required',
+								'data-parsley-required-message' => 'Current password is required.',
 								'data-parsley-trigger' 			=> 'change focusout'
 								]) !!}
 
@@ -30,7 +30,9 @@
 								'class' 						=> 'form-control',  
 								'placeholder'					=> 'Enter new password',
 								'required',
+								'data-parsley-required-message' => 'New password is required.',
 								'data-parsley-minlength'		=> '6',
+								'data-parsley-minlength-message'=> 'New password should be at least 6 characters long.',
 								'data-parsley-trigger' 			=> 'change focusout'
 								]) !!}
 
@@ -44,7 +46,9 @@
 								'class' 						=> 'form-control',  
 								'placeholder'					=> 'Enter new password again',
 								'required',
+								'data-parsley-required-message' => 'Confirming new password is required.',
 								'data-parsley-minlength'		=> '6',
+								'data-parsley-minlength-message'=> 'New password should be at least 6 characters long.',
 								'data-parsley-trigger' 			=> 'change focusout',
 								'data-parsley-equalto'			=> '#newPassword',
 								'data-parsley-equalto-message'  => 'Passwords do not match.'
@@ -61,12 +65,5 @@
 
 
 @section('footer')	
-	<script type="text/javascript">
-
-        window.ParsleyConfig = {
-            errorsWrapper: '<div></div>',
-            errorTemplate: '<div class="alert alert-danger parsley" role="alert"></div>'
-        };
-    </script>
-    {{Html::script('/parsley.min.js')}}
+	@include('parsleyfooter')
 @stop

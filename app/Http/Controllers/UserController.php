@@ -12,7 +12,6 @@ use App\Repositories\UserRepository;
 use Auth;
 use Hash;
 use Validator;
-use Input;
 
 class UserController extends Controller
 {
