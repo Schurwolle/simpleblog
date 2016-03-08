@@ -11,8 +11,9 @@
                 @endforeach
             </div>
         @endif
-        @if($tags->count() > 0)
-            <div class="right">
+        
+        <div class="right">
+            @if($tags->count() > 0)
                 <div style="border: 3px solid #73AD21;padding: 10px;background-color: lightgray;">
                     <h4>Browse articles by tag:
                         <br>
@@ -24,22 +25,23 @@
                         @endforeach
                     </h4>
                 </div>
-                <br>
-                <br>
-                <div>
-                    @if($articles->count() > 0)
-                        
-                        @foreach ($articles as $article)
-                            @if (file_exists('pictures/'.$article->id.'thumbnail'))
-                                <div style="border: 3px solid #73AD21;padding: 10px;background-color:lightgray;">
-                                    <a href="/articles/{{$article->slug}}" style="color:black;font-weight: bold;">{{$article->title}}</a>
-                                    <a href="/articles/{{$article->slug}}">{{ Html::image(('pictures/'.$article->id.'thumbnail'), null) }}
-                                    </a>   
-                                </div>
-                            @endif
-                        @endforeach
-                        
-                    @endif
+            @endif
+            <br>
+            <br>
+            @if($articles->count() > 0)
+                <div>      
+                    @foreach ($articles as $article)
+                        @if (file_exists('pictures/'.$article->id.'thumbnail'))
+                            <div style="border: 3px solid #73AD21; padding: 10px; background-color:lightgray;">
+                                <a href="/articles/{{$article->slug}}" style="color: black; font-weight: bold;">{{$article->title}}</a>
+                                <a href="/articles/{{$article->slug}}">{{ Html::image(('pictures/'.$article->id.'thumbnail'), null) }}
+                                </a>   
+                            </div>
+                        @endif
+                    @endforeach        
                 </div>
-            </div>
-        @endif
+            @endif
+            <br>
+            <br>
+        </div>
+        
