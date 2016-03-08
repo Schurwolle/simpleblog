@@ -27,6 +27,7 @@ class UpdateArticleRequest extends Request
             'title' => 'required',
             'body'   => 'required',
             'image' => 'image',
+            'thumbnailImage' => 'image|image_size:200,150',
         ];
     }
 }

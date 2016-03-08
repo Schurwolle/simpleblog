@@ -88,7 +88,7 @@ class UserController extends Controller
 
             if ($validator->fails()) 
             {
-                return redirect ($user->name.'/changepassword')->withErrors($validator);;
+                return redirect ($user->name.'/changepassword')->withErrors($validator);
             }
 
             if (Hash::check($request->oldPassword, $user->password)) 

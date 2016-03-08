@@ -27,7 +27,8 @@ class ArticleRequest extends Request
             'title' => 'required|unique:articles',
             'body'   => 'required',
             'published_at' => 'required|date|after:yesterday',
-            'image' => 'image'
+            'image' => 'image',
+            'thumbnailImage' => 'image|image_size:200,150',
         ];
     }
 }

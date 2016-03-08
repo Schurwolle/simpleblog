@@ -149,6 +149,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Cviebrock\ImageValidator\ImageValidatorServiceProvider::class,
 
         /*
          * Application Service Providers...

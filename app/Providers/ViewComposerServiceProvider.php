@@ -35,9 +35,13 @@ class ViewComposerServiceProvider extends ServiceProvider
 
             $usersSorted = $this->users->showSorted();
 
+            $articles = article::latest('published_at')->published()->get();
+
             $view->with('tags', $tagsSorted);
 
             $view->with('users', $usersSorted);
+
+            $view->with('articles', $articles);
         });
     }
 

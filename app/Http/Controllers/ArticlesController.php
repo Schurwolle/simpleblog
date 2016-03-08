@@ -14,6 +14,7 @@ use App\User;
 use App\Repositories\ArticleRepository;
 use App\Repositories\CommentRepository;
 use App\Repositories\TagRepository;
+use Validator;
 
 class ArticlesController extends Controller
 {	
@@ -60,23 +61,13 @@ class ArticlesController extends Controller
 
     public function store(ArticleRequest $request)
     {
-
         $article = Auth::user()->articles()->create($request->all());
         $article->slug = str_slug($article->title, '-');
         $article->save();
 
         $this->syncTags($article, $request);
+        $this->uploadImages($article, $request);
 
-        if ($request->hasFile('image')) 
-        {
-        
-            $destinationPath = 'pictures/';
-            $fileName = $article->id;
-            
-
-            $request->file('image')->move($destinationPath, $fileName);
-        }
-   	
     	\Session::flash('flash_message', 'Your article has been created!');
 
     	return redirect('articles');
@@ -90,8 +81,6 @@ class ArticlesController extends Controller
     	   $tags = $this->tags->lists();
 
     	   return view('articles.edit', compact('article', 'tags'));
-       
-
     }
 
     public function update(article $article, UpdateArticleRequest $request)
@@ -104,24 +93,12 @@ class ArticlesController extends Controller
         
         $this->syncTags($article, $request);
 
-        if ($request->hasFile('image')) 
+        if($request->remove == true)
         {
-        
-            $destinationPath = 'pictures/';
-            $fileName = $article->id;
-            
-
-            $request->file('image')->move($destinationPath, $fileName);
-        } else 
-        {
-            if($request->remove == true)
-            {
-                if (file_exists('pictures/'.$article->id))
-                {
-                    unlink('pictures/'.$article->id);
-                }
-            }
+            $this->deleteImages($article);
         }
+
+        $this->uploadImages($article, $request);
 
         \Session::flash('flash_message', 'The article has been updated!');
 
@@ -132,12 +109,10 @@ class ArticlesController extends Controller
     {
         $this->authorize('articleAuth', $article);
 
-            if (file_exists('pictures/'.$article->id))
-            {
-                unlink('pictures/'.$article->id);
-            }
+            $this->deleteImages($article);
 
             $article->delete();
+
             \Session::flash('flash_message', 'The article has been deleted!');
         
 
@@ -169,6 +144,41 @@ class ArticlesController extends Controller
         $article->tags()->sync($allTagIds);
     }
 
+    private function uploadImages(article $article, $request)
+    {
+
+        if ($request->hasFile('image')) 
+        {
+        
+            $destinationPath = 'pictures/';
+            $fileName = $article->id;
+            
+
+            $request->file('image')->move($destinationPath, $fileName);
+        }
+
+        if($request->hasFile('thumbnailImage'))
+        {   
+            $destinationPath = 'pictures/';
+            $fileName = $article->id.'thumbnail';
+            
+
+            $request->file('thumbnailImage')->move($destinationPath, $fileName);
+        }
+    }
+
+    private function deleteImages(article $article)
+    {
+        if (file_exists('pictures/'.$article->id))
+            {
+                unlink('pictures/'.$article->id);
+            }
+
+            if (file_exists('pictures/'.$article->id.'thumbnail'))
+            {
+                unlink('pictures/'.$article->id.'thumbnail');
+            }
+    }
 }
 
 
