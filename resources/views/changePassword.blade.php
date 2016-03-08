@@ -44,7 +44,7 @@
 		{!! Form::password('confirmPassword', 
 							[
 								'class' 						=> 'form-control',  
-								'placeholder'					=> 'Enter new password again',
+								'placeholder'					=> 'Confirm new password',
 								'required',
 								'data-parsley-required-message' => 'Confirming new password is required.',
 								'data-parsley-minlength'		=> '6',
