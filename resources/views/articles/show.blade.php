@@ -101,56 +101,56 @@
 	        <input type="submit" name='article_comment' class="btn btn-primary" value = "Post"/>
 	      </form>
 	    </div>
-	    <div>
+	    <div class="center">
 		    @unless($comments->isEmpty())
 			    <h3>Comments: </h3>
+			    <hr>
 			    @foreach($comments as $comment)
-			        <div class="center">
-						<div class="row">
-							<div class="col-sm-2">
-								<div class="thumbnail">
-									<a href="/{{$comment->user->name}}/profile"><img src="{{ file_exists('pictures/'.$comment->user->name) ? '/pictures/'.$comment->user->name : 'https://ssl.gstatic.com/accounts/ui/avatar_2x.png' }}"></a>
+					<div class="row">
+						<div class="col-sm-2">
+							<div class="thumbnail">
+								<a href="/{{$comment->user->name}}/profile"><img src="{{ file_exists('pictures/'.$comment->user->name) ? '/pictures/'.$comment->user->name : 'https://ssl.gstatic.com/accounts/ui/avatar_2x.png' }}"></a>
+							</div>
+						</div>
+
+						<div class="col-sm-10">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<a style="color:black;" href="/{{$comment->user->name}}/profile"><strong>{{$comment->user->name}}</strong></a>
+									<span class="text-muted">
+										commented {{$comment->created_at->diffForHumans()}}
+										@if ($comment->updated_at > $comment->created_at)
+											(last edited {{$comment->updated_at->diffForHumans()}})
+										@endif 
+									</span>
 								</div>
-							</div>
+								<div class="panel-body">
+									{{$comment->body}}
+								</div>
+								@if($comment->user_id == Auth::id() || Auth::user()->isAdmin())
+								 	<div class="panel-body">
+						              <table style=""><tr><td>
+						              	<a href="/comment/{{ $comment->id }}/edit"><button class="btn btn-primary">
+			     									Edit
+			    						</button></a>
+			    					  </td>
+						              <td>
+						              {!!Form::open(['method' => 'DELETE', 'url' => '/comment/'.$comment->id, 'onsubmit' => 'return ConfirmDelete()' ])!!}
 
-							<div class="col-sm-10">
-								<div class="panel panel-default">
-									<div class="panel-heading">
-										<a style="color:black;" href="/{{$comment->user->name}}/profile"><strong>{{$comment->user->name}}</strong></a>
-										<span class="text-muted">
-											commented {{$comment->created_at->diffForHumans()}}
-											@if ($comment->updated_at > $comment->created_at)
-												(last edited {{$comment->updated_at->diffForHumans()}})
-											@endif 
-										</span>
-									</div>
-									<div class="panel-body">
-										{{$comment->body}}
-									</div>
-									@if($comment->user_id == Auth::id() || Auth::user()->isAdmin())
-									 	<div class="panel-body">
-							              <table style=""><tr><td>
-							              	<a href="/comment/{{ $comment->id }}/edit"><button class="btn btn-primary">
-				     									Edit
-				    						</button></a>
-				    					  </td>
-							              <td>
-							              {!!Form::open(['method' => 'DELETE', 'url' => '/comment/'.$comment->id, 'onsubmit' => 'return ConfirmDelete()' ])!!}
-
-							              	{!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete', array('type' => 'submit', 'class' => 'btn btn-danger'))!!}
-							              	
-							              {!!Form::close()!!}
-							              </td>
-							              </tr>
-							              </table>
-							            </div>
-						            @endif
-						        </div>	
-							</div>
+						              	{!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete', array('type' => 'submit', 'class' => 'btn btn-danger'))!!}
+						              	
+						              {!!Form::close()!!}
+						              </td>
+						              </tr>
+						              </table>
+						            </div>
+					            @endif
+					        </div>	
 						</div>
 					</div>
 			    @endforeach
 		    @endunless
+		    <hr>
 	  	</div>
   	@endif
 @stop

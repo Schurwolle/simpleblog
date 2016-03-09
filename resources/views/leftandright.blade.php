@@ -29,7 +29,10 @@
             <br>
             <br>
             @if($articles->count() > 0)
-                <div>      
+                <div>
+                    <div>
+                        <h2 style="padding-left: 12px;">Popular Articles</h2>
+                    </div>
                     @foreach ($articles as $article)
                         @if (file_exists('pictures/'.$article->id.'thumbnail'))
                             <div style="border: 3px solid #73AD21; padding: 10px; background-color:lightgray;">

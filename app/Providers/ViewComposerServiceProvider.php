@@ -3,45 +3,40 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\article;
 use App\Repositories\TagRepository;
 use App\Repositories\UserRepository;
+use App\Repositories\ArticleRepository;
 
 class ViewComposerServiceProvider extends ServiceProvider
 {
 
     protected $tags;
     protected $users;
+    protected $articles;
     /**
      * Bootstrap the application services.
      *
      * @return void
      */
-    public function boot(TagRepository $tags, UserRepository $users)
+    public function boot(TagRepository $tags, UserRepository $users, ArticleRepository $articles)
     {
-        $this->tags  = $tags;
-        $this->users = $users;
+        $this->tags     = $tags;
+        $this->users    = $users;
+        $this->articles = $articles;
 
         view()->composer('layouts.app', function ($view)
         {
-            $view->with('latest', article::latest('published_at')->published()->first());
+            $view->with('latest', $this->articles->showLatest());
 
         });
 
         view()->composer('leftandright', function ($view)
         {
+            $view->with('tags', $this->tags->showSorted());
 
-            $tagsSorted  = $this->tags->showSorted();
+            $view->with('users', $this->users->showSorted());
 
-            $usersSorted = $this->users->showSorted();
-
-            $articles = article::latest('published_at')->published()->get();
-
-            $view->with('tags', $tagsSorted);
-
-            $view->with('users', $usersSorted);
-
-            $view->with('articles', $articles);
+            $view->with('articles', $this->articles->showSorted());
         });
     }
 

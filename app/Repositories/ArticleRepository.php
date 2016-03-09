@@ -39,4 +39,20 @@ class ArticleRepository
 	{
 		return article::where('body', 'LIKE', '%'. $query. '%')->orWhere('title', 'LIKE', '%'. $query. '%')->latest('published_at')->published()->paginate(5);
 	}
+
+	public function showSorted()
+	{
+		$articles = article::get();
+
+		$articlesSorted = $articles->sortByDesc(function ($article, $key){
+            return count($article->comments);
+        });
+
+        return $articlesSorted;
+	}
+
+	public function showLatest()
+	{
+		return article::latest('published_at')->published()->first();
+	}
 }
