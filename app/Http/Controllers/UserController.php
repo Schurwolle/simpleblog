@@ -52,18 +52,16 @@ class UserController extends Controller
     public function delete(User $user)
     {
 
-        $this->authorize('userAuth', $user);
-
-            $user->delete();
-            if(Auth::user()->isAdmin())
-            {
-                \Session::flash('flash_message', 'The profile has been deleted!');
-                return redirect ('users');
-            }else
-            {
-                \Session::flash('flash_message', 'Your profile has been deleted!');
-                return redirect('login');
-            }
+        $user->delete();
+        if(Auth::user()->isAdmin())
+        {
+            \Session::flash('flash_message', 'The profile has been deleted!');
+            return redirect ('users');
+        }else
+        {
+            \Session::flash('flash_message', 'Your profile has been deleted!');
+            return redirect('login');
+        }
 
     }
 
@@ -76,34 +74,64 @@ class UserController extends Controller
 
     public function updatePassword(User $user, Request $request)
     {
+
+        $inputs = array('newPassword'     => $request->newPassword,
+                        'confirmPassword' => $request->confirmPassword,);
+          
+        $rules = array('newPassword'     => 'required|min:6',
+                       'confirmPassword' => 'required|same:newPassword'); 
+
+        $validator = Validator::make($inputs, $rules);
+
+        if ($validator->fails()) 
+        {
+            return redirect ($user->name.'/changepassword')->withErrors($validator);
+        }
+
+        if (Hash::check($request->oldPassword, $user->password)) 
+        {
+            $user->password = bcrypt($request->newPassword);
+            $user->save();
+
+            \Session::flash('flash_message', 'Your password has been changed!');
+
+            return redirect ($user->name.'/profile');
+        } else {
+
+            \Session::flash('alert_message', 'Wrong current password!');
+
+            return redirect ($user->name.'/changepassword');
+        }
+    }
+
+    public function avatar(User $user)
+    {
         $this->authorize('userAuth', $user);
+            
+            return view('avatar', compact('user'));
+    }
 
-            $inputs = array('newPassword'     => $request->newPassword,
-                            'confirmPassword' => $request->confirmPassword,);
-              
-            $rules = array('newPassword'     => 'required|min:6',
-                           'confirmPassword' => 'required|same:newPassword'); 
+    public function updateAvatar(Request $request, User $user)
+    {
+        $inputs = array('newAvatar' => $request->file('newAvatar'));
 
-            $validator = Validator::make($inputs, $rules);
+        $rules = array('newAvatar' => 'required|image|image_size:100');
 
-            if ($validator->fails()) 
-            {
-                return redirect ($user->name.'/changepassword')->withErrors($validator);
-            }
+        $validator = Validator::make($inputs, $rules);
 
-            if (Hash::check($request->oldPassword, $user->password)) 
-            {
-                $user->password = bcrypt($request->newPassword);
-                $user->save();
+        if($validator->fails())
+        {
+            return redirect ($user->name.'/avatar')->withErrors($validator);
+        }
 
-                \Session::flash('flash_message', 'Your password has been changed!');
+        $destinationPath = 'pictures/';
+        $fileName = $user->name;
 
-                return redirect ($user->name.'/profile');
-            } else {
+        $request->file('newAvatar')->move($destinationPath, $fileName);
 
-                \Session::flash('alert_message', 'Wrong current password!');
+        \Session::flash('flash_message', 'Your avatar has been updated!');
 
-                return redirect ($user->name.'/changepassword');
-            }
+        return redirect ($user->name.'/profile');
+
     }
 }

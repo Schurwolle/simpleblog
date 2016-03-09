@@ -82,9 +82,16 @@
 
   <table><tr>
     @if($user->id == Auth::id())
-        <td><a href="/{{$user->name}}/changepassword"><button class="btn btn-primary"> Change Password </button></a></td>
+      <td><a href="/{{$user->name}}/changepassword"><button class="btn btn-primary"> Change Password </button></a></td>
+    
+      <td><a href="/{{$user->name}}/avatar"><button class="btn btn-primary">
+          @if (file_exists('pictures/'.$user->name))
+            Change Avatar
+          @else
+            Upload Avatar
+          @endif
+      </button></a></td>
     @endif
-
     @if($user->id == Auth::id() || Auth::user()->isAdmin())
       <td>
         {!!Form::open(['method' => 'DELETE', 'url' => $user->name.'/delete', 'onsubmit' => 'return ConfirmDelete()' ])!!}

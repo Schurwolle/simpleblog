@@ -58,6 +58,8 @@ Route::get('{user}/unpublished', 'UserController@unpublished');
 Route::get('{user}/changepassword', 'UserController@changePassword');
 Route::post('{user}/updatepassword', 'UserController@updatePassword');
 Route::delete('{user}/delete', 'UserController@delete');
+Route::get('{user}/avatar', 'UserController@avatar');
+Route::post('{user}/updateavatar','UserController@updateAvatar');
 
 Route::resource('comment', 'CommentsController');
 

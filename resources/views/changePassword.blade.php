@@ -6,6 +6,9 @@
 
 
 @section('content')
+	<h1>Change Your Password</h1>
+	<hr>
+
 	@include('errors.list')
 
 	{!! Form::open(['url' => $user->name.'/updatepassword', 'data-parsley-validate' ]) !!}

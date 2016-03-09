@@ -23,12 +23,12 @@
 	</div>
 
 	<div class="form-group">
-    {!! Form::label('Image:') !!}
+    {!! Form::label('image' 'Image:') !!}
     {!! Form::file('image', null) !!}
 	</div>
 
 	<div class="form-group">
-    {!! Form::label('Thumbnail Image:') !!}
+    {!! Form::label('thumbnailImage', 'Thumbnail Image:') !!}
     {!! Form::file('thumbnailImage', null) !!}
 	</div>
 

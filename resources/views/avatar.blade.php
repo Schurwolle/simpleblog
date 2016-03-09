@@ -1,0 +1,38 @@
+@extends('layouts.app')
+
+@section('head')
+<style>
+#update {
+    width: 6.5em;
+}
+</style>
+@endsection
+
+
+@section('content')
+
+	@include('errors.list')
+	@if (file_exists('pictures/'.$user->name))
+		<h1>Change Avatar Image</h1>
+		<hr>
+		<strong>Current Avatar:</strong><br>
+		{{ Html::image(('pictures/'.$user->name), null, ['style' => 'max-width: 650px; height: auto;']) }}
+	@else
+		<h1>Upload Avatar Image</h1>
+		<hr>
+	@endif
+
+	{!! Form::open(['url' => $user->name.'/updateavatar', 'files' => 'true']) !!}
+
+		<div class="form-group">
+		    {!! Form::label('newAvatar', 'New Avatar:') !!}
+		    {!! Form::file('newAvatar', null) !!}
+		</div>
+
+		{!!Form::submit('Update', ['class' => 'btn btn-primary', 'id' => 'update'])!!}
+
+	{!! Form::close() !!}
+
+
+
+@endsection
