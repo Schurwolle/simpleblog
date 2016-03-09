@@ -8,12 +8,15 @@
 </style>
 
 <div class="container">
-  <ul class="list-group">
-    <h1> {{ $user->name }} </h1>
-    <li class="list-group-item">
+  @if (file_exists('pictures/'.$user->name))
+    {{ Html::image(('pictures/'.$user->name), null, ['style' => 'max-width: 650px; height: auto;']) }}
+  @endif
+  <h1>{{ $user->name }} </h1>
+  <div class="panel panel-default">
+    <div class="panel-heading"> 
       Joined on {{$user->created_at->format('d M, Y \a\t H:i') }}.
-    </li>
-    <li class="list-group-item panel-body">
+    </div>
+    <div class="panel-body">
       <table class="table-padding">
         
         <tr>
@@ -30,12 +33,12 @@
             @unless($user->articles()->unpublished()->count() == 0)
               <td><a href="/{{$user->name}}/unpublished">Show All</a></td>
             @endunless
-            </tr> 
+          </tr> 
         @endif
         <tr><td> Total Comments:</td> <td>{{ $user->comments()->count() }}</td></tr>
       </table>
-    </li>
-  </ul>
+    </div>
+  </div>
 
  @unless($user->articles()->published()->count()==0)
  <div class="panel panel-default">
@@ -76,23 +79,24 @@
   </div>
   </div>
  @endunless
+
+  <table><tr>
+    @if($user->id == Auth::id())
+        <td><a href="/{{$user->name}}/changepassword"><button class="btn btn-primary"> Change Password </button></a></td>
+    @endif
+
+    @if($user->id == Auth::id() || Auth::user()->isAdmin())
+      <td>
+        {!!Form::open(['method' => 'DELETE', 'url' => $user->name.'/delete', 'onsubmit' => 'return ConfirmDelete()' ])!!}
+
+          {!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete Profile', array('type' => 'submit', 'class' => 'btn btn-danger'))!!}
+
+        {!!Form::close()!!}
+      </td>
+    @endif
+  </tr></table>
+  <hr>
 </div>
-<table><tr>
-  @if($user->id == Auth::id())
-      <td><a href="/{{$user->name}}/changepassword"><button class="btn btn-primary"> Change Password </button></a></td>
-  @endif
-
-  @if($user->id == Auth::id() || Auth::user()->isAdmin())
-    <td>
-      {!!Form::open(['method' => 'DELETE', 'url' => $user->name.'/delete', 'onsubmit' => 'return ConfirmDelete()' ])!!}
-
-        {!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete Profile', array('type' => 'submit', 'class' => 'btn btn-danger'))!!}
-
-      {!!Form::close()!!}
-    </td>
-  @endif
-</tr></table>
-<hr>
 @stop
 
 @section('footer')
