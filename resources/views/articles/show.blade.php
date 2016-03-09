@@ -76,6 +76,11 @@
 			        <li class="panel-body">
 			          <div class="list-group">
 			            <div class="list-group-item">
+			              	@if (file_exists('pictures/'.$comment->user->name))
+			              		<a href="/{{$comment->user->name}}/profile">
+			              		{{ Html::image(('pictures/'.$comment->user->name)) }}
+			              		</a>
+			              	@endif
 			              <h3><a href="/{{$comment->user->name}}/profile">{{ $comment->user->name }}</a></h3>
 			              <p>{{ $comment->created_at->diffForHumans() }}</p>
 			            </div>

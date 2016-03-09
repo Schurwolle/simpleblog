@@ -9,7 +9,7 @@
 
 <div class="container">
   @if (file_exists('pictures/'.$user->name))
-    {{ Html::image(('pictures/'.$user->name), null, ['style' => 'max-width: 650px; height: auto;']) }}
+    {{ Html::image(('pictures/'.$user->name)) }}
   @endif
   <h1>{{ $user->name }} </h1>
   <div class="panel panel-default">

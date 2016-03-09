@@ -16,7 +16,7 @@
 		<h1>Change Avatar Image</h1>
 		<hr>
 		<strong>Current Avatar:</strong><br>
-		{{ Html::image(('pictures/'.$user->name), null, ['style' => 'max-width: 650px; height: auto;']) }}
+		{{ Html::image(('pictures/'.$user->name)) }}
 	@else
 		<h1>Upload Avatar Image</h1>
 		<hr>
