@@ -1,5 +1,38 @@
 @extends('layouts.app')
 
+@section('head')
+<style>
+	.thumbnail {
+	    padding:0px;
+	}
+	.panel {
+		position:relative;
+	}
+	.panel>.panel-heading:after,.panel>.panel-heading:before{
+		position:absolute;
+		top:11px;left:-16px;
+		right:100%;
+		width:0;
+		height:0;
+		display:block;
+		content:" ";
+		border-color:transparent;
+		border-style:solid solid outset;
+	}
+	.panel>.panel-heading:after{
+		border-width:7px;
+		border-right-color:#f7f7f7;
+		margin-top:1px;
+		margin-left:2px;
+	}
+	.panel>.panel-heading:before{
+		border-right-color:#ddd;
+		border-width:8px;
+	}
+</style>
+
+@endsection
+
 @section('sides')
 	@include('leftandright')
 @endsection
@@ -71,45 +104,52 @@
 	    <div>
 		    @unless($comments->isEmpty())
 			    <h3>Comments: </h3>
-			    <ul style="list-style: none; padding: 0">
-			      @foreach($comments as $comment)
-			        <li class="panel-body">
-			          <div class="list-group">
-			            <div class="list-group-item">
-			              	@if (file_exists('pictures/'.$comment->user->name))
-			              		<a href="/{{$comment->user->name}}/profile">
-			              		{{ Html::image(('pictures/'.$comment->user->name)) }}
-			              		</a>
-			              	@endif
-			              <h3><a href="/{{$comment->user->name}}/profile">{{ $comment->user->name }}</a></h3>
-			              <p>{{ $comment->created_at->diffForHumans() }}</p>
-			            </div>
-			            <div class="list-group-item">
-			              <p>{{ $comment->body }}</p>
-			              @if($comment->user_id == Auth::id() || Auth::user()->isAdmin())
-			              <table><tr><td>
-			              	<a href="/comment/{{ $comment->id }}/edit"><button class="btn btn-primary">
-     									Edit
-    						</button></a>
-    					  </td>
-			              <td>
-			              {!!Form::open(['method' => 'DELETE', 'url' => '/comment/'.$comment->id, 'onsubmit' => 'return ConfirmDelete()' ])!!}
+			    @foreach($comments as $comment)
+			        <div class="center">
+						<div class="row">
+							<div class="col-sm-2">
+								<div class="thumbnail">
+									<a href="/{{$comment->user->name}}/profile"><img src="{{ file_exists('pictures/'.$comment->user->name) ? '/pictures/'.$comment->user->name : 'https://ssl.gstatic.com/accounts/ui/avatar_2x.png' }}"></a>
+								</div>
+							</div>
 
-			              	{!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete', array('type' => 'submit', 'class' => 'btn btn-danger'))!!}
-			              	
-			              {!!Form::close()!!}
-			              </td>
-			              </tr>
-			              </table>
-			              @endif
-			              @if ($comment->updated_at > $comment->created_at)
-			              	<p>Comment last edited {{ $comment->updated_at->diffForHumans() }}.</p>
-			              @endif
-			            </div>
-			          </div>
-			        </li>
-			      @endforeach
-			    </ul>
+							<div class="col-sm-10">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<a style="color:black;" href="/{{$comment->user->name}}/profile"><strong>{{$comment->user->name}}</strong></a>
+										<span class="text-muted">
+											commented {{$comment->created_at->diffForHumans()}}
+											@if ($comment->updated_at > $comment->created_at)
+												(last edited {{$comment->updated_at->diffForHumans()}})
+											@endif 
+										</span>
+									</div>
+									<div class="panel-body">
+										{{$comment->body}}
+									</div>
+									@if($comment->user_id == Auth::id() || Auth::user()->isAdmin())
+									 	<div class="panel-body">
+							              <table style=""><tr><td>
+							              	<a href="/comment/{{ $comment->id }}/edit"><button class="btn btn-primary">
+				     									Edit
+				    						</button></a>
+				    					  </td>
+							              <td>
+							              {!!Form::open(['method' => 'DELETE', 'url' => '/comment/'.$comment->id, 'onsubmit' => 'return ConfirmDelete()' ])!!}
+
+							              	{!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete', array('type' => 'submit', 'class' => 'btn btn-danger'))!!}
+							              	
+							              {!!Form::close()!!}
+							              </td>
+							              </tr>
+							              </table>
+							            </div>
+						            @endif
+						        </div>	
+							</div>
+						</div>
+					</div>
+			    @endforeach
 		    @endunless
 	  	</div>
   	@endif
