@@ -1,5 +1,14 @@
 	@section('head')
 	 	@include('parsleyhead')
+	 	<link rel="stylesheet" href="/croppic.css"/>
+	 	<style>
+	 		#cropper {
+			width: 200px;
+			height: 150px;
+			position:relative;
+			background-color: gray;
+		}
+	 	</style>
 	@stop
 
 
@@ -21,9 +30,11 @@
 	{!! Form::label('body', 'Body:') !!}
 	{!! Form::textarea('body', null, ['id' =>'body' , 'class' => 'form-control', 'required']) !!}
 	</div>
-
 	<div class="form-group">
-    {!! Form::label('image' 'Image:') !!}
+		<div id="cropper"></div>
+	</div>
+	<div class="form-group">
+    {!! Form::label('image', 'Image:') !!}
     {!! Form::file('image', null) !!}
 	</div>
 
@@ -59,4 +70,11 @@
 			CKEDITOR.replace('body');
 		</script>
 		@include('parsleyfooter')
+		<script src="/croppic.min.js"></script>
+		<script>
+		var cropperOptions = {
+			uploadUrl:'/upload',
+		}		
+		    var cropperHeader = new Croppic('cropper', cropperOptions);
+		</script>
 	@stop

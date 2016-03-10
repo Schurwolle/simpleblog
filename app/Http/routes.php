@@ -20,7 +20,7 @@ Route::get('/', function () {
 });
 
 
-
+Route::post('upload', 'CropController@upload');
 
 
 
