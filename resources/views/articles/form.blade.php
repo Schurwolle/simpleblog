@@ -74,6 +74,8 @@
 		<script>
 		var cropperOptions = {
 			uploadUrl:'/upload',
+			cropUrl: '/crop',
+			modal: true
 		}		
 		    var cropperHeader = new Croppic('cropper', cropperOptions);
 		</script>

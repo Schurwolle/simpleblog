@@ -21,7 +21,7 @@ Route::get('/', function () {
 
 
 Route::post('upload', 'CropController@upload');
-
+Route::post('crop', 'CropController@crop');
 
 
 /*

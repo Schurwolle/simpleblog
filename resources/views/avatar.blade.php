@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('head')
-<style>
-#update {
-    width: 6.5em;
-}
-</style>
+	<style>
+	#update {
+	    width: 6.5em;
+	}
+	</style>
 @endsection
 
 
@@ -28,7 +28,9 @@
 		    {!! Form::label('newAvatar', 'New Avatar:') !!}
 		    {!! Form::file('newAvatar', null) !!}
 		</div>
-
+		<div class="form-group">
+			<div id="cropper"></div>
+		</div>
 		{!!Form::submit('Update', ['class' => 'btn btn-primary', 'id' => 'update'])!!}
 
 	{!! Form::close() !!}

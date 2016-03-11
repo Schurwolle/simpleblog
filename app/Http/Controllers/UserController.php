@@ -123,7 +123,7 @@ class UserController extends Controller
         {
             return redirect ($user->name.'/avatar')->withErrors($validator);
         }
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
         $destinationPath = 'pictures/';
         $fileName = $user->name;
 
