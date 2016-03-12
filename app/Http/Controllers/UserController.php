@@ -12,6 +12,8 @@ use App\Repositories\UserRepository;
 use Auth;
 use Hash;
 use Validator;
+use Intervention\Image\ImageManager;
+
 
 class UserController extends Controller
 {
@@ -53,6 +55,11 @@ class UserController extends Controller
     {
 
         $user->delete();
+        if(file_exists('pictures/'.$user->name))
+        {
+            unlink('pictures/'.$user->name);
+        }
+
         if(Auth::user()->isAdmin())
         {
             \Session::flash('flash_message', 'The profile has been deleted!');
@@ -113,25 +120,16 @@ class UserController extends Controller
 
     public function updateAvatar(Request $request, User $user)
     {
-        $inputs = array('newAvatar' => $request->file('newAvatar'));
-
-        $rules = array('newAvatar' => 'required|image|image_size:100');
-
-        $validator = Validator::make($inputs, $rules);
-
-        if($validator->fails())
-        {
-            return redirect ($user->name.'/avatar')->withErrors($validator);
-        }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-        $destinationPath = 'pictures/';
+        $photo = 'pictures/imagecropped';
         $fileName = $user->name;
 
-        $request->file('newAvatar')->move($destinationPath, $fileName);
+        $manager = new ImageManager();
+        $image = $manager->make($photo)->save('pictures/'.$fileName);
+        unlink('pictures/image');
+        unlink('pictures/imagecropped');
 
         \Session::flash('flash_message', 'Your avatar has been updated!');
 
         return redirect ($user->name.'/profile');
-
     }
 }

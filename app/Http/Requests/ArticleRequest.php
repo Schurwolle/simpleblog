@@ -28,7 +28,6 @@ class ArticleRequest extends Request
             'body'   => 'required',
             'published_at' => 'required|date|after:yesterday',
             'image' => 'image',
-            'thumbnailImage' => 'image|image_size:200,150',
         ];
     }
 }

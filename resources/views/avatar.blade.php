@@ -1,10 +1,18 @@
 @extends('layouts.app')
 
 @section('head')
+	<link rel="stylesheet" href="/croppic.css"/>
+
 	<style>
 	#update {
 	    width: 6.5em;
 	}
+	#cropper {
+		width: 100px;
+		height: 100px;
+		position:relative;
+		border: solid 1px black;
+		}
 	</style>
 @endsection
 
@@ -25,16 +33,28 @@
 	{!! Form::open(['url' => $user->name.'/updateavatar', 'files' => 'true']) !!}
 
 		<div class="form-group">
-		    {!! Form::label('newAvatar', 'New Avatar:') !!}
-		    {!! Form::file('newAvatar', null) !!}
+		    {!! Form::label('cropper', 'New Avatar:') !!}
+    		<div id="cropper"></div>
 		</div>
-		<div class="form-group">
-			<div id="cropper"></div>
-		</div>
+		
 		{!!Form::submit('Update', ['class' => 'btn btn-primary', 'id' => 'update'])!!}
 
 	{!! Form::close() !!}
 
 
+
+@endsection
+
+@section('footer')
+
+	<script src="/croppic.min.js"></script>
+		<script>
+		var cropperOptions = {
+			uploadUrl:'/upload',
+			cropUrl: '/crop',
+			modal: true
+		}		
+		    var cropperHeader = new Croppic('cropper', cropperOptions);
+		</script>
 
 @endsection

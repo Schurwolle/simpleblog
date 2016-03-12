@@ -2,10 +2,18 @@
 
 @section('head')
     @include('parsleyhead')
+    <link rel="stylesheet" href="/croppic.css"/>
     <style>
         .center {
           width: auto;
           }
+ 
+        #cropper {
+        width: 100px;
+        height: 100px;
+        position:relative;
+        border: solid 1px black;
+        }
     </style>
 @stop
 
@@ -78,7 +86,7 @@
                         <div class="form-group{{ $errors->has('avatar') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label" for="avatar">Avatar Image:</label>
                             <div class="col-md-6">
-                                <input name="avatar" type="file">
+                                <div id="cropper"></div>
                                 @if ($errors->has('avatar'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('avatar') }}</strong>
@@ -106,4 +114,13 @@
 
 @section('footer')
     @include('parsleyfooter')
+    <script src="/croppic.min.js"></script>
+    <script>
+    var cropperOptions = {
+        uploadUrl:'/upload',
+        cropUrl: '/crop',
+        modal: true
+    }       
+        var cropperHeader = new Croppic('cropper', cropperOptions);
+    </script>
 @endsection

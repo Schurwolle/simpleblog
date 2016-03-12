@@ -20,7 +20,7 @@ class CropController extends Controller
         $photo = $inputs['img'];
 
         $files = array('image' => $photo);
-        $rules = array('image' => 'image|required|image_size:>=200,>=150');
+        $rules = array('image' => 'image|required');
 
         $validator = Validator::make($files, $rules);
 

@@ -4,6 +4,8 @@ namespace Illuminate\Foundation\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\ImageManager;
+
 
 trait RegistersUsers
 {
@@ -62,12 +64,15 @@ trait RegistersUsers
 
         Auth::guard($this->getGuard())->login($this->create($request->all()));
 
-        if ($request->hasFile('avatar'))
+        if(file_exists('pictures/imagecropped'))
         {
-            $destinationPath = 'pictures/';
             $fileName = $request->name;
+            $photo ='pictures/imagecropped';
 
-            $request->file('avatar')->move($destinationPath, $fileName);
+            $manager = new ImageManager();
+            $image = $manager->make($photo)->save('pictures/'.$fileName);
+            unlink('pictures/image');
+            unlink('pictures/imagecropped');
         }
 
         return redirect($this->redirectPath());
