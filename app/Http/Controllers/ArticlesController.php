@@ -15,6 +15,7 @@ use App\Repositories\ArticleRepository;
 use App\Repositories\CommentRepository;
 use App\Repositories\TagRepository;
 use Validator;
+use Intervention\Image\ImageManager;
 
 class ArticlesController extends Controller
 {	
@@ -157,13 +158,16 @@ class ArticlesController extends Controller
             $request->file('image')->move($destinationPath, $fileName);
         }
 
-        if($request->hasFile('thumbnailImage'))
-        {   
-            $destinationPath = 'pictures/';
-            $fileName = $article->id.'thumbnail';
-            
+        if(file_exists('pictures/imagecropped'))
+        {
 
-            $request->file('thumbnailImage')->move($destinationPath, $fileName);
+            $fileName = $article->id.'thumbnail';
+            $photo ='pictures/imagecropped';
+
+            $manager = new ImageManager();
+            $image = $manager->make($photo)->save('pictures/'.$fileName);
+            unlink('pictures/image');
+            unlink('pictures/imagecropped');
         }
     }
 

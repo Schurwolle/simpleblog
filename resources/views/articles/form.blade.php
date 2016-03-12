@@ -6,7 +6,7 @@
 			width: 200px;
 			height: 150px;
 			position:relative;
-			background-color: gray;
+			border: solid 1px black;
 		}
 	 	</style>
 	@stop
@@ -31,7 +31,7 @@
 	{!! Form::textarea('body', null, ['id' =>'body' , 'class' => 'form-control', 'required']) !!}
 	</div>
 	<div class="form-group">
-		<div id="cropper"></div>
+		
 	</div>
 	<div class="form-group">
     {!! Form::label('image', 'Image:') !!}
@@ -39,8 +39,8 @@
 	</div>
 
 	<div class="form-group">
-    {!! Form::label('thumbnailImage', 'Thumbnail Image:') !!}
-    {!! Form::file('thumbnailImage', null) !!}
+    {!! Form::label('cropper', 'Thumbnail Image:') !!}
+    <div id="cropper"></div>
 	</div>
 
 	<div class="form-group">

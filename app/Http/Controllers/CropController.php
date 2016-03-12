@@ -20,7 +20,7 @@ class CropController extends Controller
         $photo = $inputs['img'];
 
         $files = array('image' => $photo);
-        $rules = array('image' => 'image|required');
+        $rules = array('image' => 'image|required|image_size:>=200,>=150');
 
         $validator = Validator::make($files, $rules);
 
@@ -34,7 +34,7 @@ class CropController extends Controller
 
 
         $manager = new ImageManager();
-        $image = $manager->make($photo)->save('pictures/100');
+        $image = $manager->make($photo)->save('pictures/image');
 
         if(!$image) 
         {
@@ -47,7 +47,7 @@ class CropController extends Controller
 
         return Response::json([
             'status'    => 'success',
-            'url'       => '/pictures/100',
+            'url'       => '/pictures/image',
             'width'     => $image->width(),
             'height'    => $image->height()
         ], 200);
@@ -75,7 +75,7 @@ class CropController extends Controller
         $image->resize($imgW, $imgH)
             ->rotate(-$rotation)
             ->crop($cropW, $cropH, $imgX1, $imgY1)
-            ->save('pictures/100cropped');
+            ->save('pictures/imagecropped');
 
         if(!$image) {
 
@@ -88,7 +88,7 @@ class CropController extends Controller
 
         return Response::json([
             'status' => 'success',
-            'url' =>'/pictures/100cropped'
+            'url' =>'/pictures/imagecropped'
         ], 200);
 
     }
