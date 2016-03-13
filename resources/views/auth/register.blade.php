@@ -114,12 +114,16 @@
 
 @section('footer')
     @include('parsleyfooter')
+    <script src="/jquery.mousewheel.min.js"></script>
     <script src="/croppic.min.js"></script>
     <script>
     var cropperOptions = {
         uploadUrl:'/upload',
         cropUrl: '/crop',
-        modal: true
+        modal: true,
+        rotateControls:false,
+        doubleZoomControls:false,
+        enableMousescroll:true
     }       
         var cropperHeader = new Croppic('cropper', cropperOptions);
     </script>
