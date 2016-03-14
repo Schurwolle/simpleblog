@@ -120,7 +120,18 @@ class UserController extends Controller
 
     public function updateAvatar(Request $request, User $user)
     {
+        $inputs = array('newAvatar' =>$request->newAvatar);
+        $rules = array('newAvatar' => 'required');
+
+        $validator = Validator::make($inputs, $rules);
+
+        if($validator->fails())
+        {
+            return redirect($user->name.'/avatar')->withErrors($validator);
+        }
+
         $photo = 'pictures/imagecropped'.$user->name;
+
         $fileName = $user->name;
 
         $manager = new ImageManager();

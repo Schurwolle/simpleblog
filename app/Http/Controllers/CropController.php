@@ -39,7 +39,7 @@ class CropController extends Controller
         } else {
             $fileName = \Session::getId();
         }
-
+        
         $manager = new ImageManager();
         $image = $manager->make($photo)->save('pictures/image'.$fileName);
 

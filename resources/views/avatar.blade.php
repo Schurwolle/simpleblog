@@ -35,6 +35,7 @@
 		<div class="form-group">
 		    {!! Form::label('cropper', 'New Avatar:') !!}
     		<div id="cropper"></div>
+    		{!!Form::text('newAvatar', null, ['id' => 'newAvatar', 'style' => 'visibility:hidden;'])!!}
 		</div>
 		
 		{!!Form::submit('Update', ['class' => 'btn btn-primary', 'id' => 'update'])!!}
@@ -55,7 +56,10 @@
 			modal: true,
 			rotateControls:false,
 			doubleZoomControls:false,
-			enableMousescroll:true
+			enableMousescroll:true,
+			outputUrlId:'newAvatar',
+			onReset: function(){ window.location.reload(false) },
+			onAfterRemoveCroppedImg: function(){ window.location.reload(false) },
 
 		}		
 		    var cropperHeader = new Croppic('cropper', cropperOptions);
