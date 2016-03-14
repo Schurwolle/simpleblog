@@ -91,7 +91,7 @@
     
 
 	    <h3>Leave a Comment:</h3>
-	    <div class="panel-body">
+	    <div class="center">
 	      <form method="post" action="/comment">
 	        <input type="hidden" name="_token" value="{{ csrf_token() }}">
 	        <input type="hidden" name="article_id" value="{{ $article->id }}">
@@ -100,8 +100,6 @@
 	        </div>
 	        <input type="submit" name='article_comment' class="btn btn-primary" value = "Post"/>
 	      </form>
-	    </div>
-	    <div class="center">
 		    @unless($comments->isEmpty())
 			    <h3>Comments: </h3>
 			    <hr>

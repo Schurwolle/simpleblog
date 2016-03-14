@@ -20,8 +20,7 @@ Route::get('/', function () {
 });
 
 
-Route::post('upload', 'CropController@upload');
-Route::post('crop', 'CropController@crop');
+
 
 
 /*
@@ -69,7 +68,8 @@ Route::get('tags', 'AdminController@showTags');
 Route::get('users','AdminController@showUsers');
 Route::get('unpublished', 'AdminController@showUnpublished');
 
-
+Route::post('upload', 'CropController@upload');
+Route::post('crop', 'CropController@crop');
 
 });
 

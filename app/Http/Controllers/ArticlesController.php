@@ -158,16 +158,17 @@ class ArticlesController extends Controller
             $request->file('image')->move($destinationPath, $fileName);
         }
 
-        if(file_exists('pictures/imagecropped'))
+        $userName = Auth::user()->name;
+        if(file_exists('pictures/imagecropped'.$userName))
         {
 
             $fileName = $article->id.'thumbnail';
-            $photo ='pictures/imagecropped';
+            $photo ='pictures/imagecropped'.$userName;
 
             $manager = new ImageManager();
             $image = $manager->make($photo)->save('pictures/'.$fileName);
-            unlink('pictures/image');
-            unlink('pictures/imagecropped');
+            unlink('pictures/image'.$userName);
+            unlink('pictures/imagecropped'.$userName);
         }
     }
 

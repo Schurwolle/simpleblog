@@ -10,11 +10,12 @@ use Illuminate\Support\Facades\Input;
 use Intervention\Image\ImageManager;
 use Illuminate\Support\Facades\Response;
 use Validator;
+use Auth;
 
 class CropController extends Controller
 {
     public function upload()
-    {
+    {   
         $inputs = Input::all();
 
         $photo = $inputs['img'];
@@ -32,9 +33,15 @@ class CropController extends Controller
             ], 200);
         }
 
+        if(Auth::check())
+        {
+            $fileName = Auth::user()->name;
+        } else {
+            $fileName = \Session::getId();
+        }
 
         $manager = new ImageManager();
-        $image = $manager->make($photo)->save('pictures/image');
+        $image = $manager->make($photo)->save('pictures/image'.$fileName);
 
         if(!$image) 
         {
@@ -47,7 +54,7 @@ class CropController extends Controller
 
         return Response::json([
             'status'    => 'success',
-            'url'       => '/pictures/image',
+            'url'       => '/pictures/image'.$fileName,
             'width'     => $image->width(),
             'height'    => $image->height()
         ], 200);
@@ -70,12 +77,19 @@ class CropController extends Controller
 
         $rotation = $inputs['rotation'];
 
+        if(Auth::check())
+        {
+            $fileName = Auth::user()->name;
+        } else {
+            $fileName = \Session::getId();
+        }
+
         $manager = new ImageManager();
         $image = $manager->make($imgUrl);
         $image->resize($imgW, $imgH)
             ->rotate(-$rotation)
             ->crop($cropW, $cropH, $imgX1, $imgY1)
-            ->save('pictures/imagecropped');
+            ->save('pictures/imagecropped'.$fileName);
 
         if(!$image) {
 
@@ -88,7 +102,7 @@ class CropController extends Controller
 
         return Response::json([
             'status' => 'success',
-            'url' =>'/pictures/imagecropped'
+            'url' =>'/pictures/imagecropped'.$fileName
         ], 200);
 
     }

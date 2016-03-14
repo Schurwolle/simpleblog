@@ -120,13 +120,13 @@ class UserController extends Controller
 
     public function updateAvatar(Request $request, User $user)
     {
-        $photo = 'pictures/imagecropped';
+        $photo = 'pictures/imagecropped'.$user->name;
         $fileName = $user->name;
 
         $manager = new ImageManager();
         $image = $manager->make($photo)->save('pictures/'.$fileName);
-        unlink('pictures/image');
-        unlink('pictures/imagecropped');
+        unlink('pictures/image'.$user->name);
+        unlink('pictures/imagecropped'.$user->name);
 
         \Session::flash('flash_message', 'Your avatar has been updated!');
 

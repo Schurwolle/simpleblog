@@ -54,6 +54,8 @@ trait RegistersUsers
      */
     public function register(Request $request)
     {
+        $cookie = \Session::getId();
+
         $validator = $this->validator($request->all());
 
         if ($validator->fails()) {
@@ -64,15 +66,15 @@ trait RegistersUsers
 
         Auth::guard($this->getGuard())->login($this->create($request->all()));
 
-        if(file_exists('pictures/imagecropped'))
+        if(file_exists('pictures/imagecropped'.$cookie))
         {
             $fileName = $request->name;
-            $photo ='pictures/imagecropped';
+            $photo ='pictures/imagecropped'.$cookie;
 
             $manager = new ImageManager();
             $image = $manager->make($photo)->save('pictures/'.$fileName);
-            unlink('pictures/image');
-            unlink('pictures/imagecropped');
+            unlink('pictures/image'.$cookie);
+            unlink('pictures/imagecropped'.$cookie);
         }
 
         return redirect($this->redirectPath());
