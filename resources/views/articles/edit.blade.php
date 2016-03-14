@@ -10,9 +10,9 @@
 
 		@include('articles.form')
 
-		@if (file_exists('pictures/'.$article->id) || file_exists('pictures/'.$article->id.'thumbnail'))
+		@if (file_exists('pictures/'.$article->id))
 			<div class="form-group">
-			<label for="remove">Remove Previously Uploaded Image(s)?</label>
+			<label for="remove">Remove Previously Uploaded Image?</label>
 			<input type="checkbox" name="remove">
 			</div>
 		@endif

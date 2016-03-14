@@ -96,7 +96,7 @@ class ArticlesController extends Controller
 
         if($request->remove == true)
         {
-            $this->deleteImages($article);
+            unlink('pictures/'.$article->id);
         }
 
         $this->uploadImages($article, $request);
@@ -147,7 +147,6 @@ class ArticlesController extends Controller
 
     private function uploadImages(article $article, $request)
     {
-
         if ($request->hasFile('image')) 
         {
         

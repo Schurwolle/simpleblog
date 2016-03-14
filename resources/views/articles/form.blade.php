@@ -41,6 +41,7 @@
 	<div class="form-group">
     {!! Form::label('cropper', 'Thumbnail Image:') !!}
     <div id="cropper"></div>
+    {!!Form::text('thumbnailImage', null, ['id' => 'thumbnailImage', 'style' => 'visibility:hidden;'])!!}
 	</div>
 
 	<div class="form-group">
@@ -79,6 +80,7 @@
 			modal: true,
 			rotateControls:false,
 			enableMousescroll:true,
+			outputUrlId:'thumbnailImage'
 		}		
 		    var cropperHeader = new Croppic('cropper', cropperOptions);
 		</script>

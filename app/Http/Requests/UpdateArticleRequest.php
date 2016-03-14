@@ -27,7 +27,6 @@ class UpdateArticleRequest extends Request
             'title' => 'required|unique:articles,title,'.$this->articles->id,
             'body'   => 'required',
             'image' => 'image',
-            'thumbnailImage' => 'image|image_size:200,150',
         ];
     }
 }
