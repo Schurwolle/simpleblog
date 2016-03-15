@@ -94,11 +94,6 @@ class ArticlesController extends Controller
         
         $this->syncTags($article, $request);
 
-        if($request->remove == true)
-        {
-            unlink('pictures/'.$article->id);
-        }
-
         $this->uploadImages($article, $request);
 
         \Session::flash('flash_message', 'The article has been updated!');
@@ -115,7 +110,6 @@ class ArticlesController extends Controller
             $article->delete();
 
             \Session::flash('flash_message', 'The article has been deleted!');
-        
 
             return redirect('articles');
     }

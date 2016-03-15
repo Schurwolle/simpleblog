@@ -12,6 +12,7 @@
     {{ Html::image(('pictures/'.$user->name)) }}
   @endif
   <h1>{{ $user->name }} </h1>
+  <h5>{{ $user->email}} </h5>
   <div class="panel panel-default">
     <div class="panel-heading"> 
       Joined on {{$user->created_at->format('d M, Y \a\t H:i') }}.

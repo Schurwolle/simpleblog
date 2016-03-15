@@ -26,7 +26,6 @@ class UpdateArticleRequest extends Request
         return [
             'title' => 'required|unique:articles,title,'.$this->articles->id,
             'body'   => 'required',
-            'image' => 'image',
         ];
     }
 }

@@ -42,6 +42,7 @@
 	<div class="form-group">
     {!! Form::label('image', 'Image:') !!}
     <div id="image"></div>
+    {!!Form::text('img', null, ['id' => 'img', 'style' => 'visibility:hidden;'])!!}
 	</div>
 
 	<div class="form-group">
@@ -80,7 +81,7 @@
 		<script src="/jquery.mousewheel.min.js"></script>
 		<script src="/croppic.min.js"></script>
 		<script>
-		var cropperOptions = {
+		var thumbnailOptions = {
 			uploadUrl:'/upload',
 			cropUrl: '/crop',
 			modal: true,
@@ -88,7 +89,17 @@
 			enableMousescroll:true,
 			outputUrlId:'thumbnailImage'
 		}		
-		    var cropperThumbnail = new Croppic('thumbnail', cropperOptions);
-		    var cropperImage 	 = new Croppic('image', cropperOptions);
+		var cropperThumbnail = new Croppic('thumbnail', thumbnailOptions);
+
+		var imageOptions = {
+			uploadUrl:'/upload',
+			cropUrl: '/crop',
+			modal: true,
+			rotateControls:false,
+			enableMousescroll:true,
+			outputUrlId:'img'
+		}
+		var cropperImage = new Croppic('image', imageOptions);
+		
 		</script>
 	@stop
