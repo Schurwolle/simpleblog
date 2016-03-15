@@ -66,7 +66,7 @@ trait RegistersUsers
 
         Auth::guard($this->getGuard())->login($this->create($request->all()));
 
-        $mask = glob('pictures/imagecropped'.$cookie.'*');
+        $mask = glob('pictures/cropped'.$cookie.'*');
         if(!empty($mask))
         {
             $photo = $mask[0];
@@ -76,7 +76,7 @@ trait RegistersUsers
             $manager = new ImageManager();
             $image = $manager->make($photo)->save('pictures/'.$fileName);
             $pic = glob('pictures/image'.$cookie.'*');
-            if ($pic[0] != "")
+            if (!empty($pic))
             {
                 unlink($pic[0]);
             }

@@ -41,11 +41,10 @@ class CropController extends Controller
         }
         
         $mask = 'pictures/image'.$fileName.'*';
-        if ($mask != "")
+        if (!empty($mask))
         {
             array_map('unlink', glob($mask));
         }
-
 
         $fileName .= rand(0,1000000);
 
@@ -86,15 +85,22 @@ class CropController extends Controller
 
         $rotation = $inputs['rotation'];
 
+        if($cropW == 648)
+        {
+            $fileName = 'img';
+        } else {
+            $fileName = 'thumb';
+        }
+
         if(Auth::check())
         {
-            $fileName = Auth::user()->name;
+            $fileName .= Auth::user()->name;
         } else {
             $fileName = \Session::getId();
         }
 
-        $mask = 'pictures/imagecropped'.$fileName.'*';
-        if ($mask != "")
+        $mask = 'pictures/cropped'.$fileName.'*';
+        if (!empty($mask))
         {
             array_map('unlink', glob($mask));
         }
@@ -106,7 +112,7 @@ class CropController extends Controller
         $image->resize($imgW, $imgH)
             ->rotate(-$rotation)
             ->crop($cropW, $cropH, $imgX1, $imgY1)
-            ->save('pictures/imagecropped'.$fileName);
+            ->save('pictures/cropped'.$fileName);
 
         if(!$image) {
 
@@ -119,7 +125,7 @@ class CropController extends Controller
 
         return Response::json([
             'status' => 'success',
-            'url' =>'/pictures/imagecropped'.$fileName
+            'url' =>'/pictures/cropped'.$fileName
         ], 200);
 
     }

@@ -2,9 +2,15 @@
 	 	@include('parsleyhead')
 	 	<link rel="stylesheet" href="/croppic.css"/>
 	 	<style>
-	 		#cropper {
+	 		#thumbnail {
 			width: 200px;
 			height: 150px;
+			position:relative;
+			border: solid 1px black;
+		}
+			#image {
+			width: 650px;
+			height: 290px;
 			position:relative;
 			border: solid 1px black;
 		}
@@ -35,12 +41,12 @@
 	</div>
 	<div class="form-group">
     {!! Form::label('image', 'Image:') !!}
-    {!! Form::file('image', null) !!}
+    <div id="image"></div>
 	</div>
 
 	<div class="form-group">
-    {!! Form::label('cropper', 'Thumbnail Image:') !!}
-    <div id="cropper"></div>
+    {!! Form::label('thumbnail', 'Thumbnail Image:') !!}
+    <div id="thumbnail"></div>
     {!!Form::text('thumbnailImage', null, ['id' => 'thumbnailImage', 'style' => 'visibility:hidden;'])!!}
 	</div>
 
@@ -82,6 +88,7 @@
 			enableMousescroll:true,
 			outputUrlId:'thumbnailImage'
 		}		
-		    var cropperHeader = new Croppic('cropper', cropperOptions);
+		    var cropperThumbnail = new Croppic('thumbnail', cropperOptions);
+		    var cropperImage 	 = new Croppic('image', cropperOptions);
 		</script>
 	@stop

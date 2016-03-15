@@ -130,7 +130,7 @@ class UserController extends Controller
             return redirect($user->name.'/avatar')->withErrors($validator);
         }
 
-        $mask = glob('pictures/imagecropped'.$user->name.'*');
+        $mask = glob('pictures/croppedthumb'.$user->name.'*');
         if(!empty($mask))
         {
             $photo = $mask[0];
@@ -139,7 +139,7 @@ class UserController extends Controller
             $manager = new ImageManager();
             $image = $manager->make($photo)->save('pictures/'.$fileName);
             $pic = glob('pictures/image'.$fileName.'*');
-            if ($pic[0] != "")
+            if (!empty($pic))
             {
                 unlink($pic[0]);
             }

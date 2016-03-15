@@ -146,19 +146,22 @@ class ArticlesController extends Controller
     }
 
     private function uploadImages(article $article, $request)
-    {
-        if ($request->hasFile('image')) 
-        {
-        
-            $destinationPath = 'pictures/';
-            $fileName = $article->id;
-            
+    {   
+        $userName = Auth::user()->name;
 
-            $request->file('image')->move($destinationPath, $fileName);
+        $mask =glob('pictures/croppedimg'.$userName.'*');
+        if(!empty($mask))
+        {
+            $photo = $mask[0];
+            $fileName = $article->id;
+
+            $manager = new ImageManager();
+            $image = $manager->make($photo)->save('pictures/'.$fileName);
+            unlink($photo);
         }
 
-        $userName = Auth::user()->name;
-        $mask =glob('pictures/imagecropped'.$userName.'*');
+        
+        $mask =glob('pictures/croppedthumb'.$userName.'*');
         if(!empty($mask))
         {
             $photo = $mask[0];
@@ -167,7 +170,7 @@ class ArticlesController extends Controller
             $manager = new ImageManager();
             $image = $manager->make($photo)->save('pictures/'.$fileName);
             $pic = glob('pictures/image'.$userName.'*');
-            if ($pic[0] != "")
+            if (!empty($pic))
             {
                 unlink($pic[0]);
             }

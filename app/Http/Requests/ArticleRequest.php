@@ -27,7 +27,6 @@ class ArticleRequest extends Request
             'title' => 'required|unique:articles,title',
             'body'   => 'required',
             'published_at' => 'required|date|after:yesterday',
-            'image' => 'image',
             'thumbnailImage' => 'required',
         ];
     }
