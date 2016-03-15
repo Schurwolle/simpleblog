@@ -74,4 +74,10 @@ body {
   width:680px;
 }
 
+#popular {
+  border: 3px solid #73AD21; 
+  padding: 10px;
+  padding-left: 17px; 
+  background-color:lightgray;
+}
 

@@ -35,7 +35,7 @@
                     </div>
                     @foreach ($articles as $article)
                         @if (file_exists('pictures/'.$article->id.'thumbnail'))
-                            <div style="border: 3px solid #73AD21; padding: 10px;padding-left: 17px; background-color:lightgray;">
+                            <div id="popular">
                                 <a href="/articles/{{$article->slug}}" style="color: black; font-weight: bold;">{{$article->title}}</a>
                                 <a href="/articles/{{$article->slug}}">{{ Html::image(('pictures/'.$article->id.'thumbnail'), null) }}
                                 </a>   

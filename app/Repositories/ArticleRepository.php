@@ -48,7 +48,7 @@ class ArticleRepository
             return count($article->comments);
         });
 
-        return $articlesSorted->slice(0,5);
+        return $articlesSorted->slice(0,10);
 	}
 
 	public function showLatest()

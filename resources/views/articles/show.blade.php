@@ -91,7 +91,7 @@
     
 
 	    <h3>Leave a Comment:</h3>
-	    <div class="center">
+	    
 	      <form method="post" action="/comment">
 	        <input type="hidden" name="_token" value="{{ csrf_token() }}">
 	        <input type="hidden" name="article_id" value="{{ $article->id }}">
@@ -103,8 +103,8 @@
 		    @unless($comments->isEmpty())
 			    <h3>Comments: </h3>
 			    <hr>
+			    <div class="row">
 			    @foreach($comments as $comment)
-					<div class="row">
 						<div class="col-sm-2">
 							<div class="thumbnail">
 								<a href="/{{$comment->user->name}}/profile"><img src="{{ file_exists('pictures/'.$comment->user->name) ? '/pictures/'.$comment->user->name : 'https://ssl.gstatic.com/accounts/ui/avatar_2x.png' }}"></a>
@@ -145,11 +145,11 @@
 					            @endif
 					        </div>	
 						</div>
-					</div>
 			    @endforeach
+			    </div>
 		    @endunless
 		    <hr>
-	  	</div>
+	  	
   	@endif
 @stop
 
