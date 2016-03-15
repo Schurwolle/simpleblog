@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('head')
+@include('parsleyhead')
 	<link rel="stylesheet" href="/croppic.css"/>
 
 	<style>
@@ -30,12 +31,12 @@
 		<hr>
 	@endif
 
-	{!! Form::open(['url' => $user->name.'/updateavatar', 'files' => 'true']) !!}
+	{!! Form::open(['url' => $user->name.'/updateavatar', 'files' => 'true', 'data-parsley-validate']) !!}
 
 		<div class="form-group">
 		    {!! Form::label('cropper', 'New Avatar:') !!}
     		<div id="cropper"></div>
-    		{!!Form::text('newAvatar', null, ['id' => 'newAvatar', 'style' => 'visibility:hidden;'])!!}
+    		{!!Form::text('newAvatar', null, ['id' => 'newAvatar', 'style' => 'visibility:hidden;', 'required', 'data-parsley-required-message' => 'New Avatar is required.', 'data-parsley-trigger' => 'input'])!!}
 		</div>
 		
 		{!!Form::submit('Update', ['class' => 'btn btn-primary', 'id' => 'update'])!!}
@@ -47,6 +48,7 @@
 @endsection
 
 @section('footer')
+@include('parsleyfooter')
 	<script src="/jquery.mousewheel.min.js"></script>
 	<script src="/croppic.min.js"></script>
 		<script>
@@ -58,8 +60,6 @@
 			doubleZoomControls:false,
 			enableMousescroll:true,
 			outputUrlId:'newAvatar',
-			onReset: function(){ window.location.reload(false) },
-			onAfterRemoveCroppedImg: function(){ window.location.reload(false) },
 
 		}		
 		    var cropperHeader = new Croppic('cropper', cropperOptions);

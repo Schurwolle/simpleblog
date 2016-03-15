@@ -41,7 +41,7 @@
 	<div class="form-group">
     {!! Form::label('cropper', 'Thumbnail Image:') !!}
     <div id="cropper"></div>
-    {!!Form::text('thumbnailImage', null, ['id' => 'thumbnailImage', 'style' => 'visibility:hidden;', 'required', 'data-parsley-required-message' => 'Thumbnail image is required.', 'data-parsley-trigger' 			=> 'input'])!!}
+    {!!Form::text('thumbnailImage', null, ['id' => 'thumbnailImage', 'style' => 'visibility:hidden;'])!!}
 	</div>
 
 	<div class="form-group">
@@ -72,7 +72,7 @@
 		</script>
 		@include('parsleyfooter')
 		<script src="/jquery.mousewheel.min.js"></script>
-		<script src="/croppic.js"></script>
+		<script src="/croppic.min.js"></script>
 		<script>
 		var cropperOptions = {
 			uploadUrl:'/upload',
@@ -80,9 +80,7 @@
 			modal: true,
 			rotateControls:false,
 			enableMousescroll:true,
-			outputUrlId:'thumbnailImage',
-			onReset: function(){ window.location.reload(false) },
-			onAfterRemoveCroppedImg: function(){ window.location.reload(false) },
+			outputUrlId:'thumbnailImage'
 		}		
 		    var cropperHeader = new Croppic('cropper', cropperOptions);
 		</script>

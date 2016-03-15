@@ -66,15 +66,21 @@ trait RegistersUsers
 
         Auth::guard($this->getGuard())->login($this->create($request->all()));
 
-        if(file_exists('pictures/imagecropped'.$cookie))
+        $mask = glob('pictures/imagecropped'.$cookie.'*');
+        if(!empty($mask))
         {
+            $photo = $mask[0];
+        
             $fileName = $request->name;
-            $photo ='pictures/imagecropped'.$cookie;
 
             $manager = new ImageManager();
             $image = $manager->make($photo)->save('pictures/'.$fileName);
-            unlink('pictures/image'.$cookie);
-            unlink('pictures/imagecropped'.$cookie);
+            $pic = glob('pictures/image'.$cookie.'*');
+            if ($pic[0] != "")
+            {
+                unlink($pic[0]);
+            }
+            unlink($photo);
         }
 
         return redirect($this->redirectPath());

@@ -120,7 +120,7 @@ class UserController extends Controller
 
     public function updateAvatar(Request $request, User $user)
     {
-        $inputs = array('newAvatar' =>$request->newAvatar);
+        $inputs = array('newAvatar' => $request->newAvatar);
         $rules = array('newAvatar' => 'required');
 
         $validator = Validator::make($inputs, $rules);
@@ -130,17 +130,25 @@ class UserController extends Controller
             return redirect($user->name.'/avatar')->withErrors($validator);
         }
 
-        $photo = 'pictures/imagecropped'.$user->name;
+        $mask = glob('pictures/imagecropped'.$user->name.'*');
+        if(!empty($mask))
+        {
+            $photo = $mask[0];
+            $fileName = $user->name;
 
-        $fileName = $user->name;
+            $manager = new ImageManager();
+            $image = $manager->make($photo)->save('pictures/'.$fileName);
+            $pic = glob('pictures/image'.$fileName.'*');
+            if ($pic[0] != "")
+            {
+                unlink($pic[0]);
+            }
+            unlink($photo);
 
-        $manager = new ImageManager();
-        $image = $manager->make($photo)->save('pictures/'.$fileName);
-        unlink('pictures/image'.$user->name);
-        unlink('pictures/imagecropped'.$user->name);
+            \Session::flash('flash_message', 'Your avatar has been updated!');
 
-        \Session::flash('flash_message', 'Your avatar has been updated!');
-
-        return redirect ($user->name.'/profile');
+            return redirect ($user->name.'/profile');
+        }
+       
     }
 }

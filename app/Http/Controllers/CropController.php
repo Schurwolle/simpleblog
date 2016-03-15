@@ -40,6 +40,15 @@ class CropController extends Controller
             $fileName = \Session::getId();
         }
         
+        $mask = 'pictures/image'.$fileName.'*';
+        if ($mask != "")
+        {
+            array_map('unlink', glob($mask));
+        }
+
+
+        $fileName .= rand(0,1000000);
+
         $manager = new ImageManager();
         $image = $manager->make($photo)->save('pictures/image'.$fileName);
 
@@ -83,6 +92,14 @@ class CropController extends Controller
         } else {
             $fileName = \Session::getId();
         }
+
+        $mask = 'pictures/imagecropped'.$fileName.'*';
+        if ($mask != "")
+        {
+            array_map('unlink', glob($mask));
+        }
+
+        $fileName .= rand(0,1000000);
 
         $manager = new ImageManager();
         $image = $manager->make($imgUrl);

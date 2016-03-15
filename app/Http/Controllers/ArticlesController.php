@@ -61,7 +61,7 @@ class ArticlesController extends Controller
     }
 
     public function store(ArticleRequest $request)
-    {
+    {   
         $article = Auth::user()->articles()->create($request->all());
         $article->slug = str_slug($article->title, '-');
         $article->save();
@@ -158,16 +158,20 @@ class ArticlesController extends Controller
         }
 
         $userName = Auth::user()->name;
-        if(file_exists('pictures/imagecropped'.$userName))
+        $mask =glob('pictures/imagecropped'.$userName.'*');
+        if(!empty($mask))
         {
-
+            $photo = $mask[0];
             $fileName = $article->id.'thumbnail';
-            $photo ='pictures/imagecropped'.$userName;
 
             $manager = new ImageManager();
             $image = $manager->make($photo)->save('pictures/'.$fileName);
-            unlink('pictures/image'.$userName);
-            unlink('pictures/imagecropped'.$userName);
+            $pic = glob('pictures/image'.$userName.'*');
+            if ($pic[0] != "")
+            {
+                unlink($pic[0]);
+            }
+            unlink($photo);
         }
     }
 

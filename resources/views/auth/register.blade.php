@@ -123,9 +123,7 @@
         modal: true,
         rotateControls:false,
         doubleZoomControls:false,
-        enableMousescroll:true,
-        onReset: function(){ window.location.reload(false) },
-        onAfterRemoveCroppedImg: function(){ window.location.reload(false) },
+        enableMousescroll:true
     }       
         var cropperHeader = new Croppic('cropper', cropperOptions);
     </script>
