@@ -9,7 +9,7 @@
 				<tr><td>
 						{!!Form::open(['url' => 'tags/'.$tag->name])!!}
 						
-							{!!Form::text('name', $tag->name,['class' => 'form-control'])!!}
+							{!!Form::text('name', $tag->name,['class' => 'form-control', 'id' => 'name'])!!}
 							
 					</td>
 					<td>
@@ -39,7 +39,9 @@
 @stop
 
 @section('footer')
+	@include('ConfirmDelete')
 
-@include('ConfirmDelete')
-
+	<script type="text/javascript">
+		document.getElementById("name").focus();
+	</script>
 @stop

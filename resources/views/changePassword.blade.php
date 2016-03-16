@@ -69,4 +69,7 @@
 
 @section('footer')	
 	@include('parsleyfooter')
+	<script type="text/javascript">
+		document.getElementById("oldPassword").focus();
+	</script>
 @stop
