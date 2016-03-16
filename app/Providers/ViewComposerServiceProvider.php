@@ -38,6 +38,11 @@ class ViewComposerServiceProvider extends ServiceProvider
 
             $view->with('articles', $this->articles->showSorted());
         });
+
+        view()->composer('articles.index', function ($view)
+        {
+            $view->with('toparticles', $this->articles->showSorted()->slice(0,5));
+        });
     }
 
     /**

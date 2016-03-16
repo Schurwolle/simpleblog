@@ -1,11 +1,25 @@
 @extends('layouts.app')
 
+@section('head')
+	<link href="/jquery.bxslider.css" rel="stylesheet" />
+@endsection
+
 @section('sides')
 	@include('leftandright')
 @endsection
 
 @section('content')
-
+    <div class="center">
+	    <ul class="bxslider">
+	    	@if($toparticles->count() > 0)
+	        	@foreach($toparticles as $toparticle)
+	        		@if (file_exists('pictures/'.$toparticle->id))
+		      			<a href="/articles/{{$toparticle->slug}}"><li>{{ Html::image('pictures/'.$toparticle->id, null, ['title' => $toparticle->title]) }}</li></a>
+		      		@endif
+	        	@endforeach
+	        @endif
+	    </ul>
+	</div>
 	@yield('h1')
 	{!! $articles->links() !!}
 
@@ -39,6 +53,21 @@
 	@endif
 	</table>
 	<br>
-	{!! $articles->links() !!}
-	
-@stop
+	{!! $articles->links() !!}	
+@endsection
+
+@section('footer')
+<script src="/jquery.bxslider.min.js"></script>
+<script>
+	$(document).ready(function(){
+	  $('.bxslider').bxSlider({
+		  auto: true,
+		  autoControls: true,
+		  captions: true,
+		  randomStart: true,
+		  useCSS: false,
+		  autoHover: true
+		});
+	});
+</script>
+@endsection
