@@ -48,7 +48,7 @@
 	<hr>
 	@if (file_exists('pictures/'.$article->id))
 		<article>
-			{{ Html::image(('pictures/'.$article->id), null, ['style' => 'max-width: 650px; height: auto;']) }}
+			{{ Html::image(('pictures/'.$article->id)) }}
 		</article>
 	<br>
 	@endif
@@ -74,9 +74,9 @@
     </button></a>
     </td>
     <td>
-    {!!Form::open(['method' => 'DELETE', 'url' =>'/articles/'.$article->slug, 'onsubmit' => 'return ConfirmDelete()' ])!!}
+    {!!Form::open(['method' => 'DELETE', 'url' =>'/articles/'.$article->slug])!!}
 
-		{!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete', array('type' => 'submit', 'class' => 'btn btn-danger'))!!}
+		{!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete', array('id' => 'delete', 'class' => 'btn btn-danger'))!!}
 
 	{!!Form::close()!!}
 	</td>
@@ -133,9 +133,9 @@
 			    						</button></a>
 			    					  </td>
 						              <td>
-						              {!!Form::open(['method' => 'DELETE', 'url' => '/comment/'.$comment->id, 'onsubmit' => 'return ConfirmDelete()' ])!!}
+						              {!!Form::open(['method' => 'DELETE', 'url' => '/comment/'.$comment->id ])!!}
 
-						              	{!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete', array('type' => 'submit', 'class' => 'btn btn-danger'))!!}
+						              	{!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete', array('class' => 'btn btn-danger', 'id' => 'delete'))!!}
 						              	
 						              {!!Form::close()!!}
 						              </td>

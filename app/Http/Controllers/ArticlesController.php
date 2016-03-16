@@ -163,12 +163,13 @@ class ArticlesController extends Controller
 
             $manager = new ImageManager();
             $image = $manager->make($photo)->save('pictures/'.$fileName);
-            $pic = glob('pictures/image'.$userName.'*');
-            if (!empty($pic))
-            {
-                unlink($pic[0]);
-            }
             unlink($photo);
+        }
+        
+        $pic = glob('pictures/image'.$userName.'*');
+        if (!empty($pic))
+        {
+            unlink($pic[0]);
         }
     }
 

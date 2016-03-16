@@ -24,7 +24,7 @@
 				<td>
 					@if (file_exists('pictures/'.$article->id))
 						<article><a href="/articles/{{ $article->slug }}"> 
-							{{ Html::image(('pictures/'.$article->id), null, ['style' => 'max-width: 670px;max-height:650px; height: auto; ']) }}
+							{{ Html::image(('pictures/'.$article->id)) }}
 						</a></article>
 						<br>
 					@else

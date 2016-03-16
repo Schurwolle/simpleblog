@@ -11,9 +11,9 @@
 					<a href="/tags/{{ $tag->name }}"><button class="btn btn-default">{{ $tag->name }} ({{ $tag->articles->count() }})</button></a>
 				</td>
 				<td>
-				{!!Form::open(['method' => 'DELETE', 'url' => 'tags/'.$tag->name, 'onsubmit' => 'return ConfirmDelete()' ])!!}
+				{!!Form::open(['method' => 'DELETE', 'url' => 'tags/'.$tag->name ])!!}
 
-      				{!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete', array('type' => 'submit', 'class' => 'btn btn-danger'))!!}
+      				{!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete', array('id' => 'delete', 'class' => 'btn btn-danger'))!!}
 
     			{!!Form::close()!!}
 				</td>

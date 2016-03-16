@@ -1,12 +1,22 @@
+<link rel="stylesheet" type="text/css" href="/sweetalert.css">
+<script src="/sweetalert.min.js"></script>
 <script>
 
-  function ConfirmDelete()
-  {
-  var x = confirm("Are you sure you want to delete?");
-  if (x)
-    return true;
-  else
-    return false;
-  }
+
+  	$('button#delete').on('click',function(){
+    var form = $(this).parents('form');
+    swal({
+        title: "Are you sure?",
+        text: "Deleted files cannot be recovered!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes, delete it!",
+        closeOnConfirm: false
+    }, function(isConfirm){
+        if (isConfirm) form.submit();
+    });
+})
+
 
 </script>
