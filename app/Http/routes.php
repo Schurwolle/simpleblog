@@ -48,6 +48,8 @@ Route::get('login/facebook/callback', 'Auth\AuthController@getFacebook');
 Route::resource('articles', 'ArticlesController');
 
 Route::get('tags/{tags}', 'TagsController@show');
+Route::get('tags/{tags}/edit', 'TagsController@edit');
+Route::post('tags/{tags}','TagsController@update');
 Route::delete('tags/{tags}', 'TagsController@destroy');
 
 

@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
 	<h1>Tags:</h1>
 	<hr>
 	<table class="table table-striped table-bordered">
@@ -11,11 +10,14 @@
 					<a href="/tags/{{ $tag->name }}"><button class="btn btn-default">{{ $tag->name }} ({{ $tag->articles->count() }})</button></a>
 				</td>
 				<td>
-				{!!Form::open(['method' => 'DELETE', 'url' => 'tags/'.$tag->name ])!!}
+					<a href="/tags/{{ $tag->name }}/edit"><button class="btn btn-default">Edit</button></a>
+				</td>
+				<td>
+					{!!Form::open(['method' => 'DELETE', 'url' => 'tags/'.$tag->name ])!!}
 
-      				{!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete', array('id' => 'delete', 'class' => 'btn btn-danger'))!!}
+	      				{!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete', array('id' => 'delete', 'class' => 'btn btn-danger'))!!}
 
-    			{!!Form::close()!!}
+	    			{!!Form::close()!!}
 				</td>
 			</tr>
 		@endforeach
@@ -23,7 +25,6 @@
 		<h3>There are no tags at the moment.</h3>
 	@endif
 	</table>
-
 @stop
 
 @section('footer')
