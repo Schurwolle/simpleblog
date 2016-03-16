@@ -16,7 +16,7 @@
 		<h3>There are no registered users at the moment.</h3>
 	@endif
 	</table>
-
+	<hr>
 	{!! $users->links() !!}
-	
+
 @stop

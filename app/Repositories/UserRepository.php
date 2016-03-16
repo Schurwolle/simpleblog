@@ -9,7 +9,7 @@ class UserRepository
 
 	public function showAll()
 	{
-		return User::where('admin', 0)->latest('created_at')->paginate(5);
+		return User::where('admin', 0)->latest('created_at')->paginate(10);
 	}
 
 	public function showSorted()

@@ -144,7 +144,7 @@ class ArticlesController extends Controller
         $userName = Auth::user()->name;
 
         $mask =glob('pictures/croppedimg'.$userName.'*');
-        if(!empty($mask))
+        if(!empty($mask) && $request->img != "")
         {
             $photo = $mask[0];
             $fileName = $article->id;
@@ -156,7 +156,7 @@ class ArticlesController extends Controller
 
         
         $mask =glob('pictures/croppedthumb'.$userName.'*');
-        if(!empty($mask))
+        if(!empty($mask) && $request->thumbnailImage != "")
         {
             $photo = $mask[0];
             $fileName = $article->id.'thumbnail';
