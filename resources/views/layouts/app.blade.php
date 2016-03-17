@@ -147,5 +147,17 @@
     
     @yield('footer')
 
+    <script type="text/javascript">
+            $(window).bind("resize", function () {
+               if($(window).width() < 1180){
+                  $('.right').hide();
+                  $('.left').hide();
+               } else {
+                  $('.right').show();
+                  $('.left').show();
+               }
+            }).trigger('resize');
+    </script>
+
 </body>
 </html>
