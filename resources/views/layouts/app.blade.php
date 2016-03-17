@@ -50,7 +50,7 @@
                 </ul>
 
                 <!-- Right Side Of Navbar -->
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right" id ="navbar">
                     <!-- Authentication Links -->
                     @if (Auth::guest())
                         <li><a href="{{ url('/login') }}">Login</a></li>
@@ -63,14 +63,14 @@
                         <li><a href="{{ url('/users') }}">Users</a></li>
                         <li><a href="{{ url('/tags') }}">Tags</a></li>
                     @endif
-                        <li class="dropdown">
+                        <li class="dropdown" id="drop">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 {{ Auth::user()->name }} <span class="caret"></span>
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="/{{ Auth::user()->name }}/profile">My profile</a></li>
-                                <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                                <li id="profile"><a href="/{{ Auth::user()->name }}/profile">My profile</a></li>
+                                <li id="logout"><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>
                         </li>
                     @endif
@@ -156,6 +156,19 @@
                   $('.right').show();
                   $('.left').show();
                }
+
+               if($(window).width() < 753){
+                    var profile = jQuery('#profile').clone();
+                    var logout  = jQuery('#logout').clone();
+                    $('#drop').hide();
+                    profile.appendTo('#navbar');
+                    logout.appendTo('#navbar');
+                } else {
+                    $('#drop').show();
+                    $('#navbar').children('#profile').remove();
+                    $('#navbar').children('#logout').remove();
+                }
+
             }).trigger('resize');
     </script>
 
