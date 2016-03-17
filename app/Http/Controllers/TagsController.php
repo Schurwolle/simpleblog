@@ -44,15 +44,6 @@ class TagsController extends Controller
 	        return redirect('tags');
     }
 
-    public function edit(Tag $tag)
-    {
-    	$this->authorize('adminAuth', Auth::user());
-
-    		$tags = $this->tags->showSorted();
-
-    		return view('edittag', compact('tags','tag'));
-    }
-
     public function update(Tag $tag, Request $request)
     {
     	$this->authorize('adminAuth', Auth::user());
