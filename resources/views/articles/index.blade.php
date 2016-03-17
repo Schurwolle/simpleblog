@@ -65,7 +65,8 @@
 		  autoControls: true,
 		  captions: true,
 		  randomStart: true,
-		  autoHover: true
+		  autoHover: true,
+		  useCSS: false
 		});
 	});
 </script>
