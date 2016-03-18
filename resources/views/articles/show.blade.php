@@ -92,74 +92,84 @@
 
 	    <h3>Leave a Comment:</h3>
 	    
-	      <form method="post" action="/comment">
+	    <form method="post" action="/comment">
 	        <input type="hidden" name="_token" value="{{ csrf_token() }}">
 	        <input type="hidden" name="article_id" value="{{ $article->id }}">
-	        <div class="form-group">
-	          <textarea required="required" placeholder="Your Comment" name = "body" class="form-control" rows="3"></textarea>
+	        <div class="col-sm-2">
+				<div class="thumbnail">
+					<a href="/{{Auth::user()->name}}/profile"><img src="{{ file_exists('pictures/'.Auth::user()->name) ? '/pictures/'.Auth::user()->name : 'https://ssl.gstatic.com/accounts/ui/avatar_2x.png' }}"></a>
+				</div>
+			</div>
+	        <div class="col-sm-10">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<a style="color:black;" href="/{{Auth::user()->name}}/profile"><strong>{{Auth::user()->name}}</strong></a>
+					</div>
+	          		<textarea required="required" placeholder="Your Comment" name = "body" class="form-control" rows="4"></textarea>
+	          	</div>
+	          	<input type="submit" name='article_comment' class="btn btn-primary" value = "Post"/>
 	        </div>
-	        <input type="submit" name='article_comment' class="btn btn-primary" value = "Post"/>
-	      </form>
-		    @unless($comments->isEmpty())
-			    <h3>Comments: </h3>
-			    <hr>
-			    <div class="row">
-			    @foreach($comments as $comment)
-						<div class="col-sm-2">
-							<div class="thumbnail">
-								<a href="/{{$comment->user->name}}/profile"><img src="{{ file_exists('pictures/'.$comment->user->name) ? '/pictures/'.$comment->user->name : 'https://ssl.gstatic.com/accounts/ui/avatar_2x.png' }}"></a>
-							</div>
-						</div>
-
-						<div class="col-sm-10">
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<a style="color:black;" href="/{{$comment->user->name}}/profile"><strong>{{$comment->user->name}}</strong></a>
-									<span class="text-muted">
-										commented {{$comment->created_at->diffForHumans()}}
-										@if ($comment->updated_at > $comment->created_at)
-											(last edited {{$comment->updated_at->diffForHumans()}})
-										@endif 
-									</span>
-								</div>
-								<div class="panel-body">
-									{{$comment->body}}
-								</div>
-								@if($comment->user_id == Auth::id() || Auth::user()->isAdmin())
-								 	<div class="panel-body">
-						              <table style=""><tr><td>
-						              	<button class="btn btn-primary">
-			     									Edit
-			    						</button>
-			    					  </td>
-						              <td>
-						              {!!Form::open(['method' => 'DELETE', 'url' => '/comment/'.$comment->id ])!!}
-
-						              	{!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete', array('class' => 'btn btn-danger', 'id' => 'delete'))!!}
-						              	
-						              {!!Form::close()!!}
-						              </td>
-						              </tr>
-						              </table>
-						            </div>
-            						<div class="update">
-								        <div class="panel-body">
-											{!! Form::model($comment, ['method' => 'PATCH', 'url' => '/comment/'.$comment->id ] ) !!}
-										        <div class="form-group">
-										        {!! Form::textarea('body', null, ['id' =>'body' , 'class' => 'form-control', 'required', 'rows' => '6']) !!}
-										        </div>
-										        {!!Form::button('<i class="fa fa-plus"></i> Update', ['class' => 'btn btn-primary', 'type' => 'submit'])!!}
-										        {!!Form::button('Cancel', ['class' => 'btn btn-warning'])!!}
-										      {!!Form::close()!!}
-										</div>
-									</div>
-					            @endif
-					        </div>	
-						</div>
-			    @endforeach
-			    </div>
-		    @endunless
+	    </form>
+	    @unless($comments->isEmpty())
+		    <h3>Comments: </h3>
 		    <hr>
+		    <div class="row">
+		    @foreach($comments as $comment)
+					<div class="col-sm-2">
+						<div class="thumbnail">
+							<a href="/{{$comment->user->name}}/profile"><img src="{{ file_exists('pictures/'.$comment->user->name) ? '/pictures/'.$comment->user->name : 'https://ssl.gstatic.com/accounts/ui/avatar_2x.png' }}"></a>
+						</div>
+					</div>
+
+					<div class="col-sm-10">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<a style="color:black;" href="/{{$comment->user->name}}/profile"><strong>{{$comment->user->name}}</strong></a>
+								<span class="text-muted">
+									commented {{$comment->created_at->diffForHumans()}}
+									@if ($comment->updated_at > $comment->created_at)
+										(last edited {{$comment->updated_at->diffForHumans()}})
+									@endif 
+								</span>
+							</div>
+							<div class="panel-body">
+								{{$comment->body}}
+							</div>
+							@if($comment->user_id == Auth::id() || Auth::user()->isAdmin())
+							 	<div class="panel-body">
+					              <table style=""><tr><td>
+					              	<button class="btn btn-primary">
+		     									Edit
+		    						</button>
+		    					  </td>
+					              <td>
+					              {!!Form::open(['method' => 'DELETE', 'url' => '/comment/'.$comment->id ])!!}
+
+					              	{!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete', array('class' => 'btn btn-danger', 'id' => 'delete'))!!}
+					              	
+					              {!!Form::close()!!}
+					              </td>
+					              </tr>
+					              </table>
+					            </div>
+        						<div class="update">
+							        <div class="panel-body">
+										{!! Form::model($comment, ['method' => 'PATCH', 'url' => '/comment/'.$comment->id ] ) !!}
+									        <div class="form-group">
+									        {!! Form::textarea('body', null, ['id' =>'body' , 'class' => 'form-control', 'required', 'rows' => '6']) !!}
+									        </div>
+									        {!!Form::button('<i class="fa fa-plus"></i> Update', ['class' => 'btn btn-primary', 'type' => 'submit'])!!}
+									        {!!Form::button('Cancel', ['class' => 'btn btn-warning'])!!}
+									      {!!Form::close()!!}
+									</div>
+								</div>
+				            @endif
+				        </div>	
+					</div>
+		    @endforeach
+		    </div>
+	    @endunless
+	    <hr>
   	@endif
 @stop
 
