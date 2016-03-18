@@ -96,7 +96,7 @@
 	        <input type="hidden" name="_token" value="{{ csrf_token() }}">
 	        <input type="hidden" name="article_id" value="{{ $article->id }}">
 	        <div class="form-group">
-	          <textarea required="required" placeholder="Your Comment" name = "body" class="form-control"></textarea>
+	          <textarea required="required" placeholder="Your Comment" name = "body" class="form-control" rows="3"></textarea>
 	        </div>
 	        <input type="submit" name='article_comment' class="btn btn-primary" value = "Post"/>
 	      </form>
@@ -148,7 +148,7 @@
 										        <div class="form-group">
 										        {!! Form::textarea('body', null, ['id' =>'body' , 'class' => 'form-control', 'required', 'rows' => '6']) !!}
 										        </div>
-										        {!!Form::button('<i class="fa fa-plus"></i> Update', ['class' => 'btn btn-primary'])!!}
+										        {!!Form::button('<i class="fa fa-plus"></i> Update', ['class' => 'btn btn-primary', 'type' => 'submit'])!!}
 										        {!!Form::button('Cancel', ['class' => 'btn btn-warning'])!!}
 										      {!!Form::close()!!}
 										</div>
