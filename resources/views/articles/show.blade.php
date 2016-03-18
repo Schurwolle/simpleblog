@@ -128,9 +128,9 @@
 								@if($comment->user_id == Auth::id() || Auth::user()->isAdmin())
 								 	<div class="panel-body">
 						              <table style=""><tr><td>
-						              	<a href="/comment/{{ $comment->id }}/edit"><button class="btn btn-primary">
+						              	<button class="btn btn-primary">
 			     									Edit
-			    						</button></a>
+			    						</button>
 			    					  </td>
 						              <td>
 						              {!!Form::open(['method' => 'DELETE', 'url' => '/comment/'.$comment->id ])!!}
@@ -142,6 +142,17 @@
 						              </tr>
 						              </table>
 						            </div>
+            						<div class="update">
+								        <div class="panel-body">
+											{!! Form::model($comment, ['method' => 'PATCH', 'url' => '/comment/'.$comment->id ] ) !!}
+										        <div class="form-group">
+										        {!! Form::textarea('body', null, ['id' =>'body' , 'class' => 'form-control', 'required', 'rows' => '6']) !!}
+										        </div>
+										        {!!Form::button('<i class="fa fa-plus"></i> Update', ['class' => 'btn btn-primary'])!!}
+										        {!!Form::button('Cancel', ['class' => 'btn btn-warning'])!!}
+										      {!!Form::close()!!}
+										</div>
+									</div>
 					            @endif
 					        </div>	
 						</div>
@@ -149,12 +160,28 @@
 			    </div>
 		    @endunless
 		    <hr>
-	  	
   	@endif
 @stop
 
 @section('footer')
 
 @include('ConfirmDelete')
+
+<script type="text/javascript">
+	$('.update').hide();
+	$('td').children('.btn-primary').on('click', function(){
+		$('.panel-body').show();
+		$('.update').hide();
+		$(this).closest('div').hide();
+		$(this).closest('div').prev('div').hide();
+		$(this).closest('div').next('div').show();
+	});
+
+	$('.btn-warning').on('click', function(){
+		$('.panel-body').show();
+		$('.update').hide();
+	});
+
+</script>
 
 @stop
