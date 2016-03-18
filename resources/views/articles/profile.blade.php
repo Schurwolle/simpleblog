@@ -53,7 +53,7 @@
         </a></td>
         <td>{{ $user->articles()->latest('published_at')->first()->published_at }}</td>
       </tr>
-      <tr><td>{!! \Illuminate\Support\Str::words(html_entity_decode($user->articles()->latest('published_at')->published()->first()->body), 15) !!}</td></tr>
+      <tr><td>{!! \Illuminate\Support\Str::words(html_entity_decode($user->articles()->latest('published_at')->published()->first()->body), 12) !!}</td></tr>
     </table>
  
   </div>
@@ -97,7 +97,7 @@
       <td>
         {!!Form::open(['method' => 'DELETE', 'url' => $user->name.'/delete' ])!!}
 
-          {!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete Profile', array('id' => 'delete', 'class' => 'btn btn-danger'))!!}
+          {!!Form::button('<i class="fa fa-trash"></i> Delete Profile', array('id' => 'delete', 'class' => 'btn btn-danger'))!!}
 
         {!!Form::close()!!}
       </td>

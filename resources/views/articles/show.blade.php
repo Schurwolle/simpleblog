@@ -70,13 +70,13 @@
     @if($article->user_id == Auth::id() || Auth::user()->isAdmin())
     <td>
     <a href="{{ $article->slug }}/edit"><button class="btn btn-primary">
-     	Edit
+     	<i class="fa fa-edit"></i> Edit
     </button></a>
     </td>
     <td>
     {!!Form::open(['method' => 'DELETE', 'url' =>'/articles/'.$article->slug])!!}
 
-		{!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete', array('id' => 'delete', 'class' => 'btn btn-danger'))!!}
+		{!!Form::button('<i class="fa fa-trash"></i> Delete', array('id' => 'delete', 'class' => 'btn btn-danger'))!!}
 
 	{!!Form::close()!!}
 	</td>
@@ -107,7 +107,7 @@
 					</div>
 	          		<textarea required="required" placeholder="Your Comment" name = "body" class="form-control" rows="4"></textarea>
 	          	</div>
-	          	<input type="submit" name='article_comment' class="btn btn-primary" value = "Post"/>
+	          	<button type="submit" name='article_comment' class="btn btn-primary"><i class="fa fa-plus"></i> Add Comment</button>
 	        </div>
 	    </form>
 	    @unless($comments->isEmpty())
@@ -139,13 +139,13 @@
 							 	<div class="panel-body">
 					              <table style=""><tr><td>
 					              	<button class="btn btn-primary">
-		     									Edit
+		     									<i class="fa fa-edit"></i> Edit
 		    						</button>
 		    					  </td>
 					              <td>
 					              {!!Form::open(['method' => 'DELETE', 'url' => '/comment/'.$comment->id ])!!}
 
-					              	{!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete', array('class' => 'btn btn-danger', 'id' => 'delete'))!!}
+					              	{!!Form::button('<i class="fa fa-trash"></i> Delete', array('class' => 'btn btn-danger', 'id' => 'delete'))!!}
 					              	
 					              {!!Form::close()!!}
 					              </td>
@@ -159,7 +159,7 @@
 									        {!! Form::textarea('body', null, ['id' =>'body' , 'class' => 'form-control', 'required', 'rows' => '6']) !!}
 									        </div>
 									        {!!Form::button('<i class="fa fa-plus"></i> Update', ['class' => 'btn btn-primary', 'type' => 'submit'])!!}
-									        {!!Form::button('Cancel', ['class' => 'btn btn-warning'])!!}
+									        {!!Form::button('<i class="glyphicon glyphicon-remove"></i> Cancel', ['class' => 'btn btn-warning'])!!}
 									      {!!Form::close()!!}
 									</div>
 								</div>
@@ -191,7 +191,6 @@
 		$('.panel-body').show();
 		$('.update').hide();
 	});
-
 </script>
 
 @stop

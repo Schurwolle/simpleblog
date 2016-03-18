@@ -5,9 +5,6 @@
 	<link rel="stylesheet" href="/croppic.css"/>
 
 	<style>
-	#update {
-	    width: 100px;
-	}
 	#cropper {
 		width: 100px;
 		height: 100px;
@@ -39,7 +36,7 @@
     		{!!Form::text('newAvatar', null, ['id' => 'newAvatar', 'style' => 'visibility:hidden;', 'required', 'data-parsley-required-message' => 'New Avatar is required.', 'data-parsley-trigger' => 'input'])!!}
 		</div>
 		
-		{!!Form::submit('Update', ['class' => 'btn btn-primary', 'id' => 'update'])!!}
+		{!!Form::button('<i class="fa fa-plus"></i> Update', ['class' => 'btn btn-primary', 'style' => 'width: 100px;', 'type' => 'submit'])!!}
 
 	{!! Form::close() !!}
 
@@ -52,6 +49,7 @@
 	<script src="/jquery.mousewheel.min.js"></script>
 	<script src="/croppic.min.js"></script>
 		<script>
+		$('#newAvatar').hide();
 		var cropperOptions = {
 			uploadUrl:'/upload',
 			cropUrl: '/crop',

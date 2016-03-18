@@ -38,14 +38,6 @@ class CommentsController extends Controller
 
     }
 
-    public function edit(Comment $comment)
-    {
-        $this->authorize('commentAuth', $comment);
-
-            return view('editcomment', compact('article', 'comment'));
-
-    }
-
     public function update(Comment $comment, Request $request)
     {
         $this->authorize('commentAuth', $comment);

@@ -60,7 +60,7 @@
 		</div>
 
 		<div class="form-group">
-			{!! Form::button('Change Password', ['class' => 'btn btn-primary form-control', 'type' => 'submit']) !!}
+			{!! Form::button('<i class="fa fa-plus"></i> Update', ['class' => 'btn btn-primary form-control', 'type' => 'submit']) !!}
 		</div>
 	{!!Form::close()!!}
 @stop

@@ -81,6 +81,8 @@
 		<script src="/jquery.mousewheel.min.js"></script>
 		<script src="/croppic.min.js"></script>
 		<script>
+		$('#img').hide();
+		$('#thumbnailImage').hide();
 		var thumbnailOptions = {
 			uploadUrl:'/upload',
 			cropUrl: '/crop',

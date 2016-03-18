@@ -10,12 +10,12 @@
 					<a href="/tags/{{ $tag->name }}"><button class="btn btn-default">{{ $tag->name }} ({{ $tag->articles->count() }})</button></a>
 				</td>
 				<td>
-					<button class="btn btn-default">Edit</button>
+					<button class="btn btn-default"><i class="fa fa-edit"></i> Edit</button>
 				</td>
 				<td>
 					{!!Form::open(['method' => 'DELETE', 'url' => 'tags/'.$tag->name ])!!}
 
-	      				{!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete', array('id' => 'delete', 'class' => 'btn btn-danger'))!!}
+	      				{!!Form::button('<i class="fa fa-trash"></i> Delete', array('id' => 'delete', 'class' => 'btn btn-danger'))!!}
 
 	    			{!!Form::close()!!}
 				</td>
@@ -28,7 +28,7 @@
 					</td>
 					<td>
 							{!!Form::button('<i class="fa fa-plus"></i> Update',['class' => 'btn btn-default', 'type' => 'submit'])!!}
-							{!!Form::button('<i class="icon-remove-sign"></i> Cancel',['class' => 'btn btn-warning'])!!}
+							{!!Form::button('<i class="fa fa-remove"></i> Cancel',['class' => 'btn btn-warning'])!!}
 
 						{!!Form::close()!!}
 					</td>

@@ -38,7 +38,7 @@
 				<td>
 					@if (file_exists('pictures/'.$article->id))
 						<article><a href="/articles/{{ $article->slug }}"> 
-							{{ Html::image(('pictures/'.$article->id)) }}
+							{{ Html::image('pictures/'.$article->id) }}
 						</a></article>
 						<br>
 					@else
