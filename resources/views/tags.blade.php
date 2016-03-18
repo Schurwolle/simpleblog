@@ -53,7 +53,9 @@
 
 <script type="text/javascript">
 	$('.update').hide();
-	$('.btn-default').on('click',function(){
+	$('td').children('.btn-default').on('click',function(){
+		$('.update').hide();
+		$('.tag').show();
 		$(this).closest('.tag').hide();
 		$(this).closest('tr').next('tr').show();
 		$(this).closest('tr').next('tr').find('input').focus();
