@@ -5,9 +5,6 @@
      @include('parsleyhead')
 
     <style>
-        .center {
-          width: auto;
-          }
         .success {
             margin:0 auto;
             width:800px;
@@ -20,7 +17,7 @@
 
 @stop
 
-@section('content')
+@section('sides')
 <br>
 <br>
 <div class="container">

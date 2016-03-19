@@ -7,6 +7,10 @@ body {
   font-family: 'Lato';
   margin-bottom: 60px;
 }
+img {
+  max-width: 100%;
+  height: auto;
+}
 
 .navbar {
    background-color: black;
@@ -67,8 +71,7 @@ body {
 }
 .center {
   margin:0 auto;
-  width:680px;
-  
+  width: 50%;
 }
 
 #popular {

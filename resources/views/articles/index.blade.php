@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    <div class="center">
+    <div style="margin:0 auto;width: 100%;height: auto;">
 	    <ul class="bxslider">
 	    	@if($toparticles->count() > 0)
 	        	@foreach($toparticles as $toparticle)
@@ -32,7 +32,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>{!! \Illuminate\Support\Str::words(html_entity_decode($article->body), 80) !!}</td>
+				<td align="justify">{!! \Illuminate\Support\Str::words(html_entity_decode($article->body), 80) !!}</td>
 			</tr>
 			<tr>
 				<td>

@@ -158,12 +158,15 @@
                }
 
                if($(window).width() < 753){
+                    $('.center').css("width", "100%");
                     var profile = jQuery('#profile').clone();
                     var logout  = jQuery('#logout').clone();
                     $('#drop').hide();
                     profile.appendTo('#navbar');
                     logout.appendTo('#navbar');
+
                 } else {
+                    $('.center').css("width", "50%");
                     $('#drop').show();
                     $('#navbar').children('#profile').remove();
                     $('#navbar').children('#logout').remove();

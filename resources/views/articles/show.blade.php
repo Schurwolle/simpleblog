@@ -42,7 +42,7 @@
 	<h1>{{ $article->title }} </h1>
 	<hr>
 
-	<article>
+	<article align="justify">
 		{!! html_entity_decode($article->body) !!}
 	</article>
 	<hr>

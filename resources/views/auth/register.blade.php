@@ -4,10 +4,6 @@
     @include('parsleyhead')
     <link rel="stylesheet" href="/croppic.css"/>
     <style>
-        .center {
-          width: auto;
-          }
- 
         #cropper {
         width: 100px;
         height: 100px;
@@ -17,7 +13,7 @@
     </style>
 @stop
 
-@section('content')
+@section('sides')
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
