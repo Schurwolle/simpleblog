@@ -37,7 +37,6 @@
 	</div>
 
 	@section('footer')
-		<script src="/select2.min.js"></script>
 	    <script src="/ckeditor/ckeditor.js"></script>
 		<script>
 			$('#tag_list').select2({
@@ -58,8 +57,6 @@
 			CKEDITOR.replace('body');
 		</script>
 		@include('parsleyfooter')
-		<script src="/jquery.mousewheel.min.js"></script>
-		<script src="/croppic.min.js"></script>
 		<script>
 		$('#img').hide();
 		$('#thumbnailImage').hide();

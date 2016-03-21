@@ -83,9 +83,9 @@
 
   <table><tr>
     @if($user->id == Auth::id())
-      <td><a href="/{{$user->name}}/changepassword"><button class="btn btn-primary"> Change Password </button></a></td>
+      <td><a href="/{{$user->name}}/changepassword"><button class="btn btn-primary"><i class="fa fa-key"></i> Change Password </button></a></td>
     
-      <td><a href="/{{$user->name}}/avatar"><button class="btn btn-primary">
+      <td><a href="/{{$user->name}}/avatar"><button class="btn btn-primary"><i class="fa fa-file-image-o"></i>
           @if (file_exists('pictures/'.$user->name))
             Change Avatar
           @else

@@ -97,8 +97,6 @@
 
 @section('footer')
     @include('parsleyfooter')
-    <script src="/jquery.mousewheel.min.js"></script>
-    <script src="/croppic.min.js"></script>
     <script>
     var cropperOptions = {
         uploadUrl:'/upload',

@@ -135,9 +135,7 @@
 
 
     <!-- JavaScripts -->
-    <script src="/jquery-2.2.2.min.js"></script>
-    <script src="/bootstrap.min.js"></script>
-    {{-- <script src="{{ elixir('js/all.js') }}"></script> --}}
+    <script src="{{ elixir('js/all.js') }}"></script>
     
     @yield('footer')
 

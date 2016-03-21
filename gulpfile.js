@@ -24,7 +24,18 @@ elixir(function(mix) {
     	'default.css'
     ], null, 'public/');
 
+    mix.scripts([
+    	'jquery-2.2.2.min.js',
+    	'bootstrap.min.js',
+    	'croppic.min.js',
+    	'jquery.bxslider.min.js',
+    	'jquery.mousewheel.min.js',
+    	'select2.min.js',
+    	'sweetalert.min.js'
+    	], null, 'public/')
+
     mix.version([
-    	'css/all.css'
+    	'css/all.css',
+    	'js/all.js'
     ]);
 });

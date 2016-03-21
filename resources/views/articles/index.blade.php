@@ -53,7 +53,6 @@
 @endsection
 
 @section('footer')
-<script src="/jquery.bxslider.min.js"></script>
 <script>
 	$(document).ready(function(){
 	  $('.bxslider').bxSlider({
