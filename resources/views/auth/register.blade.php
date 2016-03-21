@@ -1,18 +1,5 @@
 @extends('layouts.app')
 
-@section('head')
-    @include('parsleyhead')
-    <link rel="stylesheet" href="/croppic.css"/>
-    <style>
-        #cropper {
-        width: 100px;
-        height: 100px;
-        position:relative;
-        border: solid 1px black;
-        }
-    </style>
-@stop
-
 @section('sides')
 <div class="container">
     <div class="row">

@@ -2,8 +2,6 @@
 
 @section('head')
 
-     @include('parsleyhead')
-
     <style>
         .success {
             margin:0 auto;

@@ -1,22 +1,3 @@
-	@section('head')
-
-	 	<style>
-	 		#thumbnail {
-			width: 200px;
-			height: 150px;
-			position:relative;
-			border: solid 1px black;
-		}
-			#image {
-			width: 650px;
-			height: 290px;
-			position:relative;
-			border: solid 1px black;
-		}
-	 	</style>
-	@stop
-
-
 	<div class="form-group">
 	{!! Form::label('title', 'Title:') !!}
 
