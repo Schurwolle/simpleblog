@@ -159,7 +159,7 @@
 									        {!! Form::textarea('body', null, ['id' =>'body' , 'class' => 'form-control', 'required', 'rows' => '6']) !!}
 									        </div>
 									        {!!Form::button('<i class="fa fa-plus"></i> Update', ['class' => 'btn btn-primary', 'type' => 'submit'])!!}
-									        {!!Form::button('<i class="glyphicon glyphicon-remove"></i> Cancel', ['class' => 'btn btn-warning'])!!}
+									        {!!Form::button('<i class="fa fa-remove"></i> Cancel', ['class' => 'btn btn-warning'])!!}
 									      {!!Form::close()!!}
 									</div>
 								</div>

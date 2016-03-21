@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-@section('head')
-	<link href="/jquery.bxslider.css" rel="stylesheet" />
-@endsection
-
 @section('sides')
 	@include('leftandright')
 @endsection

@@ -21,7 +21,8 @@
 								'placeholder'					=> 'Enter current password',
 								'required',
 								'data-parsley-required-message' => 'Current password is required.',
-								'data-parsley-trigger' 			=> 'change focusout'
+								'data-parsley-trigger' 			=> 'change focusout',
+								'autofocus'
 								]) !!}
 
 		</div>
@@ -69,7 +70,4 @@
 
 @section('footer')	
 	@include('parsleyfooter')
-	<script type="text/javascript">
-		document.getElementById("oldPassword").focus();
-	</script>
 @stop

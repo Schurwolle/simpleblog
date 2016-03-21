@@ -1,6 +1,5 @@
 	@section('head')
-	 	@include('parsleyhead')
-	 	<link rel="stylesheet" href="/croppic.css"/>
+
 	 	<style>
 	 		#thumbnail {
 			width: 200px;
@@ -57,8 +56,8 @@
 	</div>
 
 	@section('footer')
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2-rc.1/js/select2.min.js"></script>
-	    <script src="//cdn.ckeditor.com/4.5.7/standard/ckeditor.js"></script>
+		<script src="/select2.min.js"></script>
+	    <script src="/ckeditor/ckeditor.js"></script>
 		<script>
 			$('#tag_list').select2({
 

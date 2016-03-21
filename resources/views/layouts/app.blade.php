@@ -8,15 +8,9 @@
     <title>Blog</title>
     <link rel="alternate" type="application/rss+xml" href="{{ url('rss') }}"
         title="RSS Feed">
-    <!-- Fonts -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
+    <!-- Fonts --> 
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
-
-    <!-- Styles -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-    {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
-
-    {!!Html::style('/default.css')!!}
+    <link href="{{ elixir('css/all.css') }}" rel="stylesheet"> 
 
     @yield('head')
 
@@ -126,7 +120,7 @@
                                                     'placeholder'   => 'Search'
                                                     ]) !!}
                                                     
-                         {!! Form::button('<i class="glyphicon glyphicon-search"></i>', 
+                         {!! Form::button('<i class="fa fa-search"></i>', 
                          [
                             'class'=>'btn btn-default', 
                             'type' => 'submit'
@@ -141,9 +135,9 @@
 
 
     <!-- JavaScripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
+    <script src="/jquery-2.2.2.min.js"></script>
+    <script src="/bootstrap.min.js"></script>
+    {{-- <script src="{{ elixir('js/all.js') }}"></script> --}}
     
     @yield('footer')
 

@@ -28,14 +28,14 @@
 					</td>
 					<td>
 							{!!Form::button('<i class="fa fa-plus"></i> Update',['class' => 'btn btn-default', 'type' => 'submit'])!!}
-							{!!Form::button('<i class="fa fa-remove"></i> Cancel',['class' => 'btn btn-warning'])!!}
+							{!!Form::button('<i class="fa fa-remove"></i> Cancel',['class' => 'btn btn-warning', 'style' => 'width: 85px;'])!!}
 
 						{!!Form::close()!!}
 					</td>
 					<td>
 					{!!Form::open(['method' => 'DELETE', 'url' => 'tags/'.$tag->name ])!!}
 
-	      				{!!Form::button('<i class="fa fa-btn fa-trash"></i>Delete', array('id' => 'delete', 'class' => 'btn btn-danger'))!!}
+	      				{!!Form::button('<i class="fa fa-trash"></i> Delete', array('id' => 'delete', 'class' => 'btn btn-danger'))!!}
 
 	    			{!!Form::close()!!}
 				</td>
