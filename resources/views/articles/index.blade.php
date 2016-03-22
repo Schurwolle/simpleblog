@@ -1,5 +1,13 @@
 @extends('layouts.app')
 
+@section('head')
+	<style>
+		h1 {
+		  text-align: center;
+		}
+	</style>
+@endsection
+
 @section('sides')
 	@include('leftandright')
 @endsection
@@ -17,14 +25,13 @@
 	    </ul>
 	</div>
 	@yield('h1')
-	{!! $articles->links() !!}
 
 	<table>
 	@if($articles->count() > 0)
 		@foreach ($articles as $article)
 			<tr>
 				<td>
-					<h2><a style="font-weight: bold;color: black;" href="/articles/{{ $article->slug }}">{{ $article->title }}</a></h2>
+					<h2><a style="font-weight: bold;color: black;" href="/articles/{{ $article->slug }}">{!! $article->title !!}</a></h2>
 				</td>
 			</tr>
 			<tr>
@@ -45,6 +52,7 @@
 			<tr><td><hr></td></tr>
 		@endforeach
 	@else
+		<hr>
 		<h3>There are no articles at the moment.</h3>
 	@endif
 	</table>

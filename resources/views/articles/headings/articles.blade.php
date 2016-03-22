@@ -2,6 +2,6 @@
 
 @section('h1')
 
-	<h1> Articles: </h1>
+	<h1> Latest Articles </h1>
 	
 @stop
