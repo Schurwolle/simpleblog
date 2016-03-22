@@ -10,7 +10,7 @@
         title="RSS Feed">
     <!-- Fonts --> 
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
-    <link href="{{ elixir('css/all.css') }}" rel="stylesheet"> 
+    <link rel="stylesheet" href="{{ elixir('css/all.css') }}">
 
     @yield('head')
 

@@ -16,11 +16,11 @@ elixir(function(mix) {
     mix.styles([
     	'font-awesome.min.css',
     	'bootstrap.min.css',
-    	'parsley.css',
-    	'select2.min.css',
-    	'croppic.css',
-    	'jquery.bxslider.css',
-    	'sweetalert.css',
+        'parsley.css',
+        'select2.min.css',
+        'croppic.css',
+        'jquery.bxslider.css',
+        'sweetalert.css',
     	'default.css'
     ], null, 'public/');
 

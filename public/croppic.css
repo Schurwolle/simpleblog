@@ -1,3 +1,4 @@
+
 				#thumbnail {
 				width: 200px;
 				height: 150px;
@@ -40,6 +41,10 @@
 			}
 			
 			/* DO NOT CHANGE FROM HERE ( unless u know what u are doing) */
+			#croppicModalObj > img {
+				max-width: none;
+			}
+
 			.cropImgWrapper{
 				cursor: -webkit-grab;
 				cursor: grab;
@@ -47,6 +52,9 @@
 			.cropImgWrapper:active{
 				cursor: -webkit-grabbing;
 				cursor: grabbing;
+			}
+			.cropImgWrapper > img {
+				max-width: none;
 			}
 			
 			.cropImgUpload{
