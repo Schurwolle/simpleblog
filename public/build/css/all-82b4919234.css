@@ -1538,14 +1538,14 @@ img {
 
 .left {
   float:left;
-  width:240px;
+  width:20%;
   border: 3px solid #73AD21;
   padding: 10px;
   background-color: lightgray;
 }
 .right {
   float:right;
-  width:240px;
+  width:20%;
 
     /*position: absolute;
     top: 50%;

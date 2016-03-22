@@ -141,15 +141,10 @@
 
     <script type="text/javascript">
             $(window).bind("resize", function () {
-               if($(window).width() < 1180){
-                  $('.right').hide();
-                  $('.left').hide();
-               } else {
-                  $('.right').show();
-                  $('.left').show();
-               }
 
                if($(window).width() < 753){
+                    $('.right').hide();
+                    $('.left').hide();
                     $('.center').css("width", "100%");
                     var profile = jQuery('#profile').clone();
                     var logout  = jQuery('#logout').clone();
@@ -158,6 +153,8 @@
                     logout.appendTo('#navbar');
 
                 } else {
+                    $('.right').show();
+                    $('.left').show();
                     $('.center').css("width", "50%");
                     $('#drop').show();
                     $('#navbar').children('#profile').remove();
