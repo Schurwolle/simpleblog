@@ -26,8 +26,11 @@ class SearchController extends Controller
     	$query = $request->input('search');
 
     	$articles = $this->articles->forQuery($query);
+
+    	$num = $articles->count();
+    	
     	foreach ($articles as $article){
-    		
+
     		$article->body = preg_replace("/".$query."/i", "<span style='background-color:#FFFF00'>\$0</span>", strip_tags($article->body));
 
     		if(strpos($article->body, "<span style='background-color:#FFFF00'>")) 
@@ -40,6 +43,6 @@ class SearchController extends Controller
     		$article->title = preg_replace("/".$query."/i", "<span style='background-color:#FFFF00'>\$0</span>", $article->title);
     	}
 
-    	return view('articles.headings.search', compact('articles', 'query'));
+    	return view('articles.headings.search', compact('articles', 'query', 'num'));
     }
 }

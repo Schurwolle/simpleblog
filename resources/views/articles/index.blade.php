@@ -25,7 +25,11 @@
 	    </ul>
 	</div>
 	@yield('h1')
-
+	@if(!isset($query))
+		<div align="center"> 
+		{!! $articles->links() !!}
+		</div>	
+	@endif
 	<table>
 	@if($articles->count() > 0)
 		@foreach ($articles as $article)
@@ -58,7 +62,9 @@
 	</table>
 	<br>
 	@if(!isset($query))
-		{!! $articles->links() !!}	
+		<div align="center"> 
+		{!! $articles->links() !!}
+		</div>	
 	@endif
 @endsection
 
