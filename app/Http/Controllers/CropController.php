@@ -40,7 +40,7 @@ class CropController extends Controller
             $fileName = \Session::getId();
         }
         
-        $mask = 'pictures/image'.$fileName.'*';
+        $mask = 'pictures/cropper/image'.$fileName.'*';
         if (!empty($mask))
         {
             array_map('unlink', glob($mask));
@@ -49,7 +49,7 @@ class CropController extends Controller
         $fileName .= rand(0,1000000);
 
         $manager = new ImageManager();
-        $image = $manager->make($photo)->save('pictures/image'.$fileName);
+        $image = $manager->make($photo)->save('pictures/cropper/image'.$fileName);
 
         if(!$image) 
         {
@@ -62,7 +62,7 @@ class CropController extends Controller
 
         return Response::json([
             'status'    => 'success',
-            'url'       => '/pictures/image'.$fileName,
+            'url'       => '/pictures/cropper/image'.$fileName,
             'width'     => $image->width(),
             'height'    => $image->height()
         ], 200);
@@ -85,7 +85,7 @@ class CropController extends Controller
 
         $rotation = $inputs['rotation'];
 
-        if($cropW == 648)
+        if($cropW == 650)
         {
             $fileName = 'img';
         } else {
@@ -99,7 +99,7 @@ class CropController extends Controller
             $fileName = \Session::getId();
         }
 
-        $mask = 'pictures/cropped'.$fileName.'*';
+        $mask = 'pictures/cropper/cropped'.$fileName.'*';
         if (!empty($mask))
         {
             array_map('unlink', glob($mask));
@@ -112,7 +112,7 @@ class CropController extends Controller
         $image->resize($imgW, $imgH)
             ->rotate(-$rotation)
             ->crop($cropW, $cropH, $imgX1, $imgY1)
-            ->save('pictures/cropped'.$fileName);
+            ->save('pictures/cropper/cropped'.$fileName);
 
         if(!$image) {
 
@@ -125,7 +125,7 @@ class CropController extends Controller
 
         return Response::json([
             'status' => 'success',
-            'url' =>'/pictures/cropped'.$fileName
+            'url' =>'/pictures/cropper/cropped'.$fileName
         ], 200);
 
     }

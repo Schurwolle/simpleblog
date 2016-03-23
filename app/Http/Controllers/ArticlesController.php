@@ -143,7 +143,7 @@ class ArticlesController extends Controller
     {   
         $userName = Auth::user()->name;
 
-        $mask =glob('pictures/croppedimg'.$userName.'*');
+        $mask = glob('pictures/cropper/croppedimg'.$userName.'*');
         if(!empty($mask) && $request->img != "")
         {
             $photo = $mask[0];
@@ -151,11 +151,10 @@ class ArticlesController extends Controller
 
             $manager = new ImageManager();
             $image = $manager->make($photo)->save('pictures/'.$fileName);
-            unlink($photo);
         }
 
         
-        $mask =glob('pictures/croppedthumb'.$userName.'*');
+        $mask = glob('pictures/cropper/croppedthumb'.$userName.'*');
         if(!empty($mask) && $request->thumbnailImage != "")
         {
             $photo = $mask[0];
@@ -163,13 +162,6 @@ class ArticlesController extends Controller
 
             $manager = new ImageManager();
             $image = $manager->make($photo)->save('pictures/'.$fileName);
-            unlink($photo);
-        }
-        
-        $pic = glob('pictures/image'.$userName.'*');
-        if (!empty($pic))
-        {
-            unlink($pic[0]);
         }
     }
 

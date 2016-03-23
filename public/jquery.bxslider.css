@@ -19,7 +19,7 @@
 	margin: 0 auto 60px;
 	padding: 0;
 	*zoom: 1;
-	width:650px;
+	max-width:650px;
 }
 
 .bx-wrapper img {

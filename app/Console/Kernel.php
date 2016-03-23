@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Storage;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,7 +25,21 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->call(function() {
+
+        $files = Storage::files('public/pictures/cropper');
+
+        if(!empty($files))
+        {
+            foreach($files as $file)
+            {
+                if (time()-filectime($file) >= 216000)
+                {
+                    Storage::delete($file);
+                }
+            }
+        }
+
+        })->daily();
     }
 }

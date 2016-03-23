@@ -130,7 +130,7 @@ class UserController extends Controller
             return redirect($user->name.'/avatar')->withErrors($validator);
         }
 
-        $mask = glob('pictures/croppedthumb'.$user->name.'*');
+        $mask = glob('pictures/cropper/croppedthumb'.$user->name.'*');
         if(!empty($mask))
         {
             $photo = $mask[0];
@@ -138,12 +138,6 @@ class UserController extends Controller
 
             $manager = new ImageManager();
             $image = $manager->make($photo)->save('pictures/'.$fileName);
-            $pic = glob('pictures/image'.$fileName.'*');
-            if (!empty($pic))
-            {
-                unlink($pic[0]);
-            }
-            unlink($photo);
 
             \Session::flash('flash_message', 'Your avatar has been updated!');
 
