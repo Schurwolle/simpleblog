@@ -57,7 +57,9 @@
 	@endif
 	</table>
 	<br>
-	{!! $articles->links() !!}	
+	@if(!isset($query))
+		{!! $articles->links() !!}	
+	@endif
 @endsection
 
 @section('footer')

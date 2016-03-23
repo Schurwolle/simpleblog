@@ -26,19 +26,18 @@ class SearchController extends Controller
     	$query = $request->input('search');
 
     	$articles = $this->articles->forQuery($query);
-
     	foreach ($articles as $article){
+    		
+    		$article->body = preg_replace("/".$query."/i", "<span style='background-color:#FFFF00'>\$0</span>", strip_tags($article->body));
 
-    		$article->body = str_replace($query, "<span style='background-color: #FFFF00'>".$query."</span>", $article->body);
-
-    		if(strpos($article->body, "<span style='background-color: #FFFF00'>")) 
+    		if(strpos($article->body, "<span style='background-color:#FFFF00'>")) 
     		{
-	    		$article->body = substr($article->body, strpos($article->body, "<span style='background-color: #FFFF00'>"));
+	    		$article->body = substr($article->body, strpos($article->body, "<span style='background-color:#FFFF00'>"));
 
 	    		$article->body = "..." .$article->body;
 	    	}
-	    	
-    		$article->title = str_replace($query, "<span style='background-color: #FFFF00'>".$query."</span>", $article->title);
+
+    		$article->title = preg_replace("/".$query."/i", "<span style='background-color:#FFFF00'>\$0</span>", $article->title);
     	}
 
     	return view('articles.headings.search', compact('articles', 'query'));

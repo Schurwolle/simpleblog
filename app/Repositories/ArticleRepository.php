@@ -37,7 +37,7 @@ class ArticleRepository
 
 	public function forQuery($query)
 	{
-		return article::where('body', 'LIKE', '%'. $query. '%')->orWhere('title', 'LIKE', '%'. $query. '%')->latest('published_at')->published()->paginate(5);
+		return article::where('body', 'LIKE', '%'. $query. '%')->orWhere('title', 'LIKE', '%'. $query. '%')->latest('published_at')->published()->get();
 	}
 
 	public function showSorted()
