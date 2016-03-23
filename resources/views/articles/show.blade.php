@@ -97,7 +97,7 @@
 	        <input type="hidden" name="article_id" value="{{ $article->id }}">
 	        <div class="col-sm-2">
 				<div class="thumbnail">
-					<a href="/{{Auth::user()->name}}/profile"><img src="{{ file_exists('pictures/'.Auth::user()->name) ? '/pictures/'.Auth::user()->name : 'https://ssl.gstatic.com/accounts/ui/avatar_2x.png' }}"></a>
+					<a href="/{{Auth::user()->name}}/profile"><img src="{{ file_exists('pictures/'.Auth::user()->name) ? '/pictures/'.Auth::user()->name : '/img/avatar.png' }}"></a>
 				</div>
 			</div>
 	        <div class="col-sm-10">
@@ -117,7 +117,7 @@
 		    @foreach($comments as $comment)
 					<div class="col-sm-2">
 						<div class="thumbnail">
-							<a href="/{{$comment->user->name}}/profile"><img src="{{ file_exists('pictures/'.$comment->user->name) ? '/pictures/'.$comment->user->name : 'https://ssl.gstatic.com/accounts/ui/avatar_2x.png' }}"></a>
+							<a href="/{{$comment->user->name}}/profile"><img src="{{ file_exists('pictures/'.$comment->user->name) ? '/pictures/'.$comment->user->name : '/img/avatar.png' }}"></a>
 						</div>
 					</div>
 
