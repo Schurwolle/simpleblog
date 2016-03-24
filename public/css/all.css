@@ -362,7 +362,7 @@ textarea.parsley-error {
 	margin: 0 auto 60px;
 	padding: 0;
 	*zoom: 1;
-	width:650px;
+	max-width:650px;
 }
 
 .bx-wrapper img {
@@ -546,7 +546,6 @@ textarea.parsley-error {
 	font-size: 1.5em;
 	padding: 10px;
 }
-
 body.stop-scrolling {
   height: 100%;
   overflow: hidden; }
@@ -1563,5 +1562,10 @@ img {
   background-color:lightgray;
 }
 
-
+.anchor {
+    padding-top: 42px;
+    margin-top: -55px;
+    display: inline-block;
+    vertical-align: top;
+}
 /*# sourceMappingURL=all.css.map */

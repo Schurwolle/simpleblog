@@ -21,7 +21,7 @@ class CommentsController extends Controller
     	$comment = Comment::create($input);
 
     	\Session::flash('flash_message', 'Your comment has been published!');
-    	return redirect('articles/'.$comment->article->slug);
+    	return redirect('articles/'.$comment->article->slug.'#'.$comment->id);
     }
 
     public function destroy(article $article, Comment $comment)
@@ -34,7 +34,7 @@ class CommentsController extends Controller
             \Session::flash('flash_message', 'The comment has been deleted!');
         
 
-        return redirect('articles/'.$articleslug);
+        return redirect('articles/'.$articleslug.'#comments');
 
     }
 
@@ -45,6 +45,6 @@ class CommentsController extends Controller
             $comment->update($request->all());
 
             \Session::flash('flash_message', 'The comment has been updated!');
-            return redirect('articles/'.$comment->article->slug);
+            return redirect('articles/'.$comment->article->slug.'#'.$comment->id);
     }
 }

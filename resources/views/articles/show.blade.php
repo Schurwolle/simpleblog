@@ -95,6 +95,7 @@
 	    <form method="post" action="/comment">
 	        <input type="hidden" name="_token" value="{{ csrf_token() }}">
 	        <input type="hidden" name="article_id" value="{{ $article->id }}">
+	        <a name="comments" class="anchor"></a>
 	        <div class="col-sm-2">
 				<div class="thumbnail">
 					<a href="/{{Auth::user()->name}}/profile"><img src="{{ file_exists('pictures/'.Auth::user()->name) ? '/pictures/'.Auth::user()->name : '/img/avatar.png' }}"></a>
@@ -115,6 +116,7 @@
 		    <hr>
 		    <div class="row">
 		    @foreach($comments as $comment)
+		    		<a name="{{$comment->id}}" class="anchor"></a>
 					<div class="col-sm-2">
 						<div class="thumbnail">
 							<a href="/{{$comment->user->name}}/profile"><img src="{{ file_exists('pictures/'.$comment->user->name) ? '/pictures/'.$comment->user->name : '/img/avatar.png' }}"></a>

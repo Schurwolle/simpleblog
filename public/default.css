@@ -81,3 +81,9 @@ img {
   background-color:lightgray;
 }
 
+.anchor {
+    padding-top: 42px;
+    margin-top: -55px;
+    display: inline-block;
+    vertical-align: top;
+}
