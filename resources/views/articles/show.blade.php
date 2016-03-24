@@ -39,9 +39,18 @@
 
 @section('content')
 
-	<h1>{{ $article->title }} </h1>
-	<hr>
-
+		<h1>{{ $article->title }} </h1>
+	<table>
+		<tr>
+			<td style="padding-right: 8px">
+				<i class="fa fa-star" style="color: gold;"></i> {{ $article->favoritedBy->count() }}
+			</td>
+			<td>
+				<i class="fa fa-comment-o" style="color: purple;"></i> {{ $article->comments->count() }}
+			</td>
+		</tr>
+	</table>
+	<hr>	
 	<article align="justify">
 		{!! html_entity_decode($article->body) !!}
 	</article>
