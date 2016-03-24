@@ -51,6 +51,13 @@ class UserController extends Controller
 
     }
 
+    public function favorites(User $user)
+    {
+        $articles = $this->articles->forUserFavorited($user);
+
+        return view('articles.headings.favorited', compact('articles', 'user'));
+    }
+
     public function delete(User $user)
     {
 

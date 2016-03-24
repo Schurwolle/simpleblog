@@ -36,6 +36,11 @@ class article extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function favoritedBy()
+    {
+        return $this->belongsToMany('App\User', 'favorites')->withTimestamps();
+    }
+
     public function tags()
     {
         return $this->belongsToMany('App\Tag')->withTimestamps();

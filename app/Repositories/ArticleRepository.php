@@ -30,6 +30,11 @@ class ArticleRepository
 		return $user->articles()->latest('published_at')->unpublished()->paginate(5);
 	}
 
+	public function forUserFavorited($user)
+	{
+		return $user->favorites()->latest('published_at')->published()->paginate(5);
+	}
+
 	public function forTag($tag)
 	{
 		return $tag->articles()->latest('published_at')->published()->paginate(5);

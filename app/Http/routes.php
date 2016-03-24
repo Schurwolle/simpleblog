@@ -46,6 +46,8 @@ Route::get('login/facebook', 'Auth\AuthController@redirectToFacebook');
 Route::get('login/facebook/callback', 'Auth\AuthController@getFacebook');
 
 Route::resource('articles', 'ArticlesController');
+Route::get('articles/{articles}/favorite', 'ArticlesController@favorite');
+Route::get('articles/{articles}/unfavorite', 'ArticlesController@unfavorite');
 
 Route::get('tags/{tags}', 'TagsController@show');
 Route::post('tags/{tags}','TagsController@update');
@@ -55,6 +57,7 @@ Route::delete('tags/{tags}', 'TagsController@destroy');
 Route::get('{user}/articles', 'UserController@showPosts');
 Route::get('{user}/profile', 'UserController@showProfile');
 Route::get('{user}/unpublished', 'UserController@unpublished');
+Route::get('{user}/favorites', 'UserController@favorites');
 Route::get('{user}/changepassword', 'UserController@changePassword');
 Route::post('{user}/updatepassword', 'UserController@updatePassword');
 Route::delete('{user}/delete', 'UserController@delete');

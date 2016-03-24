@@ -30,6 +30,11 @@ class User extends Authenticatable
         return $this->hasMany('App\article');
     }
 
+    public function favorites()
+    {
+        return $this->belongsToMany('App\article', 'favorites');
+    }
+
     public function comments()
     {
         return $this->hasMany('App\Comment');

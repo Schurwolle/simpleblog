@@ -114,6 +114,20 @@ class ArticlesController extends Controller
             return redirect('articles');
     }
 
+    public function favorite(article $article)
+    {
+        $article->favoritedBy()->sync([Auth::id()]);
+
+        return redirect('articles/'.$article->slug.'#favorite');
+    }
+
+    public function unfavorite(article $article)
+    {
+        $article->favoritedBy()->detach(Auth::id());
+
+        return redirect('articles/'.$article->slug.'#favorite');
+    }
+
 
     private function syncTags($article, $request)
     {

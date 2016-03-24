@@ -48,6 +48,7 @@
 	<hr>
 	@if (file_exists('pictures/'.$article->id))
 		<article>
+			<a name="favorite" class="anchor"></a> 
 			{{ Html::image(('pictures/'.$article->id)) }}
 		</article>
 	<br>
@@ -62,28 +63,42 @@
 	@endunless
 	<br>
 	<table><tr>
-	<td>
-	<button class="btn btn-primary" onclick="history.go(-1)">
-      « Back
-    </button>
-    </td>
-    @if($article->user_id == Auth::id() || Auth::user()->isAdmin())
-    <td>
-    <a href="{{ $article->slug }}/edit"><button class="btn btn-primary">
-     	<i class="fa fa-edit"></i> Edit
-    </button></a>
-    </td>
-    <td>
-    {!!Form::open(['method' => 'DELETE', 'url' =>'/articles/'.$article->slug])!!}
+		<td>
+			<button class="btn btn-primary" onclick="history.go(-1)">
+		      « Back
+		    </button>
+	    </td>
+	    <td>
+	    	@if($article->published_at <= Carbon\Carbon::now())
+		    	@if(Auth::user()->favorites->contains($article->id))
+		    		<a href="{{ $article->slug }}/unfavorite"><button style="color: gold;" class="btn btn-success">
+				     	<i class="fa fa-star"></i> Favorited!
+				    </button></a>
+		    	@else
+				    <a href="{{ $article->slug }}/favorite"><button class="btn btn-success">
+				     	<i class="fa fa-star"></i> Favorite
+				    </button></a>
+			    @endif
+			@endif
+	    </td>
+	    @if($article->user_id == Auth::id() || Auth::user()->isAdmin())
+		    <td>
+			    <a href="{{ $article->slug }}/edit"><button class="btn btn-primary">
+			     	<i class="fa fa-edit"></i> Edit
+			    </button></a>
+		    </td>
+		    <td>
+			    {!!Form::open(['method' => 'DELETE', 'url' =>'/articles/'.$article->slug])!!}
 
-		{!!Form::button('<i class="fa fa-trash"></i> Delete', array('id' => 'delete', 'class' => 'btn btn-danger'))!!}
+					{!!Form::button('<i class="fa fa-trash"></i> Delete', array('id' => 'delete', 'class' => 'btn btn-danger'))!!}
 
-	{!!Form::close()!!}
-	</td>
-    @endif
-    </tr>
-    </table>
+				{!!Form::close()!!}
+			</td>
+	    @endif
+	</tr></table>
+
     <hr>
+
     @if($article->published_at > Carbon\Carbon::now())
 	    <article>Article set to be published on {{ $article->published_at }} by <a href="/{{ $article->user->name }}/profile">{{ $article->user->name }}</a>.</article>
     @else
