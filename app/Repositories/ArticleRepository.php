@@ -47,7 +47,7 @@ class ArticleRepository
 
 	public function showSorted()
 	{
-		$articles = article::get();
+		$articles = article::published()->get();
 
 		$articlesSorted = $articles->sortByDesc(function ($article, $key){
             return count($article->comments);

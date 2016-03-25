@@ -78,7 +78,7 @@
 		    </button>
 	    </td>
 	    <td>
-	    	@if($article->published_at <= Carbon\Carbon::now())
+	    	@if(App\article::published()->get()->contains($article))
 		    	@if(Auth::user()->favorites->contains($article->id))
 		    		<a href="{{ $article->slug }}/unfavorite"><button style="color: gold;" class="btn btn-success">
 				     	<i class="fa fa-star"></i> Favorited!
@@ -108,7 +108,7 @@
 
     <hr>
 
-    @if($article->published_at > Carbon\Carbon::now())
+    @if(!App\article::published()->get()->contains($article))
 	    <article>Article set to be published on {{ $article->published_at }} by <a href="/{{ $article->user->name }}/profile">{{ $article->user->name }}</a>.</article>
     @else
     	<article>Article published by <a href="/{{ $article->user->name }}/profile">{{ $article->user->name }}</a> on {{ $article->published_at }}.</article>
