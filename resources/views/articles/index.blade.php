@@ -31,34 +31,45 @@
 		</div>	
 	@endif
 	<table>
-	@if($articles->count() > 0)
-		@foreach ($articles as $article)
-			<tr>
-				<td>
-					<h2><a style="font-weight: bold;color: black;" href="/articles/{{ $article->slug }}">{!! $article->title !!}</a></h2>
-				</td>
-			</tr>
-			<tr>
-				<td align="justify">{!! \Illuminate\Support\Str::words(html_entity_decode($article->body), 80) !!}</td>
-			</tr>
-			<tr>
-				<td>
-					@if (file_exists('pictures/'.$article->id))
-						<article><a href="/articles/{{ $article->slug }}"> 
-							{{ Html::image('pictures/'.$article->id) }}
-						</a></article>
-						<br>
-					@else
-						<a href="/articles/{{ $article->slug }}"><button class="btn btn-primary">Read More</button></a>
-					@endif
-				</td>
-			</tr>
-			<tr><td><hr></td></tr>
-		@endforeach
-	@else
-		<hr>
-		<h3>There are no articles at the moment.</h3>
-	@endif
+		@if($articles->count() > 0)
+			@foreach ($articles as $article)
+				<tr>
+					<td>
+						<table width="100%">
+							<tr valign="baseline">
+								<td>
+									<h2><a style="font-weight: bold;color: black;" href="/articles/{{ $article->slug }}">{!! $article->title !!}</a></h2>
+								</td>
+								<td align="right">
+									<i class="fa fa-star" style="color: gold;"></i> {{ $article->favoritedBy->count() }} 
+									&nbsp
+									<i class="fa fa-comment-o" style="color: purple;"></i> {{ $article->comments->count() }}
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td align="justify">{!! \Illuminate\Support\Str::words(html_entity_decode($article->body), 80) !!}</td>
+				</tr>
+				<tr>
+					<td>
+						@if (file_exists('pictures/'.$article->id))
+							<article><a href="/articles/{{ $article->slug }}"> 
+								{{ Html::image('pictures/'.$article->id) }}
+							</a></article>
+							<br>
+						@else
+							<a href="/articles/{{ $article->slug }}"><button class="btn btn-primary">Read More</button></a>
+						@endif
+					</td>
+				</tr>
+				<tr><td><hr></td></tr>
+			@endforeach
+		@else
+			<hr>
+			<h3>There are no articles at the moment.</h3>
+		@endif
 	</table>
 	<br>
 	@if(!isset($query))

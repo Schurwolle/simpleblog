@@ -38,31 +38,38 @@
 @endsection
 
 @section('content')
-
-	<h1>{{ $article->title }} </h1>
 	<table>
 		<tr>
-			<td style="padding-right: 8px">
-				<i class="fa fa-star" style="color: gold;"></i> {{ $article->favoritedBy->count() }}
-			</td>
 			<td>
-				<i class="fa fa-comment-o" style="color: purple;"></i> {{ $article->comments->count() }}
+				<table width="100%">
+					<tr valign="baseline">
+						<td>
+							<h1>{{ $article->title }} </h1>
+						</td>
+						<td align="right">
+							<i class="fa fa-star" style="color: gold;"></i> {{ $article->favoritedBy->count() }}
+							&nbsp
+							<i class="fa fa-comment-o" style="color: purple;"></i> {{ $article->comments->count() }}
+						</td>
+					</tr>
+				</table>
 			</td>
 		</tr>
+		<tr><td><hr></td></tr>
+		<tr>
+			<td align="justify">
+				{!! html_entity_decode($article->body) !!}
+			</td>
+		<tr><td><hr></td></tr>
+		@if (file_exists('pictures/'.$article->id))
+			<tr>
+				<td>
+					<a name="favorite" class="anchor"></a> 
+					{{ Html::image(('pictures/'.$article->id)) }}
+				</td>
+			</tr>
+		@endif
 	</table>
-	<hr>	
-	<article align="justify">
-		{!! html_entity_decode($article->body) !!}
-	</article>
-	<hr>
-	@if (file_exists('pictures/'.$article->id))
-		<article>
-			<a name="favorite" class="anchor"></a> 
-			{{ Html::image(('pictures/'.$article->id)) }}
-		</article>
-	<br>
-	@endif
-	
 	@unless ($article->tags->isEmpty())
 		<h5>Tags: 
 			@foreach($article->tags as $tag)
