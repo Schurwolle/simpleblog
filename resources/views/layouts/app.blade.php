@@ -136,7 +136,6 @@
 
     <!-- JavaScripts -->
     <script src="{{ elixir('js/all.js') }}"></script>
-    
     @yield('footer')
 
     <script type="text/javascript">
@@ -146,6 +145,7 @@
                     $('.right').hide();
                     $('.left').hide();
                     $('.center').css("width", "100%");
+                    $('.bx-wrapper .bx-caption span').css("font-size", "3vw");
                     var profile = jQuery('#profile').clone();
                     var logout  = jQuery('#logout').clone();
                     $('#drop').hide();
@@ -156,6 +156,7 @@
                     $('.right').show();
                     $('.left').show();
                     $('.center').css("width", "50%");
+                    $('.bx-wrapper .bx-caption span').css("font-size", "1.5vw");
                     $('#drop').show();
                     $('#navbar').children('#profile').remove();
                     $('#navbar').children('#logout').remove();
@@ -163,6 +164,8 @@
 
             }).trigger('resize');
     </script>
+
+
 
 </body>
 </html>

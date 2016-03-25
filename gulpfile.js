@@ -28,7 +28,7 @@ elixir(function(mix) {
     	'jquery-2.2.2.min.js',
     	'bootstrap.min.js',
     	'croppic.min.js',
-    	'jquery.bxslider.min.js',
+    	'jquery.bxslider.js',
     	'jquery.mousewheel.min.js',
     	'select2.min.js',
     	'sweetalert.min.js'

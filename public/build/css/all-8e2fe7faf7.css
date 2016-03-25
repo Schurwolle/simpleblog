@@ -362,7 +362,7 @@ textarea.parsley-error {
 	margin: 0 auto 60px;
 	padding: 0;
 	*zoom: 1;
-	max-width:650px;
+	width:650px;
 }
 
 .bx-wrapper img {
@@ -543,7 +543,8 @@ textarea.parsley-error {
 	color: #fff;
 	font-family: Lato;
 	display: block;
-	font-size: 1.5em;
+	font-size: 100%;
+	font-size: 1.5vw;
 	padding: 10px;
 }
 body.stop-scrolling {
