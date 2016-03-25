@@ -1,1 +1,1 @@
-Connect the database and run the migrations.
+Connect the database, run the migrations and set up a Cron job according to Laravel documentation.

@@ -39,7 +39,7 @@
 
 @section('content')
 
-		<h1>{{ $article->title }} </h1>
+	<h1>{{ $article->title }} </h1>
 	<table>
 		<tr>
 			<td style="padding-right: 8px">

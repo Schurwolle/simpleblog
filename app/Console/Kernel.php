@@ -27,18 +27,18 @@ class Kernel extends ConsoleKernel
     {
         $schedule->call(function() {
 
-        $files = Storage::files('public/pictures/cropper');
+            $files = Storage::files('public/pictures/cropper');
 
-        if(!empty($files))
-        {
-            foreach($files as $file)
+            if(!empty($files))
             {
-                if (time()-filectime($file) >= 216000)
+                foreach($files as $file)
                 {
-                    Storage::delete($file);
+                    if (time()-filectime(base_path().'/'.$file) >= 86400)
+                    {
+                        Storage::delete($file);
+                    }
                 }
             }
-        }
 
         })->daily();
     }
