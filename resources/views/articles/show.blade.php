@@ -86,15 +86,17 @@
 	    </td>
 	    <td>
 	    	@if(App\article::published()->get()->contains($article))
-		    	@if(Auth::user()->favorites->contains($article->id))
-		    		<a href="{{ $article->slug }}/unfavorite"><button style="color: gold;" class="btn btn-success">
-				     	<i class="fa fa-star"></i> Favorited!
-				    </button></a>
-		    	@else
-				    <a href="{{ $article->slug }}/favorite"><button class="btn btn-success">
-				     	<i class="fa fa-star"></i> Favorite
-				    </button></a>
-			    @endif
+	    		<a href="{{ $article->slug }}/favorite">
+			    	@if(Auth::user()->favorites->contains($article->id))
+			    		<button style="color: gold;" class="btn btn-success">
+					     	<i class="fa fa-star"></i> Favorited!
+					    </button></a>
+			    	@else
+					    <button class="btn btn-success">
+					     	<i class="fa fa-star"></i>  Favorite
+					    </button>
+				    @endif
+			    </a>
 			@endif
 	    </td>
 	    @if($article->user_id == Auth::id() || Auth::user()->isAdmin())

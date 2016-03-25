@@ -116,14 +116,15 @@ class ArticlesController extends Controller
 
     public function favorite(article $article)
     {
-        $article->favoritedBy()->sync([Auth::id()]);
 
-        return redirect('articles/'.$article->slug.'#favorite');
-    }
+        if(!$article->favoritedBy->contains(Auth::id()))
+        {
+            $article->favoritedBy()->attach(Auth::id());
 
-    public function unfavorite(article $article)
-    {
-        $article->favoritedBy()->detach(Auth::id());
+        } else {
+
+            $article->favoritedBy()->detach(Auth::id());
+        }
 
         return redirect('articles/'.$article->slug.'#favorite');
     }
