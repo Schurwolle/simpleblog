@@ -47,8 +47,13 @@ class ArticlesController extends Controller
     {
         $this->authorize('unpublishedAuth', $article);
 
-            $article->visits++;
-            $article->save();
+            session_start();
+            if(!isset($_SESSION['hasVisited'.$article->id]))
+            {
+                $_SESSION['hasVisited'.$article->id] = "yes";
+                $article->visits++;
+                $article->save();
+            }
 
             $comments = $this->comments->forArticle($article);
 
