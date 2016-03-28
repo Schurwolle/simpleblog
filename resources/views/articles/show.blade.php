@@ -29,6 +29,15 @@
 		border-right-color:#ddd;
 		border-width:8px;
 	}
+	.col-sm-2 {
+		float: left;
+		width: 16.66666667%;
+	}
+	.col-sm-10 {
+		float: left;
+		width: 83.33333333%;
+	}
+
 </style>
 
 @endsection
@@ -148,7 +157,7 @@
 		    <h3>Comments: </h3>
 		    <hr>
 		    <div class="row">
-		    @foreach($comments as $comment)
+		    	@foreach($comments as $comment)
 		    		<a name="{{$comment->id}}" class="anchor"></a>
 					<div class="col-sm-2">
 						<div class="thumbnail">
@@ -201,7 +210,7 @@
 				            @endif
 				        </div>	
 					</div>
-		    @endforeach
+		    	@endforeach
 		    </div>
 	    @endunless
 	    <hr>
