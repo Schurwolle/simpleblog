@@ -37,7 +37,9 @@
 		float: left;
 		width: 83.33333333%;
 	}
-
+	.row:after {
+		clear: none;
+	}
 </style>
 
 @endsection
@@ -138,26 +140,29 @@
 	        <input type="hidden" name="_token" value="{{ csrf_token() }}">
 	        <input type="hidden" name="article_id" value="{{ $article->id }}">
 	        <a name="comments" class="anchor"></a>
-	        <div class="col-sm-2">
-				<div class="thumbnail">
-					<a href="/{{Auth::user()->name}}/profile"><img src="{{ file_exists('pictures/'.Auth::user()->name) ? '/pictures/'.Auth::user()->name : '/img/avatar.png' }}"></a>
-				</div>
-			</div>
-	        <div class="col-sm-10">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<a style="color:black;" href="/{{Auth::user()->name}}/profile"><strong>{{Auth::user()->name}}</strong></a>
+	        <div class="row">
+		        <div class="col-sm-2">
+					<div class="thumbnail">
+						<a href="/{{Auth::user()->name}}/profile"><img src="{{ file_exists('pictures/'.Auth::user()->name) ? '/pictures/'.Auth::user()->name : '/img/avatar.png' }}"></a>
 					</div>
-	          		<textarea required="required" placeholder="Your Comment" name = "body" class="form-control" rows="4"></textarea>
-	          	</div>
-	          	<button type="submit" name='article_comment' class="btn btn-primary"><i class="fa fa-plus"></i> Add Comment</button>
+				</div>
+		        <div class="col-sm-10">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<a style="color:black;" href="/{{Auth::user()->name}}/profile"><strong>{{Auth::user()->name}}</strong></a>
+						</div>
+		          		<textarea required="required" placeholder="Your Comment" name = "body" class="form-control" rows="4"></textarea>
+		          	</div>
+		          	<button type="submit" name='article_comment' class="btn btn-primary"><i class="fa fa-plus"></i> Add Comment</button>
+		          	<br><br>
+		        </div>
 	        </div>
 	    </form>
 	    @unless($comments->isEmpty())
-		    <h3>Comments: </h3>
+		    <h3>{{ $comments->count() }} Comments: </h3>
 		    <hr>
-		    <div class="row">
-		    	@foreach($comments as $comment)
+		    @foreach($comments as $comment)
+		    	<div class="row">
 		    		<a name="{{$comment->id}}" class="anchor"></a>
 					<div class="col-sm-2">
 						<div class="thumbnail">
@@ -209,11 +214,10 @@
 								</div>
 				            @endif
 				        </div>	
-					</div>
-		    	@endforeach
-		    </div>
+					</div>	
+		    	</div>
+		    @endforeach
 	    @endunless
-	    <hr>
   	@endif
 @stop
 
