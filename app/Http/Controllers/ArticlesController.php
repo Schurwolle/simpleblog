@@ -47,6 +47,9 @@ class ArticlesController extends Controller
     {
         $this->authorize('unpublishedAuth', $article);
 
+            $article->visits++;
+            $article->save();
+
             $comments = $this->comments->forArticle($article);
 
     	    return view('articles.show', compact('article', 'comments'));

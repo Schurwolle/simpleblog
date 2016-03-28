@@ -50,7 +50,7 @@ class ArticleRepository
 		$articles = article::published()->get();
 
 		$articlesSorted = $articles->sortByDesc(function ($article, $key){
-            return count($article->comments);
+            return $article->visits;
         });
 
         return $articlesSorted->slice(0,10);
