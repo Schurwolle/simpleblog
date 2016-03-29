@@ -133,8 +133,6 @@ class ArticlesController extends Controller
 
             $article->favoritedBy()->detach(Auth::id());
         }
-
-        return redirect('articles/'.$article->slug.'#favorite');
     }
 
 

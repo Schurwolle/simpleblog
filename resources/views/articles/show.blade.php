@@ -75,7 +75,6 @@
 		@if (file_exists('pictures/'.$article->id))
 			<tr>
 				<td>
-					<a name="favorite" class="anchor"></a> 
 					{{ Html::image(('pictures/'.$article->id)) }}
 				</td>
 			</tr>
@@ -97,17 +96,15 @@
 	    </td>
 	    <td>
 	    	@if(App\article::published()->get()->contains($article))
-	    		<a href="{{ $article->slug }}/favorite">
 			    	@if(Auth::user()->favorites->contains($article->id))
-			    		<button style="color: gold;" class="btn btn-success">
+			    		<button id="fav" title="favorited" style="color: gold;" class="btn btn-success">
 					     	<i class="fa fa-star"></i> Favorited!
-					    </button></a>
+					    </button>
 			    	@else
-					    <button class="btn btn-success">
+					    <button  id="fav" title="favorite" class="btn btn-success">
 					     	<i class="fa fa-star"></i>  Favorite
 					    </button>
 				    @endif
-			    </a>
 			@endif
 	    </td>
 	    @if($article->user_id == Auth::id() || Auth::user()->isAdmin())
@@ -239,6 +236,29 @@
 		$('.panel-body').show();
 		$('.update').hide();
 	});
+
+	$('button#fav').on('click', function() {
+	    $.ajax({
+	      url: "{{$article->slug}}/favorite",
+	      success: function(){
+	      	if ($('button#fav').attr('title') === 'favorite')
+	      	{
+	           $('button#fav')
+	           		 .attr('title', 'favorited')
+	           		 .css('color', 'gold')
+	                 .html('<i class="fa fa-star"></i> Favorited!')
+
+	           ;
+	        } else {
+	        	$('button#fav')
+	        		 .attr('title', 'favorite')
+	           		 .css('color', 'white')
+	                 .html('<i class="fa fa-star"></i> Favorite')     
+	           ;
+	        }
+	      }
+	    });
+	})
 </script>
 
 @stop
