@@ -32,26 +32,26 @@
 @include('ConfirmDelete')
 
 <script type="text/javascript">
-
-	$('td').children('.btn-default').on('click',function(){
-		var tagname = $('.updating').find('input').val();
-		$('.updating').removeClass('updating').addClass('tag').html('<td><a href="/tags/'+ tagname +'"><button class="btn btn-default">'+tagname +'</button></a></td><td><button class="btn btn-default"><i class="fa fa-edit"></i> Edit</button></td><td><form action="tags/'+ tagname +'" method="DELETE"><button id="delete" class="btn btn-danger"><i class="fa fa-trash"></i> Delete </button></form></td>');
-
-		var txt = $(this).closest('.tag').find('.btn-default').html();
+	function updating(){
+		var txt = $(this).closest('td').prev('td').find('.btn-default').text();
 		var tagname = txt.substring(0, txt.length-3);
-		$(this).closest('.tag').removeClass('tag').addClass('updating');
-		$('.updating').html('<td><form action="/tags/'+ tagname +'"method="POST"><input type="text" class="form-control" value='+ tagname +' autofocus></td><td><button type="submit" class="btn btn-default"><i class="fa fa-plus"></i> Update</button><button class="btn btn-warning"><i class="fa fa-remove"></i> Cancel</button></form></td><td><form action="tags/'+ tagname +'" method="DELETE"><button id="delete" class="btn btn-danger"><i class="fa fa-trash"></i> Delete </button></form></td>');
-
-		$('.btn-warning').on('click', function(){
-		$('.updating').removeClass('updating').addClass('tag');
-		$(this).closest('.tag').html('<td><a href="/tags/'+ tagname +'"><button class="btn btn-default">'+txt +'</button></a></td><td><button class="btn btn-default"><i class="fa fa-edit"></i> Edit</button></td><td><form action="tags/'+ tagname +'" method="DELETE"><button id="delete" class="btn btn-danger"><i class="fa fa-trash"></i> Delete </button></form></td>')
+		$(this).closest('td').prev('td').html('<form action="/tags/'+ tagname +'"method="POST" id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="text" id="name" name="name" class="form-control" value='+ tagname +'>');
+		$(this).closest('td').prev('td').find('input').focus();
+		$(this).unbind('click');
+		$(this).on('click', function(){
+			$('#updateform').submit();
 		});
-		
-	});
-
-	$('.btn-warning').on('click', function(){
-		$('.update').remove();	
-	});
+		$(this).html('<i class="fa fa-plus"></i> Update');
+		$(this).closest('td').append('<button class="btn btn-warning" style="width: 85px;" type="button"><i class="fa fa-remove"></i> Cancel</button></form>')
+		$('.btn-warning').on('click', function(){
+			$(this).closest('td').prev('td').html('<a href="/tags/'+ tagname +'"><button class="btn btn-default">'+ txt +'</button></a>');
+			$(this).siblings('.btn-default').unbind('click');
+			$(this).siblings('.btn-default').bind('click', updating);
+			$(this).siblings('.btn-default').html('<i class="fa fa-edit"></i> Edit');
+			$(this).remove();
+		});
+	}
+	$('td').children('.btn-default').on('click', updating);
 </script>
 
 @stop
