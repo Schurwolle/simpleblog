@@ -182,7 +182,7 @@
 								{{$comment->body}}
 							</div>
 							@if($comment->user_id == Auth::id() || Auth::user()->isAdmin())
-							 	<div class="panel-body">
+							 	<div id="{{$comment->id}}" class="panel-body">
 					              <table style=""><tr><td>
 					              	<button class="btn btn-primary">
 		     									<i class="fa fa-edit"></i> Edit
@@ -198,17 +198,6 @@
 					              </tr>
 					              </table>
 					            </div>
-        						<div class="update">
-							        <div class="panel-body">
-										{!! Form::model($comment, ['method' => 'PATCH', 'url' => '/comment/'.$comment->id ] ) !!}
-									        <div class="form-group">
-									        {!! Form::textarea('body', null, ['id' =>'body' , 'class' => 'form-control', 'required', 'rows' => '6']) !!}
-									        </div>
-									        {!!Form::button('<i class="fa fa-plus"></i> Update', ['class' => 'btn btn-primary', 'type' => 'submit'])!!}
-									        {!!Form::button('<i class="fa fa-remove"></i> Cancel', ['class' => 'btn btn-warning'])!!}
-									      {!!Form::close()!!}
-									</div>
-								</div>
 				            @endif
 				        </div>	
 					</div>	
@@ -223,19 +212,41 @@
 @include('ConfirmDelete')
 
 <script type="text/javascript">
-	$('.update').hide();
-	$('td').children('.btn-primary').on('click', function(){
-		$('.panel-body').show();
-		$('.update').hide();
-		$(this).closest('div').hide();
-		$(this).closest('div').prev('div').hide();
-		$(this).closest('div').next('div').show();
-	});
+	function updating (){
+		var txt = $('#area').attr('value');
+		var id = $('#area').attr('name');
+		if(txt)
+		{
+			$('#area').closest('.panel-body').next('.panel-body').find('.btn-primary').unbind('click');
+			$('#area').closest('.panel-body').next('.panel-body').find('.btn-primary').bind('click', updating);
+			$('#area').closest('.panel-body').next('.panel-body').find('.btn-primary').html('<i class="fa fa-edit"></i> Edit');
+			$('#area').closest('.panel-body').next('.panel-body').find('.btn-warning').remove();
+			$('#area').closest('.panel-body').next('.panel-body').find('.btn-danger').show();
+			$('#area').closest('.panel-body').html(txt);
+		}
+		txt = $(this).closest('.panel-body').prev('.panel-body').text();
+		txt = txt.trim();
+		id  = $(this).closest('.panel-body').attr('id');
+		$(this).closest('.panel-body').prev('.panel-body').html('<form method="POST" action="/comment/'+ id +'"id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><textarea id="body" class="form-control" required="required" rows="6" name="body">'+ txt +'</textarea><span id="area" style="visibility:hidden" name ="'+ id +'" value= "'+ txt +'"></span>');
+		$(this).closest('.panel-body').prev('.panel-body').find('textarea').focus();
+		$(this).unbind('click');	
+		$(this).bind('click', function(){
+			$('#updateform').submit();
+		});
+		$(this).html('<i class="fa fa-plus"></i> Update');
+		$(this).closest('.panel-body').find('.btn-danger').hide();
+		$(this).closest('td').next('td').append('<button class="btn btn-warning" style="width: 85px;" type="button"><i class="fa fa-remove"></i> Cancel</button></form>');
+		$('.btn-warning').on('click', function(){
+			$(this).closest('.panel-body').prev('.panel-body').html(txt);
+			$(this).closest('.panel-body').find('.btn-primary').unbind('click');
+			$(this).closest('.panel-body').find('.btn-primary').bind('click', updating);
+			$(this).closest('.panel-body').find('.btn-primary').html('<i class="fa fa-edit"></i> Edit');
+			$(this).closest('.panel-body').find('.btn-danger').show();
+			$(this).remove();
+		});
+	}
 
-	$('.btn-warning').on('click', function(){
-		$('.panel-body').show();
-		$('.update').hide();
-	});
+	$('td').children('.btn-primary').on('click', updating);
 
 	$('button#fav').on('click', function() {
 	    $.ajax({
@@ -247,7 +258,6 @@
 	           		 .attr('title', 'favorited')
 	           		 .css('color', 'gold')
 	                 .html('<i class="fa fa-star"></i> Favorited!')
-
 	           ;
 	        } else {
 	        	$('button#fav')
