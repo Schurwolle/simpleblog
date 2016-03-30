@@ -33,9 +33,21 @@
 
 <script type="text/javascript">
 	function updating(){
+		var tagname = $('#btnvalue').attr('name');
+		var tagcount = $('#btnvalue').attr('value');
+		if(tagname) 
+		{
+			var btntxt = tagname.concat(tagcount);	
+			$('#name').closest('td').next('td').children('.btn-default').unbind('click');
+			$('#name').closest('td').next('td').children('.btn-default').bind('click', updating);
+			$('#name').closest('td').next('td').children('.btn-default').html('<i class="fa fa-edit"></i> Edit');
+			$('#name').closest('td').next('td').children('.btn-warning').remove();
+			$('#name').closest('td').html('<a href="/tags/'+ tagname +'"><button class="btn btn-default">'+ btntxt +'</button></a>');
+		}
 		var txt = $(this).closest('td').prev('td').find('.btn-default').text();
-		var tagname = txt.substring(0, txt.length-3);
-		$(this).closest('td').prev('td').html('<form action="/tags/'+ tagname +'"method="POST" id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="text" id="name" name="name" class="form-control" value='+ tagname +'>');
+		tagname = txt.substring(0, txt.length-3);
+		tagcount = txt.substring(txt.length-4, txt.length);
+		$(this).closest('td').prev('td').html('<form action="/tags/'+ tagname +'"method="POST" id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="text" id="name" name="name" class="form-control" value='+ tagname +'><span id = "btnvalue" style="visibility:hidden" name ="'+ tagname +'" value = "'+ tagcount +'"></span>');
 		$(this).closest('td').prev('td').find('input').focus();
 		$(this).unbind('click');
 		$(this).on('click', function(){
