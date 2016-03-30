@@ -231,7 +231,29 @@
 		$(this).closest('.panel-body').prev('.panel-body').find('textarea').focus();
 		$(this).unbind('click');	
 		$(this).bind('click', function(){
-			$('#updateform').submit();
+			var panel = $(this).closest('.panel-body').prev('.panel-body');
+			var newtxt = panel.find('textarea').val();
+			created = panel.siblings('.panel-heading').children('span').text()
+			created = created.trim();
+			created = created.substring(0, 22);
+			dataString = $("#updateform").serialize();
+			$.ajax({				 
+				 url: "/comment/"+id,
+				 type: "POST",
+				 data: dataString,
+				 success: function(){
+				 	panel.html(newtxt);
+				 	panel.next('.panel-body').find('.btn-primary').unbind('click');
+				 	panel.next('.panel-body').find('.btn-primary').bind('click', updating);
+				 	panel.next('.panel-body').find('.btn-primary').html('<i class="fa fa-edit"></i> Edit');
+				 	panel.next('.panel-body').find('.btn-danger').show();
+				 	panel.next('.panel-body').find('.btn-warning').remove();
+				 	if(txt != newtxt) 
+				 	{
+				 		panel.siblings('.panel-heading').children('span').html(created + '(last edited 1 second ago)');
+				 	}
+				 }
+			});
 		});
 		$(this).html('<i class="fa fa-plus"></i> Update');
 		$(this).closest('.panel-body').find('.btn-danger').hide();
@@ -246,7 +268,7 @@
 		});
 	}
 
-	$('td').children('.btn-primary').on('click', updating);
+	$('.panel-body').find('.btn-primary').on('click', updating);
 
 	$('button#fav').on('click', function() {
 	    $.ajax({
