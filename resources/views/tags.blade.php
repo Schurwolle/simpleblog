@@ -51,7 +51,22 @@
 		$(this).closest('td').prev('td').find('input').focus();
 		$(this).unbind('click');
 		$(this).on('click', function(){
-			$('#updateform').submit();
+			var td = $(this).closest('td').prev('td');
+			var newtagname = td.find('#name').val();
+			txt = newtagname.concat(tagcount);
+			dataString = $("#updateform").serialize();
+			$.ajax({				 
+				 url: "/tags/"+tagname,
+				 type: "POST",
+				 data: dataString,
+				 success: function(){
+				 	td.html('<a href="/tags/'+ newtagname +'"><button class="btn btn-default">'+ txt +'</button></a>');
+				 	td.next('td').children('.btn-default').unbind('click');
+				 	td.next('td').children('.btn-default').bind('click', updating);
+				 	td.next('td').children('.btn-default').html('<i class="fa fa-edit"></i> Edit');
+				 	td.next('td').children('.btn-warning').remove();
+				 }
+			});
 		});
 		$(this).html('<i class="fa fa-plus"></i> Update');
 		$(this).closest('td').append('<button class="btn btn-warning" style="width: 85px;" type="button"><i class="fa fa-remove"></i> Cancel</button></form>')
