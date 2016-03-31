@@ -246,54 +246,71 @@
 	function updating (){
 		var txt = $('#area').attr('value');
 		var id = $('#area').attr('name');
+
 		if(txt)
 		{
-			$('#area').closest('.panel-body').next('.panel-body').find('.btn-primary').unbind('click');
-			$('#area').closest('.panel-body').next('.panel-body').find('.btn-primary').bind('click', updating);
-			$('#area').closest('.panel-body').next('.panel-body').find('.btn-primary').html('<i class="fa fa-edit"></i> Edit');
-			$('#area').closest('.panel-body').next('.panel-body').find('.btn-warning').remove();
-			$('#area').closest('.panel-body').next('.panel-body').find('.btn-danger').show();
+			var panel = $('#area').closest('.panel-body').next('.panel-body');
+			panel.find('.btn-primary')
+					.unbind('click')
+					.bind('click', updating)
+					.html('<i class="fa fa-edit"></i> Edit')
+			;
+			panel.find('.btn-warning').remove();
+					
+			panel.find('.btn-danger').show();
+			
 			$('#area').closest('.panel-body').html(txt);
 		}
+
 		txt = $(this).closest('.panel-body').prev('.panel-body').text();
 		txt = txt.trim();
 		id  = $(this).closest('.panel-body').attr('id');
-		$(this).closest('.panel-body').prev('.panel-body').html('<form method="POST" action="/comment/'+ id +'"id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><textarea id="body" class="form-control" required="required" rows="6" name="body">'+ txt +'</textarea><span id="area" style="visibility:hidden" name ="'+ id +'" value= "'+ txt +'"></span>');
-		$(this).closest('.panel-body').prev('.panel-body').find('textarea').focus();
-		$(this).unbind('click');	
-		$(this).bind('click', function(){
-			var panel = $(this).closest('.panel-body').prev('.panel-body');
-			var newtxt = panel.find('textarea').val();
-			created = panel.siblings('.panel-heading').children('span').text()
-			created = created.trim();
-			created = created.substring(0, 22);
-			dataString = $("#updateform").serialize();
-			$.ajax({				 
-				 url: "/comment/"+id,
-				 type: "POST",
-				 data: dataString,
-				 success: function(){
-				 	panel.html(newtxt);
-				 	panel.next('.panel-body').find('.btn-primary').unbind('click');
-				 	panel.next('.panel-body').find('.btn-primary').bind('click', updating);
-				 	panel.next('.panel-body').find('.btn-primary').html('<i class="fa fa-edit"></i> Edit');
-				 	panel.next('.panel-body').find('.btn-danger').show();
-				 	panel.next('.panel-body').find('.btn-warning').remove();
-				 	if(txt != newtxt) 
-				 	{
-				 		panel.siblings('.panel-heading').children('span').html(created + '(last edited 1 second ago)');
-				 	}
-				 }
-			});
-		});
+
+		$(this).closest('.panel-body').prev('.panel-body')
+				.html('<form method="POST" action="/comment/'+ id +'"id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><textarea id="body" class="form-control" required="required" rows="6" name="body">'+ txt +'</textarea><span id="area" style="visibility:hidden" name ="'+ id +'" value= "'+ txt +'"></span>')
+				.find('textarea').focus()
+		;
+		$(this)
+			.unbind('click')	
+			.bind('click', function(){
+				var panel = $(this).closest('.panel-body').prev('.panel-body');
+				var newtxt = panel.find('textarea').val();
+				created = panel.siblings('.panel-heading').children('span').text()
+				created = created.trim();
+				created = created.split('(')[0];
+				dataString = $("#updateform").serialize();
+				$.ajax({				 
+					 url: "/comment/"+id,
+					 type: "POST",
+					 data: dataString,
+					 success: function(){
+					 	panel.html(newtxt);
+					 	panel.next('.panel-body').find('.btn-primary')
+					 			.unbind('click')
+					 			.bind('click', updating)
+					 			.html('<i class="fa fa-edit"></i> Edit')
+					 	;
+					 	panel.next('.panel-body').find('.btn-danger').show();
+					 	panel.next('.panel-body').find('.btn-warning').remove();
+					 	
+					 	if(txt != newtxt) 
+					 	{
+					 		panel.siblings('.panel-heading').children('span').html(created + '(last edited 1 second ago)');
+					 	}
+					 }
+				});
+			})
+		;
 		$(this).html('<i class="fa fa-plus"></i> Update');
 		$(this).closest('.panel-body').find('.btn-danger').hide();
 		$(this).closest('td').next('td').append('<button class="btn btn-warning" style="width: 85px;" type="button"><i class="fa fa-remove"></i> Cancel</button></form>');
 		$('.btn-warning').on('click', function(){
 			$(this).closest('.panel-body').prev('.panel-body').html(txt);
-			$(this).closest('.panel-body').find('.btn-primary').unbind('click');
-			$(this).closest('.panel-body').find('.btn-primary').bind('click', updating);
-			$(this).closest('.panel-body').find('.btn-primary').html('<i class="fa fa-edit"></i> Edit');
+			$(this).closest('.panel-body').find('.btn-primary')
+					.unbind('click')
+					.bind('click', updating)
+					.html('<i class="fa fa-edit"></i> Edit')
+			;
 			$(this).closest('.panel-body').find('.btn-danger').show();
 			$(this).remove();
 		});
