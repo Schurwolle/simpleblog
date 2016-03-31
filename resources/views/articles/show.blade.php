@@ -57,7 +57,7 @@
 						<td>
 							<h1>{{ $article->title }} </h1>
 						</td>
-						<td align="right">
+						<td id ="counters" align="right">
 							<i class="fa fa-star" style="color: gold;"></i> {{ $article->favoritedBy->count() }}
 							&nbsp
 							<i class="fa fa-comment-o" style="color: purple;"></i> {{ $article->comments->count() }}
@@ -274,6 +274,9 @@
 	    $.ajax({
 	      url: "{{$article->slug}}/favorite",
 	      success: function(){
+	      	var counters = $('#counters').text();
+	        var numFavs = parseInt(counters.trim().substring(0,1));
+	        var numComm = {{ $article->comments->count() }}
 	      	if ($('button#fav').attr('title') === 'favorite')
 	      	{
 	           $('button#fav')
@@ -281,12 +284,16 @@
 	           		 .css('color', 'gold')
 	                 .html('<i class="fa fa-star"></i> Favorited!')
 	           ;
+	           numFavs += 1;
+	           $('#counters').html('<i class="fa fa-star" style="color: gold;"></i> '+ numFavs +'  &nbsp <i class="fa fa-comment-o" style="color: purple;"></i> '+numComm)
 	        } else {
 	        	$('button#fav')
 	        		 .attr('title', 'favorite')
 	           		 .css('color', 'white')
 	                 .html('<i class="fa fa-star"></i> Favorite')     
 	           ;
+	           numFavs -= 1;
+	           $('#counters').html('<i class="fa fa-star" style="color: gold;"></i> '+ numFavs +'  &nbsp <i class="fa fa-comment-o" style="color: purple;"></i> '+numComm)
 	        }
 	      }
 	    });
