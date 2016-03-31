@@ -213,11 +213,15 @@
 
 <script type="text/javascript">
 	$('button#addcomment').on('click', function(){
+		var comment = $('#addform').find('textarea').val();
+		if($.trim(comment).length === 0)
+		{
+			return swal({   title: "Error!",   text: "Please enter your comment first.", timer: 1500,   showConfirmButton: false, type:"error" });
+		}
 		var hr = $('#addform').next('h3').next('hr');
 		var src = $('#addform').find('img').attr('src');
 		var href = $('#link').attr('href');
 		var username = ($('#username').text()).trim();
-		var comment = $('#addform').find('textarea').val();
 		var dataString = $('#addform').serialize();
 		$.ajax({
 			url: "/comment",
@@ -275,6 +279,10 @@
 			.bind('click', function(){
 				var panel = $(this).closest('.panel-body').prev('.panel-body');
 				var newtxt = panel.find('textarea').val();
+				if($.trim(newtxt).length === 0)
+				{
+					return swal({   title: "Error!",   text: "Comment cannot be empty.", timer: 1500,   showConfirmButton: false, type:"error" });
+				}
 				created = panel.siblings('.panel-heading').children('span').text()
 				created = created.trim();
 				created = created.split('(')[0];
@@ -284,20 +292,20 @@
 					 type: "POST",
 					 data: dataString,
 					 success: function(){
-					 	panel.html(newtxt);
-					 	panel.next('.panel-body').find('.btn-primary')
-					 			.unbind('click')
-					 			.bind('click', updating)
-					 			.html('<i class="fa fa-edit"></i> Edit')
-					 	;
-					 	panel.next('.panel-body').find('.btn-danger').show();
-					 	panel.next('.panel-body').find('.btn-warning').remove();
-					 	
 					 	if(txt != newtxt) 
-					 	{
-					 		panel.siblings('.panel-heading').children('span').html(created + '(last edited 1 second ago)');
-					 	}
-					 }
+ 					 	{
+ 					 		swal({   title: "Success!",   text: "The comment has been updated!", timer: 1100,   showConfirmButton: false, type:"success" });
+ 					 		panel.siblings('.panel-heading').children('span').html(created + '(last edited 1 second ago)');
+ 					 	}
+ 					 	panel.html(newtxt);
+ 					 	panel.next('.panel-body').find('.btn-primary')
+ 					 			.unbind('click')
+ 					 			.bind('click', updating)
+ 					 			.html('<i class="fa fa-edit"></i> Edit')
+ 					 	;
+ 					 	panel.next('.panel-body').find('.btn-danger').show();
+ 					 	panel.next('.panel-body').find('.btn-warning').remove();
+ 					 }
 				});
 			})
 		;
