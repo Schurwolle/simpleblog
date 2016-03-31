@@ -224,8 +224,9 @@
 			type: "POST",
 			data: dataString,
 			success:function(){
-				row.before('<div class="row"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading"><a style="color:black;" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body">'+ comment +'</div><div id="" class="panel-body"><table style=""><tr><td><button id="editbutton" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></td><td><form method="DELETE"><input type="hidden" name="_token" value="{{ csrf_token() }}"><button class="btn btn-danger" id="delete" type="button"><i class="fa fa-trash"></i> Delete</button></form></td></tr></table></div></div></div></div>');
-				$('button#editbutton').on('click', updating);
+				row.before('<div class="row"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading"><a style="color:black;" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body">'+ comment +'</div><div id="" class="panel-body"><table style=""><tr><td><button id="edit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></td><td><form method="DELETE"><input type="hidden" name="_token" value="{{ csrf_token() }}"><button class="btn btn-danger" id="delete" type="button"><i class="fa fa-trash"></i> Delete</button></form></td></tr></table></div></div></div></div>');
+				$('button#edit').on('click', updating);
+				$('button#delete').on('click', confirmDelete);
 				$('#addform').find('textarea').val('');
 
 			}

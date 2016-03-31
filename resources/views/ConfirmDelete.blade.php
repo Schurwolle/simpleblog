@@ -1,5 +1,5 @@
 <script>
-  	$('button#delete').on('click',function(){
+  	function confirmDelete(){
     var form = $(this).parents('form');
     swal({
         title: "Are you sure?",
@@ -12,5 +12,6 @@
         }, function(isConfirm){
             if (isConfirm) form.submit();
         });
-    })
+    }
+    $('button#delete').on('click', confirmDelete);
 </script>
