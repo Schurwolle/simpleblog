@@ -133,14 +133,14 @@
 
 	    <h3>Leave a Comment:</h3>
 	    
-	    <form method="post" action="/comment">
+	    <form method="post" action="/comment" id ="addform">
 	        <input type="hidden" name="_token" value="{{ csrf_token() }}">
 	        <input type="hidden" name="article_id" value="{{ $article->id }}">
 	        <a name="comments" class="anchor"></a>
 	        <div class="row">
 		        <div class="col-sm-2">
 					<div class="thumbnail">
-						<a href="/{{Auth::user()->name}}/profile"><img src="{{ file_exists('pictures/'.Auth::user()->name) ? '/pictures/'.Auth::user()->name : '/img/avatar.png' }}"></a>
+						<a id="link" href="/{{Auth::user()->name}}/profile"><img src="{{ file_exists('pictures/'.Auth::user()->name) ? '/pictures/'.Auth::user()->name : '/img/avatar.png' }}"></a>
 					</div>
 				</div>
 		        <div class="col-sm-10">
@@ -150,7 +150,7 @@
 						</div>
 		          		<textarea required="required" placeholder="Your Comment" name = "body" class="form-control" rows="4"></textarea>
 		          	</div>
-		          	<button type="submit" name='article_comment' class="btn btn-primary"><i class="fa fa-plus"></i> Add Comment</button>
+		          	<button type="button" id="addcomment" name='article_comment' class="btn btn-primary"><i class="fa fa-plus"></i> Add Comment</button>
 		          	<br><br>
 		        </div>
 	        </div>
@@ -170,7 +170,7 @@
 					<div class="col-sm-10">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<a style="color:black;" href="/{{$comment->user->name}}/profile"><strong>{{$comment->user->name}}</strong></a>
+								<a style="color:black;" href="/{{$comment->user->name}}/profile"><strong id="username">{{$comment->user->name}}</strong></a>
 								<span class="text-muted">
 									commented {{$comment->created_at->diffForHumans()}}
 									@if ($comment->updated_at > $comment->created_at)
@@ -212,6 +212,26 @@
 @include('ConfirmDelete')
 
 <script type="text/javascript">
+	$('button#addcomment').on('click', function(){
+		var row = $('#addform').siblings('.row').first();
+		var src = $('#addform').find('img').attr('src');
+		var href = $('#link').attr('href');
+		var username = ($('#username').text()).trim();
+		var comment = $('#addform').find('textarea').val();
+		var dataString = $('#addform').serialize();
+		$.ajax({
+			url: "/comment",
+			type: "POST",
+			data: dataString,
+			success:function(){
+				row.before('<div class="row"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading"><a style="color:black;" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body">'+ comment +'</div><div id="" class="panel-body"><table style=""><tr><td><button id="editbutton" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></td><td><form method="DELETE"><input type="hidden" name="_token" value="{{ csrf_token() }}"><button class="btn btn-danger" id="delete" type="button"><i class="fa fa-trash"></i> Delete</button></form></td></tr></table></div></div></div></div>');
+				$('button#editbutton').on('click', updating);
+				$('#addform').find('textarea').val('');
+
+			}
+		});
+	});
+
 	function updating (){
 		var txt = $('#area').attr('value');
 		var id = $('#area').attr('name');
@@ -270,6 +290,7 @@
 
 	$('.panel-body').find('.btn-primary').on('click', updating);
 
+
 	$('button#fav').on('click', function() {
 	    $.ajax({
 	      url: "{{$article->slug}}/favorite",
@@ -297,7 +318,7 @@
 	        }
 	      }
 	    });
-	})
+	});
 </script>
 
 @stop
