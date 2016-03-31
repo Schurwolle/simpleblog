@@ -156,7 +156,7 @@
 	        </div>
 	    </form>
 	    @unless($comments->isEmpty())
-		    <h3>{{ $comments->count() }} Comments: </h3>
+		    <h3 id ="numComm">{{ $comments->count() }} {{ $comments->count() == 1 ? ' Comment:' : ' Comments:' }} </h3>
 		    <hr>
 		    @foreach($comments as $comment)
 		    	<div class="row">
@@ -213,7 +213,7 @@
 
 <script type="text/javascript">
 	$('button#addcomment').on('click', function(){
-		var row = $('#addform').siblings('.row').first();
+		var hr = $('#addform').next('h3').next('hr');
 		var src = $('#addform').find('img').attr('src');
 		var href = $('#link').attr('href');
 		var username = ($('#username').text()).trim();
@@ -224,11 +224,21 @@
 			type: "POST",
 			data: dataString,
 			success:function(){
-				row.before('<div class="row"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading"><a style="color:black;" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body">'+ comment +'</div><div id="" class="panel-body"><table style=""><tr><td><button id="edit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></td><td><form method="DELETE"><input type="hidden" name="_token" value="{{ csrf_token() }}"><button class="btn btn-danger" id="delete" type="button"><i class="fa fa-trash"></i> Delete</button></form></td></tr></table></div></div></div></div>');
+				if(!hr.length)
+				{
+					$('#addform').after('<h3 id="numComm"></h3><hr>');
+					hr = $('#addform').next('h3').next('hr');
+				}
+				hr.after('<div class="row"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading"><a style="color:black;" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body">'+ comment +'</div><div id="" class="panel-body"><table style=""><tr><td><button id="edit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></td><td><form method="DELETE"><input type="hidden" name="_token" value="{{ csrf_token() }}"><button class="btn btn-danger" id="delete" type="button"><i class="fa fa-trash"></i> Delete</button></form></td></tr></table></div></div></div></div>');
 				$('button#edit').on('click', updating);
 				$('button#delete').on('click', confirmDelete);
 				$('#addform').find('textarea').val('');
-
+				var counters = $('#counters').text();
+		        var numComm = counters.trim();
+		        numComm = parseInt(numComm.substring(numComm.length-2, numComm.length)) + 1;
+		        var numFavs = {{ $article->favoritedBy->count() }}
+		        $('#counters').html('<i class="fa fa-star" style="color: gold;"></i> '+ numFavs +'  &nbsp <i class="fa fa-comment-o" style="color: purple;"></i> '+numComm)
+		        $('#numComm').text(numComm == 1 ? numComm + ' Comment:' : numComm + ' Comments:')
 			}
 		});
 	});
