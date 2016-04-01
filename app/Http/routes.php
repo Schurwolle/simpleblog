@@ -64,7 +64,6 @@ Route::get('{user}/avatar', 'UserController@avatar');
 Route::post('{user}/updateavatar','UserController@updateAvatar');
 
 Route::resource('comment', 'CommentsController');
-Route::post('comment/{comment}', 'CommentsController@update');
 
 Route::post('search', 'SearchController@search');
 

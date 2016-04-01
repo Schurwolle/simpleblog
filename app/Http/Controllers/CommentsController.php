@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Input;
 
 class CommentsController extends Controller
 {
+
     public function store(Request $request)
     {
     	$input['user_id'] = $request->user()->id;
@@ -20,8 +21,7 @@ class CommentsController extends Controller
 
     	$comment = Comment::create($input);
 
-    	\Session::flash('flash_message', 'Your comment has been published!');
-    	return redirect('articles/'.$comment->article->slug.'#'.$comment->id);
+        return $comment->id;
     }
 
     public function destroy(article $article, Comment $comment)

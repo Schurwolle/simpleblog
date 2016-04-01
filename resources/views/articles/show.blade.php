@@ -146,7 +146,7 @@
 		        <div class="col-sm-10">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<a style="color:black;" href="/{{Auth::user()->name}}/profile"><strong>{{Auth::user()->name}}</strong></a>
+							<a style="color:black;" href="/{{Auth::user()->name}}/profile"><strong id="username">{{Auth::user()->name}}</strong></a>
 						</div>
 		          		<textarea required="required" placeholder="Your Comment" name = "body" class="form-control" rows="4"></textarea>
 		          	</div>
@@ -170,7 +170,7 @@
 					<div class="col-sm-10">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<a style="color:black;" href="/{{$comment->user->name}}/profile"><strong id="username">{{$comment->user->name}}</strong></a>
+								<a style="color:black;" href="/{{$comment->user->name}}/profile"><strong>{{$comment->user->name}}</strong></a>
 								<span class="text-muted">
 									commented {{$comment->created_at->diffForHumans()}}
 									@if ($comment->updated_at > $comment->created_at)
@@ -227,13 +227,14 @@
 			url: "/comment",
 			type: "POST",
 			data: dataString,
-			success:function(){
+			success:function(id){
+				swal({   title: "Success!",   text: "The comment has been published!", timer: 1100,   showConfirmButton: false, type:"success" });
 				if(!hr.length)
 				{
 					$('#addform').after('<h3 id="numComm"></h3><hr>');
 					hr = $('#addform').next('h3').next('hr');
 				}
-				hr.after('<div class="row"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading"><a style="color:black;" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body">'+ comment +'</div><div id="" class="panel-body"><table style=""><tr><td><button id="edit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></td><td><form method="DELETE"><input type="hidden" name="_token" value="{{ csrf_token() }}"><button class="btn btn-danger" id="delete" type="button"><i class="fa fa-trash"></i> Delete</button></form></td></tr></table></div></div></div></div>');
+				hr.after('<div class="row"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading"><a style="color:black;" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body">'+ comment +'</div><div id="'+ id +'" class="panel-body"><table style=""><tr><td><button id="edit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></td><td><form method="POST" action="/comment/'+ id +'"><input name="_method" type="hidden" value="DELETE"><input type="hidden" name="_token" value="{{ csrf_token() }}"><button class="btn btn-danger" id="delete" type="button"><i class="fa fa-trash"></i> Delete</button></form></td></tr></table></div></div></div></div>');
 				$('button#edit').on('click', updating);
 				$('button#delete').on('click', confirmDelete);
 				$('#addform').find('textarea').val('');
@@ -271,7 +272,7 @@
 		id  = $(this).closest('.panel-body').attr('id');
 
 		$(this).closest('.panel-body').prev('.panel-body')
-				.html('<form method="POST" action="/comment/'+ id +'"id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><textarea id="body" class="form-control" required="required" rows="6" name="body">'+ txt +'</textarea><span id="area" style="visibility:hidden" name ="'+ id +'" value= "'+ txt +'"></span>')
+				.html('<form method="POST" action="/comment/'+ id +'"id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input name="_method" type="hidden" value="PATCH"><textarea id="body" class="form-control" required="required" rows="6" name="body">'+ txt +'</textarea><span id="area" style="visibility:hidden" name ="'+ id +'" value= "'+ txt +'"></span>')
 				.find('textarea').focus()
 		;
 		$(this)
