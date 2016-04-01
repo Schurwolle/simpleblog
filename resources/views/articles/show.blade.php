@@ -283,6 +283,10 @@
 				if($.trim(newtxt).length === 0)
 				{
 					return swal({   title: "Error!",   text: "Comment cannot be empty.", timer: 1500,   showConfirmButton: false, type:"error" });
+				} 
+				if(txt === newtxt) 
+				{
+					return change(panel, newtxt);
 				}
 				created = panel.siblings('.panel-heading').children('span').text()
 				created = created.trim();
@@ -292,21 +296,7 @@
 					 url: "/comment/"+id,
 					 type: "POST",
 					 data: dataString,
-					 success: function(){
-					 	if(txt != newtxt) 
- 					 	{
- 					 		swal({   title: "Success!",   text: "The comment has been updated!", timer: 1100,   showConfirmButton: false, type:"success" });
- 					 		panel.siblings('.panel-heading').children('span').html(created + '(last edited 1 second ago)');
- 					 	}
- 					 	panel.html(newtxt);
- 					 	panel.next('.panel-body').find('.btn-primary')
- 					 			.unbind('click')
- 					 			.bind('click', updating)
- 					 			.html('<i class="fa fa-edit"></i> Edit')
- 					 	;
- 					 	panel.next('.panel-body').find('.btn-danger').show();
- 					 	panel.next('.panel-body').find('.btn-warning').remove();
- 					 }
+					 success: [msg(panel), change(panel, newtxt)]
 				});
 			})
 		;
@@ -356,6 +346,23 @@
 	      }
 	    });
 	});
+
+	function change(panel, newtxt) 
+	{
+		panel.html(newtxt);
+	 	panel.next('.panel-body').find('.btn-primary')
+	 			.unbind('click')
+	 			.bind('click', updating)
+	 			.html('<i class="fa fa-edit"></i> Edit')
+	 	;
+	 	panel.next('.panel-body').find('.btn-danger').show();
+	 	panel.next('.panel-body').find('.btn-warning').remove();
+	}
+	function msg(panel)
+	{
+		swal({   title: "Success!",   text: "The comment has been updated!", timer: 1100,   showConfirmButton: false, type:"success" });
+ 		panel.siblings('.panel-heading').children('span').html(' '+ created +' (last edited 1 second ago)');
+	}
 </script>
 
 @stop
