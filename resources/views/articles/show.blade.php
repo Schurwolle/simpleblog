@@ -250,35 +250,25 @@
 
 	function updating (){
 		var txt = $('#area').attr('value');
-		var id = $('#area').attr('name');
-
-		if(txt)
+		if(txt != null)
 		{
-			var panel = $('#area').closest('.panel-body').next('.panel-body');
-			panel.find('.btn-primary')
-					.unbind('click')
-					.bind('click', updating)
-					.html('<i class="fa fa-edit"></i> Edit')
-			;
-			panel.find('.btn-warning').remove();
-					
-			panel.find('.btn-danger').show();
-			
-			$('#area').closest('.panel-body').html(txt);
+			var id = $('#area').attr('name');
+			var panel = $('#area').closest('.panel-body')
+			change(panel, txt);
 		}
 
 		txt = $(this).closest('.panel-body').prev('.panel-body').text();
 		txt = txt.trim();
 		id  = $(this).closest('.panel-body').attr('id');
+		panel = $(this).closest('.panel-body').prev('.panel-body');
 
-		$(this).closest('.panel-body').prev('.panel-body')
-				.html('<form method="POST" action="/comment/'+ id +'"id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input name="_method" type="hidden" value="PATCH"><textarea id="body" class="form-control" required="required" rows="6" name="body">'+ txt +'</textarea><span id="area" style="visibility:hidden" name ="'+ id +'" value= "'+ txt +'"></span>')
-				.find('textarea').focus()
+		panel
+			.html('<form method="POST" action="/comment/'+ id +'"id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input name="_method" type="hidden" value="PATCH"><textarea id="body" class="form-control" required="required" rows="6" name="body">'+ txt +'</textarea><span id="area" style="visibility:hidden" name ="'+ id +'" value= "'+ txt +'"></span>')
+			.find('textarea').focus()
 		;
 		$(this)
 			.unbind('click')	
 			.bind('click', function(){
-				var panel = $(this).closest('.panel-body').prev('.panel-body');
 				var newtxt = panel.find('textarea').val();
 				if($.trim(newtxt).length === 0)
 				{
@@ -286,7 +276,7 @@
 				} 
 				if(txt === newtxt) 
 				{
-					return change(panel, newtxt);
+					return change(panel, txt);
 				}
 				created = panel.siblings('.panel-heading').children('span').text()
 				created = created.trim();
@@ -304,7 +294,7 @@
 		$(this).closest('.panel-body').find('.btn-danger').hide();
 		$(this).closest('td').next('td').append('<button class="btn btn-warning" style="width: 85px;" type="button"><i class="fa fa-remove"></i> Cancel</button></form>');
 		$('.btn-warning').on('click', function(){
-			$(this).closest('.panel-body').prev('.panel-body').html(txt);
+			$(this).closest('.panel-body').prev('.panel-body').text(txt);
 			$(this).closest('.panel-body').find('.btn-primary')
 					.unbind('click')
 					.bind('click', updating)
@@ -347,9 +337,9 @@
 	    });
 	});
 
-	function change(panel, newtxt) 
+	function change(panel, txt) 
 	{
-		panel.html(newtxt);
+		panel.text(txt);
 	 	panel.next('.panel-body').find('.btn-primary')
 	 			.unbind('click')
 	 			.bind('click', updating)
