@@ -374,8 +374,7 @@
             	$.ajax({
             		url: '/comment/'+id,
             		type:'DELETE'
-            		}
-            	});
+				});
             }
         });
 	}
