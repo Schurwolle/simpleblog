@@ -29,7 +29,6 @@
 
 @section('footer')
 
-@include('ConfirmDelete')
 
 <script type="text/javascript">
 	function updating(){
@@ -46,8 +45,8 @@
 		tagcount = txt.substring(txt.length-4, txt.length);
 		td = $(this).closest('td').prev('td');
 		td
-			.html('<form action="/tags/'+ tagname +'"method="POST" id = "updateform" onkeypress="return event.keyCode != 13;"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="text" id="name" name="name" class="form-control" value='+ tagname +' onfocus="this.value = this.value;"><span id = "btnvalue" style="visibility:hidden" name ="'+ tagname +'" value = "'+ tagcount +'"></span>')
-			.find('input').focus()
+			.html('<form action="/tags/'+ tagname +'"method="POST" id = "updateform" onkeypress="return event.keyCode != 13;"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="text" id="name" name="name" class="form-control"><span id = "btnvalue" style="visibility:hidden" name ="'+ tagname +'" value = "'+ tagcount +'"></span>')
+			.find('input').focus().val(tagname)
 		;
 		$('#name').bind('enterKey', ajaxUpdate);
 		$('#name').keyup(function(e){
@@ -120,6 +119,30 @@
 	    }
 	    return true;     
 	 }
+
+ 	function confirmDeleteTag()
+	{	
+		var tagname = $(this).closest('tr').find('.btn-default').first().text();
+		tagname = tagname.substring(0, tagname.length-4);
+		swal({
+        title: "Are you sure?",
+        text: "Deleted files cannot be recovered!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes, delete it!",
+        closeOnConfirm: true
+        }, function(isConfirm){
+            if (isConfirm)
+            {	
+            	$.ajax({
+            		url: '/tags/'+tagname,
+            		type: 'DELETE',	
+            	});
+            }
+        });
+	}
+	$('button#delete').on('click', confirmDeleteTag);
 </script>
 
 @stop

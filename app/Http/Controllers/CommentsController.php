@@ -24,9 +24,8 @@ class CommentsController extends Controller
         return $comment->id;
     }
 
-    public function destroy(article $article, Comment $comment)
+    public function destroy(Comment $comment)
     {
-
         $this->authorize('commentAuth', $comment);
     		
         	$articleslug = $comment->article->slug;
@@ -35,7 +34,6 @@ class CommentsController extends Controller
         
 
         return redirect('articles/'.$articleslug.'#comments');
-
     }
 
     public function update(Comment $comment, Request $request)

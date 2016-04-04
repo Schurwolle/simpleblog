@@ -74,7 +74,7 @@
 
   <table class="table-padding">
       <tr>
-        <td><a href="/articles/{{$user->comments()->latest('created_at')->first()->article->slug}}#{{$user->comments()->latest('created_at')->first()->id}}"> "{{ str_limit($user->comments()->latest('created_at')->first()->body, 60) }}"</a></td>
+        <td><a href="/articles/{{$user->comments()->latest('created_at')->first()->article->slug}}#comment{{$user->comments()->latest('created_at')->first()->id}}"> "{{ str_limit($user->comments()->latest('created_at')->first()->body, 60) }}"</a></td>
         <td>{{ $user->comments()->latest('created_at')->first()->created_at->format('d M, Y \a\t H:i') }}.</td>
       </tr>
       <tr>

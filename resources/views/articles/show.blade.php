@@ -160,7 +160,7 @@
 		    <hr>
 		    @foreach($comments as $comment)
 		    	<div class="row">
-		    		<a name="{{$comment->id}}" class="anchor"></a>
+		    		<a name="comment{{$comment->id}}" class="anchor"></a>
 					<div class="col-sm-2">
 						<div class="thumbnail">
 							<a href="/{{$comment->user->name}}/profile"><img src="{{ file_exists('pictures/'.$comment->user->name) ? '/pictures/'.$comment->user->name : '/img/avatar.png' }}"></a>
@@ -189,9 +189,9 @@
 		    						</button>
 		    					  </td>
 					              <td>
-					              {!!Form::open(['method' => 'DELETE', 'url' => '/comment/'.$comment->id ])!!}
+					             {!!Form::open(['method' => 'DELETE', 'url' => '/comment/'.$comment->id ])!!}
 
-					              	{!!Form::button('<i class="fa fa-trash"></i> Delete', array('class' => 'btn btn-danger', 'id' => 'delete'))!!}
+					              	{!!Form::button('<i class="fa fa-trash"></i> Delete', array('class' => 'btn btn-danger', 'id' => 'deleteComment'))!!}
 					              	
 					              {!!Form::close()!!}
 					              </td>
@@ -234,7 +234,7 @@
 					$('#addform').after('<h3 id="numComm"></h3><hr>');
 					hr = $('#addform').next('h3').next('hr');
 				}
-				hr.after('<div class="row"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading"><a style="color:black;" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body">'+ comment +'</div><div id="'+ id +'" class="panel-body"><table style=""><tr><td><button id="edit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></td><td><form method="POST" action="/comment/'+ id +'"><input name="_method" type="hidden" value="DELETE"><input type="hidden" name="_token" value="{{ csrf_token() }}"><button class="btn btn-danger" id="delete" type="button"><i class="fa fa-trash"></i> Delete</button></form></td></tr></table></div></div></div></div>');
+				hr.after('<div class="row"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading"><a style="color:black;" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body">'+ comment +'</div><div id="'+ id +'" class="panel-body"><table style=""><tr><td><button id="edit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></td><td><form method="POST" action="/comment/'+ id +'"><input name="_method" type="hidden" value="DELETE"><input type="hidden" name="_token" value="{{ csrf_token() }}"><button class="btn btn-danger" id="deleteComment" type="button"><i class="fa fa-trash"></i> Delete</button></form></td></tr></table></div></div></div></div>');
 				$('button#edit').on('click', updating);
 				$('button#delete').on('click', confirmDelete);
 				$('#addform').find('textarea').val('');
@@ -245,6 +245,7 @@
 		        $('#counters').html('<i class="fa fa-star" style="color: gold;"></i> '+ numFavs +'  &nbsp <i class="fa fa-comment-o" style="color: purple;"></i> '+numComm)
 		        $('#numComm').text(numComm == 1 ? numComm + ' Comment:' : numComm + ' Comments:')
 			}
+
 		});
 	});
 
@@ -307,6 +308,22 @@
 			$(this).remove();
 		});
 	}
+	function change(panel, txt) 
+	{
+		panel.text(txt);
+	 	panel.next('.panel-body').find('.btn-primary')
+	 			.unbind('click')
+	 			.bind('click', updating)
+	 			.html('<i class="fa fa-edit"></i> Edit')
+	 	;
+	 	panel.next('.panel-body').find('.btn-danger').show();
+	 	panel.next('.panel-body').find('.btn-warning').remove();
+	}
+	function msg(panel)
+	{
+		swal({   title: "Success!",   text: "The comment has been updated!", timer: 1100,   showConfirmButton: false, type:"success" });
+ 		panel.siblings('.panel-heading').children('span').html(' '+ created +' (last edited 1 second ago)');
+	}
 
 	$('.panel-body').find('.btn-primary').on('click', updating);
 
@@ -340,22 +357,29 @@
 	    });
 	});
 
-	function change(panel, txt) 
-	{
-		panel.text(txt);
-	 	panel.next('.panel-body').find('.btn-primary')
-	 			.unbind('click')
-	 			.bind('click', updating)
-	 			.html('<i class="fa fa-edit"></i> Edit')
-	 	;
-	 	panel.next('.panel-body').find('.btn-danger').show();
-	 	panel.next('.panel-body').find('.btn-warning').remove();
+	function confirmDeleteComment()
+	{	
+		var id = $(this).closest('.panel-body').attr('id');
+		swal({
+        title: "Are you sure?",
+        text: "Deleted files cannot be recovered!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes, delete it!",
+        closeOnConfirm: true,
+        }, function(isConfirm){
+            if (isConfirm)
+            {	
+            	$.ajax({
+            		url: '/comment/'+id,
+            		type:'DELETE'
+            		}
+            	});
+            }
+        });
 	}
-	function msg(panel)
-	{
-		swal({   title: "Success!",   text: "The comment has been updated!", timer: 1100,   showConfirmButton: false, type:"success" });
- 		panel.siblings('.panel-heading').children('span').html(' '+ created +' (last edited 1 second ago)');
-	}
+	$('button#deleteComment').on('click', confirmDeleteComment);
 </script>
 
 @stop
