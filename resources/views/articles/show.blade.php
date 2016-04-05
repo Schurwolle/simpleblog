@@ -240,7 +240,7 @@
 				var counters = $('#counters').text();
 		        var numComm = counters.trim();
 		        numComm = parseInt(numComm.substring(numComm.length-2, numComm.length)) + 1;
-		        var numFavs = {{ $article->favoritedBy->count() }}
+		        var numFavs = counters.trim().substring(0,1);
 		        $('#counters').html('<i class="fa fa-star" style="color: gold;"></i> '+ numFavs +'  &nbsp <i class="fa fa-comment-o" style="color: purple;"></i> '+numComm)
 		        $('#numComm').text(numComm == 1 ? numComm + ' Comment:' : numComm + ' Comments:')
 			}
@@ -325,37 +325,7 @@
 	}
 
 	$('.panel-body').find('.btn-primary').on('click', updating);
-
-
-	$('button#fav').on('click', function() {
-	    $.ajax({
-	      url: "{{$article->slug}}/favorite",
-	      success: function(){
-	      	var counters = $('#counters').text();
-	        var numFavs = parseInt(counters.trim().substring(0,1));
-	        var numComm = {{ $article->comments->count() }}
-	      	if ($('button#fav').attr('title') === 'favorite')
-	      	{
-	           $('button#fav')
-	           		 .attr('title', 'favorited')
-	           		 .css('color', 'gold')
-	                 .html('<i class="fa fa-star"></i> Favorited!')
-	           ;
-	           numFavs += 1;
-	           $('#counters').html('<i class="fa fa-star" style="color: gold;"></i> '+ numFavs +'  &nbsp <i class="fa fa-comment-o" style="color: purple;"></i> '+numComm)
-	        } else {
-	        	$('button#fav')
-	        		 .attr('title', 'favorite')
-	           		 .css('color', 'white')
-	                 .html('<i class="fa fa-star"></i> Favorite')     
-	           ;
-	           numFavs -= 1;
-	           $('#counters').html('<i class="fa fa-star" style="color: gold;"></i> '+ numFavs +'  &nbsp <i class="fa fa-comment-o" style="color: purple;"></i> '+numComm)
-	        }
-	      }
-	    });
-	});
-
+	
 	function confirmDeleteComment()
 	{	
 		var id = $(this).closest('.panel-body').attr('id');
@@ -364,7 +334,7 @@
 		var counters = $('#counters').text();
         var numComm = counters.trim();
         numComm = parseInt(numComm.substring(numComm.length-2, numComm.length)) - 1;
-        var numFavs = {{ $article->favoritedBy->count() }}
+        var numFavs = counters.trim().substring(0,1);
 		swal({
         title: "Are you sure?",
         text: "Deleted files cannot be recovered!",
@@ -392,6 +362,36 @@
         });
 	}
 	$('button#deleteComment').on('click', confirmDeleteComment);
+
+	$('button#fav').on('click', function() {
+	    $.ajax({
+	      url: "{{$article->slug}}/favorite",
+	      success: function(){
+	      	var counters = $('#counters').text();
+	        var numFavs = parseInt(counters.trim().substring(0,1));
+	        var numComm = $('#numComm').text();
+	        numComm = numComm.substring(0,1);
+	      	if ($('button#fav').attr('title') === 'favorite')
+	      	{
+	           $('button#fav')
+	           		 .attr('title', 'favorited')
+	           		 .css('color', 'gold')
+	                 .html('<i class="fa fa-star"></i> Favorited!')
+	           ;
+	           numFavs += 1;
+	           $('#counters').html('<i class="fa fa-star" style="color: gold;"></i> '+ numFavs +'  &nbsp <i class="fa fa-comment-o" style="color: purple;"></i> '+numComm)
+	        } else {
+	        	$('button#fav')
+	        		 .attr('title', 'favorite')
+	           		 .css('color', 'white')
+	                 .html('<i class="fa fa-star"></i> Favorite')     
+	           ;
+	           numFavs -= 1;
+	           $('#counters').html('<i class="fa fa-star" style="color: gold;"></i> '+ numFavs +'  &nbsp <i class="fa fa-comment-o" style="color: purple;"></i> '+numComm)
+	        }
+	      }
+	    });
+	});
 </script>
 
 @stop
