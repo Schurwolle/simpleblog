@@ -235,7 +235,7 @@
 				}
 				hr.after('<div class="row"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading"><a style="color:black;" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body">'+ comment +'</div><div id="'+ id +'" class="panel-body"><table style=""><tr><td><button id="edit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></td><td><button class="btn btn-danger" id ="deleteComment" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td></tr></table></div></div></div></div>');
 				$('button#edit').on('click', updating);
-				$('button#delete').on('click', confirmDeleteComment);
+				$('button#deleteComment').on('click', confirmDeleteComment);
 				$('#addform').find('textarea').val('');
 				var counters = $('#counters').text();
 		        var numComm = counters.trim();
@@ -361,7 +361,10 @@
 		var id = $(this).closest('.panel-body').attr('id');
 		var token = $(this).data('token');
 		var comment = $(this).closest('.row');
-
+		var counters = $('#counters').text();
+        var numComm = counters.trim();
+        numComm = parseInt(numComm.substring(numComm.length-2, numComm.length)) - 1;
+        var numFavs = {{ $article->favoritedBy->count() }}
 		swal({
         title: "Are you sure?",
         text: "Deleted files cannot be recovered!",
@@ -380,6 +383,9 @@
             		success: function() {
             			swal({   title: "Success!",   text: "The comment has been deleted!", timer: 1100,   showConfirmButton: false, type:"success" });
             			comment.remove();
+            			$('#counters').html('<i class="fa fa-star" style="color: gold;"></i> '+ numFavs +'  &nbsp <i class="fa fa-comment-o" style="color: purple;"></i> '+numComm)
+		        		$('#numComm').text(numComm == 1 ? numComm + ' Comment:' : numComm + ' Comments:')
+
             		}
 				});
             }
