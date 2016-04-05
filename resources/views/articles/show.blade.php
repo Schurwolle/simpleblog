@@ -189,11 +189,9 @@
 		    						</button>
 		    					  </td>
 					              <td>
-					             {!!Form::open(['method' => 'DELETE', 'url' => '/comment/'.$comment->id ])!!}
-
-					              	{!!Form::button('<i class="fa fa-trash"></i> Delete', array('class' => 'btn btn-danger', 'id' => 'deleteComment'))!!}
+					             
+					              	<button class="btn btn-danger" id ="deleteComment" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button>
 					              	
-					              {!!Form::close()!!}
 					              </td>
 					              </tr>
 					              </table>
@@ -210,6 +208,7 @@
 @section('footer')
 
 @include('ConfirmDelete')
+
 
 <script type="text/javascript">
 	$('button#addcomment').on('click', function(){
@@ -234,9 +233,9 @@
 					$('#addform').after('<h3 id="numComm"></h3><hr>');
 					hr = $('#addform').next('h3').next('hr');
 				}
-				hr.after('<div class="row"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading"><a style="color:black;" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body">'+ comment +'</div><div id="'+ id +'" class="panel-body"><table style=""><tr><td><button id="edit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></td><td><form method="POST" action="/comment/'+ id +'"><input name="_method" type="hidden" value="DELETE"><input type="hidden" name="_token" value="{{ csrf_token() }}"><button class="btn btn-danger" id="deleteComment" type="button"><i class="fa fa-trash"></i> Delete</button></form></td></tr></table></div></div></div></div>');
+				hr.after('<div class="row"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading"><a style="color:black;" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body">'+ comment +'</div><div id="'+ id +'" class="panel-body"><table style=""><tr><td><button id="edit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></td><td><button class="btn btn-danger" id ="deleteComment" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td></tr></table></div></div></div></div>');
 				$('button#edit').on('click', updating);
-				$('button#delete').on('click', confirmDelete);
+				$('button#delete').on('click', confirmDeleteComment);
 				$('#addform').find('textarea').val('');
 				var counters = $('#counters').text();
 		        var numComm = counters.trim();
@@ -360,6 +359,9 @@
 	function confirmDeleteComment()
 	{	
 		var id = $(this).closest('.panel-body').attr('id');
+		var token = $(this).data('token');
+		var comment = $(this).closest('.row');
+
 		swal({
         title: "Are you sure?",
         text: "Deleted files cannot be recovered!",
@@ -373,7 +375,12 @@
             {	
             	$.ajax({
             		url: '/comment/'+id,
-            		type:'DELETE'
+            		type:'post',
+            		data: {_method: 'delete', _token :token},
+            		success: function() {
+            			swal({   title: "Success!",   text: "The comment has been deleted!", timer: 1100,   showConfirmButton: false, type:"success" });
+            			comment.remove();
+            		}
 				});
             }
         });
