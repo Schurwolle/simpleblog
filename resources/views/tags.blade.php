@@ -13,11 +13,7 @@
 					<button class="btn btn-default"><i class="fa fa-edit"></i> Edit</button>
 				</td>
 				<td>
-					{!!Form::open(['method' => 'DELETE', 'url' => 'tags/'.$tag->name ])!!}
-
-	      				{!!Form::button('<i class="fa fa-trash"></i> Delete', array('id' => 'delete', 'class' => 'btn btn-danger'))!!}
-
-	    			{!!Form::close()!!}
+					<button class="btn btn-danger" id ="deleteTag" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button>
 				</td>
 			</tr>
 		@endforeach
@@ -124,6 +120,8 @@
 	{	
 		var tagname = $(this).closest('tr').find('.btn-default').first().text();
 		tagname = tagname.substring(0, tagname.length-4);
+		var token = $(this).data('token');
+		tag = $(this).closest('tr');
 		swal({
         title: "Are you sure?",
         text: "Deleted files cannot be recovered!",
@@ -137,12 +135,17 @@
             {	
             	$.ajax({
             		url: '/tags/'+tagname,
-            		type: 'DELETE',	
+            		type: 'post',	
+            		data: {_method: 'delete', _token :token},
+            		success: function(){
+            			swal({   title: "Success!",   text: "The tag has been deleted!", timer: 1100,   showConfirmButton: false, type:"success" });
+            			tag.remove();
+            		}
             	});
             }
         });
 	}
-	$('button#delete').on('click', confirmDeleteTag);
+	$('button#deleteTag').on('click', confirmDeleteTag);
 </script>
 
 @stop
