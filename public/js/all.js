@@ -551,6 +551,7 @@ d.parent(".dropdown-menu").length&&(d=d.closest("li.dropdown").addClass("active"
 		 *  - an optional parameter containing any variables that need to be passed in
 		 */
 		var setPositionProperty = function(value, type, duration, params){
+			if (0===value) value=-40;
 			// use CSS transform
 			if(slider.usingCSS){
 				// determine the translate3d value
