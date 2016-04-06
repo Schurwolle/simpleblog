@@ -42,7 +42,7 @@
 		td = $(this).closest('td').prev('td');
 		td
 			.html('<form action="/tags/'+ tagname +'"method="POST" id = "updateform" onkeypress="return event.keyCode != 13;"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="text" id="name" name="name" class="form-control"><span id = "btnvalue" style="visibility:hidden" name ="'+ tagname +'" value = "'+ tagcount +'"></span>')
-			.find('input').focus().val(tagname)
+			.find('#name').focus().val(tagname)
 		;
 		$('#name').bind('enterKey', ajaxUpdate);
 		$('#name').keyup(function(e){
