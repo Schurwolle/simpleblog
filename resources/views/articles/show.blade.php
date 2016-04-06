@@ -165,7 +165,7 @@
 						<div class="panel-heading">
 							<a style="color:black;" href="/{{Auth::user()->name}}/profile"><strong id="username">{{Auth::user()->name}}</strong></a>
 						</div>
-		          		<textarea required="required" placeholder="Your Comment" name = "body" class="form-control" style="min-height: 95px;font-size: 14px;overflow: hidden;resize: none;"></textarea>
+		          		<textarea id="add" required="required" placeholder="Your Comment" name = "body" class="form-control" style="min-height: 95px;font-size: 14px;overflow: hidden;resize: none;"></textarea>
 		          	</div>
 		          	<button type="button" id="addcomment" name='article_comment' class="btn btn-primary"><i class="fa fa-plus"></i> Add Comment</button>
 		          	<br><br>
@@ -261,12 +261,10 @@
 		        $('#counters').html('<i class="fa fa-star" style="color: gold;"></i> '+ numFavs +'  &nbsp <i class="fa fa-comment-o" style="color: purple;"></i> '+numComm)
 		        $('#numComm').text(numComm === 1 ? numComm + ' Comment:' : numComm + ' Comments:')
 			}
-
 		});
 	});
-
 	function updating (){
-		$('textarea[name=body]').on('focus', function(){
+		$('textarea#add').on('focus', function(){
 			change(panel, txt);
 		});
 		var txt = $('#area').attr('value');
@@ -276,14 +274,11 @@
 			var panel = $('#area').closest('.panel-body')
 			change(panel, txt);
 		}
-
 		txt = $(this).closest('.panel-body').prev('.panel-body').text();
 		txt = txt.trim();
 		id  = $(this).closest('.panel-body').attr('id');
 		panel = $(this).closest('.panel-body').prev('.panel-body');
-
-		panel.html('<form method="POST" action="/comment/'+ id +'"id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input name="_method" type="hidden" value="PATCH"><textarea id="body" class="form-control" required="required" style="min-height: 95px;font-size: 14px;overflow: hidden;resize: none;"></textarea><span id="area" style="visibility:hidden" name ="'+ id +'" value= "'+ txt +'"></span>');
-
+		panel.html('<form method="POST" action="/comment/'+ id +'"id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input name="_method" type="hidden" value="PATCH"><textarea id="body" class="form-control" required="required" name="body" style="min-height: 95px;font-size: 14px;overflow: hidden;resize: none;"></textarea><span id="area" style="visibility:hidden" name ="'+ id +'" value= "'+ txt +'"></span>');
 		$('#body')
 			.focus().text(txt)
 			.height( $("#body")[0].scrollHeight );
@@ -336,9 +331,7 @@
 		swal({   title: "Success!",   text: "The comment has been updated!", timer: 1100,   showConfirmButton: false, type:"success" });
  		panel.siblings('.panel-heading').children('span').html(' '+ created +' (last edited 1 second ago)');
 	}
-
 	$('.panel-body').find('.btn-primary').on('click', updating);
-
 	function confirmDeleteComment()
 	{	
 		var id = $(this).closest('.panel-body').attr('id');
@@ -380,7 +373,6 @@
         });
 	}
 	$('button#deleteComment').on('click', confirmDeleteComment);
-
 	$('button#fav').on('click', function() {
 	    $.ajax({
 	      url: "{{$article->slug}}/favorite",
@@ -418,26 +410,17 @@
 	    var txt = $('textarea').last();
 	    var hiddenDiv = $(document.createElement('div'));
 	    var content = null;
-
 	    
 	    hiddenDiv.addClass('hiddendiv');
-
 	    txt.parent().append(hiddenDiv);
-
 	    txt.on('keyup', function () {
-
 	        content = $(this).val();
-
 	        content = content.replace(/\n/g, '<br>');
 	        hiddenDiv.html(content + '<br class="lbr">');
-
 	        $(this).css('height', hiddenDiv.height()+14);
-
 	    });
 	}
-
 	window.onload = textareaHeight;
-
 </script>
 
 @stop
