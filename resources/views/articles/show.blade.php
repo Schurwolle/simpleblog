@@ -40,6 +40,23 @@
 	.row:after {
 		clear: none;
 	}
+	.hiddendiv {
+    display: none;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+    min-height: 95px;
+    font-family: 'Lato';
+    font-size: 14px;
+    padding-top: 6px;
+    padding-left:12px;
+    padding-right:12px;
+    padding-bottom: 6px;
+	}
+	.lbr {
+    line-height: 3px;
+	}
 </style>
 
 @endsection
@@ -148,7 +165,7 @@
 						<div class="panel-heading">
 							<a style="color:black;" href="/{{Auth::user()->name}}/profile"><strong id="username">{{Auth::user()->name}}</strong></a>
 						</div>
-		          		<textarea required="required" placeholder="Your Comment" name = "body" class="form-control" rows="4"></textarea>
+		          		<textarea required="required" placeholder="Your Comment" name = "body" rows="4" class="form-control" style="min-height: 95px;font-size: 14px;overflow: hidden;"></textarea>
 		          	</div>
 		          	<button type="button" id="addcomment" name='article_comment' class="btn btn-primary"><i class="fa fa-plus"></i> Add Comment</button>
 		          	<br><br>
@@ -265,13 +282,13 @@
 		id  = $(this).closest('.panel-body').attr('id');
 		panel = $(this).closest('.panel-body').prev('.panel-body');
 
-		panel.html('<form method="POST" action="/comment/'+ id +'"id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input name="_method" type="hidden" value="PATCH"><textarea id="body" class="form-control" required="required" rows="6"></textarea><span id="area" style="visibility:hidden" name ="'+ id +'" value= "'+ txt +'"></span>');
+		panel.html('<form method="POST" action="/comment/'+ id +'"id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input name="_method" type="hidden" value="PATCH"><textarea id="body" class="form-control" required="required" style="min-height: 95px;font-size: 14px;overflow: hidden;"></textarea><span id="area" style="visibility:hidden" name ="'+ id +'" value= "'+ txt +'"></span>');
 
 		$('#body')
 			.focus().text(txt)
 			.scrollTop($('#body')[0].scrollHeight)
 		;
-		
+		textareaHeight();
 		$(this)
 			.unbind('click')	
 			.bind('click', function(){
@@ -397,6 +414,30 @@
 	      }
 	    });
 	});
+	function textareaHeight() {
+	    var txt = $('textarea').last();
+	    var hiddenDiv = $(document.createElement('div'));
+	    var content = null;
+
+	    
+	    hiddenDiv.addClass('hiddendiv');
+
+	    txt.parent().append(hiddenDiv);
+
+	    txt.on('keyup', function () {
+
+	        content = $(this).val();
+
+	        content = content.replace(/\n/g, '<br>');
+	        hiddenDiv.html(content + '<br class="lbr">');
+
+	        $(this).css('height', hiddenDiv.height()+14);
+
+	    });
+	}
+
+	window.onload = textareaHeight;
+
 </script>
 
 @stop
