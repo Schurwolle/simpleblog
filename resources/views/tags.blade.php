@@ -58,13 +58,7 @@
 		$(this).html('<i class="fa fa-plus"></i> Update');
 		$(this).closest('td').append('<button class="btn btn-warning" style="width: 85px;" type="button"><i class="fa fa-remove"></i> Cancel</button></form>')
 		$('.btn-warning').on('click', function(){
-			td.html('<a href="/tags/'+ tagname +'"><button class="btn btn-default">'+ txt +'</button></a>');
-			$(this).siblings('.btn-default')
-					.unbind('click')
-					.bind('click', updating)
-					.html('<i class="fa fa-edit"></i> Edit')
-			;
-			$(this).remove();
+			change(td, tagname, txt);
 		});
 		function ajaxUpdate(){
 			var newtagname = $('#name').val();

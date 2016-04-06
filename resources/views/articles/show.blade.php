@@ -249,6 +249,9 @@
 	});
 
 	function updating (){
+		$('textarea[name=body]').on('focus', function(){
+			change(panel, txt);
+		});
 		var txt = $('#area').attr('value');
 		if(txt != null)
 		{
@@ -262,7 +265,7 @@
 		id  = $(this).closest('.panel-body').attr('id');
 		panel = $(this).closest('.panel-body').prev('.panel-body');
 
-		panel.html('<form method="POST" action="/comment/'+ id +'"id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input name="_method" type="hidden" value="PATCH"><textarea id="body" class="form-control" required="required" rows="6" name="body"></textarea><span id="area" style="visibility:hidden" name ="'+ id +'" value= "'+ txt +'"></span>');
+		panel.html('<form method="POST" action="/comment/'+ id +'"id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input name="_method" type="hidden" value="PATCH"><textarea id="body" class="form-control" required="required" rows="6"></textarea><span id="area" style="visibility:hidden" name ="'+ id +'" value= "'+ txt +'"></span>');
 
 		$('#body')
 			.focus().text(txt)
@@ -297,14 +300,7 @@
 		$(this).closest('.panel-body').find('.btn-danger').hide();
 		$(this).closest('td').next('td').append('<button class="btn btn-warning" style="width: 85px;" type="button"><i class="fa fa-remove"></i> Cancel</button></form>');
 		$('.btn-warning').on('click', function(){
-			$(this).closest('.panel-body').prev('.panel-body').text(txt);
-			$(this).closest('.panel-body').find('.btn-primary')
-					.unbind('click')
-					.bind('click', updating)
-					.html('<i class="fa fa-edit"></i> Edit')
-			;
-			$(this).closest('.panel-body').find('.btn-danger').show();
-			$(this).remove();
+			change(panel, txt);
 		});
 	}
 	function change(panel, txt) 
