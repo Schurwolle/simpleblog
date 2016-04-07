@@ -24,6 +24,12 @@ class TagsController extends Controller
 		$this->tags 	= $tags;
 	}
 
+    public function store(Request $request)
+    {
+        Tag::create($request->all());
+
+        return redirect('tags');
+    }
 
 
     public function show(Tag $tag)

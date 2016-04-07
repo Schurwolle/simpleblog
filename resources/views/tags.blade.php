@@ -1,18 +1,26 @@
 @extends('layouts.app')
 
 @section('content')
-	<h1>Tags:</h1>
-	<hr>
 	<table class="table table-striped table-bordered">
+	<thead style="border-left: hidden;border-top: hidden;border-right: hidden;">
+		<td style="vertical-align: baseline;">
+			<h1>Tags: </h1>
+		</td>
+		<td style="border-left: hidden;border-right: hidden;">
+		</td>
+		<td align="right" style="vertical-align: baseline;">
+			<button id="newTag" class="btn btn-default"><i class="fa fa-plus"></i> New Tag</button>
+		</td>
+	</thead>
 	@if($tags->count() > 0)
 		@foreach ($tags as $tag)
 			<tr class="tag"><td>
 					<a href="/tags/{{ $tag->name }}"><button class="btn btn-default">{{ $tag->name }} ({{ $tag->articles->count() }})</button></a>
 				</td>
-				<td>
+				<td align="middle">
 					<button class="btn btn-default"><i class="fa fa-edit"></i> Edit</button>
 				</td>
-				<td>
+				<td align="right">
 					<button class="btn btn-danger" id ="deleteTag" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button>
 				</td>
 			</tr>
@@ -27,6 +35,26 @@
 
 
 <script type="text/javascript">
+	function newTag() {
+		$(this).unbind('click');
+		$(this).bind('click', function(){
+			$('#name').focus();
+		});
+		$(this).closest('thead').next('tbody').prepend('<tr><td><form id="addform" method="POST" action ="/tags"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="text" name="name" id ="name" required="required" class="form-control"></form></td><td align="middle"><button id="add" class="btn btn-default"><i class="fa fa-plus"></i> Add</button></td><td align="right"><button id="cancel" class="btn btn-warning"><i class="fa fa-remove"></i> Cancel</button></td></tr></form>');
+		$('#name').focus();
+		$('button#add').on('click', function() {
+				$('#addform').submit();
+				$('button#newTag').bind('click', newTag);
+		});
+		$('button#cancel').on('click', function() {
+			$(this).closest('tr').remove();
+			$('button#newTag').bind('click', newTag);
+		});
+	}
+	$('button#newTag').on('click', newTag);
+
+
+
 	function updating(){
 		var tagname = $('#btnvalue').attr('name');
 		if(tagname != null) 
@@ -109,7 +137,7 @@
 	    }
 	    return true;     
 	 }
-	$('td').children('.btn-default').on('click', updating);
+	$('tbody').find('td').children('.btn-default').on('click', updating);
 
  	function confirmDeleteTag()
 	{	
