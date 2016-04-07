@@ -36,34 +36,45 @@
 
 <script type="text/javascript">
 	function newTag() {
+		closeForm();
 		$(this).unbind('click');
 		$(this).bind('click', function(){
 			$('#name').focus();
 		});
-		$(this).closest('thead').next('tbody').prepend('<tr><td><form id="addform" method="POST" action ="/tags"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="text" name="name" id ="name" required="required" class="form-control"></form></td><td align="middle"><button id="add" class="btn btn-default"><i class="fa fa-plus"></i> Add</button></td><td align="right"><button id="cancel" class="btn btn-warning"><i class="fa fa-remove"></i> Cancel</button></td></tr></form>');
+		$(this).closest('thead').next('tbody').prepend('<tr id="newTagRow"><td><form id="addform" method="POST" action ="/tags"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="text" name="name" id ="name" required="required" class="form-control"></form></td><td align="middle"><button id="add" class="btn btn-default"><i class="fa fa-plus"></i> Add</button></td><td align="right"><button id="cancel" class="btn btn-warning"><i class="fa fa-remove"></i> Cancel</button></td></tr></form>');
 		$('#name').focus();
 		$('button#add').on('click', function() {
+			var tagname = $('#name').val();
+			if(validateName(tagname) === false)
+			{
+				errorMsg();
+			} else {
 				$('#addform').submit();
-				$('button#newTag').bind('click', newTag);
+				$('button#newTag')
+					.unbind('click')
+					.bind('click', newTag)
+				;
+			}
 		});
 		$('button#cancel').on('click', function() {
 			$(this).closest('tr').remove();
-			$('button#newTag').bind('click', newTag);
+			$('button#newTag')
+				.unbind('click')
+				.bind('click', newTag)
+			;
 		});
 	}
 	$('button#newTag').on('click', newTag);
 
-
-
 	function updating(){
-		var tagname = $('#btnvalue').attr('name');
-		if(tagname != null) 
-		{	
-			var tagcount = $('#btnvalue').attr('value');
-			var txt = tagname.concat(tagcount);
-			var td = $('#name').closest('td');
-			change(td, tagname, txt);
+		if($('#newTagRow').length){
+			$('#newTagRow').remove();
+			$('button#newTag')
+				.unbind('click')
+				.bind('click', newTag)
+			;
 		}
+		closeForm();
 		txt = $(this).closest('td').prev('td').find('.btn-default').text();
 		tagname = txt.substring(0, txt.length-4);
 		tagcount = txt.substring(txt.length-4, txt.length);
@@ -92,7 +103,7 @@
 			var newtagname = $('#name').val();
 			if(validateName(newtagname) === false)
 			{
-				return swal({   title: "Error!",   text: "Tag name cannot be empty and can contain only alphanumeric characters.", timer: 2000,   showConfirmButton: false, type:"error" });
+				return errorMsg();
 			}
 			if (tagname === newtagname)
 			{
@@ -105,7 +116,7 @@
 				 type: "POST",
 				 data: dataString,
 				 success: function(name) {
-				 	msg();
+				 	successMsg();
 				 	change(td, name, txt);
 				 }
 			});
@@ -121,22 +132,37 @@
 	 	;
 	 	td.next('td').children('.btn-warning').remove();
 	}
-	function msg()
+	function successMsg()
 	{
 		swal({   title: "Success!",   text: "The tag has been updated!", timer: 1000,   showConfirmButton: false, type:"success" });
 	}
-	function validateName(newtagname)
+	function errorMsg()
 	{
-		if($.trim(newtagname).length === 0)
+		return swal({   title: "Error!",   text: "Tag name cannot be empty and can contain only alphanumeric characters.", timer: 2000,   showConfirmButton: false, type:"error" });
+	}
+	function validateName(tagname)
+	{
+		if($.trim(tagname).length === 0)
 		{
 			return false;
 		}
-	    if(/[^a-zA-Z0-9]/.test(newtagname)) 
+	    if(/[^a-zA-Z0-9]/.test(tagname)) 
 	    {
 	       return false;
 	    }
 	    return true;     
-	 }
+	}
+	function closeForm()
+	{
+		var tagname = $('#btnvalue').attr('name');
+		if(tagname != null) 
+		{	
+			var tagcount = $('#btnvalue').attr('value');
+			var txt = tagname.concat(tagcount);
+			var td = $('#name').closest('td');
+			change(td, tagname, txt);
+		}
+	}
 	$('tbody').find('td').children('.btn-default').on('click', updating);
 
  	function confirmDeleteTag()
