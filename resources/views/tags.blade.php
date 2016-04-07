@@ -14,7 +14,7 @@
 	</thead>
 	@if($tags->count() > 0)
 		@foreach ($tags as $tag)
-			<tr class="tag"><td>
+			<tr><td>
 					<a href="/tags/{{ $tag->name }}"><button class="btn btn-default">{{ $tag->name }} ({{ $tag->articles->count() }})</button></a>
 				</td>
 				<td align="middle">
@@ -41,7 +41,7 @@
 		$(this).bind('click', function(){
 			$('#name').focus();
 		});
-		$(this).closest('thead').next('tbody').prepend('<tr id="newTagRow"><td><form id="addform" method="POST" action ="/tags"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="text" name="name" id ="name" required="required" class="form-control"></form></td><td align="middle"><button id="add" class="btn btn-default"><i class="fa fa-plus"></i> Add</button></td><td align="right"><button id="cancel" class="btn btn-warning"><i class="fa fa-remove"></i> Cancel</button></td></tr></form>');
+		$(this).closest('thead').next('tbody').prepend('<tr id="addTagRow"><td><form id="addform" method="POST" action ="/tags" onkeypress="return event.keyCode != 13;"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="text" name="name" id ="name" required="required" class="form-control"></form></td><td align="middle"><button id="add" class="btn btn-default"><i class="fa fa-plus"></i> Add</button></td><td align="right"><button id="cancel" class="btn btn-warning"><i class="fa fa-remove"></i> Cancel</button></td></tr></form>');
 		$('#name').focus();
 		$('button#add').on('click', function() {
 			var tagname = $('#name').val();
@@ -49,11 +49,24 @@
 			{
 				errorMsg();
 			} else {
-				$('#addform').submit();
 				$('button#newTag')
 					.unbind('click')
 					.bind('click', newTag)
 				;
+				var dataString = $('#addform').serialize();
+				var tr = $(this).closest('tr');
+				var tbody = $(this).closest('tbody');
+				$.ajax({
+					url: '/tags',
+					type: 'POST',
+					data: dataString,
+					success: function(tag) {
+						tr.remove();
+						tbody.append('<tr><td><button class="btn btn-default">'+ tag.name +' (0)</button></td><td align="middle"><button id="editTag" class="btn btn-default"><i class="fa fa-edit"></i> Edit</button></td><td align="right"><button class="btn btn-danger" id ="deleteTag" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td></tr>');
+						$('button#editTag').on('click', updating);
+						$('button#deleteTag').on('click', confirmDeleteTag);
+					}
+				});
 			}
 		});
 		$('button#cancel').on('click', function() {
@@ -67,8 +80,8 @@
 	$('button#newTag').on('click', newTag);
 
 	function updating(){
-		if($('#newTagRow').length){
-			$('#newTagRow').remove();
+		if($('#addTagRow').length){
+			$('#addTagRow').remove();
 			$('button#newTag')
 				.unbind('click')
 				.bind('click', newTag)
