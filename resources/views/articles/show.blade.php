@@ -195,7 +195,7 @@
 									@endif 
 								</span>
 							</div>
-							<div class="panel-body" style="word-break:break-all;">
+							<div class="panel-body" style="word-wrap: break-word;">
 								{{$comment->body}}
 							</div>
 							@if($comment->user_id == Auth::id() || Auth::user()->isAdmin())
@@ -239,30 +239,32 @@
 		var href = $('#link').attr('href');
 		var username = ($('#username').text()).trim();
 		var dataString = $('#addform').serialize();
+		var counters = $('#counters').text();
+        var numComm = counters.trim();
+        numComm = parseInt(numComm.substring(numComm.length-2, numComm.length)) + 1;
+        var numFavs = counters.trim().substring(0,1);
 		$.ajax({
 			url: "/comment",
 			type: "POST",
 			data: dataString,
-			success:function(id){
-				swal({   title: "Success!",   text: "The comment has been published!", timer: 1100,   showConfirmButton: false, type:"success" });
+			success:function(comment){
 				if(!hr.length)
 				{
-					$('#addform').after('<h3 id="numComm"></h3><hr>');
+					$('#addform').after('<h3 id="numComm">1 Comment:</h3><hr>');
 					hr = $('#addform').next('h3').next('hr');
-				}
-				hr.after('<div class="row"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading"><a style="color:black;" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body" style="word-break:break-all;">'+ comment +'</div><div id="'+ id +'" class="panel-body"><table style=""><tr><td><button id="edit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></td><td><button class="btn btn-danger" id ="deleteComment" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td></tr></table></div></div></div></div>');
+				} else {
+		        	$('#numComm').text(numComm + ' Comments:');
+		        }
+				swal({   title: "Success!",   text: "The comment has been published!", timer: 1100,   showConfirmButton: false, type:"success" });
+				hr.after('<div class="row"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading"><a style="color:black;" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body" style="word-wrap: break-word;">'+ comment.body +'</div><div id="'+ comment.id +'" class="panel-body"><table style=""><tr><td><button id="edit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></td><td><button class="btn btn-danger" id ="deleteComment" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td></tr></table></div></div></div></div>');
 				$('button#edit').on('click', updating);
 				$('button#deleteComment').on('click', confirmDeleteComment);
-				$('#addform').find('textarea').val('');
-				var counters = $('#counters').text();
-		        var numComm = counters.trim();
-		        numComm = parseInt(numComm.substring(numComm.length-2, numComm.length)) + 1;
-		        var numFavs = counters.trim().substring(0,1);
-		        $('#counters').html('<i class="fa fa-star" style="color: gold;"></i> '+ numFavs +'  &nbsp <i class="fa fa-comment-o" style="color: purple;"></i> '+numComm)
-		        $('#numComm').text(numComm === 1 ? numComm + ' Comment:' : numComm + ' Comments:')
+				$('textarea#add').val('');
+		        $('#counters').html('<i class="fa fa-star" style="color: gold;"></i> '+ numFavs +'  &nbsp <i class="fa fa-comment-o" style="color: purple;"></i> '+numComm);
 			}
 		});
 	});
+
 	function updating (){
 		$('textarea#add').on('focus', function(){
 			change(panel, txt);
@@ -304,7 +306,10 @@
 					 url: "/comment/"+id,
 					 type: "POST",
 					 data: dataString,
-					 success: [msg(panel), change(panel, newtxt)]
+					 success: function(body) { 
+						 msg(panel);
+						 change(panel, body);
+					}
 				});
 			})
 		;
@@ -332,6 +337,7 @@
  		panel.siblings('.panel-heading').children('span').html(' '+ created +' (last edited 1 second ago)');
 	}
 	$('.panel-body').find('.btn-primary').on('click', updating);
+
 	function confirmDeleteComment()
 	{	
 		var id = $(this).closest('.panel-body').attr('id');
@@ -373,6 +379,7 @@
         });
 	}
 	$('button#deleteComment').on('click', confirmDeleteComment);
+
 	$('button#fav').on('click', function() {
 	    $.ajax({
 	      url: "{{$article->slug}}/favorite",
@@ -406,6 +413,7 @@
 	      }
 	    });
 	});
+	
 	function textareaHeight() {
 	    var txt = $('textarea').last();
 	    var hiddenDiv = $(document.createElement('div'));

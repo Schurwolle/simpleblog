@@ -21,19 +21,14 @@ class CommentsController extends Controller
 
     	$comment = Comment::create($input);
 
-        return $comment->id;
+        return $comment;
     }
 
     public function destroy(Comment $comment)
     {
         $this->authorize('commentAuth', $comment);
     		
-        	$articleslug = $comment->article->slug;
             $comment->delete();
-            \Session::flash('flash_message', 'The comment has been deleted!');
-        
-
-        return redirect('articles/'.$articleslug.'#comments');
     }
 
     public function update(Comment $comment, Request $request)
@@ -42,7 +37,6 @@ class CommentsController extends Controller
 
             $comment->update($request->all());
 
-            \Session::flash('flash_message', 'The comment has been updated!');
-            return redirect('articles/'.$comment->article->slug.'#'.$comment->id);
+            return $comment->body;
     }
 }

@@ -76,13 +76,13 @@
 				 url: "/tags/"+tagname,
 				 type: "POST",
 				 data: dataString,
-				 success: [msg(), change(td, newtagname, txt)]
+				 success: function(name) {
+				 	msg();
+				 	change(td, name, txt);
+				 }
 			});
 		}
 	}
-
-	$('td').children('.btn-default').on('click', updating);
-
 	function change(td, tagname, txt) 
 	{
 		td.html('<a href="/tags/'+ tagname +'"><button class="btn btn-default">'+ txt +'</button></a>');
@@ -109,6 +109,7 @@
 	    }
 	    return true;     
 	 }
+	$('td').children('.btn-default').on('click', updating);
 
  	function confirmDeleteTag()
 	{	

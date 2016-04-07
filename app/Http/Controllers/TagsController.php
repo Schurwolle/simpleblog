@@ -37,11 +37,7 @@ class TagsController extends Controller
     {
     	$this->authorize('adminAuth', Auth::user());
 
-	    	$tag->delete();
-
-	    	\Session::flash('flash_message', 'The tag has been deleted!');
-	        
-	        return redirect('tags');
+	    	$tag->delete();	        
     }
 
     public function update(Tag $tag, Request $request)
@@ -50,8 +46,6 @@ class TagsController extends Controller
 
     		$tag->update($request->all());
 
-    		\Session::flash('flash_message', 'The tag has been updated!');
-
-    		return redirect('tags');
+    		return $tag->name;
     }
 }
