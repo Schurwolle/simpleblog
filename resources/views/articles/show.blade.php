@@ -75,9 +75,9 @@
 							<h1>{{ $article->title }} </h1>
 						</td>
 						<td id ="counters" align="right">
-							<i class="fa fa-star" style="color: gold;"></i> {{ $article->favoritedBy->count() }}
+							<i class="fa fa-star{{ !$article->favoritedBy->contains(Auth::id()) ? '-o' : '' }}" style="color: gold;"></i> {{ $article->favoritedBy->count() }}
 							&nbsp
-							<i class="fa fa-comment-o" style="color: purple;"></i> {{ $article->comments->count() }}
+							<i class="fa fa-comment{{ !$article->hasCommentFromUser(Auth::id()) ? '-o' : '' }}" style="color: purple;"></i> {{ $article->comments->count() }}
 						</td>
 					</tr>
 				</table>
@@ -425,7 +425,7 @@
 	                 .html('<i class="fa fa-star"></i> Favorite')     
 	           ;
 	           numFavs -= 1;
-	           $('#counters').html('<i class="fa fa-star" style="color: gold;"></i> '+ numFavs +'  &nbsp <i class="fa fa-comment-o" style="color: purple;"></i> '+numComm)
+	           $('#counters').html('<i class="fa fa-star-o" style="color: gold;"></i> '+ numFavs +'  &nbsp <i class="fa fa-comment-o" style="color: purple;"></i> '+numComm)
 	        }
 	      }
 	    });

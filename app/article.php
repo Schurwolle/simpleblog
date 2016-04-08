@@ -51,6 +51,10 @@ class article extends Model
         return $this->hasMany('App\Comment');
     }
 
+    public function hasCommentFromUser($user_id){
+        return $this->comments()->where('user_id', $user_id)->count() > 0;
+    }
+
     public function getTagListAttribute()
     {
         return $this->tags->lists('id')->all();

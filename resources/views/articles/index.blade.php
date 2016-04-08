@@ -41,9 +41,9 @@
 									<h2><a style="font-weight: bold;color: black;" href="/articles/{{ $article->slug }}">{!! $article->title !!}</a></h2>
 								</td>
 								<td align="right">
-									<i class="fa fa-star" style="color: gold;"></i> {{ $article->favoritedBy->count() }} 
+									<i class="fa fa-star{{ !$article->favoritedBy->contains(Auth::id()) ? '-o' : '' }}" style="color: gold;"></i> {{ $article->favoritedBy->count() }} 
 									&nbsp
-									<i class="fa fa-comment-o" style="color: purple;"></i> {{ $article->comments->count() }}
+									<i class="fa fa-comment{{ !$article->hasCommentFromUser(Auth::id()) ? '-o' : '' }}" style="color: purple;"></i> {{ $article->comments->count() }}
 								</td>
 							</tr>
 						</table>
