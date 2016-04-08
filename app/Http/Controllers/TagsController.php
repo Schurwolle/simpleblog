@@ -10,6 +10,7 @@ use App\Tag;
 use App\Repositories\ArticleRepository;
 use App\Repositories\TagRepository;
 use Auth;
+use App\Http\Requests\TagRequest;
 
 class TagsController extends Controller
 {
@@ -24,7 +25,7 @@ class TagsController extends Controller
 		$this->tags 	= $tags;
 	}
 
-    public function store(Request $request)
+    public function store(TagRequest $request)
     {
         $tag = Tag::create(['name' => strtolower($request->name)]);
 
@@ -46,7 +47,7 @@ class TagsController extends Controller
 	    	$tag->delete();	        
     }
 
-    public function update(Tag $tag, Request $request)
+    public function update(Tag $tag, TagRequest $request)
     {
     	$this->authorize('adminAuth', Auth::user());
 

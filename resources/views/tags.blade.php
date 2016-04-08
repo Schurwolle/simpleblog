@@ -58,7 +58,7 @@
 			var tagname = $('#name').val();
 			if(validateName(tagname) === false)
 			{
-				errorMsg();
+				errorMsg("Tag name cannot be empty and can contain only alphanumeric characters.");
 			} else {
 				$('button#newTag')
 					.unbind('click')
@@ -71,8 +71,12 @@
 					url: '/tags',
 					type: 'POST',
 					data: dataString,
+					error: function(jqXHR) {
+					  var err = jqXHR.responseText.substring(10,jqXHR.responseText.length-3);
+					  errorMsg(err);
+					},
 					success: function(tag) {
-						swal({   title: "Success!",   text: "The tag has been created!", timer: 1000,   showConfirmButton: false, type:"success" });
+						successMsg("The tag has been created!");
 						tr.remove();
 						tbody.prepend('<tr><td><button class="btn btn-default">'+ tag.name +' (0)</button></td><td align="middle"><button id="editTag" class="btn btn-default"><i class="fa fa-edit"></i> Edit</button></td><td align="right"><button class="btn btn-danger" id ="deleteTag" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td></tr>');
 						$('button#editTag').on('click', updating);
@@ -112,7 +116,7 @@
 			var newtagname = $('#name').val();
 			if(validateName(newtagname) === false)
 			{
-				return errorMsg();
+				return errorMsg("Tag name cannot be empty and can contain only alphanumeric characters.");
 			}
 			if (tagname === newtagname)
 			{
@@ -123,8 +127,12 @@
 				 url: "/tags/"+tagname,
 				 type: "POST",
 				 data: dataString,
+				 error: function(jqXHR) {
+					  var err = jqXHR.responseText.substring(10,jqXHR.responseText.length-3);
+					  errorMsg(err);
+					},
 				 success: function(name) {
-				 	successMsg();
+				 	successMsg("The tag has been updated!");
 				 	txt = name.concat(tagcount);
 				 	change(td, name, txt);
 				 }
@@ -141,13 +149,13 @@
 	 	;
 	 	td.next('td').children('.btn-warning').remove();
 	}
-	function successMsg()
+	function successMsg(succ)
 	{
-		swal({   title: "Success!",   text: "The tag has been updated!", timer: 1000,   showConfirmButton: false, type:"success" });
+		swal({   title: "Success!",   text: succ, timer: 1000,   showConfirmButton: false, type:"success" });
 	}
-	function errorMsg()
+	function errorMsg(err)
 	{
-		return swal({   title: "Error!",   text: "Tag name cannot be empty and can contain only alphanumeric characters.", timer: 2000,   showConfirmButton: false, type:"error" });
+		return swal({   title: "Error!",   text: err, timer: 2000,   showConfirmButton: false, type:"error" });
 	}
 	function validateName(tagname)
 	{
@@ -161,6 +169,16 @@
 	    }
 	    return true;     
 	}
+	function closeAddForm()
+	{
+		if($('#addTagRow').length){
+			$('#addTagRow').remove();
+			$('button#newTag')
+				.unbind('click')
+				.bind('click', newTag)
+			;
+		}
+	}
 	function closeUpdateForm()
 	{
 		var tagname = $('#btnvalue').attr('name');
@@ -170,16 +188,6 @@
 			var txt = tagname.concat(tagcount);
 			var td = $('#name').closest('td');
 			change(td, tagname, txt);
-		}
-	}
-	function closeAddForm()
-	{
-		if($('#addTagRow').length){
-			$('#addTagRow').remove();
-			$('button#newTag')
-				.unbind('click')
-				.bind('click', newTag)
-			;
 		}
 	}
 	function ajaxOnEnter()
@@ -198,10 +206,11 @@
 		closeAddForm();
 		closeUpdateForm();
 
-		var tagname = $(this).closest('tr').find('.btn-default').first().text();
+		var tag = $(this).closest('tr');
+		var tagname = tag.find('.btn-default').first().text();
 		tagname = tagname.substring(0, tagname.length-4);
 		var token = $(this).data('token');
-		tag = $(this).closest('tr');
+
 		swal({
         title: "Are you sure?",
         text: "Deleted files cannot be recovered!",
@@ -218,7 +227,7 @@
             		type: 'post',	
             		data: {_method: 'delete', _token :token},
             		success: function(){
-            			swal({   title: "Success!",   text: "The tag has been deleted!", timer: 1100,   showConfirmButton: false, type:"success" });
+            			successMsg("The tag has been deleted!");
             			tag.remove();
             		}
             	});
