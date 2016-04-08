@@ -26,7 +26,7 @@ class TagsController extends Controller
 
     public function store(Request $request)
     {
-        $tag = Tag::create($request->all());
+        $tag = Tag::create(['name' => strtolower($request->name)]);
 
         return $tag;
     }
@@ -50,7 +50,7 @@ class TagsController extends Controller
     {
     	$this->authorize('adminAuth', Auth::user());
 
-    		$tag->update($request->all());
+    		$tag->update(['name' => strtolower($request->name)]);
 
     		return $tag->name;
     }

@@ -43,7 +43,18 @@
 		});
 		$(this).closest('thead').next('tbody').prepend('<tr id="addTagRow"><td><form id="addform" method="POST" action ="/tags" onkeypress="return event.keyCode != 13;"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="text" name="name" id ="name" required="required" class="form-control"></form></td><td align="middle"><button id="add" class="btn btn-default"><i class="fa fa-plus"></i> Add</button></td><td align="right"><button id="cancel" class="btn btn-warning"><i class="fa fa-remove"></i> Cancel</button></td></tr></form>');
 		$('#name').focus();
-		$('button#add').on('click', function() {
+		$('#name').bind('enterKey', ajaxAdd);
+		ajaxOnEnter();
+
+		$('button#add').on('click', ajaxAdd);
+		$('button#cancel').on('click', function() {
+			$(this).closest('tr').remove();
+			$('button#newTag')
+				.unbind('click')
+				.bind('click', newTag)
+			;
+		});
+		function ajaxAdd() {
 			var tagname = $('#name').val();
 			if(validateName(tagname) === false)
 			{
@@ -69,21 +80,14 @@
 					}
 				});
 			}
-		});
-		$('button#cancel').on('click', function() {
-			$(this).closest('tr').remove();
-			$('button#newTag')
-				.unbind('click')
-				.bind('click', newTag)
-			;
-		});
+		}
 	}
 	$('button#newTag').on('click', newTag);
 
 	function updating(){
 		closeAddForm();
 		closeUpdateForm();
-		
+
 		txt = $(this).closest('td').prev('td').find('.btn-default').text();
 		tagname = txt.substring(0, txt.length-4);
 		tagcount = txt.substring(txt.length-4, txt.length);
@@ -93,12 +97,8 @@
 			.find('#name').focus().val(tagname)
 		;
 		$('#name').bind('enterKey', ajaxUpdate);
-		$('#name').keyup(function(e){
-		    if(e.keyCode === 13)
-		    {
-		        $(this).trigger('enterKey');
-		    }
-		});
+		ajaxOnEnter();
+
 		$(this)
 			.unbind('click')
 			.bind('click', ajaxUpdate)
@@ -118,7 +118,6 @@
 			{
 				return change(td, tagname, txt);
 			}
-			txt = newtagname.concat(tagcount);
 			dataString = $("#updateform").serialize();
 			$.ajax({				 
 				 url: "/tags/"+tagname,
@@ -126,6 +125,7 @@
 				 data: dataString,
 				 success: function(name) {
 				 	successMsg();
+				 	txt = name.concat(tagcount);
 				 	change(td, name, txt);
 				 }
 			});
@@ -181,6 +181,15 @@
 				.bind('click', newTag)
 			;
 		}
+	}
+	function ajaxOnEnter()
+	{
+		$('#name').keyup(function(e){
+		    if(e.keyCode === 13)
+		    {
+		        $(this).trigger('enterKey');
+		    }
+		});
 	}
 	$('tbody').find('td').children('.btn-default').on('click', updating);
 
