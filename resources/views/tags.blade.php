@@ -36,7 +36,7 @@
 
 <script type="text/javascript">
 	function newTag() {
-		closeForm();
+		closeUpdateForm();
 		$(this).unbind('click');
 		$(this).bind('click', function(){
 			$('#name').focus();
@@ -61,8 +61,9 @@
 					type: 'POST',
 					data: dataString,
 					success: function(tag) {
+						swal({   title: "Success!",   text: "The tag has been created!", timer: 1000,   showConfirmButton: false, type:"success" });
 						tr.remove();
-						tbody.append('<tr><td><button class="btn btn-default">'+ tag.name +' (0)</button></td><td align="middle"><button id="editTag" class="btn btn-default"><i class="fa fa-edit"></i> Edit</button></td><td align="right"><button class="btn btn-danger" id ="deleteTag" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td></tr>');
+						tbody.prepend('<tr><td><button class="btn btn-default">'+ tag.name +' (0)</button></td><td align="middle"><button id="editTag" class="btn btn-default"><i class="fa fa-edit"></i> Edit</button></td><td align="right"><button class="btn btn-danger" id ="deleteTag" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td></tr>');
 						$('button#editTag').on('click', updating);
 						$('button#deleteTag').on('click', confirmDeleteTag);
 					}
@@ -80,14 +81,9 @@
 	$('button#newTag').on('click', newTag);
 
 	function updating(){
-		if($('#addTagRow').length){
-			$('#addTagRow').remove();
-			$('button#newTag')
-				.unbind('click')
-				.bind('click', newTag)
-			;
-		}
-		closeForm();
+		closeAddForm();
+		closeUpdateForm();
+		
 		txt = $(this).closest('td').prev('td').find('.btn-default').text();
 		tagname = txt.substring(0, txt.length-4);
 		tagcount = txt.substring(txt.length-4, txt.length);
@@ -165,7 +161,7 @@
 	    }
 	    return true;     
 	}
-	function closeForm()
+	function closeUpdateForm()
 	{
 		var tagname = $('#btnvalue').attr('name');
 		if(tagname != null) 
@@ -176,10 +172,23 @@
 			change(td, tagname, txt);
 		}
 	}
+	function closeAddForm()
+	{
+		if($('#addTagRow').length){
+			$('#addTagRow').remove();
+			$('button#newTag')
+				.unbind('click')
+				.bind('click', newTag)
+			;
+		}
+	}
 	$('tbody').find('td').children('.btn-default').on('click', updating);
 
  	function confirmDeleteTag()
 	{	
+		closeAddForm();
+		closeUpdateForm();
+
 		var tagname = $(this).closest('tr').find('.btn-default').first().text();
 		tagname = tagname.substring(0, tagname.length-4);
 		var token = $(this).data('token');
