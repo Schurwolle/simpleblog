@@ -151,11 +151,11 @@
 	}
 	function successMsg(succ)
 	{
-		swal({   title: "Success!",   text: succ, timer: 1000,   showConfirmButton: false, type:"success" });
+		swal({ title: "Success!", text: succ, timer: 1000, showConfirmButton: false, type:"success" });
 	}
 	function errorMsg(err)
 	{
-		return swal({   title: "Error!",   text: err, timer: 2000,   showConfirmButton: false, type:"error" });
+		swal({ title: "Error!", text: err, timer: 2000, showConfirmButton: false, type:"error" });
 	}
 	function validateName(tagname)
 	{

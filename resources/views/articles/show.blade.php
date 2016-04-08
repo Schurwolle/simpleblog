@@ -232,7 +232,7 @@
 		var comment = $('#addform').find('textarea').val();
 		if($.trim(comment).length === 0)
 		{
-			return swal({   title: "Error!",   text: "Please enter your comment first.", timer: 1500,   showConfirmButton: false, type:"error" });
+			return errorMsg("Please enter your comment first.")
 		}
 		var hr = $('#addform').next('h3').next('hr');
 		var src = $('#addform').find('img').attr('src');
@@ -247,6 +247,10 @@
 			url: "/comment",
 			type: "POST",
 			data: dataString,
+			error: function(jqXHR) {
+					  var err = jqXHR.responseText.substring(10,jqXHR.responseText.length-3);
+					  errorMsg(err);
+					},
 			success:function(comment){
 				if(!hr.length)
 				{
@@ -255,7 +259,7 @@
 				} else {
 		        	$('#numComm').text(numComm + ' Comments:');
 		        }
-				swal({   title: "Success!",   text: "The comment has been published!", timer: 1100,   showConfirmButton: false, type:"success" });
+				successMsg("The comment has been published!");
 				hr.after('<div class="row"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading"><a style="color:black;" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body" style="word-wrap: break-word;">'+ comment.body +'</div><div id="'+ comment.id +'" class="panel-body"><table style=""><tr><td><button id="edit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></td><td><button class="btn btn-danger" id ="deleteComment" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td></tr></table></div></div></div></div>');
 				$('button#edit').on('click', updating);
 				$('button#deleteComment').on('click', confirmDeleteComment);
@@ -292,7 +296,7 @@
 				var newtxt = panel.find('textarea').val();
 				if($.trim(newtxt).length === 0)
 				{
-					return swal({   title: "Error!",   text: "Comment cannot be empty.", timer: 1500,   showConfirmButton: false, type:"error" });
+					return errorMsg("Comment cannot be empty.")
 				} 
 				if(txt === newtxt) 
 				{
@@ -306,9 +310,14 @@
 					 url: "/comment/"+id,
 					 type: "POST",
 					 data: dataString,
+					 error: function(jqXHR) {
+					  var err = jqXHR.responseText.substring(10,jqXHR.responseText.length-3);
+					  errorMsg(err);
+					},
 					 success: function(body) { 
-						 msg(panel);
+						 successMsg("The comment has been updated!");
 						 change(panel, body);
+						 changePanelHeading(panel);
 					}
 				});
 			})
@@ -331,10 +340,17 @@
 	 	panel.next('.panel-body').find('.btn-danger').show();
 	 	panel.next('.panel-body').find('.btn-warning').remove();
 	}
-	function msg(panel)
+	function changePanelHeading(panel)
 	{
-		swal({   title: "Success!",   text: "The comment has been updated!", timer: 1100,   showConfirmButton: false, type:"success" });
- 		panel.siblings('.panel-heading').children('span').html(' '+ created +' (last edited 1 second ago)');
+		panel.siblings('.panel-heading').children('span').html(' '+ created +' (last edited 1 second ago)');
+	}
+	function successMsg(succ)
+	{
+		swal({ title: "Success!", text: succ, timer: 1100, showConfirmButton: false, type:"success" });
+	}
+	function errorMsg(err)
+	{
+		swal({ title: "Error!", text: err, timer: 1500, showConfirmButton: false, type:"error" });
 	}
 	$('.panel-body').find('.btn-primary').on('click', updating);
 
@@ -363,7 +379,7 @@
             		type:'post',
             		data: {_method: 'delete', _token :token},
             		success: function() {
-            			swal({   title: "Success!",   text: "The comment has been deleted!", timer: 1100,   showConfirmButton: false, type:"success" });
+            			successMsg("The comment has been deleted!");
             			comment.remove();
             			$('#counters').html('<i class="fa fa-star" style="color: gold;"></i> '+ numFavs +'  &nbsp <i class="fa fa-comment-o" style="color: purple;"></i> '+numComm)
             			if (numComm === 0)

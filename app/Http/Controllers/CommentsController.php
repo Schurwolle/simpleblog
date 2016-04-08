@@ -9,11 +9,13 @@ use App\Http\Controllers\Controller;
 use App\Comment;
 use App\article;
 use Illuminate\Support\Facades\Input;
+use App\Http\Requests\CommentRequest;
+
 
 class CommentsController extends Controller
 {
 
-    public function store(Request $request)
+    public function store(CommentRequest $request)
     {
     	$input['user_id'] = $request->user()->id;
     	$input['article_id'] = $request->input('article_id');
@@ -31,7 +33,7 @@ class CommentsController extends Controller
             $comment->delete();
     }
 
-    public function update(Comment $comment, Request $request)
+    public function update(Comment $comment, CommentRequest $request)
     {
         $this->authorize('commentAuth', $comment);
 
