@@ -41,21 +41,21 @@
 		clear: none;
 	}
 	.hiddendiv {
-    display: none;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    width: 100%;
-    min-height: 95px;
-    font-family: 'Lato';
-    font-size: 14px;
-    padding-top: 6px;
-    padding-left:12px;
-    padding-right:12px;
-    padding-bottom: 6px;
+	    white-space: pre-wrap;
+	    word-wrap: break-word;
+	    overflow-wrap: break-word;
+	    width: 100%;
+	    min-height: 95px;
+	    font-family: 'Lato';
+	    font-size: 14px;
+	    padding-top: 6px;
+	    padding-left:12px;
+	    padding-right:12px;
+	    padding-bottom: 6px;
+	    border:1px solid black;
 	}
 	.lbr {
-    line-height: 3px;
+    	line-height: 3px;
 	}
 </style>
 
@@ -432,16 +432,18 @@
 	
 	function textareaHeight() {
 	    var txt = $('textarea').last();
-	    var hiddenDiv = $(document.createElement('div'));
-	    var content = null;
 	    
-	    hiddenDiv.addClass('hiddendiv');
-	    txt.parent().append(hiddenDiv);
 	    txt.on('keyup', function () {
+	    	var hiddenDiv = $(document.createElement('div'));
+	    	var content = null;
+	    	hiddenDiv.addClass('hiddendiv');
+	    	txt.parent().append(hiddenDiv);
 	        content = $(this).val();
 	        content = content.replace(/\n/g, '<br>');
 	        hiddenDiv.html(content + '<br class="lbr">');
 	        $(this).css('height', hiddenDiv.height()+14);
+	        hiddenDiv.remove();
+
 	    });
 	}
 	window.onload = textareaHeight;
