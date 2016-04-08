@@ -229,7 +229,7 @@
 
 <script type="text/javascript">
 	$('button#addcomment').on('click', function(){
-		var comment = $('#addform').find('textarea').val();
+		var comment = $('textarea#add').val();
 		if($.trim(comment).length === 0)
 		{
 			return errorMsg("Please enter your comment first.")
@@ -264,6 +264,7 @@
 				$('button#edit').on('click', updating);
 				$('button#deleteComment').on('click', confirmDeleteComment);
 				$('textarea#add').val('');
+				$('textarea#add').height(80);
 		        $('#counters').html('<i class="fa fa-star" style="color: gold;"></i> '+ numFavs +'  &nbsp <i class="fa fa-comment-o" style="color: purple;"></i> '+numComm);
 			}
 		});
@@ -293,7 +294,7 @@
 		$(this)
 			.unbind('click')	
 			.bind('click', function(){
-				var newtxt = panel.find('textarea').val();
+				var newtxt = $('textarea#body').val();
 				if($.trim(newtxt).length === 0)
 				{
 					return errorMsg("Comment cannot be empty.")
