@@ -242,7 +242,6 @@
 		var counters = $('#counters').text();
         var numComm = counters.trim();
         numComm = parseInt(numComm.substring(numComm.length-2, numComm.length)) + 1;
-        var numFavs = counters.trim().substring(0,1);
 		$.ajax({
 			url: "/comment",
 			type: "POST",
@@ -265,7 +264,11 @@
 				$('button#deleteComment').on('click', confirmDeleteComment);
 				$('textarea#add').val('');
 				$('textarea#add').height(80);
-		        $('#counters').html('<i class="fa fa-star" style="color: gold;"></i> '+ numFavs +'  &nbsp <i class="fa fa-comment-o" style="color: purple;"></i> '+numComm);
+				$('#counters')
+					.html($('#counters').html().split('&nbsp')[0])
+					.append('&nbsp <i class="fa fa-comment" style="color: purple;"></i> '+numComm)
+				;
+		        
 			}
 		});
 	});
@@ -363,7 +366,6 @@
 		var counters = $('#counters').text();
         var numComm = counters.trim();
         numComm = parseInt(numComm.substring(numComm.length-2, numComm.length)) - 1;
-        var numFavs = counters.trim().substring(0,1);
 		swal({
         title: "Are you sure?",
         text: "Deleted files cannot be recovered!",
@@ -379,10 +381,16 @@
             		url: '/comment/'+id,
             		type:'post',
             		data: {_method: 'delete', _token :token},
-            		success: function() {
+            		success: function(hasCommentFromUser) {
             			successMsg("The comment has been deleted!");
             			comment.remove();
-            			$('#counters').html('<i class="fa fa-star" style="color: gold;"></i> '+ numFavs +'  &nbsp <i class="fa fa-comment-o" style="color: purple;"></i> '+numComm)
+            			$('#counters').html($('#counters').html().split('&nbsp')[0])
+            			if(hasCommentFromUser === 'true')
+            			{
+            				$('#counters').append('  &nbsp <i class="fa fa-comment" style="color: purple;"></i> '+numComm);
+            			} else {
+            				$('#counters').append('  &nbsp <i class="fa fa-comment-o" style="color: purple;"></i> '+numComm);
+            			}
             			if (numComm === 0)
             			{
             				$('#numComm').next('hr').remove();
@@ -403,12 +411,7 @@
 	      success: function(){
 	      	var counters = $('#counters').text();
 	        var numFavs = parseInt(counters.trim().substring(0,1));
-	        var numComm = $('#numComm').text();
-	        numComm = numComm.substring(0,1);
-	        if (numComm === "")
-	        {
-	        	numComm = 0;
-	        }
+	        $('#counters').html($('#counters').html().split('&nbsp;')[1]);
 	      	if ($('button#fav').attr('title') === 'favorite')
 	      	{
 	           $('button#fav')
@@ -417,7 +420,7 @@
 	                 .html('<i class="fa fa-star"></i> Favorited!')
 	           ;
 	           numFavs += 1;
-	           $('#counters').html('<i class="fa fa-star" style="color: gold;"></i> '+ numFavs +'  &nbsp <i class="fa fa-comment-o" style="color: purple;"></i> '+numComm)
+	           	$('#counters').prepend('<i class="fa fa-star" style="color: gold;"></i> '+ numFavs +' &nbsp ');
 	        } else {
 	        	$('button#fav')
 	        		 .attr('title', 'favorite')
@@ -425,7 +428,7 @@
 	                 .html('<i class="fa fa-star"></i> Favorite')     
 	           ;
 	           numFavs -= 1;
-	           $('#counters').html('<i class="fa fa-star-o" style="color: gold;"></i> '+ numFavs +'  &nbsp <i class="fa fa-comment-o" style="color: purple;"></i> '+numComm)
+	           $('#counters').prepend('<i class="fa fa-star-o" style="color: gold;"></i> '+ numFavs +'  &nbsp ');
 	        }
 	      }
 	    });

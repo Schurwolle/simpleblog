@@ -10,6 +10,7 @@ use App\Comment;
 use App\article;
 use Illuminate\Support\Facades\Input;
 use App\Http\Requests\CommentRequest;
+use Auth;
 
 
 class CommentsController extends Controller
@@ -30,7 +31,13 @@ class CommentsController extends Controller
     {
         $this->authorize('commentAuth', $comment);
     		
+            $article = $comment->article;
             $comment->delete();
+            if($article->hasCommentFromUser(Auth::id()) == true)
+            {
+                return 'true';
+            } 
+            return 'false';
     }
 
     public function update(Comment $comment, CommentRequest $request)
