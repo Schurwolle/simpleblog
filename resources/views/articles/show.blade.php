@@ -443,7 +443,13 @@
 	    	hiddenDiv.addClass('hiddendiv');
 	    	txt.parent().append(hiddenDiv);
 	        content = $(this).val();
-	        content = content.replace(/\n/g, '<br>');
+	        content = content
+	        				.replace(/&/g, "&amp;")
+					        .replace(/</g, "&lt;")
+					        .replace(/>/g, "&gt;")
+					        .replace(/"/g, "&quot;")
+					        .replace(/'/g, "&#039;")
+					        .replace(/\n/g, '<br>');
 	        hiddenDiv.html(content + '<br class="lbr">');
 	        $(this).css('height', hiddenDiv.height()+14);
 	        hiddenDiv.remove();
