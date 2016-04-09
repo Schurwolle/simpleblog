@@ -91,13 +91,13 @@
 	function updating(){
 		closeAddForm();
 		closeUpdateForm();
-
+		
 		txt = $(this).closest('td').prev('td').find('.btn-default').text();
 		tagname = txt.substring(0, txt.length-4);
 		tagcount = txt.substring(txt.length-4, txt.length);
 		td = $(this).closest('td').prev('td');
 		td
-			.html('<form action="/tags/'+ tagname +'"method="POST" id = "updateform" onkeypress="return event.keyCode != 13;"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="text" id="name" name="name" class="form-control"><span id = "btnvalue" style="visibility:hidden" name ="'+ tagname +'" value = "'+ tagcount +'"></span>')
+			.html('<form action="/tags/'+ tagname +'"method="POST" id = "updateform" onkeypress="return event.keyCode != 13;"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="text" id="name" name="name" class="form-control">')
 			.find('#name').focus().val(tagname)
 		;
 		$('#name').bind('enterKey', ajaxUpdate);
@@ -181,12 +181,8 @@
 	}
 	function closeUpdateForm()
 	{
-		var tagname = $('#btnvalue').attr('name');
-		if(tagname != null) 
-		{	
-			var tagcount = $('#btnvalue').attr('value');
-			var txt = tagname.concat(tagcount);
-			var td = $('#name').closest('td');
+		if($('input#name').length)
+		{
 			change(td, tagname, txt);
 		}
 	}

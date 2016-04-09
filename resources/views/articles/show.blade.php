@@ -278,21 +278,20 @@
 		$('textarea#add').on('focus', function(){
 			change(panel, txt);
 		});
-		var txt = $('#area').attr('value');
-		if(txt != null)
+
+		if($('textarea#body').length)
 		{
-			var id = $('#area').attr('name');
-			var panel = $('#area').closest('.panel-body')
 			change(panel, txt);
 		}
+
 		txt = $(this).closest('.panel-body').prev('.panel-body').text();
 		txt = txt.trim();
 		id  = $(this).closest('.panel-body').attr('id');
 		panel = $(this).closest('.panel-body').prev('.panel-body');
-		panel.html('<form method="POST" action="/comment/'+ id +'"id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input name="_method" type="hidden" value="PATCH"><textarea id="body" class="form-control" required="required" name="body" style="min-height: 95px;font-size: 14px;overflow: hidden;resize: none;"></textarea><span id="area" style="visibility:hidden" name ="'+ id +'" value= "'+ txt +'"></span>');
+		panel.html('<form method="POST" action="/comment/'+ id +'"id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input name="_method" type="hidden" value="PATCH"><textarea id="body" class="form-control" required="required" name="body" style="min-height: 95px;font-size: 14px;overflow: hidden;resize: none;"></textarea>');
 		$('#body')
 			.focus().text(txt)
-			.height( $("#body")[0].scrollHeight );
+			.height($("#body")[0].scrollHeight);
 		;
 		textareaHeight();
 		$(this)
