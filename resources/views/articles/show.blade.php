@@ -285,8 +285,17 @@
 			change(panel, txt);
 		}
 
-		txt = $(this).closest('.panel-body').prev('.panel-body').text();
+		txt = $(this).closest('.panel-body').prev('.panel-body').html();
 		txt = txt.trim();
+		txt = txt
+					.replace(/<br><br>/g, "\n")
+					.replace(/<br>/g, "")
+					.replace(/&amp;/g, "&")
+					.replace(/&lt;/g, "<")
+			        .replace(/&gt;/g, ">")
+			        .replace(/&quot;/g, "'")
+			        .replace(/&#039;/g, "'")
+		;
 		id  = $(this).closest('.panel-body').attr('id');
 		panel = $(this).closest('.panel-body').prev('.panel-body');
 		panel.html('<form method="POST" action="/comment/'+ id +'"id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input name="_method" type="hidden" value="PATCH"><textarea id="body" class="form-control" required="required" name="body" style="min-height: 95px;font-size: 14px;overflow: hidden;resize: none;"></textarea>');
@@ -364,7 +373,7 @@
 	}
 	function preventMultipleBR(txt)
 	{
-		return txt = txt.replace(/(?:<br>\s*){2,}/g, '<br><br>');
+		return txt = txt.replace(/(?:<br>\s*){3,}/g, '<br><br>');
 	}
 	function successMsg(succ)
 	{
