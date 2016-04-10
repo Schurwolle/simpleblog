@@ -196,7 +196,7 @@
 								</span>
 							</div>
 							<div class="panel-body" style="word-wrap: break-word;">
-								{{$comment->body}}
+								{!! preg_replace('/(?:\s*<br[^>]*>\s*){3,}/s', "<br><br>", nl2br(e($comment->body)) )!!}
 							</div>
 							@if($comment->user_id == Auth::id() || Auth::user()->isAdmin())
 							 	<div id="{{$comment->id}}" class="panel-body">
@@ -259,8 +259,9 @@
 		        	$('#numComm').text(numComm + ' Comments:');
 		        }
 				successMsg("The comment has been published!");
-				hr.after('<div class="row"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading"><a style="color:black;" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body" style="word-wrap: break-word;"></div><div id="'+ comment.id +'" class="panel-body"><table style=""><tr><td><button id="edit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></td><td><button class="btn btn-danger" id ="deleteComment" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td></tr></table></div></div></div></div>');
-				$('div#'+comment.id).prev('.panel-body').text(comment.body);
+				txt = escapeHTML(comment.body);
+				txt = preventMultipleBR(txt);
+				hr.after('<div class="row"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading"><a style="color:black;" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body" style="word-wrap: break-word;">'+ txt +'</div><div id="'+ comment.id +'" class="panel-body"><table style=""><tr><td><button id="edit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></td><td><button class="btn btn-danger" id ="deleteComment" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td></tr></table></div></div></div></div>');
 				$('button#edit').on('click', updating);
 				$('button#deleteComment').on('click', confirmDeleteComment);
 				$('textarea#add').val('');
@@ -335,7 +336,9 @@
 	}
 	function change(panel, txt) 
 	{
-		panel.text(txt);
+		txt = escapeHTML(txt);
+		txt = preventMultipleBR(txt);
+		panel.html(txt);
 	 	panel.next('.panel-body').find('.btn-primary')
 	 			.unbind('click')
 	 			.bind('click', updating)
@@ -347,6 +350,21 @@
 	function changePanelHeading(panel)
 	{
 		panel.siblings('.panel-heading').children('span').html(' '+ created +' (last edited 1 second ago)');
+	}
+	function escapeHTML(txt)
+	{
+		return txt = txt
+				.replace(/&/g, "&amp;")
+				.replace(/</g, "&lt;")
+		        .replace(/>/g, "&gt;")
+		        .replace(/"/g, "&quot;")
+		        .replace(/'/g, "&#039;")
+		        .replace(/\n/g,"<br>")
+		;
+	}
+	function preventMultipleBR(txt)
+	{
+		return txt = txt.replace(/(?:<br>\s*){2,}/g, '<br><br>');
 	}
 	function successMsg(succ)
 	{
@@ -443,13 +461,7 @@
 	    	hiddenDiv.addClass('hiddendiv');
 	    	txt.parent().append(hiddenDiv);
 	        content = $(this).val();
-	        content = content
-	        				.replace(/&/g, "&amp;")
-					        .replace(/</g, "&lt;")
-					        .replace(/>/g, "&gt;")
-					        .replace(/"/g, "&quot;")
-					        .replace(/'/g, "&#039;")
-					        .replace(/\n/g, '<br>');
+	        content = escapeHTML(content);
 	        hiddenDiv.html(content + '<br class="lbr">');
 	        $(this).css('height', hiddenDiv.height()+14);
 	        hiddenDiv.remove();
