@@ -167,23 +167,31 @@ class ArticlesController extends Controller
         $mask = glob('pictures/cropper/croppedimg'.$userName.'*');
         if(!empty($mask) && $request->img != "")
         {
-            $photo = $mask[0];
             $fileName = $article->id;
-
-            $manager = new ImageManager();
-            $image = $manager->make($photo)->save('pictures/'.$fileName);
+            $this->upload($mask, $fileName);
         }
 
         
         $mask = glob('pictures/cropper/croppedthumb'.$userName.'*');
         if(!empty($mask) && $request->thumbnailImage != "")
         {
-            $photo = $mask[0];
             $fileName = $article->id.'thumbnail';
-
-            $manager = new ImageManager();
-            $image = $manager->make($photo)->save('pictures/'.$fileName);
+            $this->upload($mask, $fileName);
         }
+
+        $mask = glob('pictures/cropper/lightbox2'.$userName);
+        if(!empty($mask) && $request->img != "")
+        {
+            $fileName = $article->id.'lightbox2';
+            $this->upload($mask, $fileName);
+        }
+    }
+
+    private function upload($mask, $fileName)
+    {
+        $photo = $mask[0];
+        $manager = new ImageManager();
+        $image = $manager->make($photo)->save('pictures/'.$fileName);
     }
 
     private function deleteImages(article $article)

@@ -86,7 +86,17 @@ class CropController extends Controller
         $rotation = $inputs['rotation'];
 
         if($cropW == 650)
-        {
+        {   
+            $fileName = Auth::user()->name;
+            $mask = glob('pictures/cropper/image'.$fileName.'*');
+            if (!empty($mask))
+            {
+                $photo = $mask[0];
+                $fileName = 'lightbox2'.$fileName;
+
+                $manager = new ImageManager();
+                $image = $manager->make($photo)->save('pictures/cropper/'.$fileName);
+            }
             $fileName = 'img';
         } else {
             $fileName = 'thumb';
