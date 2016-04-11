@@ -21,6 +21,7 @@ elixir(function(mix) {
         'croppic.css',
         'jquery.bxslider.css',
         'sweetalert.css',
+        'lightbox.min.css',
     	'default.css'
     ], null, 'public/');
 
@@ -31,7 +32,8 @@ elixir(function(mix) {
     	'jquery.bxslider.js',
     	'jquery.mousewheel.min.js',
     	'select2.min.js',
-    	'sweetalert.min.js'
+    	'sweetalert.min.js',
+        'lightbox.min.js'
     	], null, 'public/')
 
     mix.version([

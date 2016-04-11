@@ -92,7 +92,7 @@
 		@if (file_exists('pictures/'.$article->id))
 			<tr>
 				<td>
-					{{ Html::image(('pictures/'.$article->id)) }}
+					<a href="/pictures/{{$article->id}}" data-lightbox="image-1">{{ Html::image(('pictures/'.$article->id)) }}</a>
 				</td>
 			</tr>
 		@endif
