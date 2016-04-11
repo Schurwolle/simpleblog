@@ -20,7 +20,7 @@ class CommentsController extends Controller
     {
     	$input['user_id'] = $request->user()->id;
     	$input['article_id'] = $request->input('article_id');
-    	$input['body'] = trim($request->input('body'));
+    	$input['body'] = preg_replace("/(\r?\n){2,}/", "\n\n", trim($request->input('body')));
 
     	$comment = Comment::create($input);
 
@@ -44,7 +44,7 @@ class CommentsController extends Controller
     {
         $this->authorize('commentAuth', $comment);
 
-            $comment->update(['body' => trim($request->body)]);
+            $comment->update(['body' => preg_replace("/(\r?\n){2,}/", "\n\n", trim($request->body))]);
 
             return $comment->body;
     }

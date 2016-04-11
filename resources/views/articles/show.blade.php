@@ -290,8 +290,6 @@
 
 		txt = $(this).closest('.panel-body').prev('.panel-body').text();
 		txt = txt.trim();
-		
-		
 		id  = $(this).closest('.panel-body').attr('id');
 		panel = $(this).closest('.panel-body').prev('.panel-body');
 		panel.html('<form method="POST" action="/comment/'+ id +'"id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input name="_method" type="hidden" value="PATCH"><textarea id="body" class="form-control" required="required" name="body" style="min-height: 95px;font-size: 14px;overflow: hidden;resize: none;"></textarea>');
@@ -353,21 +351,6 @@
 	function changePanelHeading(panel)
 	{
 		panel.siblings('.panel-heading').children('span').html(' '+ created +' (last edited 1 second ago)');
-	}
-	function escapeHTML(txt)
-	{
-		return txt = txt
-				.replace(/&/g, "&amp;")
-				.replace(/</g, "&lt;")
-		        .replace(/>/g, "&gt;")
-		        .replace(/"/g, "&quot;")
-		        .replace(/'/g, "&#039;")
-		        .replace(/\n/g,"<br>")
-		;
-	}
-	function preventMultipleBR(txt)
-	{
-		return txt = txt.replace(/(?:<br>\s*){3,}/g, '<br><br>');
 	}
 	function successMsg(succ)
 	{
@@ -470,6 +453,17 @@
 	        hiddenDiv.remove();
 
 	    });
+	}
+	function escapeHTML(txt)
+	{
+		return txt = txt
+				.replace(/&/g, "&amp;")
+				.replace(/</g, "&lt;")
+		        .replace(/>/g, "&gt;")
+		        .replace(/"/g, "&quot;")
+		        .replace(/'/g, "&#039;")
+		        .replace(/\n/g,"<br>")
+		;
 	}
 	window.onload = textareaHeight;
 </script>
