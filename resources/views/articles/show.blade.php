@@ -195,8 +195,8 @@
 									@endif 
 								</span>
 							</div>
-							<div class="panel-body" style="word-wrap: break-word;">
-								{!! preg_replace('/(?:\s*<br[^>]*>\s*){3,}/s', "<br><br>", nl2br(e($comment->body)) )!!}
+							<div name="panelbody" class="panel-body" style="word-wrap: break-word;white-space: pre-line;">
+								{{$comment->body}}
 							</div>
 							@if($comment->user_id == Auth::id() || Auth::user()->isAdmin())
 							 	<div id="{{$comment->id}}" class="panel-body">
@@ -228,6 +228,11 @@
 
 
 <script type="text/javascript">
+	$('.panel-body[name="panelbody"]').each(function() {
+		$(this).html($(this).html().trim());
+
+	});
+
 	$('button#addcomment').on('click', function(){
 		var comment = $('textarea#add').val();
 		if($.trim(comment).length === 0)
@@ -259,9 +264,8 @@
 		        	$('#numComm').text(numComm + ' Comments:');
 		        }
 				successMsg("The comment has been published!");
-				txt = escapeHTML(comment.body);
-				txt = preventMultipleBR(txt);
-				hr.after('<div class="row"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading"><a style="color:black;" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body" style="word-wrap: break-word;">'+ txt +'</div><div id="'+ comment.id +'" class="panel-body"><table style=""><tr><td><button id="edit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></td><td><button class="btn btn-danger" id ="deleteComment" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td></tr></table></div></div></div></div>');
+				hr.after('<div class="row"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading"><a style="color:black;" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body" style="word-wrap: break-word; white-space: pre-line;"></div><div id="'+ comment.id +'" class="panel-body"><table style=""><tr><td><button id="edit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></td><td><button class="btn btn-danger" id ="deleteComment" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td></tr></table></div></div></div></div>');
+				$('div#'+comment.id).prev('.panel-body').text(comment.body);
 				$('button#edit').on('click', updating);
 				$('button#deleteComment').on('click', confirmDeleteComment);
 				$('textarea#add').val('');
@@ -269,8 +273,7 @@
 				$('#counters')
 					.html($('#counters').html().split('&nbsp')[0])
 					.append('&nbsp <i class="fa fa-comment" style="color: purple;"></i> '+numComm)
-				;
-		        
+				;   
 			}
 		});
 	});
@@ -285,17 +288,10 @@
 			change(panel, txt);
 		}
 
-		txt = $(this).closest('.panel-body').prev('.panel-body').html();
+		txt = $(this).closest('.panel-body').prev('.panel-body').text();
 		txt = txt.trim();
-		txt = txt
-					.replace(/<br><br>/g, "\n")
-					.replace(/<br>/g, "")
-					.replace(/&amp;/g, "&")
-					.replace(/&lt;/g, "<")
-			        .replace(/&gt;/g, ">")
-			        .replace(/&quot;/g, "'")
-			        .replace(/&#039;/g, "'")
-		;
+		
+		
 		id  = $(this).closest('.panel-body').attr('id');
 		panel = $(this).closest('.panel-body').prev('.panel-body');
 		panel.html('<form method="POST" action="/comment/'+ id +'"id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input name="_method" type="hidden" value="PATCH"><textarea id="body" class="form-control" required="required" name="body" style="min-height: 95px;font-size: 14px;overflow: hidden;resize: none;"></textarea>');
@@ -345,9 +341,7 @@
 	}
 	function change(panel, txt) 
 	{
-		txt = escapeHTML(txt);
-		txt = preventMultipleBR(txt);
-		panel.html(txt);
+		panel.text(txt);
 	 	panel.next('.panel-body').find('.btn-primary')
 	 			.unbind('click')
 	 			.bind('click', updating)
