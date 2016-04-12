@@ -153,7 +153,6 @@
 	    <form method="post" action="/comment" id ="addform">
 	        <input type="hidden" name="_token" value="{{ csrf_token() }}">
 	        <input type="hidden" name="article_id" value="{{ $article->id }}">
-	        <a name="comments" class="anchor"></a>
 	        <div class="row">
 		        <div class="col-sm-2">
 					<div class="thumbnail">
