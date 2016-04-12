@@ -41,14 +41,18 @@
 		$(this).bind('click', function(){
 			$('#name').focus();
 		});
-		$(this).closest('thead').next('tbody').prepend('<tr id="addTagRow"><td><form id="addform" method="POST" action ="/tags" onkeypress="return event.keyCode != 13;"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="text" name="name" id ="name" required="required" class="form-control"></form></td><td align="middle"><button id="add" class="btn btn-default"><i class="fa fa-plus"></i> Add</button></td><td align="right"><button id="cancel" class="btn btn-warning"><i class="fa fa-remove"></i> Cancel</button></td></tr></form>');
+		$(this).closest('thead').next('tbody').prepend('<tr id="addTagRow" style="display:none"><td><form id="addform" method="POST" action ="/tags" onkeypress="return event.keyCode != 13;"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="text" name="name" id ="name" required="required" class="form-control"></form></td><td align="middle"><button id="add" class="btn btn-default"><i class="fa fa-plus"></i> Add</button></td><td align="right"><button id="cancel" class="btn btn-warning"><i class="fa fa-remove"></i> Cancel</button></td></tr></form>');
+		$('#addTagRow').fadeIn();
 		$('#name').focus();
 		$('#name').bind('enterKey', ajaxAdd);
 		ajaxOnEnter();
 
 		$('button#add').on('click', ajaxAdd);
 		$('button#cancel').on('click', function() {
-			$(this).closest('tr').remove();
+			$('#addTagRow').fadeOut(200);
+			setTimeout(function() {
+				$('#addTagRow').remove();
+						}, 200);
 			$('button#newTag')
 				.unbind('click')
 				.bind('click', newTag)
@@ -76,9 +80,9 @@
 					  errorMsg(err);
 					},
 					success: function(tag) {
-						successMsg("The tag has been created!");
 						tr.remove();
-						tbody.prepend('<tr><td><button class="btn btn-default">'+ tag.name +' (0)</button></td><td align="middle"><button id="editTag" class="btn btn-default"><i class="fa fa-edit"></i> Edit</button></td><td align="right"><button class="btn btn-danger" id ="deleteTag" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td></tr>');
+						tbody.prepend('<tr style="display:none"><td><button class="btn btn-default">'+ tag.name +' (0)</button></td><td align="middle"><button id="editTag" class="btn btn-default"><i class="fa fa-edit"></i> Edit</button></td><td align="right"><button class="btn btn-danger" id ="deleteTag" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td></tr>');
+						tbody.children('tr').first().fadeIn();
 						$('button#editTag').on('click', updating);
 						$('button#deleteTag').on('click', confirmDeleteTag);
 					}
@@ -223,8 +227,10 @@
             		type: 'post',	
             		data: {_method: 'delete', _token :token},
             		success: function(){
-            			successMsg("The tag has been deleted!");
-            			tag.remove();
+            			tag.fadeOut();
+            			setTimeout(function() {
+						  	tag.remove();
+						}, 400);
             		}
             	});
             }
