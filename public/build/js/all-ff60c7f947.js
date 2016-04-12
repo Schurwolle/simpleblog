@@ -1389,4 +1389,320 @@ c(a.element).is("option")?(a.element.selected=!1,void this.$element.trigger("cha
  */
 !function(a,b){"function"==typeof define&&define.amd?define(["jquery"],b):"object"==typeof exports?module.exports=b(require("jquery")):a.lightbox=b(a.jQuery)}(this,function(a){function b(b){this.album=[],this.currentImageIndex=void 0,this.init(),this.options=a.extend({},this.constructor.defaults),this.option(b)}return b.defaults={albumLabel:"Image %1 of %2",alwaysShowNavOnTouchDevices:!1,fadeDuration:500,fitImagesInViewport:!0,positionFromTop:50,resizeDuration:700,showImageNumberLabel:!0,wrapAround:!1,disableScrolling:!1},b.prototype.option=function(b){a.extend(this.options,b)},b.prototype.imageCountLabel=function(a,b){return this.options.albumLabel.replace(/%1/g,a).replace(/%2/g,b)},b.prototype.init=function(){this.enable(),this.build()},b.prototype.enable=function(){var b=this;a("body").on("click","a[rel^=lightbox], area[rel^=lightbox], a[data-lightbox], area[data-lightbox]",function(c){return b.start(a(c.currentTarget)),!1})},b.prototype.build=function(){var b=this;a('<div id="lightboxOverlay" class="lightboxOverlay"></div><div id="lightbox" class="lightbox"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" /><div class="lb-nav"><a class="lb-prev" href="" ></a><a class="lb-next" href="" ></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><a class="lb-close"></a></div></div></div></div>').appendTo(a("body")),this.$lightbox=a("#lightbox"),this.$overlay=a("#lightboxOverlay"),this.$outerContainer=this.$lightbox.find(".lb-outerContainer"),this.$container=this.$lightbox.find(".lb-container"),this.containerTopPadding=parseInt(this.$container.css("padding-top"),10),this.containerRightPadding=parseInt(this.$container.css("padding-right"),10),this.containerBottomPadding=parseInt(this.$container.css("padding-bottom"),10),this.containerLeftPadding=parseInt(this.$container.css("padding-left"),10),this.$overlay.hide().on("click",function(){return b.end(),!1}),this.$lightbox.hide().on("click",function(c){return"lightbox"===a(c.target).attr("id")&&b.end(),!1}),this.$outerContainer.on("click",function(c){return"lightbox"===a(c.target).attr("id")&&b.end(),!1}),this.$lightbox.find(".lb-prev").on("click",function(){return 0===b.currentImageIndex?b.changeImage(b.album.length-1):b.changeImage(b.currentImageIndex-1),!1}),this.$lightbox.find(".lb-next").on("click",function(){return b.currentImageIndex===b.album.length-1?b.changeImage(0):b.changeImage(b.currentImageIndex+1),!1}),this.$lightbox.find(".lb-loader, .lb-close").on("click",function(){return b.end(),!1})},b.prototype.start=function(b){function c(a){d.album.push({link:a.attr("href"),title:a.attr("data-title")||a.attr("title")})}var d=this,e=a(window);e.on("resize",a.proxy(this.sizeOverlay,this)),a("select, object, embed").css({visibility:"hidden"}),this.sizeOverlay(),this.album=[];var f,g=0,h=b.attr("data-lightbox");if(h){f=a(b.prop("tagName")+'[data-lightbox="'+h+'"]');for(var i=0;i<f.length;i=++i)c(a(f[i])),f[i]===b[0]&&(g=i)}else if("lightbox"===b.attr("rel"))c(b);else{f=a(b.prop("tagName")+'[rel="'+b.attr("rel")+'"]');for(var j=0;j<f.length;j=++j)c(a(f[j])),f[j]===b[0]&&(g=j)}var k=e.scrollTop()+this.options.positionFromTop,l=e.scrollLeft();this.$lightbox.css({top:k+"px",left:l+"px"}).fadeIn(this.options.fadeDuration),this.options.disableScrolling&&a("body").addClass("lb-disable-scrolling"),this.changeImage(g)},b.prototype.changeImage=function(b){var c=this;this.disableKeyboardNav();var d=this.$lightbox.find(".lb-image");this.$overlay.fadeIn(this.options.fadeDuration),a(".lb-loader").fadeIn("slow"),this.$lightbox.find(".lb-image, .lb-nav, .lb-prev, .lb-next, .lb-dataContainer, .lb-numbers, .lb-caption").hide(),this.$outerContainer.addClass("animating");var e=new Image;e.onload=function(){var f,g,h,i,j,k,l;d.attr("src",c.album[b].link),f=a(e),d.width(e.width),d.height(e.height),c.options.fitImagesInViewport&&(l=a(window).width(),k=a(window).height(),j=l-c.containerLeftPadding-c.containerRightPadding-20,i=k-c.containerTopPadding-c.containerBottomPadding-120,c.options.maxWidth&&c.options.maxWidth<j&&(j=c.options.maxWidth),c.options.maxHeight&&c.options.maxHeight<j&&(i=c.options.maxHeight),(e.width>j||e.height>i)&&(e.width/j>e.height/i?(h=j,g=parseInt(e.height/(e.width/h),10),d.width(h),d.height(g)):(g=i,h=parseInt(e.width/(e.height/g),10),d.width(h),d.height(g)))),c.sizeContainer(d.width(),d.height())},e.src=this.album[b].link,this.currentImageIndex=b},b.prototype.sizeOverlay=function(){this.$overlay.width(a(document).width()).height(a(document).height())},b.prototype.sizeContainer=function(a,b){function c(){d.$lightbox.find(".lb-dataContainer").width(g),d.$lightbox.find(".lb-prevLink").height(h),d.$lightbox.find(".lb-nextLink").height(h),d.showImage()}var d=this,e=this.$outerContainer.outerWidth(),f=this.$outerContainer.outerHeight(),g=a+this.containerLeftPadding+this.containerRightPadding,h=b+this.containerTopPadding+this.containerBottomPadding;e!==g||f!==h?this.$outerContainer.animate({width:g,height:h},this.options.resizeDuration,"swing",function(){c()}):c()},b.prototype.showImage=function(){this.$lightbox.find(".lb-loader").stop(!0).hide(),this.$lightbox.find(".lb-image").fadeIn("slow"),this.updateNav(),this.updateDetails(),this.preloadNeighboringImages(),this.enableKeyboardNav()},b.prototype.updateNav=function(){var a=!1;try{document.createEvent("TouchEvent"),a=this.options.alwaysShowNavOnTouchDevices?!0:!1}catch(b){}this.$lightbox.find(".lb-nav").show(),this.album.length>1&&(this.options.wrapAround?(a&&this.$lightbox.find(".lb-prev, .lb-next").css("opacity","1"),this.$lightbox.find(".lb-prev, .lb-next").show()):(this.currentImageIndex>0&&(this.$lightbox.find(".lb-prev").show(),a&&this.$lightbox.find(".lb-prev").css("opacity","1")),this.currentImageIndex<this.album.length-1&&(this.$lightbox.find(".lb-next").show(),a&&this.$lightbox.find(".lb-next").css("opacity","1"))))},b.prototype.updateDetails=function(){var b=this;if("undefined"!=typeof this.album[this.currentImageIndex].title&&""!==this.album[this.currentImageIndex].title&&this.$lightbox.find(".lb-caption").html(this.album[this.currentImageIndex].title).fadeIn("fast").find("a").on("click",function(b){void 0!==a(this).attr("target")?window.open(a(this).attr("href"),a(this).attr("target")):location.href=a(this).attr("href")}),this.album.length>1&&this.options.showImageNumberLabel){var c=this.imageCountLabel(this.currentImageIndex+1,this.album.length);this.$lightbox.find(".lb-number").text(c).fadeIn("fast")}else this.$lightbox.find(".lb-number").hide();this.$outerContainer.removeClass("animating"),this.$lightbox.find(".lb-dataContainer").fadeIn(this.options.resizeDuration,function(){return b.sizeOverlay()})},b.prototype.preloadNeighboringImages=function(){if(this.album.length>this.currentImageIndex+1){var a=new Image;a.src=this.album[this.currentImageIndex+1].link}if(this.currentImageIndex>0){var b=new Image;b.src=this.album[this.currentImageIndex-1].link}},b.prototype.enableKeyboardNav=function(){a(document).on("keyup.keyboard",a.proxy(this.keyboardAction,this))},b.prototype.disableKeyboardNav=function(){a(document).off(".keyboard")},b.prototype.keyboardAction=function(a){var b=27,c=37,d=39,e=a.keyCode,f=String.fromCharCode(e).toLowerCase();e===b||f.match(/x|o|c/)?this.end():"p"===f||e===c?0!==this.currentImageIndex?this.changeImage(this.currentImageIndex-1):this.options.wrapAround&&this.album.length>1&&this.changeImage(this.album.length-1):("n"===f||e===d)&&(this.currentImageIndex!==this.album.length-1?this.changeImage(this.currentImageIndex+1):this.options.wrapAround&&this.album.length>1&&this.changeImage(0))},b.prototype.end=function(){this.disableKeyboardNav(),a(window).off("resize",this.sizeOverlay),this.$lightbox.fadeOut(this.options.fadeDuration),this.$overlay.fadeOut(this.options.fadeDuration),a("select, object, embed").css({visibility:"visible"}),this.options.disableScrolling&&a("body").removeClass("lb-disable-scrolling")},new b});
 //# sourceMappingURL=lightbox.min.map
+/**
+ * Hover balloon on elements without css and images.
+ *
+ * Copyright (c) 2011 Hayato Takenaka
+ * Dual licensed under the MIT and GPL licenses:
+ * http://www.opensource.org/licenses/mit-license.php
+ * http://www.gnu.org/licenses/gpl.html
+ * @author: Hayato Takenaka (http://urin.github.com)
+ * @version: 0.6.2 - 2015/04/30
+**/
+(function($) {
+  "use strict";
+  //-----------------------------------------------------------------------------
+  // Private
+  //-----------------------------------------------------------------------------
+  // Helper for meta programming
+  var Meta = {};
+  Meta.pos  = $.extend(["top", "bottom", "left", "right"], {camel: ["Top", "Bottom", "Left", "Right"]});
+  Meta.size = $.extend(["height", "width"], {camel: ["Height", "Width"]});
+  Meta.getRelativeNames = function(position) {
+    var idx = {
+      pos: {
+        o: position,                                           // origin
+        f: (position % 2 === 0) ? position + 1 : position - 1, // faced
+        p1: (position % 2 === 0) ? position : position - 1,
+        p2: (position % 2 === 0) ? position + 1 : position,
+        c1: (position < 2) ? 2 : 0,
+        c2: (position < 2) ? 3 : 1
+      },
+      size: {
+        p: (position < 2) ? 0 : 1, // parallel
+        c: (position < 2) ? 1 : 0  // cross
+      }
+    };
+    var names = {};
+    for(var m1 in idx) {
+      if(!names[m1]) names[m1] = {};
+      for(var m2 in idx[m1]) {
+        names[m1][m2] = Meta[m1][idx[m1][m2]];
+        if(!names.camel) names.camel = {};
+        if(!names.camel[m1]) names.camel[m1] = {};
+        names.camel[m1][m2] = Meta[m1].camel[idx[m1][m2]];
+      }
+    }
+    names.isTopLeft = (names.pos.o === names.pos.p1);
+    return names;
+  };
+
+  // Helper class to handle position and size as numerical pixels.
+  function NumericalBoxElement() { this.initialize.apply(this, arguments); }
+  (function() {
+    // Method factories
+    var Methods = {
+      setBorder: function(pos, isVertical) {
+        return function(value) {
+          this.$.css("border-" + pos.toLowerCase() + "-width", value + "px");
+          this["border" + pos] = value;
+          return (this.isActive) ? digitalize(this, isVertical) : this;
+        }
+      },
+      setPosition: function(pos, isVertical) {
+        return function(value) {
+          this.$.css(pos.toLowerCase(), value + "px");
+          this[pos.toLowerCase()] = value;
+          return (this.isActive) ? digitalize(this, isVertical) : this;
+        }
+      }
+    };
+
+    NumericalBoxElement.prototype = {
+      initialize: function($element) {
+        this.$ = $element;
+        $.extend(true, this, this.$.offset(), {center: {}, inner: {center: {}}});
+        for(var i = 0; i < Meta.pos.length; i++) {
+          this["border" + Meta.pos.camel[i]] = parseInt(this.$.css("border-" + Meta.pos[i] + "-width")) || 0;
+        }
+        this.active();
+      },
+      active: function() { this.isActive = true; digitalize(this); return this; },
+      inactive: function() { this.isActive = false; return this; }
+    };
+    for(var i = 0; i < Meta.pos.length; i++) {
+      NumericalBoxElement.prototype["setBorder" + Meta.pos.camel[i]] = Methods.setBorder(Meta.pos.camel[i], (i < 2));
+      if(i % 2 === 0)
+        NumericalBoxElement.prototype["set" + Meta.pos.camel[i]] = Methods.setPosition(Meta.pos.camel[i], (i < 2));
+    }
+
+    function digitalize(box, isVertical) {
+      if(isVertical == null) { digitalize(box, true); return digitalize(box, false); }
+      var m = Meta.getRelativeNames((isVertical) ? 0 : 2);
+      box[m.size.p] = box.$["outer" + m.camel.size.p]();
+      box[m.pos.f] = box[m.pos.o] + box[m.size.p];
+      box.center[m.pos.o] = box[m.pos.o] + box[m.size.p] / 2;
+      box.inner[m.pos.o] = box[m.pos.o] + box["border" + m.camel.pos.o];
+      box.inner[m.size.p] = box.$["inner" + m.camel.size.p]();
+      box.inner[m.pos.f] = box.inner[m.pos.o] + box.inner[m.size.p];
+      box.inner.center[m.pos.o] = box.inner[m.pos.f] + box.inner[m.size.p] / 2;
+      return box;
+    }
+  })();
+
+  // Adjust position of balloon body
+  function makeupBalloon($target, $balloon, options) {
+    $balloon.stop(true, true);
+    var outerTip, innerTip,
+      initTipStyle = {position: "absolute", height: "0", width: "0", border: "solid 0 transparent"},
+      target = new NumericalBoxElement($target),
+      balloon = new NumericalBoxElement($balloon);
+    balloon.setTop(-options.offsetY
+      + ((options.position && options.position.indexOf("top") >= 0) ? target.top - balloon.height
+      : ((options.position && options.position.indexOf("bottom") >= 0) ? target.bottom
+      : target.center.top - balloon.height / 2)));
+    balloon.setLeft(options.offsetX
+      + ((options.position && options.position.indexOf("left") >= 0) ? target.left - balloon.width
+      : ((options.position && options.position.indexOf("right") >= 0) ? target.right
+      : target.center.left - balloon.width / 2)));
+    if(options.tipSize > 0) {
+      // Add hidden balloon tips into balloon body.
+      if($balloon.data("outerTip")) { $balloon.data("outerTip").remove(); $balloon.removeData("outerTip"); }
+      if($balloon.data("innerTip")) { $balloon.data("innerTip").remove(); $balloon.removeData("innerTip"); }
+      outerTip = new NumericalBoxElement($("<div>").css(initTipStyle).appendTo($balloon));
+      innerTip = new NumericalBoxElement($("<div>").css(initTipStyle).appendTo($balloon));
+      // Make tip triangle, adjust position of tips.
+      var m;
+      for(var i = 0; i < Meta.pos.length; i++) {
+        m = Meta.getRelativeNames(i);
+        if(balloon.center[m.pos.c1] >= target[m.pos.c1] &&
+          balloon.center[m.pos.c1] <= target[m.pos.c2]) {
+          if(i % 2 === 0) {
+            if(balloon[m.pos.o] >= target[m.pos.o] && balloon[m.pos.f] >= target[m.pos.f]) break;
+          } else {
+            if(balloon[m.pos.o] <= target[m.pos.o] && balloon[m.pos.f] <= target[m.pos.f]) break;
+          }
+        }
+        m = null;
+      }
+      if(m) {
+        balloon["set" + m.camel.pos.p1]
+          (balloon[m.pos.p1] + ((m.isTopLeft) ? 1 : -1) * (options.tipSize - balloon["border" + m.camel.pos.o]));
+        makeTip(balloon, outerTip, m, options.tipSize, $balloon.css("border-" + m.pos.o + "-color"), options.tipPosition);
+        makeTip(balloon, innerTip, m, options.tipSize - 2 * balloon["border" + m.camel.pos.o], $balloon.css("background-color"), options.tipPosition);
+        $balloon.data("outerTip", outerTip.$).data("innerTip", innerTip.$);
+      } else {
+        $.each([outerTip.$, innerTip.$], function() { this.remove(); });
+      }
+    }
+    // Make up balloon tip.
+    function makeTip(balloon, tip, m, tipSize, color) {
+      var len = Math.round(tipSize / 1.7320508);
+      tip.inactive()
+        ["setBorder" + m.camel.pos.f](tipSize)
+        ["setBorder" + m.camel.pos.c1](len)
+        ["setBorder" + m.camel.pos.c2](len)
+        ["set" + m.camel.pos.p1]((m.isTopLeft) ? -tipSize : balloon.inner[m.size.p])
+        ["set" + m.camel.pos.c1](balloon.inner[m.size.c] / options.tipPosition - len)
+        .active()
+        .$.css("border-" + m.pos.f + "-color", color);
+    }
+  }
+
+  // True if the event comes from the target or balloon.
+  function isValidTargetEvent($target, e) {
+    var b = $target.data("balloon") && $target.data("balloon").get(0);
+    return !(b && (b === e.relatedTarget || $.contains(b, e.relatedTarget)));
+  }
+
+  //-----------------------------------------------------------------------------
+  // Public
+  //-----------------------------------------------------------------------------
+  $.fn.balloon = function(options) {
+    return this.one("mouseenter", function first(e) {
+      var $target = $(this), t = this;
+      var $balloon = $target.off("mouseenter", first)
+        .showBalloon(options).on("mouseenter", function(e) {
+          isValidTargetEvent($target, e) && $target.showBalloon();
+        }).data("balloon");
+      if($balloon) {
+        $balloon.on("mouseleave", function(e) {
+          if(t === e.relatedTarget || $.contains(t, e.relatedTarget)) return;
+          $target.hideBalloon();
+        }).on("mouseenter", function(e) {
+          if(t === e.relatedTarget || $.contains(t, e.relatedTarget)) return;
+          $balloon.stop(true, true);
+          $target.showBalloon();
+        });
+      }
+    }).on("mouseleave", function(e) {
+      var $target = $(this);
+      isValidTargetEvent($target, e) && $target.hideBalloon();
+    });
+  };
+
+  $.fn.showBalloon = function(options) {
+    var $target, $balloon;
+    if(options || !this.data("options")) {
+      if($.balloon.defaults.css === null) $.balloon.defaults.css = {};
+      this.data("options", $.extend(true, {}, $.balloon.defaults, options || {}));
+    }
+    options = this.data("options");
+    return this.each(function() {
+      var isNew, contents;
+      $target = $(this);
+      isNew = !$target.data("balloon");
+      $balloon = $target.data("balloon") || $("<div>");
+      if(!isNew && $balloon.data("active")) { return; }
+      $balloon.data("active", true);
+      clearTimeout($target.data("minLifetime"));
+      contents = $.isFunction(options.contents)
+        ? options.contents.apply(this)
+        : (options.contents || (options.contents = $target.attr("title") || $target.attr("alt")));
+      $balloon.append(contents);
+      if(!options.url && $balloon.html() === "") { return; }
+      if(!isNew && contents !== $balloon.html()) $balloon.empty().append(contents);
+      $target.removeAttr("title");
+      if(options.url) {
+        $balloon.load($.isFunction(options.url) ? options.url(this) : options.url, function(res, sts, xhr) {
+          if(options.ajaxComplete) options.ajaxComplete(res, sts, xhr);
+          makeupBalloon($target, $balloon, options);
+        });
+      }
+      if(isNew) {
+        $balloon
+          .addClass(options.classname)
+          .css(options.css || {})
+          .css({visibility: "hidden", position: "absolute"})
+          .appendTo("body");
+        $target.data("balloon", $balloon);
+        makeupBalloon($target, $balloon, options);
+        $balloon.hide().css("visibility", "visible");
+      } else {
+        makeupBalloon($target, $balloon, options);
+      }
+      $target.data("delay", setTimeout(function() {
+        if(options.showAnimation) {
+          options.showAnimation.apply(
+            $balloon.stop(true, true), [
+              options.showDuration, function() {
+                options.showComplete && options.showComplete.apply($balloon);
+              }
+            ]
+          );
+        } else {
+          $balloon.show(options.showDuration, function() {
+            if(this.style.removeAttribute) { this.style.removeAttribute("filter"); }
+            options.showComplete && options.showComplete.apply($balloon);
+          });
+        }
+        if(options.maxLifetime) {
+          clearTimeout($target.data("maxLifetime"));
+          $target.data("maxLifetime",
+            setTimeout(function() { $target.hideBalloon(); }, options.maxLifetime)
+          );
+        }
+      }, options.delay));
+    });
+  };
+
+  $.fn.hideBalloon = function() {
+    var options = this.data("options");
+    if(!this.data("balloon")) return this;
+    return this.each(function() {
+      var $target = $(this);
+      clearTimeout($target.data("delay"));
+      clearTimeout($target.data("minLifetime"));
+      $target.data("minLifetime", setTimeout(function() {
+        var $balloon = $target.data("balloon");
+        if(options.hideAnimation) {
+          options.hideAnimation.apply(
+            $balloon.stop(true, true),
+            [
+              options.hideDuration,
+              function(d) {
+                $(this).data("active", false);
+                options.hideComplete && options.hideComplete(d);
+              }
+            ]
+          );
+        } else {
+          $balloon.stop(true, true).hide(
+            options.hideDuration,
+            function(d) {
+              $(this).data("active", false);
+              options.hideComplete && options.hideComplete(d);
+            }
+          );
+        }
+      },
+      options.minLifetime));
+    });
+  };
+
+  $.balloon = {
+    defaults: {
+      contents: null, url: null, ajaxComplete: null, classname: null,
+      position: "top", offsetX: 0, offsetY: 0, tipSize: 12, tipPosition: 2,
+      delay: 0, minLifetime: 200, maxLifetime: 0,
+      showDuration: 100, showAnimation: null,
+      hideDuration:  80, hideAnimation: function(d, c) { this.fadeOut(d, c); },
+      showComplete: null, hideComplete: null,
+      css: {
+        minWidth       : "20px",
+        padding        : "5px",
+        borderRadius   : "6px",
+        border         : "solid 1px #777",
+        boxShadow      : "4px 4px 4px #555",
+        color          : "#666",
+        backgroundColor: "#efefef",
+        opacity        : "0.85",
+        zIndex         : "32767",
+        textAlign      : "left"
+      }
+    }
+  };
+})(jQuery);
+
+
 //# sourceMappingURL=all.js.map

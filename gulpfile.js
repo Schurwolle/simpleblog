@@ -33,7 +33,8 @@ elixir(function(mix) {
     	'jquery.mousewheel.min.js',
     	'select2.min.js',
     	'sweetalert.min.js',
-        'lightbox.min.js'
+        'lightbox.min.js',
+        'jquery.balloon.js'
     	], null, 'public/')
 
     mix.version([

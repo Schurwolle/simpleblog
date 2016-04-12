@@ -20,13 +20,13 @@
 		
 	</div>
 	<div class="form-group">
-    {!! Form::label('image', 'Image:') !!} <a href="#" id ="imginfo" onclick="return false"><i class="fa fa-info-circle"></i></a>
+    {!! Form::label('image', 'Image:') !!} <a href="#" id ="imginfo" title="The image will be shown resized and cropped in the article page and bxslider slideshow, but original image will be shown in lightbox2 modal window." onclick="return false"><i class="fa fa-info-circle"></i></a>
     <div id="image"></div>
     {!!Form::text('img', null, ['id' => 'img', 'style' => 'visibility:hidden;'])!!}
 	</div>
 
 	<div class="form-group">
-    {!! Form::label('thumbnail', 'Thumbnail Image:') !!} <a href="#" id ="thumbinfo" onclick="return false"><i class="fa fa-info-circle"></i></a>
+    {!! Form::label('thumbnail', 'Thumbnail Image:') !!} <a href="#" id ="thumbinfo" title="The thumbnail image will be shown only resized and cropped, as a thumbnail image in popular articles section."  onclick="return false"><i class="fa fa-info-circle"></i></a>
     <div id="thumbnail"></div>
     {!!Form::text('thumbnailImage', null, ['id' => 'thumbnailImage', 'style' => 'visibility:hidden;'])!!}
 	</div>
@@ -83,25 +83,9 @@
 		</script>
 
 		<script type="text/javascript">
-		function showInfo(button, txt){
-				button.after('<span><br>'+ txt +'</span>');
-				button
-					.unbind('click')
-					.bind('click', function(){
-						button.next('span').remove();
-						button
-							.unbind('click')
-							.bind('click', function(){
-								showInfo(button, txt);
-							});
-						;
-					});
-			}
-		$('#imginfo').on('click', function(){
-			showInfo($(this),'The image will be shown resized and cropped in the article page and bxslider slideshow, but original image will be shown in lightbox2 modal window.');
-		});
-		$('#thumbinfo').on('click', function(){
-			showInfo($(this), 'The thumbnail image will be shown only resized and cropped, as a thumbnail image in popular articles section.');
+		$(function() {
+	  		$('#imginfo').balloon({position: "right"});
+	  		$('#thumbinfo').balloon({position: "right"});
 		});
 		</script>
 	@stop
