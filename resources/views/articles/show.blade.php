@@ -233,10 +233,12 @@
 	});
 
 	$('button#addcomment').on('click', function(){
+		$(this).blur();
 		var comment = $('textarea#add').val();
 		if($.trim(comment).length === 0)
 		{
-			return errorMsg("Please enter your comment first.")
+			errorMsg("Please enter your comment first.");
+			return $('textarea#add').focus();
 		}
 		var hr = $('#addform').next('h3').next('hr');
 		var src = $('#addform').find('img').attr('src');
@@ -293,18 +295,24 @@
 		panel = $(this).closest('.panel-body').prev('.panel-body');
 		panel.html('<form method="POST" action="/comment/'+ id +'"id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input name="_method" type="hidden" value="PATCH"><textarea id="body" class="form-control" required="required" name="body" style="min-height: 95px;font-size: 14px;overflow: hidden;resize: none;"></textarea>');
 		panel.css('display', 'none').fadeIn();
-		$('#body')
+		$('textarea#body')
 			.focus().text(txt)
-			.height($("#body")[0].scrollHeight);
+			.height($("textarea#body")[0].scrollHeight);
 		;
 		textareaHeight();
 		$(this)
 			.unbind('click')	
 			.bind('click', function(){
+				$(this).blur();
 				var newtxt = $('textarea#body').val();
 				if($.trim(newtxt).length === 0)
 				{
-					return errorMsg("Comment cannot be empty.")
+					errorMsg("Comment cannot be empty.");
+					return $('textarea#body')
+								.focus().val(txt)
+								.height($("textarea#body")[0].scrollHeight)
+					;
+
 				} 
 				if(txt === newtxt) 
 				{
@@ -398,8 +406,10 @@
             			}
             			if (numComm === 0)
             			{
-            				$('#numComm').next('hr').remove();
-            				$('#numComm').remove();
+            				setTimeout(function() {
+	            				$('#numComm').next('hr').remove();
+	            				$('#numComm').remove();
+	            			}, 400);
             			} else {
 		        			$('#numComm').text(numComm === 1 ? numComm + ' Comment:' : numComm + ' Comments:')
 		        	    }
