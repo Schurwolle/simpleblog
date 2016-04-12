@@ -292,6 +292,7 @@
 		id  = $(this).closest('.panel-body').attr('id');
 		panel = $(this).closest('.panel-body').prev('.panel-body');
 		panel.html('<form method="POST" action="/comment/'+ id +'"id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input name="_method" type="hidden" value="PATCH"><textarea id="body" class="form-control" required="required" name="body" style="min-height: 95px;font-size: 14px;overflow: hidden;resize: none;"></textarea>');
+		panel.css('display', 'none').fadeIn();
 		$('#body')
 			.focus().text(txt)
 			.height($("#body")[0].scrollHeight);
@@ -322,7 +323,6 @@
 					  errorMsg(err);
 					},
 					 success: function(body) { 
-						 successMsg("The comment has been updated!");
 						 change(panel, body);
 						 changePanelHeading(panel);
 					}
@@ -335,6 +335,9 @@
 		$('.btn-warning').on('click', function(){
 			change(panel, txt);
 		});
+		$(this).parents('.panel-body').css('display', 'none').fadeIn();
+		
+
 	}
 	function change(panel, txt) 
 	{
@@ -346,14 +349,11 @@
 	 	;
 	 	panel.next('.panel-body').find('.btn-danger').show();
 	 	panel.next('.panel-body').find('.btn-warning').remove();
+	 	(panel, panel.next('.panel-body')).css('display', 'none').fadeIn();
 	}
 	function changePanelHeading(panel)
 	{
 		panel.siblings('.panel-heading').children('span').html(' '+ created +' (last edited 1 second ago)');
-	}
-	function successMsg(succ)
-	{
-		swal({ title: "Success!", text: succ, timer: 1100, showConfirmButton: false, type:"success" });
 	}
 	function errorMsg(err)
 	{

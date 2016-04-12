@@ -101,9 +101,11 @@
 		tagcount = txt.substring(txt.length-4, txt.length);
 		td = $(this).closest('td').prev('td');
 		td
+			
 			.html('<form action="/tags/'+ tagname +'"method="POST" id = "updateform" onkeypress="return event.keyCode != 13;"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="text" id="name" name="name" class="form-control">')
 			.find('#name').focus().val(tagname)
 		;
+		td.parents('tr').css('display', 'none').fadeIn();
 		$('#name').bind('enterKey', ajaxUpdate);
 		ajaxOnEnter();
 
@@ -136,7 +138,6 @@
 					  errorMsg(err);
 					},
 				 success: function(name) {
-				 	successMsg("The tag has been updated!");
 				 	txt = name.concat(tagcount);
 				 	change(td, name, txt);
 				 }
@@ -152,10 +153,7 @@
 	 			.html('<i class="fa fa-edit"></i> Edit')
 	 	;
 	 	td.next('td').children('.btn-warning').remove();
-	}
-	function successMsg(succ)
-	{
-		swal({ title: "Success!", text: succ, timer: 1000, showConfirmButton: false, type:"success" });
+	 	td.parents('tr').css('display', 'none').fadeIn();
 	}
 	function errorMsg(err)
 	{
