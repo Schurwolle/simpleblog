@@ -185,6 +185,28 @@ class ArticlesController extends Controller
             $fileName = $article->id.'lightbox2';
             $this->upload($mask, $fileName);
         }
+
+        if($request->hasFile('addImgs'))
+        {
+            $files = $request->file('addImgs');
+            $fileCount = count($files);
+            $uploadCount = 0;
+
+            foreach($files as $file)
+            {
+                $rules = array('file' => 'image');
+                $validator = Validator::make(array('file'=> $file), $rules);
+                if($validator->fails())
+                {
+                    return back()->withErrors($validator);
+                }
+                $destinationPath = 'pictures/';
+                $fileName = $article->id.'lb'.$uploadCount;
+
+                $file->move($destinationPath, $fileName);
+                $uploadCount++;
+            }
+        }
     }
 
     private function upload($mask, $fileName)

@@ -59,10 +59,12 @@
 			;
 		});
 		function ajaxAdd() {
+			$(this).blur();
 			var tagname = $('#name').val();
 			if(validateName(tagname) === false)
 			{
 				errorMsg("Tag name cannot be empty and can contain only alphanumeric characters.");
+				$('#name').focus();
 			} else {
 				$('button#newTag')
 					.unbind('click')
@@ -119,10 +121,12 @@
 			change(td, tagname, txt);
 		});
 		function ajaxUpdate(){
+			$(this).blur();
 			var newtagname = $('#name').val();
 			if(validateName(newtagname) === false)
 			{
-				return errorMsg("Tag name cannot be empty and can contain only alphanumeric characters.");
+				errorMsg("Tag name cannot be empty and can contain only alphanumeric characters.");
+				return $('#name').focus();
 			}
 			if (tagname === newtagname)
 			{
