@@ -55,9 +55,11 @@ class ArticlesController extends Controller
                 $article->save();
             }
 
+            $addImgs = glob('pictures/'.$article->id.'lb*');
+
             $comments = $this->comments->forArticle($article);
 
-    	    return view('articles.show', compact('article', 'comments'));
+    	    return view('articles.show', compact('article', 'comments', 'addImgs'));
         
     }
 
@@ -191,7 +193,6 @@ class ArticlesController extends Controller
             $files = $request->file('addImgs');
             $fileCount = count($files);
             $uploadCount = 0;
-
             foreach($files as $file)
             {
                 $rules = array('file' => 'image');
@@ -202,7 +203,6 @@ class ArticlesController extends Controller
                 }
                 $destinationPath = 'pictures/';
                 $fileName = $article->id.'lb'.$uploadCount;
-
                 $file->move($destinationPath, $fileName);
                 $uploadCount++;
             }

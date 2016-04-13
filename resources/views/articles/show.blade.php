@@ -92,7 +92,22 @@
 		@if (file_exists('pictures/'.$article->id))
 			<tr>
 				<td>
-					<a href="/pictures/{{$article->id}}lightbox2" data-lightbox="image-1">{{ Html::image(('pictures/'.$article->id)) }}</a>
+					<a href="/pictures/{{$article->id}}lightbox2" data-lightbox="lightbox2">{{ Html::image('pictures/'.$article->id) }}</a>
+				</td>
+			</tr>
+		@endif
+		@if (count($addImgs) > 0)
+			<tr align="middle">
+			    <td>
+				<table>
+					<tr>
+						@foreach($addImgs as $addImg)
+						<td style="padding-right: 10px;padding-top: 10px;">
+							<a href="/{{$addImg}}" data-lightbox="lightbox2">{{HTML::image($addImg, null, ['style' => 'max-width:100px; max-height:100px; border: 3px solid #1468af;'])}}</a>
+						</td>
+						@endforeach
+					</tr>
+				</table>
 				</td>
 			</tr>
 		@endif
@@ -477,6 +492,13 @@
 		;
 	}
 	window.onload = textareaHeight;
+</script>
+
+<script>
+    lightbox.option({
+      'resizeDuration': 500,
+      'wrapAround': true
+    })
 </script>
 
 @stop
