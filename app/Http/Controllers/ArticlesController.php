@@ -16,6 +16,7 @@ use App\Repositories\CommentRepository;
 use App\Repositories\TagRepository;
 use Validator;
 use Intervention\Image\ImageManager;
+use Illuminate\Support\Facades\Input;
 
 class ArticlesController extends Controller
 {	
@@ -72,6 +73,16 @@ class ArticlesController extends Controller
 
     public function store(ArticleRequest $request)
     {   
+        // $messages = array('imgs_count' => 'Maximum number of additional images is 5.',);
+        // $validator = Validator::make($request->file('addImgs'), array('addImgs' => array('imgs_count:addImgs,3')),$messages);
+        // if ($validator->fails()) 
+        // {
+        //     return back()->withErrors($validator);
+        // }
+        if($this->validateAddImgs($request) != null)
+        {
+            return $this->validateAddImgs($request);
+        }
         $article = Auth::user()->articles()->create($request->all());
         $article->slug = str_slug($article->title, '-');
         $article->save();
@@ -96,7 +107,11 @@ class ArticlesController extends Controller
 
     public function update(article $article, UpdateArticleRequest $request)
     {
-
+        if($this->validateAddImgs($request) != null)
+        {
+            return $this->validateAddImgs($request);
+        }
+        
     	$article->update($request->all());
 
         $article->slug = str_slug($article->title, '-');
@@ -227,6 +242,28 @@ class ArticlesController extends Controller
             {
                 unlink('pictures/'.$article->id.'thumbnail');
             }
+    }
+
+    private function validateAddImgs($request)
+    {
+        if($request->hasFile('addImgs'))
+        {   
+            $files = $request->file('addImgs');
+            if(count($files) > 5)
+            {
+                \Session::flash('alert_message', 'Maximum number of additional images is 5.');
+                return back()->withInput();
+            }
+            foreach($files as $file)
+            {
+                $rules = array('Additional Image' => 'image');
+                $validator = Validator::make(array('Additional Image'=> $file), $rules);
+                if($validator->fails())
+                {
+                    return back()->withInput()->withErrors($validator);
+                }
+            }
+        }
     }
 }
 
