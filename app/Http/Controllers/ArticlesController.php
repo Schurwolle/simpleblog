@@ -111,7 +111,7 @@ class ArticlesController extends Controller
         {
             return $this->validateAddImgs($request);
         }
-        
+
     	$article->update($request->all());
 
         $article->slug = str_slug($article->title, '-');
@@ -233,15 +233,12 @@ class ArticlesController extends Controller
 
     private function deleteImages(article $article)
     {
-        if (file_exists('pictures/'.$article->id))
-            {
-                unlink('pictures/'.$article->id);
-            }
+        $mask = 'pictures/'.$article->id.'*';
+        if (!empty($mask))
+        {
+            array_map('unlink', glob($mask));
+        }
 
-            if (file_exists('pictures/'.$article->id.'thumbnail'))
-            {
-                unlink('pictures/'.$article->id.'thumbnail');
-            }
     }
 
     private function validateAddImgs($request)
