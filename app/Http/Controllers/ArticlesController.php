@@ -79,9 +79,9 @@ class ArticlesController extends Controller
         // {
         //     return back()->withErrors($validator);
         // }
-        if($this->validateAddImgs($request) != null)
+        if($this->validateAddImgs(null, $request) != null)
         {
-            return $this->validateAddImgs($request);
+            return $this->validateAddImgs(null, $request);
         }
         $article = Auth::user()->articles()->create($request->all());
         $article->slug = str_slug($article->title, '-');
@@ -107,9 +107,9 @@ class ArticlesController extends Controller
 
     public function update(article $article, UpdateArticleRequest $request)
     {
-        if($this->validateAddImgs($request) != null)
+        if($this->validateAddImgs($article, $request) != null)
         {
-            return $this->validateAddImgs($request);
+            return $this->validateAddImgs($article, $request);
         }
 
     	$article->update($request->all());
@@ -206,8 +206,9 @@ class ArticlesController extends Controller
         if($request->hasFile('addImgs'))
         {
             $files = $request->file('addImgs');
-            $fileCount = count($files);
-            $uploadCount = 0;
+            $mask = glob('pictures/'.$article->id.'lb*');
+            $uploadCount = count($mask);
+
             foreach($files as $file)
             {
                 $rules = array('file' => 'image');
@@ -238,15 +239,16 @@ class ArticlesController extends Controller
         {
             array_map('unlink', glob($mask));
         }
-
     }
 
-    private function validateAddImgs($request)
+    private function validateAddImgs($article, $request)
     {
         if($request->hasFile('addImgs'))
         {   
+
+            $oldfiles = $article != null ? glob('pictures/'.$article->id.'lb*') : [];
             $files = $request->file('addImgs');
-            if(count($files) > 5)
+            if(count($files) + count($oldfiles) > 5)
             {
                 \Session::flash('alert_message', 'Maximum number of additional images is 5.');
                 return back()->withInput();
