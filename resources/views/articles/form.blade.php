@@ -117,7 +117,7 @@
 						return erase();
 					}
 				}
-				$('#selected').remove();
+				$('#selected').parents('table').remove();
 				$('#addImgs').after('<table><tr id ="selected"></tr></table>')
 				for(var i = 0;i < $('#addImgs')[0].files.length;i++)
 				{
@@ -131,7 +131,7 @@
 			});
 			function erase()
 			{
-				$('#selected').html('');
+				$('#selected').parents('table').remove();
 				$('#addImgs').val('');
 			}
 		</script>
