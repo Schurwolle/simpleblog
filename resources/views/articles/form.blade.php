@@ -32,8 +32,8 @@
 	</div>
 
 	<div class="form-group">
-	{!! Form::label('addImgs[]', 'Additional Images (optional):') !!}
-	{!! Form::file('addImgs[]', ['multiple']) !!}
+	{!! Form::label('addImgs[]', 'Additional Images:') !!} <a href="#" id ="addImgsinfo" title="Additional images are optional. Maximum number is 5."  onclick="return false"><i class="fa fa-info-circle"></i></a>
+	{!! Form::file('addImgs[]', ['multiple', 'id' => 'addImgs']) !!}
 	</div>
 
 	<div class="form-group">
@@ -91,6 +91,18 @@
 		$(function() {
 	  		$('#imginfo').balloon({position: "right"});
 	  		$('#thumbinfo').balloon({position: "right"});
+	  		$('#addImgsinfo').balloon({position: "right"});
 		});
+		</script>
+
+		<script type="text/javascript">
+			$('#addImgs').on('change', function(){
+				if($("#addImgs")[0].files.length > 5)
+				{
+					swal({ title: "Error!", text: "Maximum number of additional images is 5.", timer: 2000, showConfirmButton: false, type:"error" });
+					$('#addImgs').val('');
+				}
+			});
+
 		</script>
 	@stop
