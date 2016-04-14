@@ -15,9 +15,10 @@
 			<table>
 				<tr>
 					@foreach($addImgs as $addImg)
-					<td style="padding: 10px;">
+					<td style="padding: 10px;" align="middle";>
 						<a href="/{{$addImg}}" data-lightbox="lightbox2">{{HTML::image($addImg, null, ['style' => 'max-width:100px; max-height:100px; border: 3px solid #1468af;'])}}</a>
-						{{ Form::checkbox('delete['.substr($addImg, strlen($addImg)-1, 1).']') }}
+						<br>
+						{{ Form::checkbox('delete['.explode('lb',$addImg)[1].']') }}
 					</td>
 					@endforeach
 				</tr>

@@ -58,6 +58,7 @@ class ArticlesController extends Controller
 
             $comments = $this->comments->forArticle($article);
             $addImgs = glob('pictures/'.$article->id.'lb*');
+            natsort($addImgs);
 
     	    return view('articles.show', compact('article', 'comments', 'addImgs'));
         
@@ -101,6 +102,7 @@ class ArticlesController extends Controller
         
     	   $tags = $this->tags->lists();
            $addImgs = glob('pictures/'.$article->id.'lb*');
+           natsort($addImgs);
 
     	   return view('articles.edit', compact('article', 'tags', 'addImgs'));
     }
@@ -108,7 +110,7 @@ class ArticlesController extends Controller
     public function update(article $article, UpdateArticleRequest $request)
     {
         if($request->has('delete'))
-        {
+        {   
             foreach($request->delete as $name => $deleteImage)
             {
                 if (file_exists('pictures/'.$article->id.'lb'.$name))
@@ -218,7 +220,9 @@ class ArticlesController extends Controller
         {
             $files = $request->file('addImgs');
             $mask = glob('pictures/'.$article->id.'lb*');
-            $uploadCount = count($mask);
+            natsort($mask);
+            $uploadCount = $mask[count($mask)-1];
+            $uploadCount = substr($uploadCount, strlen($uploadCount)-1, 1) + 1;
 
             foreach($files as $file)
             {
