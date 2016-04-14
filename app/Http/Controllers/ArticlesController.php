@@ -211,12 +211,6 @@ class ArticlesController extends Controller
 
             foreach($files as $file)
             {
-                $rules = array('file' => 'image');
-                $validator = Validator::make(array('file'=> $file), $rules);
-                if($validator->fails())
-                {
-                    return back()->withErrors($validator);
-                }
                 $destinationPath = 'pictures/';
                 $fileName = $article->id.'lb'.$uploadCount;
                 $file->move($destinationPath, $fileName);
@@ -255,7 +249,7 @@ class ArticlesController extends Controller
             }
             foreach($files as $file)
             {
-                $rules = array('Additional Image' => 'image');
+                $rules = array('Additional Image' => 'image|max:2048');
                 $validator = Validator::make(array('Additional Image'=> $file), $rules);
                 if($validator->fails())
                 {
