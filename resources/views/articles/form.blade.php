@@ -101,6 +101,15 @@
 				{
 					swal({ title: "Error!", text: "Maximum number of additional images is 5.", timer: 2000, showConfirmButton: false, type:"error" });
 					$('#addImgs').val('');
+				} else {
+					for(var i = 0;i < $('#addImgs')[0].files.length; i++)
+					{
+						if($('#addImgs')[0].files[i].type != ("image/jpeg" || "image/png" || "image/bmp" || 'image/gif' || 'image/svg'))
+						{
+							swal({ title: "Error!", text: "Invalid file type.", timer: 2000, showConfirmButton: false, type:"error" });
+							return $('#addImgs').val('');
+						}
+					}
 				}
 			});
 
