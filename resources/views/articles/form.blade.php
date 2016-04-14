@@ -92,12 +92,13 @@
 	  		$('#imginfo').balloon({position: "right"});
 	  		$('#thumbinfo').balloon({position: "right"});
 	  		$('#addImgsinfo').balloon({position: "right"});
+	  		$('#deleteinfo').balloon({position: "right"});
 		});
 		</script>
 
 		<script type="text/javascript">
 			$('#addImgs').on('change', function(){
-				if($("#addImgs")[0].files.length > 5)
+				if($("input:checkbox:not(:checked)").length + $("#addImgs")[0].files.length > 5)
 				{
 					swal({ title: "Error!", text: "Maximum number of additional images is 5.", timer: 2000, showConfirmButton: false, type:"error" });
 					return erase();

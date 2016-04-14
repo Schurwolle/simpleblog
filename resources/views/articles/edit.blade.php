@@ -11,7 +11,7 @@
 		@include('articles.form')
 
 		@if (count($addImgs) > 0)
-			{!!Form::label('table' ,'Select images you want to delete:')!!}
+			{!!Form::label('table' ,'Select images you want to delete:')!!} <a href="#" id ="deleteinfo" title="First select images you want to delete(if any), then choose new ones."  onclick="return false"><i class="fa fa-info-circle"></i></a>
 			<table>
 				<tr>
 					@foreach($addImgs as $addImg)
