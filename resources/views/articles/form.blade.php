@@ -100,24 +100,39 @@
 				if($("#addImgs")[0].files.length > 5)
 				{
 					swal({ title: "Error!", text: "Maximum number of additional images is 5.", timer: 2000, showConfirmButton: false, type:"error" });
-					$('#addImgs').val('');
-				} else {
-					for(var i = 0;i < $('#addImgs')[0].files.length;i++)
-					{	
-						var type = ($('#addImgs')[0].files[i].type);
-						if(type != "image/jpeg" && type != "image/png" && type != "image/bmp" && type != "image/gif" && type != "image/svg")
-						{
-							swal({ title: "Error!", text: "Invalid file type.", timer: 2000, showConfirmButton: false, type:"error" });
-							return $('#addImgs').val('');
-						}
-						if($('#addImgs')[0].files[i].size > 2048000)
-						{
-							swal({ title: "Error!", text: "Maximum file size allowed is 2048KB.", timer: 2000, showConfirmButton: false, type:"error" });
-							return $('#addImgs').val('');
-						}
+					return erase();
+				}
+
+				for(var i = 0;i < $('#addImgs')[0].files.length;i++)
+				{	
+					var type = ($('#addImgs')[0].files[i].type);
+					if(type != "image/jpeg" && type != "image/png" && type != "image/bmp" && type != "image/gif" && type != "image/svg")
+					{
+						swal({ title: "Error!", text: "Invalid file type.", timer: 2000, showConfirmButton: false, type:"error" });
+						return erase();
+					}
+					if($('#addImgs')[0].files[i].size > 2048000)
+					{
+						swal({ title: "Error!", text: "Maximum file size allowed is 2048KB.", timer: 2000, showConfirmButton: false, type:"error" });
+						return erase();
 					}
 				}
-			});
+				$('#selected').remove();
+				$('#addImgs').after('<table><tr id ="selected"></tr></table>')
+				for(var i = 0;i < $('#addImgs')[0].files.length;i++)
+				{
+					var reader = new FileReader();
+					reader.onload = function (img){
+						$('#selected').append('<td style="padding-right: 10px;padding-top: 10px;"><img style="max-width:100px; max-height:100px;" src="' +img.target.result +'"></td>')
+					}
+					reader.readAsDataURL($('#addImgs')[0].files[i]);
+				}
 
+			});
+			function erase()
+			{
+				$('#selected').html('');
+				$('#addImgs').val('');
+			}
 		</script>
 	@stop
