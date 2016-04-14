@@ -56,9 +56,8 @@ class ArticlesController extends Controller
                 $article->save();
             }
 
-            $addImgs = glob('pictures/'.$article->id.'lb*');
-
             $comments = $this->comments->forArticle($article);
+            $addImgs = glob('pictures/'.$article->id.'lb*');
 
     	    return view('articles.show', compact('article', 'comments', 'addImgs'));
         
@@ -101,12 +100,24 @@ class ArticlesController extends Controller
 
         
     	   $tags = $this->tags->lists();
+           $addImgs = glob('pictures/'.$article->id.'lb*');
 
-    	   return view('articles.edit', compact('article', 'tags'));
+    	   return view('articles.edit', compact('article', 'tags', 'addImgs'));
     }
 
     public function update(article $article, UpdateArticleRequest $request)
     {
+        if($request->has('delete'))
+        {
+            foreach($request->delete as $name => $deleteImage)
+            {
+                if (file_exists('pictures/'.$article->id.'lb'.$name))
+                {
+                    unlink('pictures/'.$article->id.'lb'.$name);
+                }
+            }
+        }
+
         if($this->validateAddImgs($article, $request) != null)
         {
             return $this->validateAddImgs($article, $request);
