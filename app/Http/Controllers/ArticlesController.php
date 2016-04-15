@@ -83,10 +83,8 @@ class ArticlesController extends Controller
         {
             return $this->validateAddImgs(null, $request);
         }
-        $article = Auth::user()->articles()->create($request->all());
-        $article->slug = str_slug($article->title, '-');
-        $article->save();
 
+        $article = Auth::user()->articles()->create($request->all());
         $this->syncTags($article, $request);
         $this->uploadImages($article, $request);
 
@@ -126,12 +124,7 @@ class ArticlesController extends Controller
         }
 
     	$article->update($request->all());
-
-        $article->slug = str_slug($article->title, '-');
-        $article->save();
-        
         $this->syncTags($article, $request);
-
         $this->uploadImages($article, $request);
 
         \Session::flash('flash_message', 'The article has been updated!');

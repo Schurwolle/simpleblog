@@ -7,7 +7,7 @@ use Carbon\Carbon;
 
 class article extends Model
 {
-    protected $fillable = ['title', 'body', 'published_at'];
+    protected $fillable = ['title', 'slug', 'body', 'published_at'];
 
     protected $dates = ['published_at'];
 

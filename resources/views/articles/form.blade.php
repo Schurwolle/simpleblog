@@ -9,7 +9,7 @@
 							'data-parsley-required-message' => 'Title is required.',
 							'data-parsley-trigger' 			=> 'change focusout'
 							]) !!}
-
+	{!! Form::text('slug', null, ['id' => 'slug', 'style' => 'display:none;', 'required']) !!}
 	</div>
 
 	<div class="form-group">
@@ -72,7 +72,19 @@
 			outputUrlId:'img'
 		}
 		var cropperImage = new Croppic('image', imageOptions);
-		
+		</script>
+
+		<script type="text/javascript">
+			$('#title').on('change', function(){
+				var slug = $('#title').val()
+										.toLowerCase()
+										.replace(/[^\w ]+/g,'')
+										.replace(/_+/g,'')
+										.trim()
+        								.replace(/ +/g,'-')
+        		;
+				$('#slug').val(slug);
+			});
 		</script>
 
 		<script type="text/javascript">

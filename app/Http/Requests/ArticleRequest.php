@@ -25,6 +25,7 @@ class ArticleRequest extends Request
     {
         return [ 
             'title'          => 'required|unique:articles,title',
+            'slug'           => 'required|unique:articles,slug',
             'body'           => 'required',
             'published_at'   => 'required|date|after:yesterday',
             'img'            => 'required',

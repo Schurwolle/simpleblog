@@ -25,6 +25,7 @@ class UpdateArticleRequest extends Request
     {
         return [
             'title' => 'required|unique:articles,title,'.$this->articles->id,
+            'slug' => 'required|unique:articles,slug,'.$this->articles->id,
             'body'   => 'required',
         ];
     }
