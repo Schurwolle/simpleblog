@@ -214,7 +214,7 @@ class ArticlesController extends Controller
             $files = $request->file('addImgs');
             $mask = glob('pictures/'.$article->id.'lb*');
             natsort($mask);
-            $uploadCount = $mask[count($mask)-1];
+            $uploadCount = empty($mask) ? 0 : $mask[count($mask)-1];
             $uploadCount = substr($uploadCount, strlen($uploadCount)-1, 1) + 1;
 
             foreach($files as $file)
