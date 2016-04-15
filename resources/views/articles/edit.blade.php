@@ -1,5 +1,18 @@
 @extends('layouts.app')
 
+@section('head')
+	<style>
+		#image {
+			background-image: url(/pictures/{{$article->id}});
+		}
+		#thumbnail {
+			background-image: url(/pictures/{{$article->id}}thumbnail);
+		}
+	</style>
+
+@stop
+
+
 @section('content')
 
 	@include('errors.list')
@@ -24,6 +37,8 @@
 				</tr>
 			</table>
 		@endif
+
+		@include('articles.tagsImgs')
 
 		@include('articles.submit', ['submitButton' => '<i class="fa fa-plus"></i> Update Article'])
 

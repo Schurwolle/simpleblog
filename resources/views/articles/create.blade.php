@@ -11,6 +11,8 @@
 
 		@include('articles.form')
 
+		@include('articles.tagsImgs')
+
 		@include('articles.publish')
 
 		@include('articles.submit', ['submitButton' => '<i class="fa fa-plus"></i> Add Article'])
