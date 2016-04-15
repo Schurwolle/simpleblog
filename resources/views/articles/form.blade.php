@@ -75,7 +75,10 @@
 		</script>
 
 		<script type="text/javascript">
-			$('#title').on('change', function(){
+			$('#title').on('change', createSlug);
+			$('#slug').on('change', createSlug);
+
+			function createSlug(){
 				var slug = $('#title').val()
 										.toLowerCase()
 										.replace(/[^\w ]+/g,'')
@@ -84,7 +87,7 @@
         								.replace(/ +/g,'-')
         		;
 				$('#slug').val(slug);
-			});
+			}
 		</script>
 
 		<script type="text/javascript">
