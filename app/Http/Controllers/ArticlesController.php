@@ -16,7 +16,7 @@ use App\Repositories\CommentRepository;
 use App\Repositories\TagRepository;
 use Validator;
 use Intervention\Image\ImageManager;
-use Illuminate\Support\Facades\Input;
+use App\Jobs\DeleteArticleImages;
 
 class ArticlesController extends Controller
 {	
@@ -136,10 +136,11 @@ class ArticlesController extends Controller
     {
         $this->authorize('articleAuth', $article);
 
-            $this->deleteImages($article);
-
             $article->delete();
 
+            $job = (new DeleteArticleImages($article->id));
+            $this->dispatch($job);
+            
             \Session::flash('flash_message', 'The article has been deleted!');
 
             return redirect('articles');
@@ -232,15 +233,6 @@ class ArticlesController extends Controller
         $photo = $mask[0];
         $manager = new ImageManager();
         $image = $manager->make($photo)->save('pictures/'.$fileName);
-    }
-
-    private function deleteImages(article $article)
-    {
-        $mask = 'pictures/'.$article->id.'*';
-        if (!empty($mask))
-        {
-            array_map('unlink', glob($mask));
-        }
     }
 
     private function validateAddImgs($article, $request)
