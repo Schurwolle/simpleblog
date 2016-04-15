@@ -124,7 +124,7 @@
 				{
 					var reader = new FileReader();
 					reader.onload = function (img){
-						$('#selected').append('<td style="padding-right: 10px;padding-top: 10px;"><img style="max-width:100px; max-height:100px;" src="' +img.target.result +'"></td>')
+						$('#selected').append('<td style="padding-right: 10px;padding-top: 10px;"><a href="' +img.target.result +'" data-lightbox="selected"><img style="max-width:100px; max-height:100px;" src="' +img.target.result +'"></a></td>')
 					}
 					reader.readAsDataURL($('#addImgs')[0].files[i]);
 				}
