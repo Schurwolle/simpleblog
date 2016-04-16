@@ -16,7 +16,7 @@ use App\Repositories\CommentRepository;
 use App\Repositories\TagRepository;
 use Validator;
 use Intervention\Image\ImageManager;
-use App\Jobs\DeleteArticleImages;
+use App\Jobs\DeleteImages;
 
 class ArticlesController extends Controller
 {	
@@ -132,7 +132,7 @@ class ArticlesController extends Controller
 
             $article->delete();
 
-            $job = (new DeleteArticleImages($article->id));
+            $job = (new DeleteImages($article->id));
             $this->dispatch($job);
             
             \Session::flash('flash_message', 'The article has been deleted!');

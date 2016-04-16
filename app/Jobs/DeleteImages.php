@@ -8,20 +8,20 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 
-class DeleteArticleImages extends Job implements ShouldQueue
+class DeleteImages extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
-    protected $articleID;
+    protected $name;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($articleID)
+    public function __construct($name)
     {
-        $this->articleID = $articleID;
+        $this->name = $name;
     }
 
     /**
@@ -31,7 +31,7 @@ class DeleteArticleImages extends Job implements ShouldQueue
      */
     public function handle()
     {
-        $mask = base_path().'/public/pictures/'.$this->articleID.'*';
+        $mask = base_path().'/public/pictures/'.$this->name.'*';
         if (!empty($mask))
         {
             array_map('unlink', glob($mask));
