@@ -4,7 +4,7 @@ namespace Illuminate\Foundation\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Intervention\Image\ImageManager;
+use App\Jobs\UploadAvatar;
 
 
 trait RegistersUsers
@@ -66,15 +66,12 @@ trait RegistersUsers
 
         Auth::guard($this->getGuard())->login($this->create($request->all()));
 
+
         $mask = glob('pictures/cropper/cropped'.$cookie.'*');
         if(!empty($mask))
         {
-            $photo = $mask[0];
-        
-            $fileName = $request->name;
-
-            $manager = new ImageManager();
-            $image = $manager->make($photo)->save('pictures/'.$fileName);
+            $job = (new UploadAvatar($mask[0], $request->name));
+            $this->dispatch($job);
         }
 
         return redirect($this->redirectPath());

@@ -61,11 +61,13 @@ class UserController extends Controller
 
     public function delete(User $user)
     {
-
-        
-        $job = (new DeleteImages($user->name));
-        $this->dispatch($job);
         $user->delete();
+        if(file_exists('pictures/'.$user->name))
+        {
+            $job = (new DeleteImages($user->name));
+            $this->dispatch($job);
+        }
+
         if(Auth::user()->isAdmin())
         {
             \Session::flash('flash_message', 'The profile has been deleted!');
@@ -73,7 +75,7 @@ class UserController extends Controller
         }else
         {
             \Session::flash('flash_message', 'Your profile has been deleted!');
-            return redirect('login');
+            return redirect('register');
         }
 
     }
