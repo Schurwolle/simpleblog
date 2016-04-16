@@ -89,10 +89,14 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'addImgs.*' => [
+            'image'     => 'Additional image (:attribute) must be an image.',
+            'max'       => 'Additional image (:attribute) may not be greater than :max kilobytes.'
         ],
-    ],
+        'addImgs'   => [
+            'max'     => 'Maximum number of additional images is :max.',
+        ],
+    ],   
 
     /*
     |--------------------------------------------------------------------------

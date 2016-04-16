@@ -30,6 +30,9 @@ class ArticleRequest extends Request
             'published_at'   => 'required|date|after:yesterday',
             'img'            => 'required',
             'thumbnailImage' => 'required',
+            'addImgs'        => 'max:5',
+            'addImgs.*'      => 'image|max:2048',
+            
         ];
     }
 }

@@ -73,17 +73,6 @@ class ArticlesController extends Controller
 
     public function store(ArticleRequest $request)
     {   
-        // $messages = array('imgs_count' => 'Maximum number of additional images is 5.',);
-        // $validator = Validator::make($request->file('addImgs'), array('addImgs' => array('imgs_count:addImgs,3')),$messages);
-        // if ($validator->fails()) 
-        // {
-        //     return back()->withErrors($validator);
-        // }
-        if($this->validateAddImgs(null, $request) != null)
-        {
-            return $this->validateAddImgs(null, $request);
-        }
-
         $article = Auth::user()->articles()->create($request->all());
         $this->syncTags($article, $request);
         $this->uploadImages($article, $request);
@@ -117,11 +106,16 @@ class ArticlesController extends Controller
                 }
             }
         }
-
-        if($this->validateAddImgs($article, $request) != null)
-        {
-            return $this->validateAddImgs($article, $request);
-        }
+        if($request->hasFile('addImgs'))
+        {   
+            $files = $request->file('addImgs');
+            $oldfiles = $article != null ? glob('pictures/'.$article->id.'lb*') : [];
+            if(count($files) + count($oldfiles) > 5)
+            {
+                \Session::flash('alert_message', 'Maximum number of additional images is 5.');
+                return back()->withInput();
+            }
+        }   
 
     	$article->update($request->all());
         $this->syncTags($article, $request);
@@ -233,30 +227,6 @@ class ArticlesController extends Controller
         $photo = $mask[0];
         $manager = new ImageManager();
         $image = $manager->make($photo)->save('pictures/'.$fileName);
-    }
-
-    private function validateAddImgs($article, $request)
-    {
-        if($request->hasFile('addImgs'))
-        {   
-
-            $oldfiles = $article != null ? glob('pictures/'.$article->id.'lb*') : [];
-            $files = $request->file('addImgs');
-            if(count($files) + count($oldfiles) > 5)
-            {
-                \Session::flash('alert_message', 'Maximum number of additional images is 5.');
-                return back()->withInput();
-            }
-            foreach($files as $file)
-            {
-                $rules = array('Additional Image' => 'image|max:2048');
-                $validator = Validator::make(array('Additional Image'=> $file), $rules);
-                if($validator->fails())
-                {
-                    return back()->withInput()->withErrors($validator);
-                }
-            }
-        }
     }
 }
 

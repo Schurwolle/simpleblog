@@ -9,7 +9,7 @@
 							'data-parsley-required-message' => 'Title is required.',
 							'data-parsley-trigger' 			=> 'change focusout'
 							]) !!}
-	{!! Form::text('slug', null, ['id' => 'slug', 'style' => 'display:none;', 'required']) !!}
+	{!! Form::text('slug', null, ['id' => 'slug', 'style' => 'display:none;']) !!}
 	</div>
 
 	<div class="form-group">
@@ -112,12 +112,12 @@
 					var type = ($('#addImgs')[0].files[i].type);
 					if(type != "image/jpeg" && type != "image/png" && type != "image/bmp" && type != "image/gif" && type != "image/svg")
 					{
-						swal({ title: "Error!", text: "Invalid file type.", timer: 2000, showConfirmButton: false, type:"error" });
+						swal({ title: "Error!", text: "File number "+ (i+1)+ " is not an image.", timer: 2000, showConfirmButton: false, type:"error" });
 						return erase();
 					}
 					if($('#addImgs')[0].files[i].size > 2048000)
 					{
-						swal({ title: "Error!", text: "Maximum file size allowed is 2048KB.", timer: 2000, showConfirmButton: false, type:"error" });
+						swal({ title: "Error!", text: "Image number "+ (i+1) +" is too big. Maximum size allowed is 2048KB.", timer: 2000, showConfirmButton: false, type:"error" });
 						return erase();
 					}
 				}

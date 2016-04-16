@@ -24,9 +24,11 @@ class UpdateArticleRequest extends Request
     public function rules()
     {
         return [
-            'title' => 'required|unique:articles,title,'.$this->articles->id,
-            'slug' => 'required|unique:articles,slug,'.$this->articles->id,
-            'body'   => 'required',
+            'title'     => 'required|unique:articles,title,'.$this->articles->id,
+            'slug'      => 'required|unique:articles,slug,'.$this->articles->id,
+            'body'      => 'required',
+            'addImgs'   => 'max:5',
+            'addImgs.*' => 'image|max:2048',
         ];
     }
 }

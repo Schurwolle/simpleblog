@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,12 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Validator::extend('imgs_count', function($attribute, $value, $parameters)
-        {   
-            $files = Input::file($parameters[0]);
 
-            return (count($files) <= $parameters[1]) ? true : false;
-        });
     }
 
     /**
