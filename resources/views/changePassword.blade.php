@@ -1,10 +1,5 @@
 @extends('layouts.app')
 
-@section('head')
-	 @include('parsleyhead')
-@stop
-
-
 @section('content')
 	<h1>Change Your Password</h1>
 	<hr>

@@ -78,12 +78,6 @@
     <div class="container">
       @yield('sides')
       <div class="center">
-        @if(Session::has('flash_message'))
-            <div class="alert alert-success">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                {{Session::get('flash_message')}}
-            </div>
-        @endif
         @if(Session::has('alert_message'))
             <div class="alert alert-danger">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -136,6 +130,11 @@
 
     <!-- JavaScripts -->
     <script src="{{ elixir('js/all.js') }}"></script>
+    @if(Session::has('flash_message'))
+            <script type="text/javascript">
+                swal({ title: "Success!", text: "{{Session::get('flash_message')}}", timer: 2000, showConfirmButton: false, type:"success" });
+            </script>
+        @endif
     @yield('footer')
 
     <script type="text/javascript">
