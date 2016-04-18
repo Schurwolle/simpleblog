@@ -1,7 +1,7 @@
 	@section ('head')
 		<style type="text/css">
 			#image {
-			background-image: url({{ $article->id != null ? '/pictures/'.$article->id : '/img/placeholder.jpg' }});
+				background-image: url({{ $article->id != null ? '/pictures/'.$article->id : '/img/placeholder.jpg' }});
 			}
 			#thumbnail {
 				background-image: url({{ $article->id != null ? '/pictures/'.$article->id.'thumbnail' : '/img/placeholder.jpg' }});
@@ -47,7 +47,8 @@
 		<script>
 			$('#tag_list').select2({
 
-				placeholder: 'Choose a tag or type your own', 
+				placeholder: 'Choose a tag or type your own',
+				allowClear: true, 
 				tags: true,
 			    tokenSeparators: [",", " "],
 			    createTag: function(newTag) {
@@ -107,6 +108,7 @@
 	  		$('#thumbinfo').balloon({position: "right"});
 	  		$('#addImgsinfo').balloon({position: "right"});
 	  		$('#deleteinfo').balloon({position: "right"});
+	  		$('#tagsinfo').balloon({position: "right"});
 		});
 		</script>
 
