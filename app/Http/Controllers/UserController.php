@@ -64,12 +64,13 @@ class UserController extends Controller
         $job = (new Delete($user, $user->name));
         $this->dispatch($job);
 
-        if(Auth::user()->isAdmin())
+        if(Auth::user()->isAdmin() && Auth::user() != $user)
         {
             \Session::flash('flash_message', 'The profile has been deleted!');
             return redirect ('users')->with('user', $user->id);
         }else
         {
+            Auth::logout();
             \Session::flash('flash_message', 'Your profile has been deleted!');
             return redirect('register');
         }
