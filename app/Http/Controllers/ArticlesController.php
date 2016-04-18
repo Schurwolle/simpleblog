@@ -16,7 +16,7 @@ use App\Repositories\CommentRepository;
 use App\Repositories\TagRepository;
 use Validator;
 use Intervention\Image\ImageManager;
-use App\Jobs\DeleteImages;
+use App\Jobs\Delete;
 
 class ArticlesController extends Controller
 {	
@@ -38,7 +38,12 @@ class ArticlesController extends Controller
 
     public function index()
     {	
-        $articles = $this->articles->showPublished();
+        if (session()->has('article'))
+        {
+            $articles = $this->articles->showExcept(session('article'));
+        } else {
+            $articles = $this->articles->showPublished();
+        }
 
     	return view('articles.headings.articles', compact('articles'));
     }
@@ -130,14 +135,12 @@ class ArticlesController extends Controller
     {
         $this->authorize('articleAuth', $article);
 
-            $article->delete();
-
-            $job = (new DeleteImages($article->id));
+            $job = (new Delete($article, $article->id));
             $this->dispatch($job);
             
             \Session::flash('flash_message', 'The article has been deleted!');
 
-            return redirect('articles');
+            return redirect('articles')->with('article', $article->id);
     }
 
     public function favorite(article $article)

@@ -23,4 +23,8 @@ class UserRepository
         return $usersSorted;
 	}
 
+	public function showExcept($user)
+	{
+		return User::where('id', '!=', $user)->latest('created_at')->paginate(10);
+	}
 }

@@ -13,7 +13,7 @@ use Auth;
 use Hash;
 use Validator;
 use Intervention\Image\ImageManager;
-use App\Jobs\DeleteImages;
+use App\Jobs\Delete;
 
 
 class UserController extends Controller
@@ -61,17 +61,13 @@ class UserController extends Controller
 
     public function delete(User $user)
     {
-        $user->delete();
-        if(file_exists('pictures/'.$user->name))
-        {
-            $job = (new DeleteImages($user->name));
-            $this->dispatch($job);
-        }
+        $job = (new Delete($user, $user->name));
+        $this->dispatch($job);
 
         if(Auth::user()->isAdmin())
         {
             \Session::flash('flash_message', 'The profile has been deleted!');
-            return redirect ('users');
+            return redirect ('users')->with('user', $user->id);
         }else
         {
             \Session::flash('flash_message', 'Your profile has been deleted!');

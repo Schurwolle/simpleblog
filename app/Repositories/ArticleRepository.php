@@ -60,4 +60,9 @@ class ArticleRepository
 	{
 		return article::latest('published_at')->published()->first();
 	}
+
+	public function showExcept($article)
+	{
+		return article::latest('published_at')->published()->where('id', '!=', $article)->paginate(5);
+	}
 }

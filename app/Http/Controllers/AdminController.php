@@ -36,7 +36,12 @@ class AdminController extends Controller
 
     public function showUsers()
     {
-        $users = $this->users->showAll();
+        if(session()->has('user'))
+        {
+            $users = $this->users->showExcept(session('user'));
+        } else {
+            $users = $this->users->showAll();
+        }
 
         return view('users', compact('users'));
     }
