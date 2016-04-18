@@ -49,6 +49,7 @@
 
 				placeholder: 'Choose a tag or type your own',
 				allowClear: true, 
+				width: '100%',
 				tags: true,
 			    tokenSeparators: [",", " "],
 			    createTag: function(newTag) {

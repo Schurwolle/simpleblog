@@ -154,7 +154,7 @@
                 } else {
                     $('.right').show();
                     $('.left').show();
-                    $('.center').css("width", "50%");
+                    $('.center').css("width", "53%");
                     $('.bx-wrapper .bx-caption span').css("font-size", "1.5vw");
                     $('#drop').show();
                     $('#navbar').children('#profile').remove();
