@@ -99,11 +99,11 @@
 		@if (count($addImgs) > 0)
 			<tr align="middle">
 			    <td>
-				<table>
+				<table class="additional">
 					<tr>
 						@foreach($addImgs as $addImg)
-						<td style="padding-right: 10px;padding-top: 10px;">
-							<a href="/{{$addImg}}" data-lightbox="lightbox2">{{HTML::image($addImg, null, ['style' => 'max-width:100px; max-height:100px; border: 3px solid #1468af;'])}}</a>
+						<td>
+							<a href="/{{$addImg}}" data-lightbox="lightbox2">{{HTML::image($addImg)}}</a>
 						</td>
 						@endforeach
 					</tr>

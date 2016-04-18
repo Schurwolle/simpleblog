@@ -54,7 +54,6 @@ textarea.parsley-error {
 				box-sizing: content-box;
 				-moz-box-sizing: content-box;
 				border-radius: 2px;
-				background-image: url(/img/placeholder.jpg);
 				background-repeat: no-repeat;
 				background-position: center;
 				box-shadow: 8px 8px 0px rgba(0,0,0,0.1);
@@ -67,7 +66,6 @@ textarea.parsley-error {
 				box-sizing: content-box;
 				-moz-box-sizing: content-box;
 				border-radius: 2px;
-				background-image: url(/img/placeholder.jpg);
 				background-repeat: no-repeat;
 				background-position: center;
 				box-shadow: 8px 8px 0px rgba(0,0,0,0.1);
@@ -1565,9 +1563,19 @@ img {
 }
 
 .anchor {
-    padding-top: 42px;
-    margin-top: -55px;
-    display: inline-block;
-    vertical-align: top;
+  padding-top: 42px;
+  margin-top: -55px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.additional td {
+  padding-right: 10px;
+  padding-top: 10px;
+}
+.additional img {
+  max-width:100px; 
+  max-height:100px;
+  border: 3px solid #1468af;
 }
 /*# sourceMappingURL=all.css.map */

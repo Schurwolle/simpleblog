@@ -1,3 +1,14 @@
+	@section ('head')
+		<style type="text/css">
+			#image {
+			background-image: url({{ $article->id != null ? '/pictures/'.$article->id : '/img/placeholder.jpg' }});
+			}
+			#thumbnail {
+				background-image: url({{ $article->id != null ? '/pictures/'.$article->id.'thumbnail' : '/img/placeholder.jpg' }});
+			}
+		</style>
+	@stop
+
 	<div class="form-group">
 	{!! Form::label('title', 'Title:') !!}
 
@@ -122,12 +133,12 @@
 					}
 				}
 				$('#selected').parents('table').remove();
-				$('#addImgs').after('<table><tr id ="selected"></tr></table>')
+				$('#addImgs').after('<table><tr id="selected" class="additional"></tr></table>')
 				for(var i = 0;i < $('#addImgs')[0].files.length;i++)
 				{
 					var reader = new FileReader();
 					reader.onload = function (img){
-						$('#selected').append('<td style="padding-right: 10px;padding-top: 10px;"><a href="' +img.target.result +'" data-lightbox="selected"><img style="max-width:100px; max-height:100px;" src="' +img.target.result +'"></a></td>')
+						$('#selected').append('<td><a href="' +img.target.result +'" data-lightbox="selected"><img src="' +img.target.result +'"></a></td>')
 					}
 					reader.readAsDataURL($('#addImgs')[0].files[i]);
 				}

@@ -1,18 +1,5 @@
 @extends('layouts.app')
 
-@section('head')
-	<style>
-		#image {
-			background-image: url(/pictures/{{$article->id}});
-		}
-		#thumbnail {
-			background-image: url(/pictures/{{$article->id}}thumbnail);
-		}
-	</style>
-
-@stop
-
-
 @section('content')
 
 	@include('errors.list')
@@ -25,11 +12,11 @@
 
 		@if (count($addImgs) > 0)
 			{!!Form::label('table' ,'Select images you want to delete:')!!} <a href="#" id ="deleteinfo" title="First select images you want to delete(if any), then choose new ones."  onclick="return false"><i class="fa fa-info-circle"></i></a>
-			<table>
+			<table class="additional">
 				<tr>
 					@foreach($addImgs as $addImg)
-					<td style="padding: 10px;" align="middle";>
-						<a href="/{{$addImg}}" data-lightbox="lightbox2">{{HTML::image($addImg, null, ['style' => 'max-width:100px; max-height:100px; border: 3px solid #1468af;'])}}</a>
+					<td align="middle";>
+						<a href="/{{$addImg}}" data-lightbox="lightbox2">{{HTML::image($addImg)}}</a>
 						<br>
 						{{ Form::checkbox('delete['.explode('lb',$addImg)[1].']') }}
 					</td>
