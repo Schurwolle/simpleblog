@@ -7,6 +7,7 @@ use Auth;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\article;
+use Illuminate\Http\Request;
 use App\Http\Requests\ArticleRequest;
 use App\Http\Requests\UpdateArticleRequest;
 use App\Tag;
@@ -153,6 +154,17 @@ class ArticlesController extends Controller
         } else {
 
             $article->favoritedBy()->detach(Auth::id());
+        }
+    }
+
+    public function unique(Request $request)
+    {   
+        $article = article::where('title', '=', $request->title)->first();
+        if($article == null)
+        {
+            return 'true';
+        } else {
+            return 'false';
         }
     }
 

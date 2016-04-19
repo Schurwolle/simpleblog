@@ -45,8 +45,10 @@ Route::controllers([
 Route::get('login/facebook', 'Auth\AuthController@redirectToFacebook');
 Route::get('login/facebook/callback', 'Auth\AuthController@getFacebook');
 
+Route::post('articles/unique', 'ArticlesController@unique');
 Route::resource('articles', 'ArticlesController');
 Route::get('articles/{articles}/favorite', 'ArticlesController@favorite');
+
 
 Route::post('tags', 'TagsController@store');
 Route::get('tags/{tags}', 'TagsController@show');
