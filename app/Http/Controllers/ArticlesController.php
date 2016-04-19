@@ -211,10 +211,15 @@ class ArticlesController extends Controller
         {
             $files = $request->file('addImgs');
             $mask = glob('pictures/'.$article->id.'lb*');
-            natsort($mask);
-            $uploadCount = empty($mask) ? 0 : $mask[count($mask)-1];
-            $uploadCount = substr($uploadCount, strlen($uploadCount)-1, 1) + 1;
-
+            if(empty($mask))
+            {
+                $uploadCount = 0;
+            } else {
+                natsort($mask);
+                $mask = array_values($mask);
+                $uploadCount = explode('lb', $mask[count($mask)-1])[1] + 1;
+            }
+            
             foreach($files as $file)
             {
                 $destinationPath = 'pictures/';
