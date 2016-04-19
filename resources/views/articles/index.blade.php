@@ -50,7 +50,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td align="justify">{!! \Illuminate\Support\Str::words(html_entity_decode($article->body), 80) !!}</td>
+					<td align="justify">{!! \Illuminate\Support\Str::words(html_entity_decode(str_replace('<p>&nbsp;</p>', '', $article->body)), 80) !!}</td>
 				</tr>
 				<tr>
 					<td>
