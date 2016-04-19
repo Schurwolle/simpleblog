@@ -26,8 +26,12 @@ class ViewComposerServiceProvider extends ServiceProvider
 
         view()->composer('layouts.app', function ($view)
         {
-            $view->with('latest', $this->articles->showLatest());
-
+            if(session()->has('article'))
+            {
+                $view->with('latest', $this->articles->showLatest(session('article')));
+            } else {
+                $view->with('latest', $this->articles->showLatest());
+            }
         });
 
         view()->composer('leftandright', function ($view)

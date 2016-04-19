@@ -56,9 +56,9 @@ class ArticleRepository
         return $articlesSorted->slice(0,10);
 	}
 
-	public function showLatest()
+	public function showLatest($article = 0)
 	{
-		return article::latest('published_at')->published()->first();
+		return article::latest('published_at')->published()->where('id', '!=', $article)->first();
 	}
 
 	public function showExcept($article)
