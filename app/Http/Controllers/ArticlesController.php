@@ -160,7 +160,7 @@ class ArticlesController extends Controller
     public function unique(Request $request)
     {   
         $article = article::where('title', '=', $request->title)->first();
-        if($article == null)
+        if($article == null || $article->title == $request->except)
         {
             return 'true';
         } else {

@@ -8,6 +8,7 @@
     </script>
     {{Html::script('/parsley.min.js')}}
     <script type="text/javascript">
+    var except = $('#title').val(); 
 	window.Parsley
 	  .addValidator('unique', function(value, requirement) {
 	  	var token = ($('#title').data('token'));
@@ -17,7 +18,7 @@
 	  			url:'/articles/unique',
 	  			type:'POST',
 	  			async: false,
-	  			data:{'title': title, _token: token},
+	  			data:{'title': title, 'except': except, _token: token},
 	  			success: function(unique){
 	  				if(unique === 'true')
 	  				{
