@@ -31,7 +31,5 @@
 	  			}
 	  		});
 	  		return response;
-	    })
-	    .addMessage('title', 'That title has already been taken.')
-	    .addMessage('slug', 'That slug has already been taken.');
+	    });
 	</script>
