@@ -28,7 +28,7 @@ class ArticlesController extends Controller
 
 	public function __construct(ArticleRepository $articles,CommentRepository $comments,TagRepository $tags)
 	{
-		$this->middleware('auth');
+		$this->middleware('auth', ['except' => 'unique']);
 
         $this->articles = $articles;
         $this->comments = $comments;
@@ -159,8 +159,16 @@ class ArticlesController extends Controller
 
     public function unique(Request $request)
     {   
-        $article = article::where('title', '=', $request->title)->first();
-        if($article == null || $article->title == $request->oldTitle)
+        if($request->table == 'article')
+        {
+            $row = article::where($request->column, '=', $request->value)
+                                ->where($request->column, '!=', $request->oldValue)
+                                ->first();
+        } elseif($request->table == 'user') {
+            $row = User::where($request->column, '=', $request->value)->first();
+        }
+
+        if($row == null)
         {
             return 'true';
         } else {

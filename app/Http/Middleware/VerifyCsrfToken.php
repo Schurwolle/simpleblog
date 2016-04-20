@@ -15,6 +15,6 @@ class VerifyCsrfToken extends BaseVerifier
         'upload',
         'crop',
         'register',
-        'articles/unique'
+        'unique'
     ];
 }

@@ -18,10 +18,16 @@
 							'placeholder'					=> 'Title of the Article',
 							'required',
 							'data-parsley-required-message' => 'Title is required.',
-							'data-parsley-unique'			=>  $article->title ? $article->title : "" ,		
+							'data-parsley-unique'			=>  $article->title ? 'article$title#'.$article->title : 'article$title#',
 							'data-parsley-trigger' 			=> 'change focusout',
 							]) !!}
-	{!! Form::text('slug', null, ['id' => 'slug', 'style' => 'display:none;']) !!}
+	{!! Form::text('slug', null, 
+						[
+							'id' 			      => 'slug', 
+							'style' 			  => 'display:none;',
+							'data-parsley-unique' =>  $article->slug ? 'article$slug#'.$article->slug : 'article$slug#',
+							'data-parsley-trigger'=> 'change',
+							]) !!}
 	</div>
 
 	<div class="form-group">

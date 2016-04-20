@@ -14,7 +14,7 @@
                             <label class="col-md-4 control-label">Name</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Enter your name"required="required" data-parsley-required-message="Name is required."data-parsley-minlength="2" data-parsley-minlength-message="Name should be at least 2 characters long." data-parsley-trigger="change focusout">
+                                <input type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Enter your name"required="required" data-parsley-required-message="Name is required."data-parsley-minlength="2" data-parsley-minlength-message="Name should be at least 2 characters long." data-parsley-unique="user$name" data-parsley-trigger="change focusout">
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -28,7 +28,7 @@
                             <label class="col-md-4 control-label">E-Mail Address</label>
 
                             <div class="col-md-6">
-                                <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Enter your e-mail address" required="required" data-parsley-required-message="E-mail address is required." data-parsley-type="email" data-parsley-type-message="This e-mail address is not valid." data-parsley-trigger="change focusout">
+                                <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Enter your e-mail address" required="required" data-parsley-required-message="E-mail address is required." data-parsley-type="email" data-parsley-type-message="This e-mail address is not valid." data-parsley-unique="user$email" data-parsley-trigger="change focusout">
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">

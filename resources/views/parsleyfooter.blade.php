@@ -12,10 +12,15 @@
 	  .addValidator('unique', function(value, requirement) {
 	  	var response = false;
 	  		$.ajax({
-	  			url:'/articles/unique',
+	  			url:'/unique',
 	  			type:'POST',
 	  			async: false,
-	  			data:{'title': value, 'oldTitle': requirement},
+	  			data:{
+	  					'value': value, 
+	  					'oldValue': requirement.substring(requirement.indexOf('#')+1), 
+	  					'column':requirement.split('#')[0].split('$')[1],
+	  					'table':requirement.split('$')[0],
+	  				},
 	  			success: function(unique){
 	  				if(unique === 'true')
 	  				{
@@ -27,5 +32,6 @@
 	  		});
 	  		return response;
 	    })
-	    .addMessage('title', 'That title has already been taken.');
+	    .addMessage('title', 'That title has already been taken.')
+	    .addMessage('slug', 'That slug has already been taken.');
 	</script>
