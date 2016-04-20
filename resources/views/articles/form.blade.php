@@ -16,10 +16,9 @@
 						[
 							'class' 						=> 'form-control',  
 							'placeholder'					=> 'Title of the Article',
-							'data-token'					=>  csrf_token(),
 							'required',
 							'data-parsley-required-message' => 'Title is required.',
-							'data-parsley-unique',
+							'data-parsley-unique'			=>  $article->title ? $article->title : "" ,		
 							'data-parsley-trigger' 			=> 'change focusout',
 							]) !!}
 	{!! Form::text('slug', null, ['id' => 'slug', 'style' => 'display:none;']) !!}
