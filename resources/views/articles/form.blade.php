@@ -21,13 +21,17 @@
 							'data-parsley-unique'			=>  $article->title ? 'article$title#'.$article->title : 'article$title#',
 							'data-parsley-unique-message'   => 'That title has already been taken.',
 							'data-parsley-trigger' 			=> 'keyup focusout',
-							]) !!}
+						]
+					) 
+	!!}
 	{!! Form::text('slug', null, 
 						[
 							'id' 			      			=> 'slug', 
 							'style' 			  			=> 'display:none;',
 							'data-parsley-trigger'			=> 'change',
-							]) !!}
+						]
+					) 
+	!!}
 	</div>
 
 	<div class="form-group">
@@ -40,13 +44,29 @@
 	<div class="form-group">
     {!! Form::label('image', 'Image:') !!} <a href="#" id ="imginfo" title="The image will be shown resized and cropped in the article page and bxslider slideshow, but original image will be shown in lightbox2 modal window." onclick="return false"><i class="fa fa-info-circle"></i></a>
     <div id="image"></div>
-    {!!Form::text('img', null, ['id' => 'img', 'style' => 'display:none;'])!!}
+    {!!Form::text('img', null, 
+    				[
+    					'id' => 'img', 
+    					'style' => 'display:none;', 
+    					 $article->title ? null : 'required', 
+    					'data-parsley-required-message' => 'The image is required.'
+    				]
+    			)
+    !!}
 	</div>
 
 	<div class="form-group">
     {!! Form::label('thumbnail', 'Thumbnail Image:') !!} <a href="#" id ="thumbinfo" title="The thumbnail image will be shown only resized and cropped, as a thumbnail image in popular articles section."  onclick="return false"><i class="fa fa-info-circle"></i></a>
     <div id="thumbnail"></div>
-    {!!Form::text('thumbnailImage', null, ['id' => 'thumbnailImage', 'style' => 'display:none;'])!!}
+    {!!Form::text('thumbnailImage', null,
+    				[
+    				 	'id' => 'thumbnailImage', 
+    				 	'style' => 'display:none;', 
+    				 	 $article->title ? null : 'required', 
+    				 	'data-parsley-required-message' => 'The thumbnail image is required.'
+    				]
+    			)
+    !!}
 	</div>
 
 	@section('footer')
@@ -95,7 +115,7 @@
 		</script>
 
 		<script type="text/javascript">
-			$('#title').on('keyup', function(){
+			$('#title').on('keyup change', function(){
 				setTimeout(createSlug, 1);
 			});
 			$('#slug').on('keyup', createSlug);
@@ -118,11 +138,11 @@
 		  			async: false,
 		  			data:{'table': 'article', 'column': 'slug', 'value':$('#slug').val(), 'oldValue': oldValue},
 		  			success: function(unique) {
+		  				$('#submit').unbind('click');
 		  				window.ParsleyUI.removeError(slugParsley, 'unique');
-		  				$('form').unbind('submit');
 		  				if (unique === 'false')
 		  				{
-		  					$('form').submit(function(e){
+		  					$('#submit').on('click', function(e){
 							        e.preventDefault();
 							        $('#title').focus()
 							    });
