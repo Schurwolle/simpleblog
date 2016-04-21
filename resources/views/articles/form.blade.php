@@ -20,7 +20,7 @@
 							'data-parsley-required-message' => 'Title is required.',
 							'data-parsley-unique'			=>  $article->title ? 'article$title#'.$article->title : 'article$title#',
 							'data-parsley-unique-message'   => 'That title has already been taken.',
-							'data-parsley-trigger' 			=> 'change focusout',
+							'data-parsley-trigger' 			=> 'keyup focusout',
 							]) !!}
 	{!! Form::text('slug', null, 
 						[
@@ -95,7 +95,9 @@
 		</script>
 
 		<script type="text/javascript">
-			$('#title').on('change', createSlug);
+			$('#title').on('keyup', function(){
+				setTimeout(createSlug, 1);
+			});
 			$('#slug').on('keyup', createSlug);
 			function createSlug(){
 				var slug = $('#title').val()
@@ -109,15 +111,21 @@
 				var slugParsley = $('#slug').parsley();
 				var titleParsley = $('#title').parsley();
 				var arrTitleErr = window.ParsleyUI.getErrorsMessages(titleParsley);
+				var oldValue = "{{ $article->slug ? $article->slug : '' }}";
 				$.ajax({
 		  			url:'/unique',
 		  			type:'POST',
 		  			async: false,
-		  			data:{'table': 'article', 'column': 'slug', 'value':$('#slug').val(), 'oldValue': ""},
+		  			data:{'table': 'article', 'column': 'slug', 'value':$('#slug').val(), 'oldValue': oldValue},
 		  			success: function(unique) {
 		  				window.ParsleyUI.removeError(slugParsley, 'unique');
+		  				$('form').unbind('submit');
 		  				if (unique === 'false')
 		  				{
+		  					$('form').submit(function(e){
+							        e.preventDefault();
+							        $('#title').focus()
+							    });
 		  					if(arrTitleErr.length === 0)
 		  					{
 								window.ParsleyUI.addError(slugParsley, "unique", "That slug has already been taken.");
