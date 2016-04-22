@@ -189,9 +189,9 @@ class ArticlesController extends Controller
 
         foreach ($request->tag_list as $tagId)
         {
-            if (substr($tagId, 0, 4) == 'new:')
+            if (substr($tagId, 0, 3) == 'new')
             {
-                $newTag = Tag::create(['name' => strtolower(substr($tagId, 4))]);
+                $newTag = Tag::create(['name' => strtolower(substr($tagId, 3))]);
                 $allTagIds[] = $newTag->id;
                 continue;
             }

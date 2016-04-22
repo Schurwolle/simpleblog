@@ -35,12 +35,12 @@
 	  .addValidator('arrayalphanum', function(value, requirement){
 	  	for(var i = 0; i < value.length; i++)
 	  	{
-	  		if(/[^a-zA-Z0-9]/.test(value[i].substring(4)))
+	  		if(/[^a-zA-Z0-9]/.test(value[i]))
 	  		{
 	  			return false;
 	  		}
 	  	}
 	  	return true;
 	  })
-	  .addMessage('en', 'array', 'Tags can contain only alphanumeric characters.');
+	  .addMessage('en', 'arrayalphanum', 'Tags can contain only alphanumeric characters.');
 	</script>

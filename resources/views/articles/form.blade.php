@@ -82,7 +82,7 @@
 			    createTag: function(newTag) {
 			     
 			        return {
-			            id: 'new:' + newTag.term,
+			            id: 'new' + newTag.term,
 			            text: newTag.term + ' (new)'
 			        };
 			    }
