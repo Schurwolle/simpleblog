@@ -142,12 +142,12 @@
 		  				window.ParsleyUI.removeError(slugParsley, 'unique');
 		  				if (unique === 'false')
 		  				{
-		  					$('#submit').on('click', function(e){
+		  					if(arrTitleErr.length === 0)
+		  					{
+		  						$('#submit').on('click', function(e){
 							        e.preventDefault();
 							        $('#title').focus()
 							    });
-		  					if(arrTitleErr.length === 0)
-		  					{
 								window.ParsleyUI.addError(slugParsley, "unique", "That slug has already been taken.");
 							}
 		  				}

@@ -31,5 +31,16 @@
 	  			}
 	  		});
 	  		return response;
-	    });
+	    })
+	  .addValidator('arrayalphanum', function(value, requirement){
+	  	for(var i = 0; i < value.length; i++)
+	  	{
+	  		if(/[^a-zA-Z0-9]/.test(value[i].substring(4)))
+	  		{
+	  			return false;
+	  		}
+	  	}
+	  	return true;
+	  })
+	  .addMessage('en', 'array', 'Tags can contain only alphanumeric characters.');
 	</script>
