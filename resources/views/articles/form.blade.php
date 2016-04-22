@@ -28,7 +28,8 @@
 						[
 							'id' 			      			=> 'slug', 
 							'style' 			  			=> 'display:none;',
-							'data-parsley-trigger'			=> 'change',
+							'data-parsley-unique'			=>  $article->title ? 'article$slug#'.$article->slug : 'article$slug#',
+							'data-parsley-unique-message'   => 'That slug has already been taken.',
 						]
 					) 
 	!!}
@@ -127,33 +128,16 @@
 										.trim()
         								.replace(/ +/g,'-')
         		;
-				$('#slug').val(slug).trigger('change');
-				var slugParsley = $('#slug').parsley();
-				var titleParsley = $('#title').parsley();
-				var arrTitleErr = window.ParsleyUI.getErrorsMessages(titleParsley);
-				var oldValue = "{{ $article->slug ? $article->slug : '' }}";
-				$.ajax({
-		  			url:'/unique',
-		  			type:'POST',
-		  			async: false,
-		  			data:{'table': 'article', 'column': 'slug', 'value':$('#slug').val(), 'oldValue': oldValue},
-		  			success: function(unique) {
-		  				$('#submit').unbind('click');
-		  				window.ParsleyUI.removeError(slugParsley, 'unique');
-		  				if (unique === 'false')
-		  				{
-		  					if(arrTitleErr.length === 0)
-		  					{
-		  						$('#submit').on('click', function(e){
-							        e.preventDefault();
-							        $('#title').focus()
-							    });
-								window.ParsleyUI.addError(slugParsley, "unique", "That slug has already been taken.");
-							}
-		  				}
-	  				}
-	  			});
+				$('#slug').val(slug);
+				var arrTitleErr = window.ParsleyUI.getErrorsMessages($('#title').parsley());
+				if (arrTitleErr.length == 0)
+				{	
+					$('#slug').parsley().validate();
+				}
 	  		}
+	  		$('#tag_list').on('change', function(){
+	  			$('#tag_list').parsley().validate();
+	  		});
 		</script>
 
 		<script type="text/javascript">
