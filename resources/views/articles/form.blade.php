@@ -148,6 +148,11 @@
 	  		$('#deleteinfo').balloon({position: "right"});
 	  		$('#tagsinfo').balloon({position: "right"});
 		});
+		var shown = true;
+		$('#imginfo, #thumbinfo, #addImgsinfo, #deleteinfo, #tagsinfo').on('click', function() {
+			shown ? $(this).hideBalloon() : $(this).showBalloon();
+			shown = !shown;
+		});
 		</script>
 
 		<script type="text/javascript">
