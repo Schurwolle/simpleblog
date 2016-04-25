@@ -102,6 +102,8 @@ class ArticlesController extends Controller
 
     public function update(article $article, UpdateArticleRequest $request)
     {
+        $updated = $article->updated_at;
+
         if($request->has('delete'))
         {   
             foreach($request->delete as $name => $deleteImage)
@@ -111,6 +113,7 @@ class ArticlesController extends Controller
                     unlink('pictures/'.$article->id.'lb'.$name);
                 }
             }
+            $updated = 'true';
         }
         if($request->hasFile('addImgs'))
         {   
@@ -121,14 +124,15 @@ class ArticlesController extends Controller
                 \Session::flash('alert_message', 'Maximum number of additional images is 5.');
                 return back()->withInput();
             }
+            $updated = 'true';
         }   
-
     	$article->update($request->all());
-        $this->syncTags($article, $request);
-        $this->uploadImages($article, $request);
-
-        \Session::flash('flash_message', 'The article has been updated!');
-
+        $this->syncTags($article, $request, $updated);
+        $this->uploadImages($article, $request, $updated);
+        if ($updated != $article->updated_at)
+        {
+            \Session::flash('flash_message', 'The article has been updated!');
+        }
     	return redirect('articles/'.$article->slug);
     }
 
@@ -177,31 +181,36 @@ class ArticlesController extends Controller
     }
 
 
-    private function syncTags($article, $request)
+    private function syncTags($article, $request, &$updated)
     {
-        if ( ! $request->has('tag_list'))
+        $tags = $article->tags()->get();
+
+        if (!$request->has('tag_list'))
         {
             $article->tags()->detach();
-            return;
-        }
+        } else {
 
-        $allTagIds = array();
+            $allTagIds = array();
 
-        foreach ($request->tag_list as $tagId)
-        {
-            if (substr($tagId, 0, 3) == 'new')
+            foreach ($request->tag_list as $tagId)
             {
-                $newTag = Tag::create(['name' => strtolower(substr($tagId, 3))]);
-                $allTagIds[] = $newTag->id;
-                continue;
+                if (substr($tagId, 0, 3) == 'new')
+                {
+                    $newTag = Tag::create(['name' => strtolower(substr($tagId, 3))]);
+                    $allTagIds[] = $newTag->id;
+                    continue;
+                }
+                $allTagIds[] = $tagId;
             }
-            $allTagIds[] = $tagId;
+            $article->tags()->sync($allTagIds);
         }
-
-        $article->tags()->sync($allTagIds);
+        if ($tags != $article->tags()->get())
+        {
+            $updated = 'true';
+        }
     }
 
-    private function uploadImages(article $article, $request)
+    private function uploadImages(article $article, $request, &$updated)
     {   
         $userName = Auth::user()->name;
 
@@ -209,22 +218,21 @@ class ArticlesController extends Controller
         if(!empty($mask) && $request->img != "")
         {
             $fileName = $article->id;
-            $this->upload($mask, $fileName);
+            $this->upload($mask, $fileName, $updated);
         }
 
-        
         $mask = glob('pictures/cropper/croppedthumb'.$userName.'*');
         if(!empty($mask) && $request->thumbnailImage != "")
         {
             $fileName = $article->id.'thumbnail';
-            $this->upload($mask, $fileName);
+            $this->upload($mask, $fileName, $updated);
         }
 
         $mask = glob('pictures/cropper/lightbox2'.$userName);
         if(!empty($mask) && $request->img != "")
         {
             $fileName = $article->id.'lightbox2';
-            $this->upload($mask, $fileName);
+            $this->upload($mask, $fileName, $updated);
         }
 
         if($request->hasFile('addImgs'))
@@ -250,11 +258,12 @@ class ArticlesController extends Controller
         }
     }
 
-    private function upload($mask, $fileName)
+    private function upload($mask, $fileName, &$updated)
     {
         $photo = $mask[0];
         $manager = new ImageManager();
         $image = $manager->make($photo)->save('pictures/'.$fileName);
+        $updated = 'true';
     }
 }
 
