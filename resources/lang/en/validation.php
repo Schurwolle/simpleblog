@@ -87,6 +87,7 @@ return [
     | specify a specific custom language line for a given attribute rule.
     |
     */
+    'maximgs' => 'Maximum number of :attribute is 5.',
 
     'custom' => [
         'addImgs.*' => [

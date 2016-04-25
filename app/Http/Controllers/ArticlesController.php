@@ -117,12 +117,12 @@ class ArticlesController extends Controller
         }
         if($request->hasFile('addImgs'))
         {   
-            $files = $request->file('addImgs');
-            $oldfiles = $article != null ? glob('pictures/'.$article->id.'lb*') : [];
-            if(count($files) + count($oldfiles) > 5)
+            $inputs = array('Additional Images' => $request->file('addImgs'));
+            $rules  = array('Additional Images' => 'maximgs:'.$article->id);
+            $validator = Validator::make($inputs, $rules);
+            if($validator->fails())
             {
-                \Session::flash('alert_message', 'Maximum number of additional images is 5.');
-                return back()->withInput();
+                return redirect()->back()->withInput()->withErrors($validator);
             }
             $updated = 'true';
         }   
@@ -181,7 +181,7 @@ class ArticlesController extends Controller
     }
 
 
-    private function syncTags($article, $request, &$updated)
+    private function syncTags($article, $request, &$updated = null)
     {
         $tags = $article->tags()->get();
 
@@ -210,7 +210,7 @@ class ArticlesController extends Controller
         }
     }
 
-    private function uploadImages(article $article, $request, &$updated)
+    private function uploadImages(article $article, $request, &$updated = null)
     {   
         $userName = Auth::user()->name;
 

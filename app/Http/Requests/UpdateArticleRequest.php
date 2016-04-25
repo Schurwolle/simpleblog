@@ -27,7 +27,6 @@ class UpdateArticleRequest extends Request
             'title'      => 'required|unique:articles,title,'.$this->articles->id,
             'slug'       => 'required|unique:articles,slug,'.$this->articles->id,
             'body'       => 'required',
-            'addImgs'    => 'max:5',
             'addImgs.*'  => 'image|max:2048',
             'tag_list.*' => 'alpha_num',
         ];
