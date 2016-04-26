@@ -1,29 +1,52 @@
         
-        @if ($users->count() > 0)
-            <div class="left">
-            <h4> Browse articles by author:
-                <br>
-                <br>
-                @foreach($users as $user)
-                    @if($user->articles->count() > 0)
-                        <a href="/{{$user->name}}/articles"><button class="btn btn-default btn-sm">{{$user->name}}</button></a>
-                    @endif
-                @endforeach
+        <div class="left">
+            @if ($users->count() > 0)
+                <div style="border: 3px solid #73AD21;padding: 10px;background-color: lightgray;">
+                    <h4> Browse articles by author: </h4>
+                    <br>
+                    @foreach($users as $user)
+                        @if($user->articles->count() > 0)
+                            <a href="/{{$user->name}}/articles"><button class="btn btn-default btn-sm">{{$user->name}}</button></a>
+                        @endif
+                    @endforeach
+                </div>
+            @endif
+            <br>
+            <br>
+            <div>
+                {!! Form::open(array('url' => 'search')) !!}
+                <div class="row">
+                    <div class="form-group col-xs-10">
+                    {!! Form::text('search', null,
+                                                [
+                                                'required',
+                                                'class'         => 'form-control',
+                                                'placeholder'   => 'Search',
+                                                ]) !!}
+                    </div>
+                    <div class="form-group col-xs-2"> 
+                     {!! Form::button('<i class="fa fa-search"></i>', 
+                     [
+                        'class'=>'btn btn-default', 
+                        'type' => 'submit'
+                     ]) !!}
+                     </div>
+                </div>
+                {!! Form::close() !!}
             </div>
-        @endif
+        </div>
+        
         
         <div class="right">
             @if($tags->count() > 0)
                 <div style="border: 3px solid #73AD21;padding: 10px;background-color: lightgray;">
-                    <h4>Browse articles by tag:
-                        <br>
-                        <br>
-                        @foreach ($tags as $tag)
-                            @if($tag->articles->count() > 0)
-                                <a href="/tags/{{$tag->name}}"><button class="btn btn-default btn-sm">{{$tag->name}}</button></a>
-                            @endif
-                        @endforeach
-                    </h4>
+                    <h4>Browse articles by tag: </h4>
+                    <br>
+                    @foreach ($tags as $tag)
+                        @if($tag->articles->count() > 0)
+                            <a href="/tags/{{$tag->name}}"><button class="btn btn-default btn-sm">{{$tag->name}}</button></a>
+                        @endif
+                    @endforeach
                 </div>
             @endif
             <br>

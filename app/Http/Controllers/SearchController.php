@@ -31,7 +31,7 @@ class SearchController extends Controller
     	
     	foreach ($articles as $article){
 
-    		$article->body = preg_replace("/".$query."/i", "<span style='background-color:#FFFF00'>\$0</span>", strip_tags($article->body));
+    		$article->body = preg_replace("/".$query."/i", "<span style='background-color:#FFFF00'>\$0</span>", strip_tags($article->body,'<h2><h3><h4><h5>'));
 
     		if(strpos($article->body, "<span style='background-color:#FFFF00'>")) 
     		{

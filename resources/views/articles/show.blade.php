@@ -86,7 +86,7 @@
 		<tr><td><hr></td></tr>
 		<tr>
 			<td align="justify">
-				{!! html_entity_decode($article->body) !!}
+				{!! $article->body !!}
 			</td>
 		<tr><td><hr></td></tr>
 		@if (file_exists('pictures/'.$article->id))

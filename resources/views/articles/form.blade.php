@@ -39,9 +39,7 @@
 	{!! Form::label('body', 'Body:') !!}
 	{!! Form::textarea('body', null, ['id' =>'body' , 'class' => 'form-control', 'required']) !!}
 	</div>
-	<div class="form-group">
-		
-	</div>
+	
 	<div class="form-group">
     {!! Form::label('image', 'Image:') !!} <a href="#" id ="imginfo" title="The image will be shown resized and cropped in the article page and bxslider slideshow, but original image will be shown in lightbox2 modal window." onclick="return false"><i class="fa fa-info-circle"></i></a>
     <div id="image"></div>
