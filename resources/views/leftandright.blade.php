@@ -13,25 +13,24 @@
             @endif
             <br>
             <br>
-            <div>
+            <div class="row" style="width:100%;">
                 {!! Form::open(array('url' => 'search')) !!}
-                <div class="row">
-                    <div class="form-group col-xs-10">
+                    <div class="form-group col-xs-10" style="padding-right: 0;">
                     {!! Form::text('search', null,
                                                 [
-                                                'required',
                                                 'class'         => 'form-control',
                                                 'placeholder'   => 'Search',
+                                                'id'            => 'search'
                                                 ]) !!}
                     </div>
-                    <div class="form-group col-xs-2"> 
+                    <div class="form-group col-xs-2" style="padding-left: 0;"> 
                      {!! Form::button('<i class="fa fa-search"></i>', 
                      [
                         'class'=>'btn btn-default', 
-                        'type' => 'submit'
+                        'type' => 'submit',
+                        'id'   => 'searchButton'
                      ]) !!}
                      </div>
-                </div>
                 {!! Form::close() !!}
             </div>
         </div>
@@ -70,4 +69,3 @@
             <br>
             <br>
         </div>
-        

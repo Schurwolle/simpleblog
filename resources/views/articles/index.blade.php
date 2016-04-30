@@ -80,16 +80,17 @@
 @endsection
 
 @section('footer')
-<script>
-	$(document).ready(function(){
-	  $('.bxslider').bxSlider({
-		  auto: true,
-		  autoControls: true,
-		  captions: true,
-		  randomStart: true,
-		  autoHover: true,
-		  useCSS: false
+	<script>
+		$(document).ready(function(){
+		  $('.bxslider').bxSlider({
+			  auto: true,
+			  autoControls: true,
+			  captions: true,
+			  randomStart: true,
+			  autoHover: true,
+			  useCSS: false
+			});
 		});
-	});
-</script>
+	</script>
+	@include('searchfooter')
 @endsection
