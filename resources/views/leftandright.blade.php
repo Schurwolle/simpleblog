@@ -26,7 +26,7 @@
                     <div class="form-group col-xs-2" style="padding-left: 0;"> 
                      {!! Form::button('<i class="fa fa-search"></i>', 
                      [
-                        'class'=>'btn btn-default', 
+                        'class'=> 'btn btn-default', 
                         'type' => 'submit',
                         'id'   => 'searchButton'
                      ]) !!}
