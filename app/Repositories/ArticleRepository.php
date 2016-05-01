@@ -51,8 +51,11 @@ class ArticleRepository
 				$articles[] = $article;
 			}
 		}
-		
-		return $articles;
+
+		$articlesSorted = $articles->sortByDesc(function($article, $key) use ($query){
+			return substr_count(strtolower(strip_tags(html_entity_decode($article->body))), strtolower($query));
+		});
+		return $articlesSorted;
 
 	}
 
