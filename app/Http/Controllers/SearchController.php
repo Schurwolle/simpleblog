@@ -30,9 +30,17 @@ class SearchController extends Controller
     	$num = $articles->count();
     	
     	foreach ($articles as $article)
-        {
-    		$article->body = preg_replace("/".$query."/i", "<span style='background-color:#FFFF00'>\$0</span>", strip_tags(html_entity_decode($article->body),'<h2><h3><h4><h5>'));
+        {   
+            if(strstr($query, "/"))
+            {
+                $article->body = preg_replace("#".$query."#i", "<span style='background-color:#FFFF00'>\$0</span>", strip_tags(html_entity_decode($article->body)));
 
+                $article->title = preg_replace("#".$query."#i", "<span style='background-color:#FFFF00'>\$0</span>", $article->title);
+            } else {
+    		    $article->body = preg_replace("/".$query."/i", "<span style='background-color:#FFFF00'>\$0</span>", strip_tags(html_entity_decode($article->body),'<h2><h3><h4><h5>'));
+                
+                $article->title = preg_replace("/".$query."/i", "<span style='background-color:#FFFF00'>\$0</span>", $article->title);
+            }
     		if(strpos($article->body, "<span style='background-color:#FFFF00'>")) 
     		{
                 if(strlen($article->body) - strpos($article->body, $query) < 300)
@@ -41,14 +49,12 @@ class SearchController extends Controller
                 } else {
 	    		    $article->body = substr($article->body, strpos($article->body, "<span style='background-color:#FFFF00'>"));
                 }
-                
+
                 if(strlen($article->body) > 300)
                 {
                     $article->body = "..." .$article->body;
                 }
 	    	}
-
-    		$article->title = preg_replace("/".$query."/i", "<span style='background-color:#FFFF00'>\$0</span>", $article->title);
     	}
 
     	return view('articles.headings.search', compact('articles', 'query', 'num'));
