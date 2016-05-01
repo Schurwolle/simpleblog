@@ -46,7 +46,7 @@ class ArticleRepository
 		$articles = collect();
 		foreach($allArticles as $article)
 		{
-			if(stristr(strip_tags(html_entity_decode($article->body)), $query) || stristr($article->title, $query))
+			if(stristr(strip_tags(html_entity_decode($article->body, ENT_QUOTES)), $query) || stristr($article->title, $query))
 			{
 				$articles[] = $article;
 			}

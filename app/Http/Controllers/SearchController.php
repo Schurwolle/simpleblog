@@ -33,11 +33,11 @@ class SearchController extends Controller
         {   
             if(strstr($query, "/"))
             {
-                $article->body = preg_replace("#".$query."#i", "<span style='background-color:#FFFF00'>\$0</span>", strip_tags(html_entity_decode($article->body)));
+                $article->body = preg_replace("#".$query."#i", "<span style='background-color:#FFFF00'>\$0</span>", strip_tags(html_entity_decode($article->body, ENT_QUOTES)));
 
                 $article->title = preg_replace("#".$query."#i", "<span style='background-color:#FFFF00'>\$0</span>", $article->title);
             } else {
-    		    $article->body = preg_replace("/".$query."/i", "<span style='background-color:#FFFF00'>\$0</span>", strip_tags(html_entity_decode($article->body),'<h2><h3><h4><h5>'));
+    		    $article->body = preg_replace("/".$query."/i", "<span style='background-color:#FFFF00'>\$0</span>", strip_tags(html_entity_decode($article->body, ENT_QUOTES),'<h2><h3><h4><h5>'));
                 
                 $article->title = preg_replace("/".$query."/i", "<span style='background-color:#FFFF00'>\$0</span>", $article->title);
             }
