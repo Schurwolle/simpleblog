@@ -31,31 +31,28 @@ class SearchController extends Controller
     	
     	foreach ($articles as $article)
         {   
+            $string = strstr($query, "/") ? "#" : "/";
 
             if(strstr($query, '['))
             {
-                if (strstr($query, ']')) 
-                {
-                    $article->body = preg_replace("#".substr($query, 0, strpos($query,'['))."\[".substr($query, strpos($query,'[')+1, strpos($query,']') - strpos($query,'[')-1)."\]".substr($query, strpos($query,']')+1)."#", "<span style='background-color:#FFFF00'>\$0</span>", strip_tags(html_entity_decode($article->body, ENT_QUOTES)));
-
-                    $article->title = preg_replace("#".substr($query, 0, strpos($query,'['))."\[".substr($query, strpos($query,'[')+1, strpos($query,']') - strpos($query,'[')-1)."\]".substr($query, strpos($query,']')+1)."#", "<span style='background-color:#FFFF00'>\$0</span>", $article->title);
-                } else {
-
-                    $article->body = preg_replace("#".substr($query, 0, strpos($query,'['))."\[".substr($query, strpos($query,'[')+1)."#", "<span style='background-color:#FFFF00'>\$0</span>", strip_tags(html_entity_decode($article->body, ENT_QUOTES)));
-
-                    $article->title = preg_replace("#".substr($query, 0, strpos($query,'['))."\[".substr($query, strpos($query,'[')+1)."#", "<span style='background-color:#FFFF00'>\$0</span>", strip_tags(html_entity_decode($article->title, ENT_QUOTES)));
-                }
-
-            } else if(strstr($query, "/")) {
+                $subStrings = explode('[', $query);
                 
-                $article->body = preg_replace("#".$query."#i", "<span style='background-color:#FFFF00'>\$0</span>", strip_tags(html_entity_decode($article->body, ENT_QUOTES)));
-
-                $article->title = preg_replace("#".$query."#i", "<span style='background-color:#FFFF00'>\$0</span>", $article->title);
+                for($i = 0; $i < count($subStrings); $i++)
+                {
+                    $string .= $subStrings[$i]."\[";
+                }
+                $string = substr($string, 0, strlen($string)-2);
             } else {
-    		    $article->body = preg_replace("/".$query."/i", "<span style='background-color:#FFFF00'>\$0</span>", strip_tags(html_entity_decode($article->body, ENT_QUOTES),'<h2><h3><h4><h5>'));
 
-                $article->title = preg_replace("/".$query."/i", "<span style='background-color:#FFFF00'>\$0</span>", $article->title);
+    		    $string .= $query;
             }
+
+            $string .= strstr($query, "/") ? "#i" : "/i";
+
+            $article->body = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", strip_tags(html_entity_decode($article->body, ENT_QUOTES)));
+
+            $article->title = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", strip_tags(html_entity_decode($article->title, ENT_QUOTES)));
+
     		if(strpos($article->body, "<span style='background-color:#FFFF00'>")) 
     		{
                 if(strlen($article->body) - strpos($article->body, $query) < 300)
