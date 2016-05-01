@@ -130,7 +130,7 @@
 
     <!-- JavaScripts -->
     <script src="{{ elixir('js/all.js') }}"></script>
-    @if(Session::has('flash_message'))
+        @if(Session::has('flash_message'))
             <script type="text/javascript">
                 swal({ title: "Success!", text: "{{Session::get('flash_message')}}", timer: 2000, showConfirmButton: false, type:"success" });
             </script>

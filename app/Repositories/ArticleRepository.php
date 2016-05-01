@@ -42,7 +42,18 @@ class ArticleRepository
 
 	public function forQuery($query)
 	{
-		return article::where('body', 'LIKE', '%'. $query. '%')->orWhere('title', 'LIKE', '%'. $query. '%')->latest('published_at')->published()->get();
+		$allArticles = article::published()->get();
+		$articles = collect();
+		foreach($allArticles as $article)
+		{
+			if(stristr(strip_tags(html_entity_decode($article->body)), $query) || stristr($article->title, $query))
+			{
+				$articles[] = $article;
+			}
+		}
+		
+		return $articles;
+
 	}
 
 	public function showSorted()
