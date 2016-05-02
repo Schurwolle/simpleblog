@@ -240,6 +240,9 @@
 
 	@include('ConfirmDelete')
 	@include('searchfooter')
+	<script type="text/javascript">
+		$('a[id]').addClass('anchor');
+	</script>
 
 	<script type="text/javascript">
 		$('.panel-body[name="panelbody"]').each(function() {
