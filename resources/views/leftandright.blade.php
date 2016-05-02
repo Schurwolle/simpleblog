@@ -1,7 +1,7 @@
         
         <div class="left">
             @if ($users->count() > 0)
-                <div style="border: 3px solid #73AD21;padding: 10px;background-color: lightgray;">
+                <div class="side">
                     <h4> Browse articles by author: </h4>
                     <br>
                     @foreach($users as $user)
@@ -38,7 +38,7 @@
         
         <div class="right">
             @if($tags->count() > 0)
-                <div style="border: 3px solid #73AD21;padding: 10px;background-color: lightgray;">
+                <div class="side">
                     <h4>Browse articles by tag: </h4>
                     <br>
                     @foreach ($tags as $tag)
@@ -53,12 +53,12 @@
             @if($articles->count() > 0)
                 <div>
                     <div>
-                        <h2 style="text-align: center;">Popular Articles</h2>
+                        <h2>Popular Articles</h2>
                     </div>
                     @foreach ($articles as $article)
                         @if (file_exists('pictures/'.$article->id.'thumbnail'))
-                            <div id="popular">
-                                <a href="/articles/{{$article->slug}}" style="color: black; font-weight: bold;">{{$article->title}}</a>
+                            <div class="side thumb">
+                                <a href="/articles/{{$article->slug}}">{{$article->title}}</a>
                                 <a href="/articles/{{$article->slug}}">{{ Html::image(('pictures/'.$article->id.'thumbnail'), null) }}
                                 </a>   
                             </div>

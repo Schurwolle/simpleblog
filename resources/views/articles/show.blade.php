@@ -75,9 +75,9 @@
 							<h1>{{ $article->title }} </h1>
 						</td>
 						<td id ="counters" align="right">
-							<i class="fa fa-star{{ !$article->favoritedBy->contains(Auth::id()) ? '-o' : '' }}" style="color: gold;"></i> {{ $article->favoritedBy->count() }}
+							<i class="fa fa-star{{ !$article->favoritedBy->contains(Auth::id()) ? '-o' : '' }} gold"></i> {{ $article->favoritedBy->count() }}
 							&nbsp
-							<i class="fa fa-comment{{ !$article->hasCommentFromUser(Auth::id()) ? '-o' : '' }}" style="color: purple;"></i> {{ $article->comments->count() }}
+							<i class="fa fa-comment{{ !$article->hasCommentFromUser(Auth::id()) ? '-o' : '' }} purple"></i> {{ $article->comments->count() }}
 						</td>
 					</tr>
 				</table>
@@ -129,7 +129,7 @@
 	    <td>
 	    	@if(App\article::published()->get()->contains($article))
 			    	@if(Auth::user()->favorites->contains($article->id))
-			    		<button id="fav" title="favorited" style="color: gold;" class="btn btn-success">
+			    		<button id="fav" title="favorited" class="btn btn-success gold">
 					     	<i class="fa fa-star"></i> Favorited!
 					    </button>
 			    	@else
@@ -177,7 +177,7 @@
 		        <div class="col-sm-10">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<a style="color:black;" href="/{{Auth::user()->name}}/profile"><strong id="username">{{Auth::user()->name}}</strong></a>
+							<a class="black" href="/{{Auth::user()->name}}/profile"><strong id="username">{{Auth::user()->name}}</strong></a>
 						</div>
 		          		<textarea id="add" required="required" placeholder="Your Comment" name = "body" class="form-control" style="min-height: 95px;font-size: 14px;overflow: hidden;resize: none;"></textarea>
 		          	</div>
@@ -201,7 +201,7 @@
 					<div class="col-sm-10">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<a style="color:black;" href="/{{$comment->user->name}}/profile"><strong>{{$comment->user->name}}</strong></a>
+								<a class="black" href="/{{$comment->user->name}}/profile"><strong>{{$comment->user->name}}</strong></a>
 								<span class="text-muted">
 									commented {{$comment->created_at->diffForHumans()}}
 									@if ($comment->updated_at > $comment->created_at)

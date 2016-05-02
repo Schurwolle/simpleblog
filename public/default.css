@@ -71,11 +71,19 @@ img {
   width: 50%;
 }
 
-#popular {
+.side {
   border: 3px solid #73AD21; 
   padding: 10px;
-  padding-left: 17px; 
   background-color:lightgray;
+}
+
+.thumb {
+  text-align: center;
+}
+
+.thumb a {
+  color: black; 
+  font-weight: bold;
 }
 
 .anchor {
@@ -98,9 +106,23 @@ img {
 #articleBody .marker {
   background-color: Yellow;
 }
-#articleBody img {
+#articleBody img, .side img {
   padding: 1px;
   margin: 1px;
   border: none;
   outline: 1px solid #0782C1;
+}
+
+.sectionHeading {
+  text-align: center;
+}
+
+.black {
+  color: black;
+}
+.gold {
+  color: gold;
+}
+.purple {
+  color: purple;
 }

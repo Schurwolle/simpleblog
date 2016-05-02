@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    <div style="margin:0 auto;width: 100%;height: auto;">
+    <div>
 	    <ul class="bxslider">
 	    	@if($toparticles->count() > 0)
 	        	@foreach($toparticles as $toparticle)
@@ -20,7 +20,7 @@
 	        @endif
 	    </ul>
 	</div>
-	<h1 style="text-align: center;">@yield('h1')</h1>
+	<h1 class="sectionHeading">@yield('h1')</h1>
 	@if(!isset($query))
 		<div align="center"> 
 		{!! $articles->links() !!}
@@ -34,12 +34,12 @@
 						<table width="100%">
 							<tr valign="baseline">
 								<td>
-									<h1><a style="color: black;" href="/articles/{{ $article->slug }}">{!! $article->title !!}</a></h1>
+									<h1><a class="black" href="/articles/{{ $article->slug }}">{!! $article->title !!}</a></h1>
 								</td>
 								<td align="right">
-									<i class="fa fa-star{{ !$article->favoritedBy->contains(Auth::id()) ? '-o' : '' }}" style="color: gold;"></i> {{ $article->favoritedBy->count() }} 
+									<i class="fa fa-star{{ !$article->favoritedBy->contains(Auth::id()) ? '-o' : '' }} gold"></i> {{ $article->favoritedBy->count() }} 
 									&nbsp
-									<i class="fa fa-comment{{ !$article->hasCommentFromUser(Auth::id()) ? '-o' : '' }}" style="color: purple;"></i> {{ $article->comments->count() }}
+									<i class="fa fa-comment{{ !$article->hasCommentFromUser(Auth::id()) ? '-o' : '' }} purple"></i> {{ $article->comments->count() }}
 								</td>
 							</tr>
 						</table>
