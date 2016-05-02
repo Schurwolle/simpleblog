@@ -50,7 +50,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td align="justify">{!! \Illuminate\Support\Str::words(str_replace('<p>&nbsp;</p>', '', $article->body), 80) !!}</td>
+					<td align="justify">{!! \Illuminate\Support\Str::words(str_replace(array('<li>','</li>'),array('•','&nbsp'), strip_tags($article->body, '<a>,<h2>,<h3>,<h4>,<h5>,<strong><em><s><li><span>')), 80) !!}</td>
 				</tr>
 				<tr>
 					<td>
