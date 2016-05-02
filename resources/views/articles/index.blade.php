@@ -1,11 +1,7 @@
 @extends('layouts.app')
 
 @section('head')
-	<style>
-		h1 {
-		  text-align: center;
-		}
-	</style>
+
 @endsection
 
 @section('sides')
@@ -24,7 +20,7 @@
 	        @endif
 	    </ul>
 	</div>
-	@yield('h1')
+	<h1 style="text-align: center;">@yield('h1')</h1>
 	@if(!isset($query))
 		<div align="center"> 
 		{!! $articles->links() !!}
@@ -38,7 +34,7 @@
 						<table width="100%">
 							<tr valign="baseline">
 								<td>
-									<h2><a style="font-weight: bold;color: black;" href="/articles/{{ $article->slug }}">{!! $article->title !!}</a></h2>
+									<h1><a style="color: black;" href="/articles/{{ $article->slug }}">{!! $article->title !!}</a></h1>
 								</td>
 								<td align="right">
 									<i class="fa fa-star{{ !$article->favoritedBy->contains(Auth::id()) ? '-o' : '' }}" style="color: gold;"></i> {{ $article->favoritedBy->count() }} 

@@ -33,7 +33,7 @@ class UserController extends Controller
     {
         $articles = $this->articles->forUser($user);
 
-        return view('articles.headings.userarticles', compact('articles'));
+        return view('articles.headings.userarticles', compact('articles', 'user'));
     }
 
     public function showProfile(User $user)
@@ -48,7 +48,7 @@ class UserController extends Controller
 
             $articles = $this->articles->forUserUnpublished($user);
 
-            return view('articles.headings.unpublishedbyuser', compact('articles'));
+            return view('articles.headings.unpublishedbyuser', compact('articles', 'user'));
 
     }
 
