@@ -1575,4 +1575,14 @@ img {
   max-height:100px;
   border: 3px solid #1468af;
 }
+
+#articleBody .marker {
+  background-color: Yellow;
+}
+#articleBody img {
+  padding: 1px;
+  margin: 1px;
+  border: none;
+  outline: 1px solid #0782C1;
+}
 /*# sourceMappingURL=all.css.map */

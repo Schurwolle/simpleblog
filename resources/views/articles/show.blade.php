@@ -85,7 +85,7 @@
 		</tr>
 		<tr><td><hr></td></tr>
 		<tr>
-			<td align="justify">
+			<td id="articleBody" align="justify">
 				{!! $article->body !!}
 			</td>
 		<tr><td><hr></td></tr>
