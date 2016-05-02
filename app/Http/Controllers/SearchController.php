@@ -55,15 +55,18 @@ class SearchController extends Controller
 
     		if(strpos($article->body, "<span style='background-color:#FFFF00'>")) 
     		{
-                if(strlen($article->body) - strpos($article->body, $query) < 300)
+                if(strlen($article->body) - strpos($article->body, "<span style='background-color:#FFFF00'>") < 300)
                 {
-                    $article->body = substr($article->body, strpos($article->body, "<span style='background-color:#FFFF00'>") - 300);
-                } else {
-	    		    $article->body = substr($article->body, strpos($article->body, "<span style='background-color:#FFFF00'>"));
-                }
+                    if(strpos($article->body, "<span style='background-color:#FFFF00'>") - 300 > 0) 
+                    {
+                        $article->body = substr($article->body, strpos($article->body, "<span style='background-color:#FFFF00'>") - 300);
 
-                if(strlen($article->body) > 300)
-                {
+                        $article->body = "..." .$article->body;
+                    }
+                } else {
+
+	    		    $article->body = substr($article->body, strpos($article->body, "<span style='background-color:#FFFF00'>"));
+
                     $article->body = "..." .$article->body;
                 }
 	    	}
