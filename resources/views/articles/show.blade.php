@@ -171,7 +171,7 @@
 	        <div class="row">
 		        <div class="col-sm-2">
 					<div class="thumbnail">
-						<a id="link" href="/{{Auth::user()->name}}/profile"><img src="{{ file_exists('pictures/'.Auth::user()->name) ? '/pictures/'.Auth::user()->name : '/img/avatar.png' }}"></a>
+						<a class="link" href="/{{Auth::user()->name}}/profile"><img src="{{ file_exists('pictures/'.Auth::user()->name) ? '/pictures/'.Auth::user()->name : '/img/avatar.png' }}"></a>
 					</div>
 				</div>
 		        <div class="col-sm-10">
@@ -260,7 +260,7 @@
 			}
 			var hr = $('#addform').next('h3').next('hr');
 			var src = $('#addform').find('img').attr('src');
-			var href = $('#link').attr('href');
+			var href = $('.link').attr('href');
 			var username = ($('#username').text()).trim();
 			var dataString = $('#addform').serialize();
 			var counters = $('#counters').text();
