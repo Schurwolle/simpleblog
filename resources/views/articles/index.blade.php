@@ -34,7 +34,7 @@
 						<table width="100%">
 							<tr valign="baseline">
 								<td>
-									<h1><a class="black" href="/articles/{{ $article->slug }}">{!! $article->title !!}</a></h1>
+									<h1><a class="black" href="/articles/{{ $article->slug }}">{{ $article->title }}</a></h1>
 								</td>
 								<td align="right">
 									<i class="fa fa-star{{ !$article->favoritedBy->contains(Auth::id()) ? '-o' : '' }} gold"></i> {{ $article->favoritedBy->count() }} 
@@ -88,5 +88,13 @@
 			});
 		});
 	</script>
+	@if(isset($query))
+		<script type="text/javascript">
+			$('h1').find("a:contains(<span style='background-color:#FFFF00'>):contains(</span>)").each(function(){
+				$(this).html($(this).html().replace(/&lt;span style='background-color:#FFFF00'&gt;/, "<span style='background-color:#FFFF00'>"));
+				$(this).html($(this).html().replace(/&lt;\/span&gt;/, "</span>"));
+			});
+		</script>
+	@endif
 	@include('searchfooter')
 @endsection

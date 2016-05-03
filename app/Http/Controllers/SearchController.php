@@ -51,7 +51,7 @@ class SearchController extends Controller
 
             $article->body = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", strip_tags(html_entity_decode($article->body, ENT_QUOTES)));
 
-            $article->title = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", strip_tags(html_entity_decode($article->title, ENT_QUOTES)));
+            $article->title = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", $article->title);
 
     		if(strpos($article->body, "<span style='background-color:#FFFF00'>")) 
     		{
