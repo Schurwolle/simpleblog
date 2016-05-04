@@ -93,6 +93,7 @@
 			$('h1').find("a:contains(<span style='background-color:#FFFF00'>)").each(function(){
 				$(this).html($(this).html().replace(/(&lt;span style='background-color:#FFFF00'&gt;)({{$query}})(&lt;\/span&gt;)/ig, "<span style='background-color:#FFFF00'>$2</span>"));
 			});
+			$('#articleBody').find('span.marker').removeClass('marker');
 		</script>
 	@endif
 	@include('searchfooter')
