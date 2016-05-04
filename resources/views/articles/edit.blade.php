@@ -4,7 +4,7 @@
 
 	@include('errors.list')
 
-	<h1>Edit: {!! $article->title !!}</h1>
+	<h1>Edit: {{ $article->title }}</h1>
 
 	{!! Form::model($article, ['method' => 'PATCH', 'url' => 'articles/'.$article->slug, 'files' => 'true', 'data-parsley-validate' ] ) !!}
 

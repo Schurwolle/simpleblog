@@ -46,10 +46,18 @@ class SearchController extends Controller
 
     		    $string .= $query;
             }
-
             $string .= strstr($query, "/") ? "#i" : "/i";
 
-            $article->body = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", strip_tags(html_entity_decode($article->body, ENT_QUOTES)));
+            $exploded = preg_split("/(<|>)/", html_entity_decode($article->body, ENT_QUOTES), null, PREG_SPLIT_DELIM_CAPTURE);
+            for($i = 1; $i < count($exploded); $i++)
+            {
+                if ($exploded[$i] != "<" && $exploded[$i] != ">" && ($exploded[$i-1] != "<" || $exploded[$i+1] != ">"))
+                {
+                    $exploded[$i] = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", $exploded[$i]);
+                }
+            }
+
+            $article->body = implode($exploded);
 
             $article->title = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", $article->title);
 
