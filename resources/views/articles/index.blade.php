@@ -90,8 +90,8 @@
 	</script>
 	@if(isset($query))
 		<script type="text/javascript">
-			$('h1').find("a:contains(<span style='background-color:#FFFF00'>{{$query}}</span>)").each(function(){
-				$(this).html($(this).html().replace("&lt;span style='background-color:#FFFF00'&gt;{{$query}}&lt;/span&gt;", "<span style='background-color:#FFFF00'>{{$query}}</span>"));
+			$('h1').find("a:contains(<span style='background-color:#FFFF00'>)").each(function(){
+				$(this).html($(this).html().replace(/(&lt;span style='background-color:#FFFF00'&gt;)({{$query}})(&lt;\/span&gt;)/ig, "<span style='background-color:#FFFF00'>$2</span>"));
 			});
 		</script>
 	@endif
