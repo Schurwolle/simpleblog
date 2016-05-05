@@ -75,7 +75,7 @@ class SearchController extends Controller
                     $limit = $i;
                     for($m = 1, $n = 2; $n < $i; $m += 4, $n += 4)
                     {
-                        if($i > $m && $exploded[$i+$n] != "/".explode(" ", $exploded[$i-$n])[0])
+                        if($i > $m && $i+$n < count($exploded) && $exploded[$i+$n] != "/".explode(" ", $exploded[$i-$n])[0])
                         {
                             break;
                         }
@@ -83,8 +83,14 @@ class SearchController extends Controller
                     }
                     for($j = 0; $j < $limit; $j++)
                     {
+                        $imploded = implode(array_slice($exploded, $j));
+                        if(strlen($imploded) < 300)
+                        {
+                            break;
+                        }
                         unset($exploded[$j]);
                     }
+
                     $article->body .= implode($exploded);
 
                     if (strpos($article->body, "<span style='background-color:#FFFF00'>") > 300)
