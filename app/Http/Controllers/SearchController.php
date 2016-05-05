@@ -72,14 +72,29 @@ class SearchController extends Controller
                             break;
                         }
                     }
-                    for($j = 0; $j < $i-3; $j++)
+                    $limit = $i;
+                    for($m = 1, $n = 2; $n < $i; $m += 4, $n += 4)
+                    {
+                        if($i > $m && $exploded[$i+$n] != "/".explode(" ", $exploded[$i-$n])[0])
+                        {
+                            break;
+                        }
+                        $limit = $i-$n-1;
+                    }
+                    for($j = 0; $j < $limit; $j++)
                     {
                         unset($exploded[$j]);
+                    }
+                    $article->body .= implode($exploded);
+
+                    if (strpos($article->body, "<span style='background-color:#FFFF00'>") > 300)
+                    {
+                        $article->body = "...".substr($article->body, strpos($article->body, "<span style='background-color:#FFFF00'>"));
                     }
                     break;
                 }
             }
-            $article->body .= implode($exploded);
+            
 
             $article->title = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", $article->title);
 
