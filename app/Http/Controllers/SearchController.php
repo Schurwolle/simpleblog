@@ -24,8 +24,7 @@ class SearchController extends Controller
     public function search(Request $request)
     {
     	$query = $request->input('search');
-        $query_words[] = $query;
-        $query_words = array_merge($query_words, explode(" ", $query));
+        $query_words = explode(" ", $query);
 
     	$articles = $this->articles->forQuery($query_words);
 

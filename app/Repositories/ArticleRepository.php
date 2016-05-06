@@ -44,13 +44,18 @@ class ArticleRepository
 	{
 		$allArticles = article::published()->get();
 		$articles = collect();
+		$words_num = count($query_words);
 		foreach($allArticles as $article)
 		{
+			$ind = 0;
 			foreach($query_words as $word)
 			if(stristr(strip_tags(html_entity_decode($article->body, ENT_QUOTES)), $word) || stristr($article->title, $word))
 			{
+				$ind += 1;
+			}
+			if ($ind == $words_num)
+			{
 				$articles[] = $article;
-				break;
 			}
 		}
 		$articlesSorted = $articles->sortByDesc(function($article, $key) use ($query_words){
