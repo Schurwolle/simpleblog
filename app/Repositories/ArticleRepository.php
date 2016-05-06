@@ -53,9 +53,8 @@ class ArticleRepository
 				break;
 			}
 		}
-
 		$articlesSorted = $articles->sortByDesc(function($article, $key) use ($query_words){
-			return substr_count(strtolower(strip_tags(html_entity_decode($article->body))), strtolower(implode(" ", $query_words)));
+			return substr_count(strtolower(strip_tags(html_entity_decode($article->body))), strtolower($query_words[0]));
 		});
 		return $articlesSorted;
 
