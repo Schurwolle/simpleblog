@@ -40,20 +40,22 @@ class ArticleRepository
 		return $tag->articles()->latest('published_at')->published()->paginate(5);
 	}
 
-	public function forQuery($query)
+	public function forQuery($query_words)
 	{
 		$allArticles = article::published()->get();
 		$articles = collect();
 		foreach($allArticles as $article)
 		{
-			if(stristr(strip_tags(html_entity_decode($article->body, ENT_QUOTES)), $query) || stristr($article->title, $query))
+			foreach($query_words as $word)
+			if(stristr(strip_tags(html_entity_decode($article->body, ENT_QUOTES)), $word) || stristr($article->title, $word))
 			{
 				$articles[] = $article;
+				break;
 			}
 		}
 
-		$articlesSorted = $articles->sortByDesc(function($article, $key) use ($query){
-			return substr_count(strtolower(strip_tags(html_entity_decode($article->body))), strtolower($query));
+		$articlesSorted = $articles->sortByDesc(function($article, $key) use ($query_words){
+			return substr_count(strtolower(strip_tags(html_entity_decode($article->body))), strtolower(implode(" ", $query_words)));
 		});
 		return $articlesSorted;
 

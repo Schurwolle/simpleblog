@@ -24,46 +24,51 @@ class SearchController extends Controller
     public function search(Request $request)
     {
     	$query = $request->input('search');
+        $query_words[] = $query;
+        $query_words = array_merge($query_words, explode(" ", $query));
 
-    	$articles = $this->articles->forQuery($query);
+    	$articles = $this->articles->forQuery($query_words);
 
     	$num = $articles->count();
     	
     	foreach ($articles as $article)
         {   
-            $string = strstr($query, "/") ? "#" : "/";
-
-            if(strstr($query, '['))
-            {
-                $subStrings = explode('[', $query);
-                
-                for($i = 0; $i < count($subStrings); $i++)
-                {
-                    $string .= $subStrings[$i]."\[";
-                }
-                $string = substr($string, 0, strlen($string)-2);
-            } else {
-
-    		    $string .= $query;
-            }
-            $string .= strstr($query, "/") ? "#i" : "/i";
-
             $exploded = preg_split("/(<|>)/", html_entity_decode($article->body, ENT_QUOTES), null, PREG_SPLIT_DELIM_CAPTURE);
 
-            $exploded[0] = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", $exploded[0]);
-
-            for($i = 1; $i < count($exploded); $i++)
+            foreach($query_words as $word)
             {
-                if ($exploded[$i] != "<" && $exploded[$i] != ">" && ($exploded[$i-1] != "<" || $exploded[$i+1] != ">"))
+                $string = strstr($word, "/") ? "#" : "/";
+
+                if(strstr($word, '['))
                 {
-                    $exploded[$i] = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", $exploded[$i]);
+                    $subStrings = explode('[', $word);
+                    
+                    for($i = 0; $i < count($subStrings); $i++)
+                    {
+                        $string .= $subStrings[$i]."\[";
+                    }
+                    $string = substr($string, 0, strlen($string)-2);
+                } else {
+
+        		    $string .= $word;
+                }
+                $string .= strstr($word, "/") ? "#i" : "/i";
+
+                $exploded[0] = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", $exploded[0]);
+
+                for($i = 1; $i < count($exploded); $i++)
+                {
+                    if ($exploded[$i] != "<" && $exploded[$i] != ">" && ($exploded[$i-1] != "<" || $exploded[$i+1] != ">"))
+                    {
+                        $exploded[$i] = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", $exploded[$i]);
+                    }
                 }
             }
-            $article->body = "";
             for($i = 0; $i < count($exploded); $i++)
             {
                 if(strstr($exploded[$i], "<span style='background-color:#FFFF00'>"))
                 {
+                    $article->body = "";
                     for($j = 1; $j < $i-3; $j++)
                     {   
                         if($exploded[$j] != "<" && $exploded[$j] != ">" && $exploded[$j] != "" && ($exploded[$j-1] != "<" || $exploded[$j+1] != ">"))
@@ -81,13 +86,9 @@ class SearchController extends Controller
                         }
                         $limit = $i-$n-1;
                     }
+
                     for($j = 0; $j < $limit; $j++)
                     {
-                        $imploded = implode(array_slice($exploded, $j));
-                        if(strlen($imploded) < 300)
-                        {
-                            break;
-                        }
                         unset($exploded[$j]);
                     }
 
