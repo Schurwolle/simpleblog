@@ -60,6 +60,19 @@
 						@endif
 					</td>
 				</tr>
+				@if(isset($query))
+					<tr>
+						<td>
+							@unless ($article->tags->isEmpty())
+								<h5>Tags: 
+									@foreach($article->tags as $tag)
+										<a href="/tags/{{ $tag->name }}"><button class="btn btn-default btn-xs {{$tag->name == $query ? 'marker' :'' }}"> {{ $tag->name }} </button></a>
+									@endforeach
+								</h5>
+							@endunless
+						</td>
+					</tr>
+				@endif
 				<tr><td><hr></td></tr>
 			@endforeach
 		@else

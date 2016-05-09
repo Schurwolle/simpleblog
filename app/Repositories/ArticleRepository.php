@@ -40,7 +40,7 @@ class ArticleRepository
 		return $tag->articles()->latest('published_at')->published()->paginate(5);
 	}
 
-	public function forQuery($query_words)
+	public function forQuery($query, $query_words)
 	{
 		$allArticles = article::published()->get();
 		$articles = collect();
@@ -56,10 +56,13 @@ class ArticleRepository
 			if ($ind == $words_num)
 			{
 				$articles[] = $article;
+			} else if($article->tags->contains('name', $query)) {
+
+				$articles[] = $article;
 			}
 		}
-		$articlesSorted = $articles->sortByDesc(function($article, $key) use ($query_words){
-			return substr_count(strtolower(strip_tags(html_entity_decode($article->body))), strtolower($query_words[0]));
+		$articlesSorted = $articles->sortByDesc(function($article, $key) use ($query){
+			return substr_count(strtolower(strip_tags(html_entity_decode($article->body))), strtolower($query));
 		});
 		return $articlesSorted;
 

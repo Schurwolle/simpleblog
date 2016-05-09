@@ -26,7 +26,7 @@ class SearchController extends Controller
     	$query = $request->input('search');
         $query_words = explode(" ", $query);
 
-    	$articles = $this->articles->forQuery($query_words);
+    	$articles = $this->articles->forQuery($query, $query_words);
 
     	$num = $articles->count();
     	

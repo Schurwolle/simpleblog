@@ -1584,7 +1584,7 @@ img {
   border: 3px solid #1468af;
 }
 
-#articleBody .marker {
+.marker {
   background-color: Yellow;
 }
 #articleBody img, .side img {
