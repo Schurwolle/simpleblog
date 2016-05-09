@@ -66,7 +66,7 @@
 							@unless ($article->tags->isEmpty())
 								<h5>Tags: 
 									@foreach($article->tags as $tag)
-										<a href="/tags/{{ $tag->name }}"><button class="btn btn-default btn-xs {{$tag->name == $query ? 'marker' :'' }}"> {{ $tag->name }} </button></a>
+										<a href="/tags/{{ $tag->name }}"><button class="btn btn-default btn-xs {{$tag->name == strtolower($query) ? 'marker' :'' }}"> {{ $tag->name }} </button></a>
 									@endforeach
 								</h5>
 							@endunless
