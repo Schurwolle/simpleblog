@@ -68,16 +68,15 @@
 							@endunless
 						</td>
 					</tr>
-					@unless ($article->comments->isEmpty())
+					@unless	(!isset($comments[$article->id]))
 						<tr><td><br></td></tr>
-						@foreach($article->comments as $comment)
+						@foreach($comments[$article->id] as $comment)
 							<tr>
 								<td>
-									@if(stristr($comment->body, "<span style='background-color:#FFFF00'>"))
-										<div class="row">
-											<div class="col-sm-2">
-												<div class="thumbnail">
-												<a href="/{{$comment->user->name}}/profile"><img src="{{ file_exists('pictures/'.$comment->user->name) ? '/pictures/'.$comment->user->name : '/img/avatar.png' }}"></a>
+									<div class="row">
+										<div class="col-sm-2">
+											<div class="thumbnail">
+											<a href="/{{$comment->user->name}}/profile"><img src="{{ file_exists('pictures/'.$comment->user->name) ? '/pictures/'.$comment->user->name : '/img/avatar.png' }}"></a>
 											</div>
 										</div>
 										<div class="col-sm-9">
@@ -92,12 +91,11 @@
 													</span>
 												</div>
 												<div name="panelbody" class="panel-body" style="word-wrap: break-word;white-space: pre-line;">
-													{!!$comment->body!!}
+													{{$comment->body}}
 												</div>
 									        </div>	
 										</div>	
 							    	</div>
-									@endif
 								</td>
 							</tr>
 						@endforeach
@@ -141,6 +139,15 @@
 			$('.panel-body[name="panelbody"]').each(function() {
 				$(this).html($(this).html().trim());
 			});
+			var queryWords = {!!json_encode($query_words)!!}
+			for(var i=0; i<queryWords.length;i++)
+			{	
+				$('.panel-body:contains("' +queryWords[i]+ '")').each(function(){
+					var regex = new RegExp("(" +queryWords[i]+ ")", "gi")
+					$(this).html($(this).html().replace(regex, "<span style='background-color:#FFFF00'>$1</span>"));
+				});
+			}
+			
 		</script>
 	@endif
 	@include('searchfooter')

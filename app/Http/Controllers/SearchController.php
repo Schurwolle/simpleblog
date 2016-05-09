@@ -51,7 +51,7 @@ class SearchController extends Controller
             $string .= strstr($word, "/") ? "#i" : "/i";
             $string_words[] = $string;
         }
-    	
+    	$comments = array();
     	foreach ($articles as $article)
         {   
             $exploded = preg_split("/(<|>)/", html_entity_decode($article->body, ENT_QUOTES), null, PREG_SPLIT_DELIM_CAPTURE);
@@ -117,15 +117,13 @@ class SearchController extends Controller
                 }
                 if($ind == count($query_words))
                 {
-                    foreach($string_words as $string)
-                    {
-                        $comment->body = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", $comment->body);
-                    }
+                    // foreach($string_words as $string)
+                    // {
+                    //     $comment->body = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", $comment->body);
+                    // }
+                    $comments[$article->id][] = $comment;
                 }
             }
-            
-
-            $article->title = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", $article->title);
 
     		// if(strpos($article->body, "<span style='background-color:#FFFF00'>")) 
     		// {
@@ -145,7 +143,6 @@ class SearchController extends Controller
       //           }
 	    	// }
     	}
-
-    	return view('articles.headings.search', compact('articles', 'query', 'num'));
+    	return view('articles.headings.search', compact('articles', 'query', 'query_words', 'num', 'comments'));
     }
 }
