@@ -29,30 +29,35 @@ class SearchController extends Controller
     	$articles = $this->articles->forQuery($query, $query_words);
 
     	$num = $articles->count();
+
+        $string_words = array();
+        foreach($query_words as $word)
+        {
+            $string = strstr($word, "/") ? "#" : "/";
+
+            if(strstr($word, '['))
+            {
+                $subStrings = explode('[', $word);
+                
+                for($i = 0; $i < count($subStrings); $i++)
+                {
+                    $string .= $subStrings[$i]."\[";
+                }
+                $string = substr($string, 0, strlen($string)-2);
+            } else {
+
+                $string .= $word;
+            }
+            $string .= strstr($word, "/") ? "#i" : "/i";
+            $string_words[] = $string;
+        }
     	
     	foreach ($articles as $article)
         {   
             $exploded = preg_split("/(<|>)/", html_entity_decode($article->body, ENT_QUOTES), null, PREG_SPLIT_DELIM_CAPTURE);
 
-            foreach($query_words as $word)
+            foreach($string_words as $string)
             {
-                $string = strstr($word, "/") ? "#" : "/";
-
-                if(strstr($word, '['))
-                {
-                    $subStrings = explode('[', $word);
-                    
-                    for($i = 0; $i < count($subStrings); $i++)
-                    {
-                        $string .= $subStrings[$i]."\[";
-                    }
-                    $string = substr($string, 0, strlen($string)-2);
-                } else {
-
-        		    $string .= $word;
-                }
-                $string .= strstr($word, "/") ? "#i" : "/i";
-
                 $exploded[0] = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", $exploded[0]);
 
                 for($i = 1; $i < count($exploded); $i++)
@@ -98,6 +103,24 @@ class SearchController extends Controller
                         $article->body = "...".substr($article->body, strpos($article->body, "<span style='background-color:#FFFF00'>"));
                     }
                     break;
+                }
+            }
+            foreach($article->comments as $comment)
+            {   
+                $ind = 0;
+                foreach($query_words as $word)
+                {
+                    if(stristr($comment->body, $word))
+                    {
+                        $ind += 1;
+                    }
+                }
+                if($ind == count($query_words))
+                {
+                    foreach($string_words as $string)
+                    {
+                        $comment->body = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", $comment->body);
+                    }
                 }
             }
             

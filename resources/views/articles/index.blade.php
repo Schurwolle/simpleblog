@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-@section('head')
-
-@endsection
-
 @section('sides')
 	@include('leftandright')
 @endsection
@@ -72,6 +68,40 @@
 							@endunless
 						</td>
 					</tr>
+					@unless ($article->comments->isEmpty())
+						<tr><td><br></td></tr>
+						@foreach($article->comments as $comment)
+							<tr>
+								<td>
+									@if(stristr($comment->body, "<span style='background-color:#FFFF00'>"))
+										<div class="row">
+											<div class="col-sm-2">
+												<div class="thumbnail">
+												<a href="/{{$comment->user->name}}/profile"><img src="{{ file_exists('pictures/'.$comment->user->name) ? '/pictures/'.$comment->user->name : '/img/avatar.png' }}"></a>
+											</div>
+										</div>
+										<div class="col-sm-9">
+											<div class="panel panel-default">
+												<div class="panel-heading">
+													<a class="black" href="/{{$comment->user->name}}/profile"><strong>{{$comment->user->name}}</strong></a>
+													<span class="text-muted">
+														commented {{$comment->created_at->diffForHumans()}}
+														@if ($comment->updated_at > $comment->created_at)
+															(last edited {{$comment->updated_at->diffForHumans()}})
+														@endif 
+													</span>
+												</div>
+												<div name="panelbody" class="panel-body" style="word-wrap: break-word;white-space: pre-line;">
+													{!!$comment->body!!}
+												</div>
+									        </div>	
+										</div>	
+							    	</div>
+									@endif
+								</td>
+							</tr>
+						@endforeach
+					@endunless
 				@endif
 				<tr><td><hr></td></tr>
 			@endforeach
@@ -107,6 +137,10 @@
 				$(this).html($(this).html().replace(/(&lt;span style='background-color:#FFFF00'&gt;)({{$query}})(&lt;\/span&gt;)/ig, "<span style='background-color:#FFFF00'>$2</span>"));
 			});
 			$('#articleBody').find('span.marker').removeClass('marker');
+
+			$('.panel-body[name="panelbody"]').each(function() {
+				$(this).html($(this).html().trim());
+			});
 		</script>
 	@endif
 	@include('searchfooter')

@@ -59,6 +59,22 @@ class ArticleRepository
 			} else if($article->tags->contains('name', strtolower($query))) {
 
 				$articles[] = $article;
+			} else {
+				foreach($article->comments as $comment)
+				{
+					$ind = 0;
+					foreach($query_words as $word)
+					{
+						if(stristr($comment, $word))
+						{
+							$ind +=1;
+						}
+						if($ind == $words_num)
+						{
+							$articles[] = $article;
+						}
+					}
+				}
 			}
 		}
 		$articlesSorted = $articles->sortByDesc(function($article, $key) use ($query){
