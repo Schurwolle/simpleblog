@@ -54,7 +54,7 @@
 	@unless ($article->tags->isEmpty())
 		<h5>Tags: 
 			@foreach($article->tags as $tag)
-				<a href="/tags/{{ $tag->name }}"><button class="btn btn-default btn-xs"> {{ $tag->name }} </button></a>
+				<a href="/tags/{{ $tag->name }}"><button class="btn btn-default btn-xs {{ isset($query_words) && $tag->name == strtolower(implode($query_words)) ? 'marker' : '' }}"> {{ $tag->name }} </button></a>
 			@endforeach
 		</h5>
 	@endunless
