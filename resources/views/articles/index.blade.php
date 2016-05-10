@@ -129,8 +129,16 @@
 			});
 		});
 	</script>
+	<script type="text/javascript">
+		$.expr[":"].icontains = $.expr.createPseudo(function(arg) {
+		    return function(e) {
+		        return $(e).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+		    };
+		});
+	</script>
 	@if(isset($query))
 		<script type="text/javascript">
+
 			$('h1').find("a:contains(<span style='background-color:#FFFF00'>)").each(function(){
 				$(this).html($(this).html().replace(/(&lt;span style='background-color:#FFFF00'&gt;)({{$query}})(&lt;\/span&gt;)/ig, "<span style='background-color:#FFFF00'>$2</span>"));
 			});
@@ -142,7 +150,7 @@
 			var queryWords = {!!json_encode($query_words)!!}
 			for(var i=0; i<queryWords.length;i++)
 			{	
-				$('.panel-body:contains("' +queryWords[i]+ '")').each(function(){
+				$('.panel-body:icontains("' +queryWords[i]+ '")').each(function(){
 					var regex = new RegExp("(" +queryWords[i]+ ")", "gi")
 					$(this).html($(this).html().replace(regex, "<span style='background-color:#FFFF00'>$1</span>"));
 				});
