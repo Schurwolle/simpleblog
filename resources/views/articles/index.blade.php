@@ -138,10 +138,6 @@
 	</script>
 	@if(isset($query))
 		<script type="text/javascript">
-
-			$('h1').find("a:contains(<span style='background-color:#FFFF00'>)").each(function(){
-				$(this).html($(this).html().replace(/(&lt;span style='background-color:#FFFF00'&gt;)({{$query}})(&lt;\/span&gt;)/ig, "<span style='background-color:#FFFF00'>$2</span>"));
-			});
 			$('#articleBody').find('span.marker').removeClass('marker');
 
 			$('.panel-body[name="panelbody"]').each(function() {
@@ -150,9 +146,9 @@
 			var queryWords = {!!json_encode($query_words)!!}
 			for(var i=0; i<queryWords.length;i++)
 			{	
-				$('.panel-body:icontains("' +queryWords[i]+ '")').each(function(){
+				$('.panel-body, h1>a:icontains("' +queryWords[i]+ '")').each(function(){
 					var regex = new RegExp("(" +queryWords[i]+ ")", "gi")
-					$(this).html($(this).html().replace(regex, "<span style='background-color:#FFFF00'>$1</span>"));
+					$(this).html($(this).html().replace(regex, "<span class='marker'>$1</span>"));
 				});
 			}
 			
