@@ -65,7 +65,10 @@ class ArticlesController extends Controller
             $comments = $this->comments->forArticle($article);
             $addImgs = glob('pictures/'.$article->id.'lb*');
             natsort($addImgs);
-
+            if(session()->has('article'))
+            {
+                $article = session('article');
+            }
     	    return view('articles.show', compact('article', 'comments', 'addImgs'));
         
     }

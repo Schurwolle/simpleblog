@@ -30,7 +30,7 @@
 						<table width="100%">
 							<tr valign="baseline">
 								<td>
-									<h1><a class="black" href="/articles/{{ $article->slug }}">{{ $article->title }}</a></h1>
+									<h1><a class="black" href="/articles/{{ $article->slug }}/{{isset($query) ? $query : ''}}">{{ $article->title }}</a></h1>
 								</td>
 								<td align="right">
 									<i class="fa fa-star{{ !$article->favoritedBy->contains(Auth::id()) ? '-o' : '' }} gold"></i> {{ $article->favoritedBy->count() }} 
@@ -47,12 +47,12 @@
 				<tr>
 					<td>
 						@if (file_exists('pictures/'.$article->id))
-							<article><a href="/articles/{{ $article->slug }}"> 
+							<article><a href="/articles/{{ $article->slug }}/{{isset($query) ? $query : ''}}"> 
 								{{ Html::image('pictures/'.$article->id) }}
 							</a></article>
 							<br>
 						@else
-							<a href="/articles/{{ $article->slug }}"><button class="btn btn-primary">Read More</button></a>
+							<a href="/articles/{{ $article->slug }}/{{isset($query) ? $query : ''}}"><button class="btn btn-primary">Read More</button></a>
 						@endif
 					</td>
 				</tr>

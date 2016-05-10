@@ -48,6 +48,7 @@ Route::get('login/facebook/callback', 'Auth\AuthController@getFacebook');
 Route::post('unique', 'ArticlesController@unique');
 Route::resource('articles', 'ArticlesController');
 Route::get('articles/{articles}/favorite', 'ArticlesController@favorite');
+Route::get('articles/{articles}/{query}', 'SearchController@show');
 
 
 Route::post('tags', 'TagsController@store');
