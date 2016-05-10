@@ -72,6 +72,7 @@ class ArticleRepository
 						if($ind == $words_num)
 						{
 							$articles[] = $article;
+							break(2);
 						}
 					}
 				}
