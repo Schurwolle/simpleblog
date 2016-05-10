@@ -90,9 +90,11 @@
 														@endif 
 													</span>
 												</div>
-												<div name="panelbody" class="panel-body" style="word-wrap: break-word;white-space: pre-line;">
-													{{$comment->body}}
-												</div>
+												<a href="articles/{{$article->slug}}/{{$query}}#comment{{$comment->id}}">
+													<div name="panelbody" class="panel-body" style="word-wrap: break-word;white-space: pre-line; color:black;">
+														{{\Illuminate\Support\Str::words($comment->body, 60)}}
+													</div>
+												</a>
 									        </div>	
 										</div>	
 							    	</div>
