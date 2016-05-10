@@ -64,7 +64,9 @@ class SearchController extends Controller
         $query_words = explode(" ", $query);
         $string_words = $this->makeString($query_words);
         $article = $this->mark($string_words, $article);
-        return redirect('articles/'.$article->slug)->with('article', $article);
+        return redirect('articles/'.$article->slug)
+                                    ->with('article', $article)
+                                    ->with('query_words', $query_words);
     }   
 
     private function mark($string_words, $article)

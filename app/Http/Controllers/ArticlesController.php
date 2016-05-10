@@ -68,8 +68,9 @@ class ArticlesController extends Controller
             if(session()->has('article'))
             {
                 $article = session('article');
+                $query_words = session('query_words');
             }
-    	    return view('articles.show', compact('article', 'comments', 'addImgs'));
+    	    return view('articles.show', compact('article', 'comments', 'addImgs', isset($query_words) ? 'query_words' : ''));
         
     }
 

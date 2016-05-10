@@ -446,5 +446,5 @@
 	      'wrapAround': true
 	    })
 	</script>
-
+	@include('icontains')
 @stop
