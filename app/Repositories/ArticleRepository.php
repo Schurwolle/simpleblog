@@ -49,34 +49,47 @@ class ArticleRepository
 		{
 			$ind = 0;
 			foreach($query_words as $word)
-			if(stristr(strip_tags(html_entity_decode($article->body, ENT_QUOTES)), $word) || stristr($article->title, $word))
 			{
-				$ind += 1;
+				if(stristr(strip_tags(html_entity_decode($article->body, ENT_QUOTES)), $word) || stristr($article->title, $word))
+				{
+					$ind += 1;
+				}
 			}
 			if ($ind == $words_num)
 			{
 				$articles[] = $article;
-			} else if($article->tags->contains('name', strtolower(implode($query_words)))) {
-
+				continue;
+			}
+			if($article->tags->contains('name', strtolower(implode($query_words))))
+			{
 				$articles[] = $article;
-			} else {
-				foreach($article->comments as $comment)
+				continue;
+			}
+			foreach($query_words as $word)
+			{
+				if($article->tags->contains('name', strtolower($word))) 
 				{
-					$ind = 0;
-					foreach($query_words as $word)
+					$articles[] = $article;
+					continue(2);
+				} 
+			}
+			foreach($article->comments as $comment)
+			{
+				$ind = 0;
+				foreach($query_words as $word)
+				{
+					if(stristr($comment, $word))
 					{
-						if(stristr($comment, $word))
-						{
-							$ind +=1;
-						}
-						if($ind == $words_num)
-						{
-							$articles[] = $article;
-							break(2);
-						}
+						$ind +=1;
 					}
 				}
+				if($ind == $words_num)
+				{
+					$articles[] = $article;
+					continue(2);
+				}
 			}
+			
 		}
 		$articlesSorted = $articles->sortByDesc(function($article, $key) use ($query){
 			return substr_count(strtolower(strip_tags(html_entity_decode($article->body))), strtolower($query));
