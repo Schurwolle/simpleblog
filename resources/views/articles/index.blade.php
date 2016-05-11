@@ -90,11 +90,14 @@
 														@endif 
 													</span>
 												</div>
-												<a href="articles/{{$article->slug}}/{{$query}}#comment{{$comment->id}}">
-													<div name="panelbody" class="panel-body" style="word-wrap: break-word;white-space: pre-line; color:black;">
-														{{\Illuminate\Support\Str::words($comment->body, 60)}}
-													</div>
-												</a>
+												<div name="panelbody" class="panel-body" style="word-wrap: break-word;white-space: pre-line;">
+													{{\Illuminate\Support\Str::words($comment->body, 60)}}
+												</div>
+												<div class="panel-body">
+													<a href="articles/{{$article->slug}}/{{$query}}#comment{{$comment->id}}">
+														<button class="btn btn-primary">Go To Comment</button>
+													</a>
+												</div>
 									        </div>	
 										</div>	
 							    	</div>
@@ -131,6 +134,18 @@
 			});
 		});
 	</script>
+	@if(isset($comments))
+		<script type="text/javascript">
+			var comments = {!!json_encode($comments)!!}
+			for(var i = 0; i<Object.keys(comments).length; i++)
+			{
+				if ($('.panel-body[name="panelbody"]').eq(i).text().trim().length != comments[i][0].body.length)
+				{
+					$('.panel-body[name="panelbody"]').eq(i).next('.panel-body').find('button').text('See Full Comment');
+				}
+			}
+		</script>
+	@endif
 	@include('icontains')
 	@include('searchfooter')
 @endsection
