@@ -137,11 +137,15 @@
 	@if(isset($comments))
 		<script type="text/javascript">
 			var comments = {!!json_encode($comments)!!}
+			var indexes = {!!json_encode(array_keys($comments))!!}
 			for(var i = 0; i<Object.keys(comments).length; i++)
 			{
-				if ($('.panel-body[name="panelbody"]').eq(i).text().trim().length != comments[i][0].body.length)
+				for(j = 0; j<Object.keys(comments[indexes[i]]).length; j++)
 				{
-					$('.panel-body[name="panelbody"]').eq(i).next('.panel-body').find('button').text('See Full Comment');
+					if ($('.panel-body[name="panelbody"]').eq(i).text().trim().length != comments[indexes[i]][j].body.length)
+					{
+						$('.panel-body[name="panelbody"]').eq(i).next('.panel-body').find('button').text('See Full Comment');
+					}
 				}
 			}
 		</script>
