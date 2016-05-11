@@ -56,7 +56,7 @@ class ArticleRepository
 			if ($ind == $words_num)
 			{
 				$articles[] = $article;
-			} else if($article->tags->contains('name', strtolower($query))) {
+			} else if($article->tags->contains('name', strtolower(implode($query_words)))) {
 
 				$articles[] = $article;
 			} else {

@@ -71,10 +71,10 @@ class SearchController extends Controller
 
     private function mark($string_words, $article)
     {
-        $exploded = preg_split("/(<|>)/", html_entity_decode($article->body, ENT_QUOTES), null, PREG_SPLIT_DELIM_CAPTURE);
-
             foreach($string_words as $string)
             {
+                $exploded = preg_split("/(<|>)/", html_entity_decode($article->body, ENT_QUOTES), null, PREG_SPLIT_DELIM_CAPTURE);
+
                 $exploded[0] = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", $exploded[0]);
 
                 for($i = 1; $i < count($exploded); $i++)
@@ -84,8 +84,8 @@ class SearchController extends Controller
                         $exploded[$i] = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", $exploded[$i]);
                     }
                 }
+                $article->body = implode($exploded);
             }
-            $article->body = implode($exploded);
             return $article;
             // for($i = 0; $i < count($exploded); $i++)
             // {
