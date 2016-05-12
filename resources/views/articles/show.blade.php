@@ -11,7 +11,7 @@
 				<table width="100%">
 					<tr valign="baseline">
 						<td>
-							<h1>{{ $article->title }} </h1>
+							<h1 id="articleTitle">{{ $article->title }} </h1>
 						</td>
 						<td id ="counters" align="right">
 							<i class="fa fa-star{{ !$article->favoritedBy->contains(Auth::id()) ? '-o' : '' }} gold"></i> {{ $article->favoritedBy->count() }}

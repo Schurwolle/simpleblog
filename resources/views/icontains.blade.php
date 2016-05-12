@@ -14,7 +14,7 @@
 		var queryWords = {!!json_encode($query_words)!!}
 		for(var i=0; i<queryWords.length;i++)
 		{	
-			$('.panel-body[name="panelbody"], h1[class!="sectionHeading"]:icontains("' +queryWords[i]+ '")').each(function(){
+			$('.panel-body[name="panelbody"], h1>a, h1#articleTitle:icontains("' +queryWords[i]+ '")').each(function(){
 				var regex = new RegExp("(" +queryWords[i]+ ")", "gi")
 				$(this).html($(this).html().replace(regex, "<span class='marker'>$1</span>"));
 			});
