@@ -128,7 +128,7 @@ class SearchController extends Controller
 
     private function markComments($article, $comments, $query_words)
     {
-        foreach($article->comments as $comment)
+        foreach($article->comments->sortByDesc('created_at') as $comment)
             {   
                 $ind = 0;
                 foreach($query_words as $word)
