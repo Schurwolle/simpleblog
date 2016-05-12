@@ -72,14 +72,14 @@
 						<tr><td><br></td></tr>
 						@foreach($comments[$article->id] as $comment)
 							<tr>
-								<td>
-									<div class="row">
+								<td align="middle">
+									<div class="row" style="width: 90%;text-align: left;">
 										<div class="col-sm-2">
 											<div class="thumbnail">
 											<a href="/{{$comment->user->name}}/profile"><img src="{{ file_exists('pictures/'.$comment->user->name) ? '/pictures/'.$comment->user->name : '/img/avatar.png' }}"></a>
 											</div>
 										</div>
-										<div class="col-sm-9">
+										<div class="col-sm-10">
 											<div class="panel panel-default">
 												<div class="panel-heading">
 													<a class="black" href="/{{$comment->user->name}}/profile"><strong>{{$comment->user->name}}</strong></a>
