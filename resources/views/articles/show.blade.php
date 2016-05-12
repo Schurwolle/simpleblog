@@ -148,7 +148,7 @@
 									@endif 
 								</span>
 							</div>
-							<div name="panelbody" class="panel-body" style="word-wrap: break-word;white-space: pre-line;">
+							<div name="panelbody" class="panel-body">
 								{{$comment->body}}
 							</div>
 							@if($comment->user_id == Auth::id() || Auth::user()->isAdmin())

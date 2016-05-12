@@ -77,7 +77,7 @@
 						@foreach($comments[$article->id] as $comment)
 							<tr>
 								<td align="middle">
-									<div class="row" style="width: 90%;text-align: left;">
+									<div class="row searchComment">
 										<div class="col-sm-2">
 											<div class="thumbnail">
 											<a href="/{{$comment->user->name}}/profile"><img src="{{ file_exists('pictures/'.$comment->user->name) ? '/pictures/'.$comment->user->name : '/img/avatar.png' }}"></a>
@@ -94,7 +94,7 @@
 														@endif 
 													</span>
 												</div>
-												<div name="panelbody" class="panel-body" style="word-wrap: break-word;white-space: pre-line;">
+												<div name="panelbody" class="panel-body">
 													{{\Illuminate\Support\Str::words($comment->body, 60)}}
 												</div>
 												<div class="panel-body">

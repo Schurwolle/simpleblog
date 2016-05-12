@@ -1594,7 +1594,7 @@ img {
   outline: 1px solid #0782C1;
 }
 #articleBody div {
-  max-height: 150px;
+  max-height: 300px;
   overflow: hidden;
 }
 .sectionHeading {
@@ -1638,6 +1638,11 @@ img {
   border-right-color:#ddd;
   border-width:8px;
 }
+.panel-body[name=panelbody] {
+  max-width:600px;
+  word-wrap: break-word;
+  white-space: pre-line;
+}
 .col-sm-2 {
   float: left;
   width: 16.66666667%;
@@ -1665,5 +1670,10 @@ img {
 }
 .lbr {
     line-height: 3px;
+}
+
+.searchComment {
+  max-width: 90%;
+  text-align: left;
 }
 /*# sourceMappingURL=all.css.map */
