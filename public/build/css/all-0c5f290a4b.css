@@ -1593,7 +1593,10 @@ img {
   border: none;
   outline: 1px solid #0782C1;
 }
-
+#articleBody div {
+  max-height: 150px;
+  overflow: hidden;
+}
 .sectionHeading {
   text-align: center;
 }

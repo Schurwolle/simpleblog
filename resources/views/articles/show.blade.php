@@ -80,7 +80,7 @@
 	    </td>
 	    @if($article->user_id == Auth::id() || Auth::user()->isAdmin())
 		    <td>
-			    <a href="{{ $article->slug }}/edit"><button class="btn btn-primary">
+			    <a href="/articles/{{ $article->slug }}/edit"><button class="btn btn-primary">
 			     	<i class="fa fa-edit"></i> Edit
 			    </button></a>
 		    </td>
