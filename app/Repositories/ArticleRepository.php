@@ -88,21 +88,27 @@ class ArticleRepository
 					$articles[] = $article;
 					continue(2);
 				}
-			}
-			
+			}	
 		}
-		$articlesSorted = $articles->sortByDesc(function($article, $key) use ($query_words){
-			$count = 0;
+
+		$articlesSorted = $articles->sortByDesc(function($article, $key) use ($query_words, $query){
+
+			$count = substr_count(strtolower(strip_tags(html_entity_decode($article->body))), strtolower($query));
+			if($count != 0)
+			{
+				$count += 10000;
+			}
 			foreach($query_words as $word)
 			{
-				$count = $count + substr_count(strtolower($article->title), strtolower($word)) + substr_count(strtolower(strip_tags(html_entity_decode($article->body))), strtolower($word));
+				$count += substr_count(strtolower($article->title), strtolower($word)) + substr_count(strtolower(strip_tags(html_entity_decode($article->body))), strtolower($word));
 				foreach($article->comments as $comment)
 				{
-					$count = $count + substr_count(strtolower($comment->body), strtolower($word));
+					$count += substr_count(strtolower($comment->body), strtolower($word));
 				}
 			}
 			return $count;
 		});
+
 		return $articlesSorted;
 
 	}
