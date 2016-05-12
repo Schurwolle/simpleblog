@@ -138,13 +138,13 @@
 		<script type="text/javascript">
 			var comments = {!!json_encode($comments)!!}
 			var indexes = {!!json_encode(array_keys($comments))!!}
-			for(var i = 0; i<Object.keys(comments).length; i++)
+			for(var i = 0, m = 0; i<Object.keys(comments).length; i++)
 			{
-				for(j = 0; j<Object.keys(comments[indexes[i]]).length; j++)
+				for(j = 0; j<Object.keys(comments[indexes[i]]).length; j++, m++)
 				{
-					if ($('.panel-body[name="panelbody"]').eq(i).text().trim().length != comments[indexes[i]][j].body.length)
+					if ($('.panel-body[name="panelbody"]').eq(m).text().trim().length != comments[indexes[i]][j].body.length)
 					{
-						$('.panel-body[name="panelbody"]').eq(i).next('.panel-body').find('button').text('See Full Comment');
+						$('.panel-body[name="panelbody"]').eq(m).next('.panel-body').find('button').text('See Full Comment');
 					}
 				}
 			}
