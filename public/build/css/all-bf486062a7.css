@@ -1587,13 +1587,13 @@ img {
 .marker {
   background-color: Yellow;
 }
-#articleBody img, .side img {
+.articleBody img, .side img {
   padding: 1px;
   margin: 1px;
   border: none;
   outline: 1px solid #0782C1;
 }
-#articleBody div {
+.articleBody div {
   max-height: 300px;
   overflow: hidden;
 }

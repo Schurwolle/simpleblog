@@ -6,7 +6,7 @@
 		    };
 		});
 		
-		$('#articleBody').find('span.marker').removeClass('marker');
+		$('.articleBody').find('span.marker').removeClass('marker');
 
 		$('.panel-body[name="panelbody"]').each(function() {
 			$(this).html($(this).html().trim());

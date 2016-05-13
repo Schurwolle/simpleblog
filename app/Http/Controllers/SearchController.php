@@ -27,9 +27,9 @@ class SearchController extends Controller
         $query_words = explode(" ", $query);
 
     	$articles = $this->articles->forQuery($query, $query_words);
-
     	$num = $articles->count();
 
+        array_unshift($query_words, $query);
         $string_words = $this->makeString($query_words);
 
     	$comments = array();
@@ -62,6 +62,7 @@ class SearchController extends Controller
     public function show(article $article, $query)
     {
         $query_words = explode(" ", $query);
+        array_unshift($query_words, $query);
         $string_words = $this->makeString($query_words);
         $article = $this->mark($string_words, $article);
         return redirect('articles/'.$article->slug)
@@ -79,7 +80,7 @@ class SearchController extends Controller
 
                 for($i = 1; $i < count($exploded); $i++)
                 {
-                    if ($exploded[$i] != "<" && $exploded[$i] != ">" && ($exploded[$i-1] != "<" || $exploded[$i+1] != ">"))
+                    if ($exploded[$i] != "<" && $exploded[$i] != ">" && $exploded[$i-2] != "span style='background-color:#FFFF00'" && ($exploded[$i-1] != "<" || $exploded[$i+1] != ">"))
                     {
                         $exploded[$i] = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", $exploded[$i]);
                     }
@@ -131,14 +132,15 @@ class SearchController extends Controller
         foreach($article->comments->sortByDesc('created_at') as $comment)
             {   
                 $ind = 0;
-                foreach($query_words as $word)
+                // foreach($query_words as $word)
+                for($i = 1; $i < count($query_words); $i++)
                 {
-                    if(stristr($comment->body, $word))
+                    if(stristr($comment->body, $query_words[$i]))
                     {
                         $ind += 1;
                     }
                 }
-                if($ind == count($query_words))
+                if($ind == count($query_words)-1)
                 {
                     $comments[$article->id][] = $comment;
                 }

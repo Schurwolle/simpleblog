@@ -24,7 +24,7 @@
 		</tr>
 		<tr><td><hr></td></tr>
 		<tr>
-			<td id="articleBody" align="justify">
+			<td class="articleBody" align="justify">
 				{!! $article->body !!}
 			</td>
 		<tr><td><hr></td></tr>
@@ -180,9 +180,9 @@
 	@include('ConfirmDelete')
 	@include('searchfooter')
 	<script type="text/javascript">
-		$('#articleBody').find('a[id]').addClass('anchor');
+		$('.articleBody').find('a[id]').addClass('anchor');
 
-		$('#articleBody').find('img').each(function() {
+		$('.articleBody').find('img').each(function() {
 			$(this).parents('a').attr('data-lightbox', 'lightbox2');
 		});
 	</script>
