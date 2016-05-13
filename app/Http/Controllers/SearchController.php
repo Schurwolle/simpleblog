@@ -31,13 +31,14 @@ class SearchController extends Controller
 
         array_unshift($query_words, $query);
         $string_words = $this->makeString($query_words);
+        array_shift($query_words);
 
     	$comments = array();
     	foreach ($articles as $article)
         {   
-            
-            $article = $this->mark($string_words, $article);
-            $comments = $this->markComments($article, $comments, $query_words);
+            $article->title = $this->mark($string_words, $article->title);
+            $article->body = $this->mark($string_words, $article->body);
+            $comments = $this->markComments($article, $query_words, $string_words, $comments);
             		// if(strpos($article->body, "<span style='background-color:#FFFF00'>")) 
             		// {
               //           if(strlen($article->body) - strpos($article->body, "<span style='background-color:#FFFF00'>") < 300)
@@ -64,17 +65,20 @@ class SearchController extends Controller
         $query_words = explode(" ", $query);
         array_unshift($query_words, $query);
         $string_words = $this->makeString($query_words);
-        $article = $this->mark($string_words, $article);
+        array_shift($query_words);
+        $article->body = $this->mark($string_words, $article->body);
+        $article->title = $this->mark($string_words, $article->title);
+        $article->comments = $this->markComments($article, $query_words, $string_words);
         return redirect('articles/'.$article->slug)
                                     ->with('article', $article)
                                     ->with('query_words', $query_words);
     }   
 
-    private function mark($string_words, $article)
+    private function mark($string_words, $body)
     {
             foreach($string_words as $string)
             {
-                $exploded = preg_split("/(<|>)/", html_entity_decode($article->body, ENT_QUOTES), null, PREG_SPLIT_DELIM_CAPTURE);
+                $exploded = preg_split("/(<|>)/", html_entity_decode($body, ENT_QUOTES), null, PREG_SPLIT_DELIM_CAPTURE);
 
                 $exploded[0] = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", $exploded[0]);
 
@@ -85,9 +89,9 @@ class SearchController extends Controller
                         $exploded[$i] = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", $exploded[$i]);
                     }
                 }
-                $article->body = implode($exploded);
+                $body = implode($exploded);
             }
-            return $article;
+            return $body;
             // for($i = 0; $i < count($exploded); $i++)
             // {
             //     if(strstr($exploded[$i], "<span style='background-color:#FFFF00'>"))
@@ -127,26 +131,34 @@ class SearchController extends Controller
             // }
     }
 
-    private function markComments($article, $comments, $query_words)
+    private function markComments($article, $query_words, $string_words, $comments = "null")
     {
         foreach($article->comments->sortByDesc('created_at') as $comment)
             {   
                 $ind = 0;
-                // foreach($query_words as $word)
-                for($i = 1; $i < count($query_words); $i++)
+                foreach($query_words as $word)
                 {
-                    if(stristr($comment->body, $query_words[$i]))
+                    if(stristr($comment->body, $word))
                     {
                         $ind += 1;
                     }
                 }
-                if($ind == count($query_words)-1)
+                if($ind == count($query_words))
                 {
-                    $comments[$article->id][] = $comment;
+                    $comment->body = $this->mark($string_words, $comment->body);
+                    if($comments != "null")
+                    {
+                        $comments[$article->id][] = $comment;
+                    } 
+                        
                 }
             }
-        return $comments;
-    }
+        if($comments != "null")
+        {
+            return $comments;
+        }
+        return $article->comments->sortByDesc('created_at');
+    }   
 
     private function makeString($query_words)
     {

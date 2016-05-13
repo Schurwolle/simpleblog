@@ -30,7 +30,7 @@
 						<table width="100%">
 							<tr valign="baseline">
 								<td>
-									<h1><a class="black" href="/articles/{{ $article->slug }}/{{isset($query) ? $query : ''}}">{{ $article->title }}</a></h1>
+									<h1><a class="black" href="/articles/{{ $article->slug }}/{{isset($query) ? $query : ''}}">{!!str_replace(array("%span%", "%/span%"),array("<span style='background-color:#FFFF00'>","</span>") ,strip_tags(str_replace(array("<span style='background-color:#FFFF00'>","</span>"),array("%span%", "%/span%"),$article->title)))!!}</a></h1>
 								</td>
 								<td align="right">
 									<i class="fa fa-star{{ !$article->favoritedBy->contains(Auth::id()) ? '-o' : '' }} gold"></i> {{ $article->favoritedBy->count() }} 
@@ -95,7 +95,7 @@
 													</span>
 												</div>
 												<div name="panelbody" class="panel-body">
-													{{\Illuminate\Support\Str::words($comment->body, 60)}}
+													{!!\Illuminate\Support\Str::words(str_replace(array("%span%", "%/span%"),array("<span style='background-color:#FFFF00'>","</span>") ,strip_tags(str_replace(array("<span style='background-color:#FFFF00'>","</span>"),array("%span%", "%/span%"),$comment->body))), 60)!!}
 												</div>
 												<div class="panel-body">
 													<a href="articles/{{$article->slug}}/{{$query}}#comment{{$comment->id}}">
