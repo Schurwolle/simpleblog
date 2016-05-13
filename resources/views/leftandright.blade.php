@@ -53,7 +53,7 @@
             @if($articles->count() > 0)
                 <div>
                     <div>
-                        <h2>Popular Articles</h2>
+                        <h2 class="sectionHeading">Popular Articles</h2>
                     </div>
                     @foreach ($articles as $article)
                         @if (file_exists('pictures/'.$article->id.'thumbnail'))
