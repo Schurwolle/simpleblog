@@ -95,7 +95,9 @@
 													</span>
 												</div>
 												<div name="panelbody" class="panel-body">
-													{!!\Illuminate\Support\Str::words(str_replace(array("%span%", "%/span%"),array("<span style='background-color:#FFFF00'>","</span>") ,strip_tags(str_replace(array("<span style='background-color:#FFFF00'>","</span>"),array("%span%", "%/span%"),$comment->body))), 60)!!}
+													<table><tr><td>
+														{!!\Illuminate\Support\Str::words(str_replace(array("%span%", "%/span%"),array("<span style='background-color:#FFFF00'>","</span>") ,strip_tags(str_replace(array("<span style='background-color:#FFFF00'>","</span>"),array("%span%", "%/span%"),$comment->body))), 60)!!}
+													</td></tr></table>
 												</div>
 												<div class="panel-body">
 													<a href="articles/{{$article->slug}}/{{$query}}#comment{{$comment->id}}">
