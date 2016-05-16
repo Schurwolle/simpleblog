@@ -23,7 +23,7 @@ class SearchController extends Controller
 
     public function search(Request $request)
     {
-    	$query = $request->input('search');
+    	$query = preg_replace('/ {2,}/',' ', trim($request->input('search')));
         $query_words = explode(" ", $query);
 
     	$articles = $this->articles->forQuery($query, $query_words);
