@@ -11,7 +11,7 @@
 				<table width="100%">
 					<tr valign="baseline">
 						<td>
-							<h1 id="articleTitle"> {!!str_replace(array("%span%", "%/span%"),array("<span style='background-color:#FFFF00'>","</span>") ,strip_tags(str_replace(array("<span style='background-color:#FFFF00'>","</span>"),array("%span%", "%/span%"),$article->title)))!!} </h1>
+							<h1 class="articleTitle"> {!!str_replace(array("%span%", "%/span%"),array("<span style='background-color:#FFFF00'>","</span>") ,strip_tags(str_replace(array("<span style='background-color:#FFFF00'>","</span>"),array("%span%", "%/span%"),$article->title)))!!} </h1>
 						</td>
 						<td id ="counters" align="right">
 							<i class="fa fa-star{{ !$article->favoritedBy->contains(Auth::id()) ? '-o' : '' }} gold"></i> {{ $article->favoritedBy->count() }}

@@ -30,7 +30,7 @@
 						<table width="100%">
 							<tr valign="baseline">
 								<td>
-									<h1><a class="black" href="/articles/{{ $article->slug }}/{{isset($query) ? $query : ''}}">{!!str_replace(array("%span%", "%/span%"),array("<span style='background-color:#FFFF00'>","</span>") ,strip_tags(str_replace(array("<span style='background-color:#FFFF00'>","</span>"),array("%span%", "%/span%"),$article->title)))!!}</a></h1>
+									<h1 class="articleTitle"><a class="black" href="/articles/{{ $article->slug }}/{{isset($query) ? $query : ''}}">{!!str_replace(array("%span%", "%/span%"),array("<span style='background-color:#FFFF00'>","</span>") ,strip_tags(str_replace(array("<span style='background-color:#FFFF00'>","</span>"),array("%span%", "%/span%"),$article->title)))!!}</a></h1>
 								</td>
 								<td align="right">
 									<i class="fa fa-star{{ !$article->favoritedBy->contains(Auth::id()) ? '-o' : '' }} gold"></i> {{ $article->favoritedBy->count() }} 
