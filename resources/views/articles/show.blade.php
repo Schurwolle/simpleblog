@@ -54,7 +54,7 @@
 	@unless ($article->tags->isEmpty())
 		<h5>Tags: 
 			@foreach($article->tags as $tag)
-				<a href="/tags/{{ $tag->name }}"><button class="btn btn-default btn-xs {{ isset($query_words) && $tag->name == strtolower(implode($query_words)) ? 'marker' : '' }}"> {{ $tag->name }} </button></a>
+				<a href="/tags/{{ $tag->name }}"><button class="btn btn-default btn-xs @if(isset($query_words)) @if ($tag->name == strtolower(implode($query_words))) marker @else @foreach($query_words as $word) {{ $tag->name == strtolower($word) ? 'marker' : '' }}@endforeach @endif @endif"> {{ $tag->name }} </button></a>
 			@endforeach
 		</h5>
 	@endunless
@@ -179,6 +179,7 @@
 
 	@include('ConfirmDelete')
 	@include('searchfooter')
+	@include('trimComments')
 	<script type="text/javascript">
 		$('.articleBody').find('a[id]').addClass('anchor');
 
@@ -188,11 +189,6 @@
 	</script>
 
 	<script type="text/javascript">
-		$('.panel-body[name="panelbody"]').each(function() {
-			$(this).html($(this).html().trim());
-
-		});
-
 		$('button#addcomment').on('click', function(){
 			$(this).blur();
 			var comment = $('textarea#add').val();
@@ -446,5 +442,7 @@
 	      'wrapAround': true
 	    })
 	</script>
-	@include('icontains')
+	@if(isset($query_words))
+		@include('removeMarker')
+	@endif
 @stop

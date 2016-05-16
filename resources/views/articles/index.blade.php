@@ -139,6 +139,7 @@
 		});
 	</script>
 	@if(isset($comments))
+		@include('trimComments')
 		<script type="text/javascript">
 			var comments = {!!json_encode($comments)!!}
 			var indexes = {!!json_encode(array_keys($comments))!!}
@@ -146,7 +147,7 @@
 			{
 				for(j = 0; j<Object.keys(comments[indexes[i]]).length; j++, m++)
 				{
-					if ($('.panel-body[name="panelbody"]').eq(m).text().trim().length != comments[indexes[i]][j].body.length)
+					if ($('.panel-body[name="panelbody"]').eq(m).html().length != comments[indexes[i]][j].body.length)
 					{
 						$('.panel-body[name="panelbody"]').eq(m).next('.panel-body').find('button').text('See Full Comment');
 					}
@@ -154,6 +155,8 @@
 			}
 		</script>
 	@endif
-	@include('icontains')
+	@if(isset($query_words))
+		@include('removeMarker')
+	@endif
 	@include('searchfooter')
 @endsection
