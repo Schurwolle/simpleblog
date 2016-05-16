@@ -95,13 +95,17 @@
 													</span>
 												</div>
 												<div name="panelbody" class="panel-body">
-													<table><tr><td>
-														{!!\Illuminate\Support\Str::words(str_replace(array("%span%", "%/span%"),array("<span style='background-color:#FFFF00'>","</span>") ,strip_tags(str_replace(array("<span style='background-color:#FFFF00'>","</span>"),array("%span%", "%/span%"),$comment->body))), 60)!!}
-													</td></tr></table>
+													@if(str_word_count(strip_tags($comment->body)) > 60)
+														<table><tr><td>
+															{!!\Illuminate\Support\Str::words(str_replace(array("%span%", "%/span%"),array("<span style='background-color:#FFFF00'>","</span>") ,strip_tags(str_replace(array("<span style='background-color:#FFFF00'>","</span>"),array("%span%", "%/span%"),$comment->body))), 60)!!}
+														</td></tr></table>
+													@else
+														{!! str_replace(array("%span%", "%/span%"),array("<span style='background-color:#FFFF00'>","</span>") ,strip_tags(str_replace(array("<span style='background-color:#FFFF00'>","</span>"),array("%span%", "%/span%"),$comment->body))) !!}
+													@endif
 												</div>
 												<div class="panel-body">
 													<a href="articles/{{$article->slug}}/{{$query}}#comment{{$comment->id}}">
-														<button class="btn btn-primary">Go To Comment</button>
+														<button class="btn btn-primary">{{ str_word_count(strip_tags($comment->body)) > 60 ? 'See Full Comment' : 'Go To Comment'}}</button>
 													</a>
 												</div>
 									        </div>	
@@ -140,25 +144,11 @@
 			});
 		});
 	</script>
-	@if(isset($comments))
-		@include('trimComments')
-		<script type="text/javascript">
-			var comments = {!!json_encode($comments)!!}
-			var indexes = {!!json_encode(array_keys($comments))!!}
-			for(var i = 0, m = 0; i<Object.keys(comments).length; i++)
-			{
-				for(j = 0; j<Object.keys(comments[indexes[i]]).length; j++, m++)
-				{
-					if ($('.panel-body[name="panelbody"]').eq(m).html().length != comments[indexes[i]][j].body.length)
-					{
-						$('.panel-body[name="panelbody"]').eq(m).next('.panel-body').find('button').text('See Full Comment');
-					}
-				}
-			}
-		</script>
-	@endif
 	@if(isset($query_words))
 		@include('removeMarker')
+		@if(isset($comments))
+			@include('trimComments')
+		@endif
 	@endif
 	@include('searchfooter')
 @endsection
