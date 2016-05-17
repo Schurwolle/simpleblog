@@ -63,7 +63,7 @@ class SearchController extends Controller
 
     public function show(article $article, $query)
     {
-        $query = htmlentities($query);
+        $query = urldecode($query);
         $query_words = explode(" ", $query);
         array_unshift($query_words, $query);
         $string_words = $this->makeString($query_words);
@@ -80,12 +80,13 @@ class SearchController extends Controller
     {
             foreach($string_words as $string)
             {
-                $exploded = preg_split("/(<|>)/", html_entity_decode($body, ENT_QUOTES), null, PREG_SPLIT_DELIM_CAPTURE);
+                $exploded = preg_split("/(<|>)/", $body, null, PREG_SPLIT_DELIM_CAPTURE);
+
                 for($i = 0; $i < count($exploded); $i++)
                 {
                     if($exploded[$i] != "<" && $exploded[$i] != ">")
                     {
-                        if (($i == 0) || ($exploded[$i-1] != "<" || $exploded[$i+1] != ">"))
+                        if (($i == 0) || ($exploded[$i-1] != "<" || isset($exploded[$i+1]) && $exploded[$i+1] != ">"))
                         {
                             if($i == 0 || $i == 1 || $exploded[$i-2] != "span style='background-color:#FFFF00'")
                             {
