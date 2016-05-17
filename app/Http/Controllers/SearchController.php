@@ -38,7 +38,7 @@ class SearchController extends Controller
         {   
             $article->title = $this->mark($string_words, $article->title);
             $article->body = $this->mark($string_words, $article->body);
-            $comments = $this->markComments($article, $query_words, $string_words, $comments);
+            $comments = $this->pickComments($article, $query_words, $string_words, $comments);
             		// if(strpos($article->body, "<span style='background-color:#FFFF00'>")) 
             		// {
               //           if(strlen($article->body) - strpos($article->body, "<span style='background-color:#FFFF00'>") < 300)
@@ -57,18 +57,20 @@ class SearchController extends Controller
               //           }
         	    	// }
         }
-    	return view('articles.headings.search', compact('articles', 'query', 'query_words', 'num', 'comments'));
+        $query_link = urlencode($query);
+    	return view('articles.headings.search', compact('articles', 'query', 'query_words', 'query_link', 'num', 'comments'));
     }
 
     public function show(article $article, $query)
     {
+        $query = htmlentities($query);
         $query_words = explode(" ", $query);
         array_unshift($query_words, $query);
         $string_words = $this->makeString($query_words);
         array_shift($query_words);
         $article->body = $this->mark($string_words, $article->body);
         $article->title = $this->mark($string_words, $article->title);
-        $article->comments = $this->markComments($article, $query_words, $string_words);
+        $article->comments = $this->pickComments($article, $query_words, $string_words);
         return redirect('articles/'.$article->slug)
                                     ->with('article', $article)
                                     ->with('query_words', $query_words);
@@ -134,7 +136,7 @@ class SearchController extends Controller
             // }
     }
 
-    private function markComments($article, $query_words, $string_words, $comments = "null")
+    private function pickComments($article, $query_words, $string_words, $comments = "null")
     {
         foreach($article->comments->sortByDesc('created_at') as $comment)
             {   

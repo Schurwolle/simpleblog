@@ -30,7 +30,7 @@
 						<table width="100%">
 							<tr valign="baseline">
 								<td>
-									<h1 class="articleTitle"><a class="black" href="/articles/{{ $article->slug }}/{{isset($query) ? $query : ''}}">{!!str_replace(array("%span%", "%/span%"),array("<span style='background-color:#FFFF00'>","</span>") ,strip_tags(str_replace(array("<span style='background-color:#FFFF00'>","</span>"),array("%span%", "%/span%"),$article->title)))!!}</a></h1>
+									<h1 class="articleTitle"><a class="black" href="/articles/{{ $article->slug }}/{{isset($query_link) ? $query_link : ''}}">{!!str_replace(array("%span%", "%/span%"),array("<span style='background-color:#FFFF00'>","</span>") ,strip_tags(str_replace(array("<span style='background-color:#FFFF00'>","</span>"),array("%span%", "%/span%"),$article->title)))!!}</a></h1>
 								</td>
 								<td align="right">
 									<i class="fa fa-star{{ !$article->favoritedBy->contains(Auth::id()) ? '-o' : '' }} gold"></i> {{ $article->favoritedBy->count() }} 
@@ -51,12 +51,12 @@
 				<tr>
 					<td>
 						@if (file_exists('pictures/'.$article->id))
-							<article><a href="/articles/{{ $article->slug }}/{{isset($query) ? $query : ''}}"> 
+							<article><a href="/articles/{{ $article->slug }}/{{isset($query_link) ? $query_link : ''}}"> 
 								{{ Html::image('pictures/'.$article->id) }}
 							</a></article>
 							<br>
 						@else
-							<a href="/articles/{{ $article->slug }}/{{isset($query) ? $query : ''}}"><button class="btn btn-primary">Read More</button></a>
+							<a href="/articles/{{ $article->slug }}/{{isset($query_link) ? $query_link : ''}}"><button class="btn btn-primary">Read More</button></a>
 						@endif
 					</td>
 				</tr>
