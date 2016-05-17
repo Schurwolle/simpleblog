@@ -94,10 +94,18 @@ class ArticleRepository
 		$articlesSorted = $articles->sortByDesc(function($article, $key) use ($query_words, $query){
 			$count = substr_count(strtolower($article->title), strtolower($query)) * 1000000;
 			$count += substr_count(strtolower(strip_tags(html_entity_decode($article->body))), strtolower($query)) * 10000;
+			if($article->tags->contains('name', strtolower(implode($query_words))))
+			{
+				$count += 10000;
+			}
 			
 			foreach($query_words as $word)
 			{
 				$count += substr_count(strtolower($article->title), strtolower($word)) * 1000 + substr_count(strtolower(strip_tags(html_entity_decode($article->body))), strtolower($word));
+				if($article->tags->contains('name', strtolower($word)))
+				{
+					$count += 10;
+				}
 				foreach($article->comments as $comment)
 				{
 					$count += substr_count(strtolower($comment->body), strtolower($word));
