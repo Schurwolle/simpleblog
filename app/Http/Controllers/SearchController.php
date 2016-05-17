@@ -170,20 +170,7 @@ class SearchController extends Controller
         foreach($query_words as $word)
         {
             $string = strstr($word, "/") ? "#" : "/";
-
-            if(strstr($word, '['))
-            {
-                $subStrings = explode('[', $word);
-                
-                for($i = 0; $i < count($subStrings); $i++)
-                {
-                    $string .= $subStrings[$i]."\[";
-                }
-                $string = substr($string, 0, strlen($string)-2);
-            } else {
-
-                $string .= $word;
-            }
+            $string .= preg_quote($word);
             $string .= strstr($word, "/") ? "#i" : "/i";
             $string_words[] = $string;
         }
