@@ -95,9 +95,11 @@
 													</span>
 												</div>
 												<div name="panelbody" class="panel-body">
-													@if(str_word_count(strip_tags($comment->body)) > 60)
+													@for($i = 60; ends_with(\Illuminate\Support\Str::words($comment->body, $i),"span..."); $i++)
+													@endfor
+													@if(str_word_count(strip_tags($comment->body)) > $i)
 														<table><tr><td>
-															{{\Illuminate\Support\Str::words($comment->body, 60)}}
+														{{\Illuminate\Support\Str::words($comment->body, $i)}}
 														</td></tr></table>
 													@else
 														{{ $comment->body }}
@@ -105,7 +107,7 @@
 												</div>
 												<div class="panel-body">
 													<a href="articles/{{$article->slug}}/{{$query}}#comment{{$comment->id}}">
-														<button class="btn btn-primary">{{ str_word_count(strip_tags($comment->body)) > 60 ? 'See Full Comment' : 'Go To Comment'}}</button>
+														<button class="btn btn-primary">{{ str_word_count(strip_tags($comment->body)) > $i ? 'See Full Comment' : 'Go To Comment'}}</button>
 													</a>
 												</div>
 									        </div>	
