@@ -119,6 +119,9 @@ img {
 .articleBody, .articleTitle, .panel-body[name=panelbody] {
   word-break: break-word;
 }
+.panel-body[name=panelbody] {
+  white-space: pre-line;
+}
 .sectionHeading {
   text-align: center;
 }
