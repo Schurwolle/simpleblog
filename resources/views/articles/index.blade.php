@@ -44,7 +44,10 @@
 				<tr>
 					<td class="articleBody" align="justify">
 						<div>
-							{!! \Illuminate\Support\Str::words(str_replace(array('<li>','</li>','<h2>','<h3>'),array('•','&nbsp','<h4>','<h4>'), strip_tags($article->body, '<a>,<h2>,<h3>,<h4>,<h5>,<strong><em><s><li><span>')), 80) !!}
+						<?php $body = str_replace(array('<li>','</li>','<h2>','<h3>'),array('•','&nbsp','<h4>','<h4>'), strip_tags($article->body, '<a>,<h2>,<h3>,<h4>,<h5>,<strong><em><s><li><span>')); ?>
+						@for($i = 80; preg_split("/(<|>)/", \Illuminate\Support\Str::words($body, $i), null, PREG_SPLIT_DELIM_CAPTURE)[count(preg_split("/(<|>)/", \Illuminate\Support\Str::words($body, $i), null, PREG_SPLIT_DELIM_CAPTURE))-2] == "<";$i++)
+						@endfor
+							{!! \Illuminate\Support\Str::words($body, $i) !!}
 						</div>
 					</td>
 				</tr>
