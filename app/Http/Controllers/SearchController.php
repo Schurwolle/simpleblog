@@ -73,6 +73,7 @@ class SearchController extends Controller
         $article->comments = $this->pickComments($article, $query_words, $string_words);
         return redirect('articles/'.$article->slug)
                                     ->with('article', $article)
+                                    ->with('query', $query)
                                     ->with('query_words', $query_words);
     }   
 
