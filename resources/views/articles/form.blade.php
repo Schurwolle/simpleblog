@@ -200,4 +200,16 @@
 				}
 			})
 		</script>
+		<script type="text/javascript">
+			var dirty = false;
+			$(':input').on('change keyup', function(){
+				dirty = true;
+			});
+			$(window).on("beforeunload", function() {
+				if(dirty == true)
+				{
+					return ('You have unsaved changes!');
+				}
+			});
+		</script>
 	@stop
