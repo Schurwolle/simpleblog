@@ -201,12 +201,15 @@
 			})
 		</script>
 		<script type="text/javascript">
-			var dirty = false;
+			var warning = false;
 			$(':input').on('change keyup', function(){
-				dirty = true;
+				warning = true;
+			});
+			$('#submit').on('click', function() {
+				warning = false;
 			});
 			$(window).on("beforeunload", function() {
-				if(dirty == true)
+				if(warning == true)
 				{
 					return ('You have unsaved changes!');
 				}
