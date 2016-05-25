@@ -58,6 +58,10 @@ class SearchController extends Controller
         	    	// }
         }
         $query_link = urlencode($query);
+        foreach($query_words as $word)
+        {
+            $word = htmlentities($word);
+        }
     	return view('articles.headings.search', compact('articles', 'query', 'query_words', 'query_link', 'num', 'comments'));
     }
 
@@ -71,6 +75,10 @@ class SearchController extends Controller
         $article->body = $this->mark($string_words, $article->body);
         $article->title = $this->mark($string_words, $article->title);
         $article->comments = $this->pickComments($article, $query_words, $string_words);
+        foreach($query_words as $word)
+        {
+            $word = htmlentities($word);
+        }
         return redirect('articles/'.$article->slug)
                                     ->with('article', $article)
                                     ->with('query', $query)
