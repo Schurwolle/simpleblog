@@ -77,7 +77,7 @@ class SearchController extends Controller
                                     ->with('query_words', $query_words);
     }   
 
-    private function mark($string_words, $body)
+    private function mark($string_words, $body, $type = 'article')
     {
             foreach($string_words as $string)
             {
@@ -87,7 +87,7 @@ class SearchController extends Controller
                 {
                     if($exploded[$i] != "<" && $exploded[$i] != ">")
                     {
-                        if (($i == 0) || ($exploded[$i-1] != "<" || isset($exploded[$i+1]) && $exploded[$i+1] != ">"))
+                        if ($type == 'comment' || $i == 0 || ($exploded[$i-1] != "<" || isset($exploded[$i+1]) && $exploded[$i+1] != ">"))
                         {
                             if($i == 0 || $i == 1 || $exploded[$i-2] != "span style='background-color:#FFFF00'")
                             {
@@ -152,7 +152,7 @@ class SearchController extends Controller
                 }
                 if($ind == count($query_words))
                 {
-                    $comment->body = $this->mark($string_words, $comment->body);
+                    $comment->body = $this->mark($string_words, $comment->body, 'comment');
                     if($comments != "null")
                     {
                         $comments[$article->id][] = $comment;
