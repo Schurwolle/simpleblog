@@ -162,7 +162,7 @@
 			@include('icontains')
 			<script type="text/javascript">
 				$('.commentBody[name="panelbody"]').each(function(){
-					if($(this).prop('scrollHeight') > $(this).height())
+					if($(this).prop('scrollHeight') > $(this).height() + 30 && $(this).next('.panel-body').find('button').text() != 'See Full Comment')
 					{
 						$(this).next('.panel-body').find('button').text('See Full Comment');
 					}
