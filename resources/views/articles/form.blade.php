@@ -205,6 +205,9 @@
 			$(':input').on('change keyup', function(){
 				warning = true;
 			});
+			CKEDITOR.instances['body'].on('change', function(e) {
+			    warning = true;
+			});
 			$('#submit').on('click', function() {
 				warning = false;
 			});
