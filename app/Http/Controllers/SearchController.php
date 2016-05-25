@@ -77,7 +77,7 @@ class SearchController extends Controller
                                     ->with('query_words', $query_words);
     }   
 
-    private function mark($string_words, $body, $type = 'article')
+    private function mark($string_words, $body)
     {
             foreach($string_words as $string)
             {
@@ -87,7 +87,7 @@ class SearchController extends Controller
                 {
                     if($exploded[$i] != "<" && $exploded[$i] != ">")
                     {
-                        if ($type == 'comment' || $i == 0 || ($exploded[$i-1] != "<" || isset($exploded[$i+1]) && $exploded[$i+1] != ">"))
+                        if ($i == 0 || ($exploded[$i-1] != "<" || isset($exploded[$i+1]) && $exploded[$i+1] != ">"))
                         {
                             if($i == 0 || $i == 1 || $exploded[$i-2] != "span style='background-color:#FFFF00'")
                             {
@@ -152,7 +152,7 @@ class SearchController extends Controller
                 }
                 if($ind == count($query_words))
                 {
-                    $comment->body = $this->mark($string_words, $comment->body, 'comment');
+                    $comment->body = $this->markComments($string_words, $comment->body);
                     if($comments != "null")
                     {
                         $comments[$article->id][] = $comment;
@@ -165,7 +165,28 @@ class SearchController extends Controller
             return $comments;
         }
         return $article->comments->sortByDesc('created_at');
-    }   
+    }
+
+    private function markComments($string_words, $body)
+    {
+        foreach($string_words as $string)
+        {
+            $exploded = preg_split("/(<span style='background-color:#FFFF00'>|<\/span>)/", $body, null, PREG_SPLIT_DELIM_CAPTURE);
+
+            for($i = 0; $i < count($exploded); $i++)
+            {
+                if($exploded[$i] != "<span style='background-color:#FFFF00'>")
+                {
+                    if($i == 0 || $exploded[$i-1] != "<span style='background-color:#FFFF00'>")
+                    {
+                        $exploded[$i] = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", $exploded[$i]);
+                    }
+                }
+            }
+            $body = implode($exploded);
+        }
+        return $body;
+    }
 
     private function makeString($query_words)
     {
