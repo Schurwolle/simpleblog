@@ -5,7 +5,7 @@
 	    };
 	});
 	var queryWords = {!!json_encode($query_words)!!}
-	var query = {!!json_encode(htmlentities($query))!!}
+	var query = {!!json_encode(preg_quote(htmlentities($query)))!!}
 	queryWords.unshift(query);
 
 	for(var i=0; i<queryWords.length;i++)
