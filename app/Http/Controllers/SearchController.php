@@ -37,7 +37,7 @@ class SearchController extends Controller
     	foreach ($articles as $article)
         {   
             $article->title = $this->mark($string_words, $article->title);
-            $article->body = $this->mark($string_words, $article->body);
+            $article->body = $this->mark($string_words, $this->decodeBody($article->body));
             $comments = $this->pickComments($article, $query_words, $string_words, $comments);
             		// if(strpos($article->body, "<span style='background-color:#FFFF00'>")) 
             		// {
@@ -73,7 +73,7 @@ class SearchController extends Controller
         array_unshift($query_words, $query);
         $string_words = $this->makeString($query_words);
         array_shift($query_words);
-        $article->body = $this->mark($string_words, $article->body);
+        $article->body = $this->mark($string_words, $this->decodeBody($article->body));
         $article->title = $this->mark($string_words, $article->title);
         $article->comments = $this->pickComments($article, $query_words, $string_words);
         foreach($query_words as &$word)
@@ -207,5 +207,17 @@ class SearchController extends Controller
             $string_words[] = $string;
         }
         return $string_words;
+    }
+
+    private function decodeBody($body)
+    {
+        $list = get_html_translation_table(HTML_ENTITIES);
+        unset($list['<']);
+        unset($list['>']);
+        $list["'"] = "&#39;";
+        $find = array_values($list);
+        $replace = array_keys($list);
+
+        return (str_replace($find, $replace, $body));
     }
 }
