@@ -73,8 +73,8 @@ class SearchController extends Controller
         array_unshift($query_words, $query);
         $string_words = $this->makeString($query_words);
         array_shift($query_words);
-        $article->body = $this->mark($string_words, $this->decodeBody($article->body));
         $article->title = $this->mark($string_words, $article->title);
+        $article->body = $this->mark($string_words, $this->decodeBody($article->body));
         $article->comments = $this->pickComments($article, $query_words, $string_words);
         foreach($query_words as &$word)
         {

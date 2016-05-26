@@ -10,7 +10,8 @@
 
 	for(var i=0; i<queryWords.length;i++)
 	{	
-		$('.panel-body[name="panelbody"], h1>a, h1#articleTitle:icontains("' +queryWords[i]+ '")').each(function(){
+		$(".panel-body[name='panelbody']:icontains(<span style='background-color:#FFFF00'>), h1>a:icontains(<span style='background-color:#FFFF00'>), h1#articleTitle:icontains(<span style='background-color:#FFFF00'>)").each(function(){
+
 			var regex = new RegExp("(&lt;span style='background-color:#FFFF00'&gt;)(" +queryWords[i]+ ")(&lt;/span&gt;)", "gi")
 			$(this).html($(this).html().replace(regex, "<span class='marker'>$2</span>"));
 		});
