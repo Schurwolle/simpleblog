@@ -184,11 +184,14 @@ class SearchController extends Controller
 
             for($i = 0; $i < count($exploded); $i++)
             {
-                if($exploded[$i] != "<span style='background-color:#FFFF00'>" && $exploded[$i] != "</span>")
+                if($exploded[$i] != "<span style='background-color:#FFFF00'>")
                 {
                     if($i == 0 || $exploded[$i-1] != "<span style='background-color:#FFFF00'>")
                     {
-                        $exploded[$i] = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", $exploded[$i]);
+                        if($i == 0 || $i == 1 || $exploded[$i] != "</span>" || ($exploded[$i] == "</span>" && $exploded[$i-2] != "<span style='background-color:#FFFF00'>"))
+                        {
+                            $exploded[$i] = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", $exploded[$i]);
+                        }
                     }
                 }
             }
