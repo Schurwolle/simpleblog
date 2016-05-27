@@ -162,8 +162,8 @@
 			@include('trimComments')
 			@include('icontains')
 			<script type="text/javascript">
-				$('.commentBody[name="panelbody"]').each(function(){
-					if($(this).prop('scrollHeight') > $(this).height() + 30 && $(this).next('.panel-body').find('button').text() != 'See Full Comment')
+				$('.commentBody').each(function(){
+					if($(this).prop('scrollHeight') > 300 && $(this).next('.panel-body').find('button').text() != 'See Full Comment')
 					{
 						$(this).next('.panel-body').find('button').text('See Full Comment');
 					}
