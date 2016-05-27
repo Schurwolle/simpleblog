@@ -30,7 +30,7 @@
 						<table width="100%">
 							<tr valign="baseline">
 								<td>
-									<h1 class="articleTitle"><a class="black" href="/articles/{{ $article->slug }}/{{isset($query_link) ? $query_link : ''}}">{{$article->title}}</a></h1>
+									<h1 class="articleTitle"><a class="black" href="/articles/{{ $article->slug }}/{{isset($query_link) ? 'search/'.$query_link : ''}}">{{$article->title}}</a></h1>
 								</td>
 								<td align="right">
 									<i class="fa fa-star{{ !$article->favoritedBy->contains(Auth::id()) ? '-o' : '' }} gold"></i> {{ $article->favoritedBy->count() }} 
@@ -62,12 +62,12 @@
 				<tr>
 					<td>
 						@if (file_exists('pictures/'.$article->id))
-							<article><a href="/articles/{{ $article->slug }}/{{isset($query_link) ? $query_link : ''}}"> 
+							<article><a href="/articles/{{ $article->slug }}/{{isset($query_link) ? 'search/'.$query_link : ''}}"> 
 								{{ Html::image('pictures/'.$article->id) }}
 							</a></article>
 							<br>
 						@else
-							<a href="/articles/{{ $article->slug }}/{{isset($query_link) ? $query_link : ''}}"><button class="btn btn-primary">Read More</button></a>
+							<a href="/articles/{{ $article->slug }}/{{isset($query_link) ? 'search/'.$query_link : ''}}"><button class="btn btn-primary">Read More</button></a>
 						@endif
 					</td>
 				</tr>
@@ -115,7 +115,7 @@
 													@endif
 												</div>
 												<div class="panel-body">
-													<a href="articles/{{$article->slug}}/{{$query_link
+													<a href="articles/{{$article->slug}}/search/{{$query_link
 													}}#comment{{$comment->id}}">
 														<button class="btn btn-primary">{{ str_word_count(strip_tags($comment->body)) > $i ? 'See Full Comment' : 'Go To Comment'}}</button>
 													</a>
