@@ -37,7 +37,7 @@ class SearchController extends Controller
     	foreach ($articles as $article)
         {   
             $article->title = $this->mark($string_words, $article->title);
-            $article->body = $this->mark($string_words, $this->decodeBody($article->body));
+            $article->body = $this->hasAllWords($string_words, $article->body);
             $comments = $this->pickComments($article, $query_words, $string_words, $comments);
             		// if(strpos($article->body, "<span style='background-color:#FFFF00'>")) 
             		// {
@@ -74,7 +74,7 @@ class SearchController extends Controller
         $string_words = $this->makeString($query_words);
         array_shift($query_words);
         $article->title = $this->mark($string_words, $article->title);
-        $article->body = $this->mark($string_words, $this->decodeBody($article->body));
+        $article->body = $this->hasAllWords($string_words, $article->body);
         $article->comments = $this->pickComments($article, $query_words, $string_words);
         foreach($query_words as &$word)
         {
@@ -220,5 +220,22 @@ class SearchController extends Controller
         $replace = array_keys($list);
 
         return (str_replace($find, $replace, $body));
+    }
+
+    private function hasAllWords($string_words, $body)
+    {
+        $ind = 0;
+        for($i = 1; $i < count($string_words); $i++)
+        {
+            if (preg_match($string_words[$i], $body))
+            {
+                $ind += 1;
+            }
+        }
+        if($ind == count($string_words)-1)
+        {
+            return $this->mark($string_words, $this->decodeBody($body));
+        }
+        return $body;
     }
 }
