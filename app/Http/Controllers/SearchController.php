@@ -178,6 +178,7 @@ class SearchController extends Controller
 
     private function markComments($string_words, $body)
     {
+
         foreach($string_words as $string)
         {
             $exploded = preg_split("/(<span style='background-color:#FFFF00'>|<\/span>)/", $body, null, PREG_SPLIT_DELIM_CAPTURE);
@@ -204,10 +205,7 @@ class SearchController extends Controller
     {
         foreach($query_words as $word)
         {
-            $string = strstr($word, "/") ? "#" : "/";
-            $string .= preg_quote($word);
-            $string .= strstr($word, "/") ? "#i" : "/i";
-            $string_words[] = $string;
+            $string_words[] = "*".preg_quote($word)."*i";
         }
         return $string_words;
     }
