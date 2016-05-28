@@ -447,10 +447,11 @@
 		$('.panel-body[name="panelbody"]').each(function() {
 			if ($(this).prop('scrollHeight') > 300)
 			{
+				console.log($(this).prop('scrollHeight'));
+				console.log($(this).innerHeight());
 				$(this).next('.panel-body').find('button').hide();
-				$(this).next('.panel-body').append('<button id="see-full" class="btn btn-primary">Show Full Comment</button>');
-				$('#see-full').unbind('click');
-				$('#see-full').on('click', function() {
+				$(this).next('.panel-body').append('<button name="see-full" class="btn btn-primary">Show Full Comment</button>');
+				$('button[name="see-full"]').on('click', function() {
 														$(this).closest('.panel-body').prev('.panel-body').css('max-height', 'none');
 														$(this).closest('.panel-body').prev('.panel-body').innerHeight($(this).closest('.panel-body').prev('.panel-body').prop('scrollHeight'));
 														$(this).closest('.panel-body').find('button').show();
