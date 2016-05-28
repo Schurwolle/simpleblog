@@ -447,26 +447,30 @@
 		$('.panel-body[name="panelbody"]').each(function() {
 			if ($(this).prop('scrollHeight') > 300)
 			{
-				console.log($(this).prop('scrollHeight'));
-				console.log($(this).innerHeight());
 				$(this).next('.panel-body').find('button').hide();
 				$(this).next('.panel-body').find('tr').append('<td><button name="see-full" class="btn btn-primary">Show Full Comment</button></td>');
 				$('button[name="see-full"]').on('click', showFull);
 			}
 		});
-
 		function showFull() {
-			$(this).closest('.panel-body').prev('.panel-body').css('max-height', 'none');
-			$(this).closest('.panel-body').prev('.panel-body').innerHeight($(this).closest('.panel-body').prev('.panel-body').prop('scrollHeight'));
-			$(this).closest('.panel-body').find('button').show();
-			$(this).text('Hide Comment').blur();
-			$(this).unbind('click');
-			$(this).bind('click', function() {
-				$(this).closest('.panel-body').prev('.panel-body').innerHeight(300);
-				$(this).closest('.panel-body').find('button').not('[name="see-full"]').hide();
-				$(this).text('Show Full Comment').blur();
-				$(this).unbind('click');
-				$(this).bind('click', showFull);
+			var buttons = $(this).closest('.panel-body').find('button');
+			var commentPanel = $(this).closest('.panel-body').prev('.panel-body');
+			commentPanel
+					.css('max-height', 'none')
+					.innerHeight(commentPanel.prop('scrollHeight'));
+			buttons.show();
+			$(this)
+				.blur()
+				.text('Hide Comment')
+				.unbind('click')
+				.bind('click', function() {
+					commentPanel.innerHeight(300);
+					buttons.not('[name="see-full"]').hide();
+					$(this)
+						.blur()
+						.text('Show Full Comment')
+						.unbind('click')
+						.bind('click', showFull);
 			});
 		}
 	</script>
