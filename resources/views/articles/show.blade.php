@@ -153,7 +153,7 @@
 							</div>
 							@if($comment->user_id == Auth::id() || Auth::user()->isAdmin())
 							 	<div id="{{$comment->id}}" class="panel-body">
-					              <table style=""><tr><td>
+					              <table><tr><td>
 					              	<button class="btn btn-primary">
 		     									<i class="fa fa-edit"></i> Edit
 		    						</button>
@@ -450,15 +450,25 @@
 				console.log($(this).prop('scrollHeight'));
 				console.log($(this).innerHeight());
 				$(this).next('.panel-body').find('button').hide();
-				$(this).next('.panel-body').append('<button name="see-full" class="btn btn-primary">Show Full Comment</button>');
-				$('button[name="see-full"]').on('click', function() {
-														$(this).closest('.panel-body').prev('.panel-body').css('max-height', 'none');
-														$(this).closest('.panel-body').prev('.panel-body').innerHeight($(this).closest('.panel-body').prev('.panel-body').prop('scrollHeight'));
-														$(this).closest('.panel-body').find('button').show();
-														$(this).remove();
-													});
+				$(this).next('.panel-body').find('tr').append('<td><button name="see-full" class="btn btn-primary">Show Full Comment</button></td>');
+				$('button[name="see-full"]').on('click', showFull);
 			}
 		});
+
+		function showFull() {
+			$(this).closest('.panel-body').prev('.panel-body').css('max-height', 'none');
+			$(this).closest('.panel-body').prev('.panel-body').innerHeight($(this).closest('.panel-body').prev('.panel-body').prop('scrollHeight'));
+			$(this).closest('.panel-body').find('button').show();
+			$(this).text('Hide Comment').blur();
+			$(this).unbind('click');
+			$(this).bind('click', function() {
+				$(this).closest('.panel-body').prev('.panel-body').innerHeight(300);
+				$(this).closest('.panel-body').find('button').not('[name="see-full"]').hide();
+				$(this).text('Show Full Comment').blur();
+				$(this).unbind('click');
+				$(this).bind('click', showFull);
+			});
+		}
 	</script>
 	@if(isset($query_words))
 		@include('removeMarker')
