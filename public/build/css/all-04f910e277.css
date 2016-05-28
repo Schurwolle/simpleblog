@@ -1593,7 +1593,7 @@ img {
   border: none;
   outline: 1px solid #0782C1;
 }
-.articleBody div, .commentBody {
+.articleBody div, .panel-body[name=panelbody] {
   max-height: 300px;
   overflow: hidden;
 }

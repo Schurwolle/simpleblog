@@ -105,7 +105,7 @@
 														@endif 
 													</span>
 												</div>
-												<div name="panelbody" class="panel-body commentBody">
+												<div name="panelbody" class="panel-body">
 													@for($i = 60; ends_with(\Illuminate\Support\Str::words($comment->body, $i),"span..."); $i++)
 													@endfor
 													@if(str_word_count(strip_tags($comment->body)) > $i)
@@ -162,7 +162,7 @@
 			@include('trimComments')
 			@include('icontains')
 			<script type="text/javascript">
-				$('.commentBody').each(function(){
+				$('.panel-body[name="panelbody"]').each(function(){
 					if($(this).prop('scrollHeight') > 300 && $(this).next('.panel-body').find('button').text() != 'See Full Comment')
 					{
 						$(this).next('.panel-body').find('button').text('See Full Comment');
