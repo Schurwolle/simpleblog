@@ -296,10 +296,15 @@
 			;
 			$(this).html('<i class="fa fa-plus"></i> Update');
 			$(this).closest('.panel-body').find('.btn-danger').hide();
-			$(this).closest('td').next('td').append('<button class="btn btn-warning" style="width: 85px;" type="button"><i class="fa fa-remove"></i> Cancel</button></form>');
-			$('.btn-warning').on('click', function(){
-				change(panel, txt);
-			});
+			if($(this).closest('td').next('td').children('.btn-warning').length)
+			{
+				$(this).closest('td').next('td').children('.btn-warning').show();
+			} else {
+				$(this).closest('td').next('td').append('<button class="btn btn-warning" style="width: 85px;" type="button"><i class="fa fa-remove"></i> Cancel</button></form>');
+				$('.btn-warning').on('click', function(){
+					change(panel, txt);
+				});
+			}
 			$(this).parents('.panel-body').css('display', 'none').fadeIn();
 			
 
@@ -312,10 +317,9 @@
 		 			.bind('click', updating)
 		 			.html('<i class="fa fa-edit"></i> Edit')
 		 	;
-		 	panel.next('.panel-body').find('.btn-danger').show();
-		 	panel.next('.panel-body').find('.btn-warning').remove();
+		 	panel.next('.panel-body').find('.btn-danger, .btn-info').show();
+		 	panel.next('.panel-body').find('.btn-warning').hide();
 		 	(panel, panel.next('.panel-body')).css('display', 'none').fadeIn();
-			panel.next('.panel-body').find('.btn-info').show();
 		}
 		function changePanelHeading(panel)
 		{
