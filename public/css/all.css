@@ -1677,4 +1677,11 @@ img {
   max-width: 90%;
   text-align: left;
 }
+
+.textareaComment {
+  min-height: 95px;
+  font-size: 14px;
+  overflow: hidden;
+  resize: none;
+}
 /*# sourceMappingURL=all.css.map */

@@ -118,7 +118,7 @@
 						<div class="panel-heading">
 							<a class="black" href="/{{Auth::user()->name}}/profile"><strong id="username">{{Auth::user()->name}}</strong></a>
 						</div>
-		          		<textarea id="add" required="required" placeholder="Your Comment" name = "body" class="form-control" style="min-height: 95px;font-size: 14px;overflow: hidden;resize: none;"></textarea>
+		          		<textarea id="add" required="required" placeholder="Your Comment" name = "body" class="form-control textareaComment"></textarea>
 		          	</div>
 		          	<button type="button" id="addcomment" name='article_comment' class="btn btn-primary"><i class="fa fa-plus"></i> Add Comment</button>
 		          	<br><br>
@@ -221,7 +221,7 @@
 					} else {
 			        	$('#numComm').text(numComm + ' Comments:');
 			        }
-					hr.after('<div class="row" style="display:none;"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading"><a style="color:black;" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body" style="word-wrap: break-word; white-space: pre-line;"></div><div id="'+ comment.id +'" class="panel-body"><table style=""><tr><td><button id="edit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></td><td><button class="btn btn-danger" id ="deleteComment" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td></tr></table></div></div></div></div>');
+					hr.after('<div class="row" style="display:none;"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading"><a class="black" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body" name="panelbody"></div><div id="'+ comment.id +'" class="panel-body"><table><tr><td><button id="edit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></td><td><button class="btn btn-danger" id ="deleteComment" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td></tr></table></div></div></div></div>');
 					$('div#'+comment.id).prev('.panel-body').text(comment.body);
 					$('div#'+comment.id).parents('.row').slideDown();
 					$('button#edit').on('click', updating);
@@ -230,7 +230,7 @@
 					$('textarea#add').height(80);
 					$('#counters')
 						.html($('#counters').html().split('&nbsp')[0])
-						.append('&nbsp <i class="fa fa-comment" style="color: purple;"></i> '+numComm)
+						.append('&nbsp <i class="fa fa-comment purple"></i> '+numComm)
 					;   
 				}
 			});
@@ -250,7 +250,7 @@
 			txt = txt.trim();
 			id  = $(this).closest('.panel-body').attr('id');
 			panel = $(this).closest('.panel-body').prev('.panel-body');
-			panel.html('<form method="POST" action="/comment/'+ id +'"id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input name="_method" type="hidden" value="PATCH"><textarea id="body" class="form-control" required="required" name="body" style="min-height: 95px;font-size: 14px;overflow: hidden;resize: none;"></textarea>');
+			panel.html('<form method="POST" action="/comment/'+ id +'"id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input name="_method" type="hidden" value="PATCH"><textarea id="body" class="form-control textareaComment" required="required" name="body"></textarea>');
 			panel.css('display', 'none').fadeIn();
 			$('textarea#body')
 				.focus().text(txt)
@@ -362,9 +362,9 @@
 	            			$('#counters').html($('#counters').html().split('&nbsp')[0])
 	            			if(hasCommentFromUser === 'true')
 	            			{
-	            				$('#counters').append('  &nbsp <i class="fa fa-comment" style="color: purple;"></i> '+numComm);
+	            				$('#counters').append('  &nbsp <i class="fa fa-comment purple"></i> '+numComm);
 	            			} else {
-	            				$('#counters').append('  &nbsp <i class="fa fa-comment-o" style="color: purple;"></i> '+numComm);
+	            				$('#counters').append('  &nbsp <i class="fa fa-comment-o purple"></i> '+numComm);
 	            			}
 	            			if (numComm === 0)
 	            			{
@@ -397,7 +397,7 @@
 		                 .html('<i class="fa fa-star"></i> Favorited!')
 		           ;
 		           numFavs += 1;
-		           	$('#counters').prepend('<i class="fa fa-star" style="color: gold;"></i> '+ numFavs +' &nbsp ');
+		           	$('#counters').prepend('<i class="fa fa-star gold"></i> '+ numFavs +' &nbsp ');
 		        } else {
 		        	$('button#fav')
 		        		 .attr('title', 'favorite')
@@ -405,7 +405,7 @@
 		                 .html('<i class="fa fa-star"></i> Favorite')     
 		           ;
 		           numFavs -= 1;
-		           $('#counters').prepend('<i class="fa fa-star-o" style="color: gold;"></i> '+ numFavs +'  &nbsp ');
+		           $('#counters').prepend('<i class="fa fa-star-o gold"></i> '+ numFavs +'  &nbsp ');
 		        }
 		      }
 		    });
@@ -465,7 +465,7 @@
 			}
 		});
 		function showFull() {
-			var buttons = $(this).closest('.panel-body').find('button').not('.btn-info');
+			var buttons = $(this).closest('.panel-body').find('button').not('.btn-info, .btn-warning');
 			var commentPanel = $(this).closest('.panel-body').prev('.panel-body');
 			commentPanel
 					.css('max-height', 'none')
