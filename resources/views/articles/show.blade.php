@@ -448,13 +448,20 @@
 		$('.panel-body[name="panelbody"]').each(function() {
 			if ($(this).prop('scrollHeight') > 300)
 			{
-				$(this).next('.panel-body').find('button').hide();
-				$(this).next('.panel-body').find('tr').append('<td><button class="btn btn-info">Show Full Comment</button></td>');
+				var btnInfo = '<button class="btn btn-info">Show Full Comment</button>'
+				if($(this).next('.panel-body').length)
+				{
+					$(this).next('.panel-body').find('button').hide();
+					$(this).next('.panel-body').find('tr').append('<td>' +btnInfo+ '</td>');
+					
+				} else {
+					$(this).after('<div class="panel-body">' +btnInfo+ '</div>');
+				}
 				$('.btn-info').on('click', showFull);
 			}
 		});
 		function showFull() {
-			var buttons = $(this).closest('.panel-body').find('button');
+			var buttons = $(this).closest('.panel-body').find('button').not('.btn-info');
 			var commentPanel = $(this).closest('.panel-body').prev('.panel-body');
 			commentPanel
 					.css('max-height', 'none')
@@ -466,7 +473,7 @@
 				.unbind('click')
 				.bind('click', function() {
 					commentPanel.innerHeight(300);
-					buttons.not('.btn-info').hide();
+					buttons.hide();
 					$(this)
 						.blur()
 						.text('Show Full Comment')
