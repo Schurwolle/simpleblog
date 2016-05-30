@@ -51,13 +51,7 @@
 			ajaxOnEnter($('#name'));
 
 			$('button#add').on('click', ajaxAdd);
-			$('button#cancel').on('click', function() {
-				$('#addTagRow').fadeOut(200);
-				$('button#newTag')
-					.unbind('click')
-					.bind('click', newTag)
-				;
-			});
+			$('button#cancel').on('click', closeAddForm);
 		}
 		$('#name').focus();
 
@@ -85,9 +79,10 @@
 					  errorMsg(err);
 					},
 					success: function(tag) {
-						tr.remove();
-						tbody.prepend('<tr style="display:none"><td><button class="btn btn-default">'+ tag.name +' (0)</button></td><td align="middle"><button id="editTag" class="btn btn-default"><i class="fa fa-edit"></i> Edit</button></td><td align="right"><button class="btn btn-danger" id ="deleteTag" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td></tr>');
-						tbody.children('tr').first().fadeIn();
+						tr.hide();
+						tr.find('#name').val('');
+						tr.after('<tr style="display:none"><td><button class="btn btn-default">'+ tag.name +' (0)</button></td><td align="middle"><button id="editTag" class="btn btn-default"><i class="fa fa-edit"></i> Edit</button></td><td align="right"><button class="btn btn-danger" id ="deleteTag" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td></tr>');
+						tr.next('tr').fadeIn();
 						$('button#editTag').on('click', updating);
 						$('button#deleteTag').on('click', confirmDeleteTag);
 					}
