@@ -41,23 +41,26 @@
 		$(this).bind('click', function(){
 			$('#name').focus();
 		});
-		$(this).closest('thead').next('tbody').prepend('<tr id="addTagRow" style="display:none"><td><form id="addform" method="POST" action ="/tags" onkeypress="return event.keyCode != 13;"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="text" name="name" id ="name" required="required" class="form-control"></form></td><td align="middle"><button id="add" class="btn btn-default"><i class="fa fa-plus"></i> Add</button></td><td align="right"><button id="cancel" class="btn btn-warning"><i class="fa fa-remove"></i> Cancel</button></td></tr></form>');
-		$('#addTagRow').fadeIn();
-		$('#name').focus();
-		$('#name').bind('enterKey', ajaxAdd);
-		ajaxOnEnter();
+		if($('#addTagRow').length)
+		{
+			$('#addTagRow').fadeIn();
+		} else {
+			$(this).closest('thead').next('tbody').prepend('<tr id="addTagRow" style="display:none"><td><form id="addform" method="POST" action ="/tags" onkeypress="return event.keyCode != 13;"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="text" name="name" id ="name" required="required" class="form-control"></form></td><td align="middle"><button id="add" class="btn btn-default"><i class="fa fa-plus"></i> Add</button></td><td align="right"><button id="cancel" class="btn btn-warning"><i class="fa fa-remove"></i> Cancel</button></td></tr></form>');
+			$('#addTagRow').fadeIn();
+			$('#name').bind('enterKey', ajaxAdd);
+			ajaxOnEnter($('#name'));
 
-		$('button#add').on('click', ajaxAdd);
-		$('button#cancel').on('click', function() {
-			$('#addTagRow').fadeOut(200);
-			setTimeout(function() {
-				$('#addTagRow').remove();
-						}, 200);
-			$('button#newTag')
-				.unbind('click')
-				.bind('click', newTag)
-			;
-		});
+			$('button#add').on('click', ajaxAdd);
+			$('button#cancel').on('click', function() {
+				$('#addTagRow').fadeOut(200);
+				$('button#newTag')
+					.unbind('click')
+					.bind('click', newTag)
+				;
+			});
+		}
+		$('#name').focus();
+
 		function ajaxAdd() {
 			$(this).blur();
 			var tagname = $('#name').val();
@@ -104,29 +107,34 @@
 		td = $(this).closest('td').prev('td');
 		td
 			
-			.html('<form action="/tags/'+ tagname +'"method="POST" id = "updateform" onkeypress="return event.keyCode != 13;"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="text" id="name" name="name" class="form-control">')
-			.find('#name').focus().val(tagname)
+			.html('<form action="/tags/'+ tagname +'"method="POST" id = "updateform" onkeypress="return event.keyCode != 13;"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="text" id="editName" name="name" class="form-control">')
+			.find('#editName').focus().val(tagname)
 		;
 		td.parents('tr').css('display', 'none').fadeIn();
-		$('#name').bind('enterKey', ajaxUpdate);
-		ajaxOnEnter();
+		$('#editName').bind('enterKey', ajaxUpdate);
+		ajaxOnEnter($('#editName'));
 
 		$(this)
 			.unbind('click')
 			.bind('click', ajaxUpdate)
 		;
 		$(this).html('<i class="fa fa-plus"></i> Update');
-		$(this).closest('td').append('<button class="btn btn-warning" style="width: 85px;" type="button"><i class="fa fa-remove"></i> Cancel</button></form>')
-		$('.btn-warning').on('click', function(){
-			change(td, tagname, txt);
-		});
+		if($(this).closest('td').children('.btn-warning').length)
+		{
+			$(this).closest('td').children('.btn-warning').show();
+		} else {
+			$(this).closest('td').append('<button class="btn btn-warning" style="width: 85px;" type="button"><i class="fa fa-remove"></i> Cancel</button></form>')
+			$('.btn-warning').on('click', function(){
+				change(td, tagname, txt);
+			});
+		}
 		function ajaxUpdate(){
 			$(this).blur();
-			var newtagname = $('#name').val();
+			var newtagname = $('#editName').val();
 			if(validateName(newtagname) === false)
 			{
 				errorMsg("Tag name cannot be empty and can contain only alphanumeric characters.");
-				return $('#name').focus();
+				return $('#editName').focus();
 			}
 			if (tagname === newtagname)
 			{
@@ -156,7 +164,7 @@
 	 			.bind('click', updating)
 	 			.html('<i class="fa fa-edit"></i> Edit')
 	 	;
-	 	td.next('td').children('.btn-warning').remove();
+	 	td.next('td').children('.btn-warning').hide();
 	 	td.parents('tr').css('display', 'none').fadeIn();
 	}
 	function errorMsg(err)
@@ -177,8 +185,9 @@
 	}
 	function closeAddForm()
 	{
-		if($('#addTagRow').length){
-			$('#addTagRow').remove();
+		if($('#addTagRow').length)
+		{
+			$('#addTagRow').fadeOut();
 			$('button#newTag')
 				.unbind('click')
 				.bind('click', newTag)
@@ -187,14 +196,14 @@
 	}
 	function closeUpdateForm()
 	{
-		if($('input#name').length)
+		if($('input#editName').length)
 		{
 			change(td, tagname, txt);
 		}
 	}
-	function ajaxOnEnter()
+	function ajaxOnEnter(name)
 	{
-		$('#name').keyup(function(e){
+		name.keyup(function(e){
 		    if(e.keyCode === 13)
 		    {
 		        $(this).trigger('enterKey');
