@@ -212,10 +212,11 @@
 		closeAddForm();
 		closeUpdateForm();
 
-		var tag = $(this).closest('tr');
+		var btnDelete = $(this);
+		var tag = btnDelete.closest('tr');
 		var tagname = tag.find('.btn-default').first().text();
 		tagname = tagname.substring(0, tagname.length-4);
-		var token = $(this).data('token');
+		var token = btnDelete.data('token');
 
 		swal({
         title: "Are you sure?",
@@ -239,6 +240,10 @@
 						}, 400);
             		}
             	});
+            } else {
+            	setTimeout(function() {
+				  	btnDelete.blur();
+				}, 0);
             }
         });
 	}

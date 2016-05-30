@@ -333,9 +333,10 @@
 
 		function confirmDeleteComment()
 		{	
-			var id = $(this).closest('.panel-body').attr('id');
-			var token = $(this).data('token');
-			var comment = $(this).closest('.row');
+			var btnDelete = $(this);
+			var id = btnDelete.closest('.panel-body').attr('id');
+			var token = btnDelete.data('token');
+			var comment = btnDelete.closest('.row');
 			var counters = $('#counters').text();
 	        var numComm = counters.trim();
 	        numComm = parseInt(numComm.substring(numComm.length-2, numComm.length)) - 1;
@@ -369,15 +370,23 @@
 	            			if (numComm === 0)
 	            			{
 	            				setTimeout(function() {
+		            				$('#numComm').next('hr').fadeOut();
+		            				$('#numComm').fadeOut();
+		            			}, 400);
+		            			setTimeout(function() {
 		            				$('#numComm').next('hr').remove();
 		            				$('#numComm').remove();
-		            			}, 400);
+		            			}, 800);
 	            			} else {
 			        			$('#numComm').text(numComm === 1 ? numComm + ' Comment:' : numComm + ' Comments:')
 			        	    }
 	            		}
 					});
-	            }
+	            } else {
+	            	setTimeout(function() {
+					  	btnDelete.blur();
+					}, 0);
+            	}
 	        });
 		}
 		$('button#deleteComment').on('click', confirmDeleteComment);
