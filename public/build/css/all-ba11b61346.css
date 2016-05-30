@@ -1598,6 +1598,7 @@ img {
   overflow: hidden;
 }
 .articleBody, .articleTitle, .panel-body[name=panelbody] {
+  word-break: break-all;
   word-break: break-word;
 }
 .panel-body[name=panelbody] {
