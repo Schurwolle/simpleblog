@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\article;
 use App\Repositories\ArticleRepository;
+use Illuminate\Support\Facades\Input;
 
 class SearchController extends Controller
 {
@@ -62,8 +63,8 @@ class SearchController extends Controller
         {
             $word = preg_quote(htmlentities($word));
         }
-
-    	return view('articles.headings.search', compact('articles', 'query', 'query_words', 'query_link', 'num', 'comments'));
+        Input::flashOnly('search');
+    	return view('articles.headings.search', compact('articles', 'query', 'query_words', 'query_link', 'num', 'comments'))->withInput(Input::only('search'));
     }
 
     public function show(article $article, $query)
