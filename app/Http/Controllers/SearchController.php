@@ -204,6 +204,9 @@ class SearchController extends Controller
 
     private function makeString($query_words)
     {
+        usort($query_words, function($a, $b) {
+                return strlen($b) - strlen($a);
+            });
         foreach($query_words as $word)
         {
             $string_words[] = "*".preg_quote($word)."*i";
