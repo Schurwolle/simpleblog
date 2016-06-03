@@ -1577,10 +1577,12 @@ img {
 .additional td {
   padding-right: 10px;
   padding-top: 10px;
+  max-width: 15.3846154%;
+  height: auto;
 }
 .additional img {
-  max-width:100px; 
-  max-height:100px;
+  max-height: 100px;
+  width: auto;
   border: 3px solid #1468af;
 }
 
