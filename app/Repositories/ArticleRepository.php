@@ -78,7 +78,7 @@ class ArticleRepository
 				$ind = 0;
 				foreach($query_words as $word)
 				{
-					if(stristr($comment, $word))
+					if(stristr($comment->body, $word))
 					{
 						$ind +=1;
 					}
