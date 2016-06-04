@@ -463,22 +463,21 @@
 			var btnInfo = '<button class="btn btn-info">Show Full Comment</button>';
 			if ($(this).prop('scrollHeight') > 300)
 			{
-				if(url.endsWith('#comment' + $(this).next('.panel-body').attr('id')))
+				if(url.endsWith('#' + $(this).parents('.row').children('.anchor').attr('name')))
 				{
 					$(this)
 						.css('max-height', 'none')
 						.innerHeight($(this).prop('scrollHeight'));
-						btnInfo = '<button class="btn btn-info">Hide Comment</button>';
-						if($(this).next('.panel-body').length)
-						{
-							$(this).next('.panel-body').find('tr').append('<td>' +btnInfo+ '</td>');
-						} else {
-							$(this).after('<div class="panel-body">' +btnInfo+ '</div>');
-						}
-						$(this).next('.panel-body').find('.btn-info').on('click', function() {
-							
-							hideComment($(this));
-						});
+					btnInfo = '<button class="btn btn-info">Hide Comment</button>';
+					if($(this).next('.panel-body').length)
+					{
+						$(this).next('.panel-body').find('tr').append('<td>' +btnInfo+ '</td>');
+					} else {
+						$(this).after('<div class="panel-body">' +btnInfo+ '</div>');
+					}
+					$(this).next('.panel-body').find('.btn-info').on('click', function() {
+						hideComment($(this));
+					});
 				} else {
 					if($(this).next('.panel-body').length)
 					{
@@ -504,7 +503,7 @@
 				.text('Hide Comment')
 				.unbind('click')
 				.bind('click', function() {
-					hideComment($(this));
+			hideComment($(this));
 			});
 		}
 		function hideComment(btn) {
