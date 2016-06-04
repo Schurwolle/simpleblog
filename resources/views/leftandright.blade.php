@@ -16,7 +16,7 @@
             <div class="row" style="width:100%;">
                 {!! Form::open(array('url' => 'search')) !!}
                     <div class="form-group col-xs-10" style="padding-right: 0;">
-                    {!! Form::text('search', Request::old('search'),
+                    {!! Form::text('search', isset($query) ? $query : null,
                                                 [
                                                 'class'         => 'form-control',
                                                 'placeholder'   => 'Search',

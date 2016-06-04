@@ -63,8 +63,7 @@ class SearchController extends Controller
         {
             $word = preg_quote(htmlentities($word));
         }
-        Input::flashOnly('search');
-    	return view('articles.headings.search', compact('articles', 'query', 'query_words', 'query_link', 'num', 'comments'))->withInput(Input::only('search'));
+        return view('articles.headings.search', compact('articles', 'query', 'query_words', 'query_link', 'num', 'comments'));
     }
 
     public function show(article $article, $query)
