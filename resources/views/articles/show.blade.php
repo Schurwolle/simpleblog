@@ -459,7 +459,8 @@
 
 	<script>
 		$('.panel-body[name="panelbody"]').each(function() {
-			url = window.location.href;
+			var url = window.location.href;
+			var btnInfo = '<button class="btn btn-info">Show Full Comment</button>';
 			if ($(this).prop('scrollHeight') > 300)
 			{
 				if(url.endsWith('#comment' + $(this).next('.panel-body').attr('id')))
@@ -467,8 +468,18 @@
 					$(this)
 						.css('max-height', 'none')
 						.innerHeight($(this).prop('scrollHeight'));
+						btnInfo = '<button class="btn btn-info">Hide Comment</button>';
+						if($(this).next('.panel-body').length)
+						{
+							$(this).next('.panel-body').find('tr').append('<td>' +btnInfo+ '</td>');
+						} else {
+							$(this).after('<div class="panel-body">' +btnInfo+ '</div>');
+						}
+						$(this).next('.panel-body').find('.btn-info').on('click', function() {
+							
+							hideComment($(this));
+						});
 				} else {
-					var btnInfo = '<button class="btn btn-info">Show Full Comment</button>'
 					if($(this).next('.panel-body').length)
 					{
 						$(this).next('.panel-body').find('button').hide();
@@ -477,7 +488,7 @@
 					} else {
 						$(this).after('<div class="panel-body">' +btnInfo+ '</div>');
 					}
-					$('.btn-info').on('click', showFull);
+					$(this).next('.panel-body').find('.btn-info').on('click', showFull);
 				}
 			}
 		});
@@ -493,14 +504,17 @@
 				.text('Hide Comment')
 				.unbind('click')
 				.bind('click', function() {
-					commentPanel.innerHeight(300);
-					buttons.hide();
-					$(this)
-						.blur()
-						.text('Show Full Comment')
-						.unbind('click')
-						.bind('click', showFull);
+					hideComment($(this));
 			});
+		}
+		function hideComment(btn) {
+			btn.closest('.panel-body').prev('.panel-body').innerHeight(300);
+			btn.closest('.panel-body').find('button').not('.btn-info, .btn-warning').hide();
+			btn
+				.blur()
+				.text('Show Full Comment')
+				.unbind('click')
+				.bind('click', showFull);
 		}
 	</script>
 	@if(isset($query_words))
