@@ -459,18 +459,26 @@
 
 	<script>
 		$('.panel-body[name="panelbody"]').each(function() {
+			url = window.location.href;
 			if ($(this).prop('scrollHeight') > 300)
 			{
-				var btnInfo = '<button class="btn btn-info">Show Full Comment</button>'
-				if($(this).next('.panel-body').length)
+				if(url.endsWith('#comment' + $(this).next('.panel-body').attr('id')))
 				{
-					$(this).next('.panel-body').find('button').hide();
-					$(this).next('.panel-body').find('tr').append('<td>' +btnInfo+ '</td>');
-					
+					$(this)
+						.css('max-height', 'none')
+						.innerHeight($(this).prop('scrollHeight'));
 				} else {
-					$(this).after('<div class="panel-body">' +btnInfo+ '</div>');
+					var btnInfo = '<button class="btn btn-info">Show Full Comment</button>'
+					if($(this).next('.panel-body').length)
+					{
+						$(this).next('.panel-body').find('button').hide();
+						$(this).next('.panel-body').find('tr').append('<td>' +btnInfo+ '</td>');
+						
+					} else {
+						$(this).after('<div class="panel-body">' +btnInfo+ '</div>');
+					}
+					$('.btn-info').on('click', showFull);
 				}
-				$('.btn-info').on('click', showFull);
 			}
 		});
 		function showFull() {

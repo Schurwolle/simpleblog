@@ -117,7 +117,7 @@
 												<div class="panel-body">
 													<a href="articles/{{$article->slug}}/search/{{$query_link
 													}}#comment{{$comment->id}}">
-														<button class="btn btn-primary">{{ str_word_count(strip_tags($comment->body)) > $i ? 'See Full Comment' : 'Go To Comment'}}</button>
+														<button class="btn btn-info">{{ str_word_count(strip_tags($comment->body)) > $i ? 'See Full Comment' : 'Go To Comment'}}</button>
 													</a>
 												</div>
 									        </div>	
