@@ -14,7 +14,6 @@ img {
 
 .navbar {
    background-color: black;
-
 }
 
 .navbar .navbar-nav > li > a {
@@ -41,19 +40,13 @@ img {
   position: absolute;
   bottom: 0;
   width: 100%;
-  /* Set the fixed height of the footer here */
   height: 60px;
   background-color: black;
 }
 
-/* Custom page CSS
--------------------------------------------------- */
-/* Not required for template or sticky footer method. */
-
 .container {
     width: 100%;
 }
-
 .left {
   float:left;
   width:20%;
@@ -87,22 +80,24 @@ img {
 }
 
 .anchor {
-  padding-top: 42px;
+  padding-top: 55px;
   margin-top: -55px;
   display: inline-block;
   vertical-align: top;
 }
-
 .additional td {
   padding-right: 10px;
   padding-top: 10px;
-  max-width: 15.3846154%;
-  height: auto;
 }
 .additional img {
   max-height: 100px;
   width: auto;
   border: 3px solid #1468af;
+}
+@-moz-document url-prefix() {
+ .additional img {
+  max-width: 120px;
+ }
 }
 
 .marker {
