@@ -184,6 +184,7 @@
 		$('.articleBody').find('a[id]').addClass('anchor');
 
 		$('.articleBody').find('img').each(function() {
+			$(this).css('height', 'auto');
 			$(this).parents('a').attr('data-lightbox', 'lightbox2');
 		});
 	</script>
