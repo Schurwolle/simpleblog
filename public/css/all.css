@@ -1675,11 +1675,9 @@ img {
 }
 
 .searchComment {
-  text-align: left;
   word-break: break-all;
   word-break: break-word;
-}
-.searchComment .row {
+  text-align: left;
   max-width: 90%;
 }
 
