@@ -22,7 +22,7 @@
 		{!! $articles->links() !!}
 		</div>	
 	@endif
-	<table>
+	<table style="table-layout: fixed;">
 		@if($articles->count() > 0)
 			@foreach ($articles as $article)
 				<tr>
@@ -87,8 +87,8 @@
 						<tr><td><br></td></tr>
 						@foreach($comments[$article->id] as $comment)
 							<tr>
-								<td align="middle">
-									<div class="row searchComment">
+								<td align="middle" class="searchComment">
+									<div class="row">
 										<div class="col-sm-2">
 											<div class="thumbnail">
 											<a href="/{{$comment->user->name}}/profile"><img src="{{ file_exists('pictures/'.$comment->user->name) ? '/pictures/'.$comment->user->name : '/img/avatar.png' }}"></a>

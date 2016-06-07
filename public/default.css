@@ -115,8 +115,7 @@ img {
   overflow: hidden;
 }
 .articleBody, .articleTitle, .panel-body[name=panelbody] {
-  word-break: break-all;
-  word-break: break-word;
+  word-wrap: break-word;
 }
 .panel-body[name=panelbody] {
   white-space: pre-line;
@@ -195,8 +194,12 @@ img {
 }
 
 .searchComment {
-  max-width: 90%;
   text-align: left;
+  word-break: break-all;
+  word-break: break-word;
+}
+.searchComment .row {
+  max-width: 90%;
 }
 
 .textareaComment {
