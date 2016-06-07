@@ -1487,6 +1487,7 @@ body {
   /* Margin bottom by footer height */
   font-family: 'Lato';
   margin-bottom: 60px;
+  padding-top: 40px;
 }
 img {
   max-width: 100%;
@@ -1649,6 +1650,9 @@ img {
 .col-sm-10 {
   float: left;
   width: 83.33333333%;
+}
+.row {
+  overflow: hidden;
 }
 .row:after {
   clear: none;

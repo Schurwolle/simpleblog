@@ -72,8 +72,7 @@
             </div>
         </div>
     </nav>
-    <hr>
-    <hr>
+    <br>
 
     <div class="container">
       @yield('sides')
