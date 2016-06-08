@@ -115,7 +115,7 @@
 				</div>
 		        <div class="col-sm-10">
 					<div class="panel panel-default">
-						<div class="panel-heading">
+						<div class="panel-heading comment-heading">
 							<a class="black" href="/{{Auth::user()->name}}/profile"><strong id="username">{{Auth::user()->name}}</strong></a>
 						</div>
 		          		<textarea id="add" required="required" placeholder="Your Comment" name = "body" class="form-control textareaComment"></textarea>
@@ -139,7 +139,7 @@
 
 					<div class="col-sm-10">
 						<div class="panel panel-default">
-							<div class="panel-heading">
+							<div class="panel-heading comment-heading">
 								<a class="black" href="/{{$comment->user->name}}/profile"><strong>{{$comment->user->name}}</strong></a>
 								<span class="text-muted">
 									commented {{$comment->created_at->diffForHumans()}}
@@ -222,7 +222,7 @@
 					} else {
 			        	$('#numComm').text(numComm + ' Comments:');
 			        }
-					hr.after('<div class="row" style="display:none;"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading"><a class="black" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body" name="panelbody"></div><div id="'+ comment.id +'" class="panel-body"><table><tr><td><button id="edit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></td><td><button class="btn btn-danger" id ="deleteComment" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td></tr></table></div></div></div></div>');
+					hr.after('<div class="row" style="display:none;"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading comment-heading"><a class="black" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body" name="panelbody"></div><div id="'+ comment.id +'" class="panel-body"><table><tr><td><button id="edit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></td><td><button class="btn btn-danger" id ="deleteComment" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td></tr></table></div></div></div></div>');
 					$('div#'+comment.id).prev('.panel-body').text(comment.body);
 					$('div#'+comment.id).parents('.row').slideDown();
 					$('button#edit').on('click', updating);

@@ -140,7 +140,7 @@ img {
 .panel {
   position:relative;
 }
-.panel>.panel-heading:after,.panel>.panel-heading:not(.auth):before{
+.panel>.panel-heading:after,.panel>.panel-heading.comment-heading:before{
   position:absolute;
   top:11px;left:-16px;
   right:100%;
@@ -151,13 +151,13 @@ img {
   border-color:transparent;
   border-style:solid solid outset;
 }
-.panel>.panel-heading:not(.auth):after{
+.panel>.panel-heading.comment-heading:after{
   border-width:7px;
   border-right-color:#f7f7f7;
   margin-top:1px;
   margin-left:2px;
 }
-.panel>.panel-heading:not(.auth):before{
+.panel>.panel-heading.comment-heading:before{
   border-right-color:#ddd;
   border-width:8px;
 }

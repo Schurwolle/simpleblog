@@ -96,7 +96,7 @@
 										</div>
 										<div class="col-sm-10">
 											<div class="panel panel-default">
-												<div class="panel-heading">
+												<div class="panel-heading comment-heading">
 													<a class="black" href="/{{$comment->user->name}}/profile"><strong>{{$comment->user->name}}</strong></a>
 													<span class="text-muted">
 														commented {{$comment->created_at->diffForHumans()}}
