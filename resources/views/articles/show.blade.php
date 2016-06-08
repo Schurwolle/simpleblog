@@ -457,11 +457,14 @@
 	      'wrapAround': true
 	    })
 	</script>
-
+	@if(isset($query_words))
+		@include('removeMarker')
+		@include('icontains')
+	@endif
 	<script>
+		var url = window.location.href;
+		var btnInfo = '<button class="btn btn-info">Show Full Comment</button>';
 		$('.panel-body[name="panelbody"]').each(function() {
-			var url = window.location.href;
-			var btnInfo = '<button class="btn btn-info">Show Full Comment</button>';
 			if ($(this).prop('scrollHeight') > 300)
 			{
 				if(url.endsWith('#' + $(this).parents('.row').children('.anchor').attr('name')))
@@ -517,8 +520,4 @@
 				.bind('click', showFull);
 		}
 	</script>
-	@if(isset($query_words))
-		@include('removeMarker')
-		@include('icontains')
-	@endif
 @stop
