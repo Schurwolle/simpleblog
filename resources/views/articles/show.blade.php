@@ -482,6 +482,7 @@
 					$(this).next('.panel-body').find('.btn-info').on('click', function() {
 						hideComment($(this));
 					});
+					btnInfo = '<button class="btn btn-info">Show Full Comment</button>';
 				} else {
 					if($(this).next('.panel-body').length)
 					{
