@@ -169,9 +169,6 @@ img {
   float: left;
   width: 83.33333333%;
 }
-.row {
-  overflow: hidden;
-}
 .row:after {
   clear: none;
 }
@@ -198,6 +195,9 @@ img {
   word-break: break-word;
   text-align: left;
   max-width: 90%;
+}
+.row.comment, .searchComment {
+  overflow: hidden;
 }
 
 .textareaComment {

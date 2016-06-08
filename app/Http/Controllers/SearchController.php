@@ -8,7 +8,6 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\article;
 use App\Repositories\ArticleRepository;
-use Illuminate\Support\Facades\Input;
 
 class SearchController extends Controller
 {

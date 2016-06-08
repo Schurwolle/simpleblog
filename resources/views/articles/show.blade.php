@@ -129,7 +129,7 @@
 		    <h3 id ="numComm">{{ $comments->count() }} {{ $comments->count() == 1 ? ' Comment:' : ' Comments:' }} </h3>
 		    <hr>
 		    @foreach($comments as $comment)
-		    	<div class="row">
+		    	<div class="row comment">
 		    		<a name="comment{{$comment->id}}" class="anchor"></a>
 					<div class="col-sm-2">
 						<div class="thumbnail">
@@ -222,7 +222,7 @@
 					} else {
 			        	$('#numComm').text(numComm + ' Comments:');
 			        }
-					hr.after('<div class="row" style="display:none;"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading comment-heading"><a class="black" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body" name="panelbody"></div><div id="'+ comment.id +'" class="panel-body"><table><tr><td><button id="edit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></td><td><button class="btn btn-danger" id ="deleteComment" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td></tr></table></div></div></div></div>');
+					hr.after('<div class="row comment" style="display:none;"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading comment-heading"><a class="black" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body" name="panelbody"></div><div id="'+ comment.id +'" class="panel-body"><table><tr><td><button id="edit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></td><td><button class="btn btn-danger" id ="deleteComment" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td></tr></table></div></div></div></div>');
 					$('div#'+comment.id).prev('.panel-body').text(comment.body);
 					$('div#'+comment.id).parents('.row').slideDown();
 					$('button#edit').on('click', updating);
