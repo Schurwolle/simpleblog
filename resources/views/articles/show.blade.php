@@ -525,5 +525,8 @@
 				.unbind('click')
 				.bind('click', showFull);
 		}
+		$(window).bind('resize', function () {
+			$('.btn-info:contains(Hide Comment)').trigger('click');
+		});
 	</script>
 @stop
