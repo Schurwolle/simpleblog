@@ -154,13 +154,13 @@
 							@if($comment->user_id == Auth::id() || Auth::user()->isAdmin())
 							 	<div id="{{$comment->id}}" class="panel-body">
 					              <table><tr><td>
-					              	<button class="btn btn-primary">
+					              	<button class="btn btn-primary edit-comment">
 		     									<i class="fa fa-edit"></i> Edit
 		    						</button>
 		    					  </td>
 					              <td>
 					             
-					              	<button class="btn btn-danger" id ="deleteComment" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button>
+					              	<button class="btn btn-danger delete-comment"data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button>
 					              	
 					              </td>
 					              </tr>
@@ -222,14 +222,18 @@
 					} else {
 			        	$('#numComm').text(numComm + ' Comments:');
 			        }
-					hr.after('<div class="row comment" style="display:none;"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading comment-heading"><a class="black" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body new" name="panelbody"></div><div id="'+ comment.id +'" class="panel-body"><table><tr><td><button id="edit" class="btn btn-primary"><i class="fa fa-edit"></i> Edit</button></td><td><button class="btn btn-danger" id ="deleteComment" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td><td><button class="btn btn-info" id="hideComment">Hide Comment</button></td></tr></table></div></div></div></div>');
+					hr.after('<div class="row comment" style="display:none;"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading comment-heading"><a class="black" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body new" name="panelbody"></div><div id="'+ comment.id +'" class="panel-body"><table><tr><td><button class="btn btn-primary edit-comment"><i class="fa fa-edit"></i> Edit</button></td><td><button class="btn btn-danger delete-comment" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td><td></tr></table></div></div></div></div>');
 					$('div#'+comment.id).prev('.panel-body').text(comment.body);
 					$('div#'+comment.id).parents('.row').slideDown();
-					$('button#edit').on('click', updating);
-					$('button#deleteComment').on('click', confirmDeleteComment);
-					$('button#hideComment').on('click', function() {
-						hideComment($(this));
-					});
+					$('div#'+comment.id).find('button.edit-comment').on('click', updating);
+					$('div#'+comment.id).find('button.delete-comment').on('click', confirmDeleteComment);
+					if($('div#'+comment.id).prev('.panel-body').prop('scrollHeight') > 300)
+					{
+						$('div#'+comment.id).find('tr').append('<button class="btn btn-info">Hide Comment</button></td>');
+						$('div#'+comment.id).find('.btn-info').on('click', function() {
+							hideComment($(this));
+						});
+					}
 					$('textarea#add').val('');
 					$('textarea#add').height(80);
 					$('#counters')
@@ -310,8 +314,6 @@
 				});
 			}
 			$(this).parents('.panel-body').css('display', 'none').fadeIn();
-			
-
 		}
 		function change(panel, txt) 
 		{
@@ -333,7 +335,7 @@
 		{
 			swal({ title: "Error!", text: err, timer: 1500, showConfirmButton: false, type:"error" });
 		}
-		$('.panel-body').find('.btn-primary').on('click', updating);
+		$('button.edit-comment').on('click', updating);
 
 		function confirmDeleteComment()
 		{	
@@ -393,7 +395,7 @@
             	}
 	        });
 		}
-		$('button#deleteComment').on('click', confirmDeleteComment);
+		$('button.delete-comment').on('click', confirmDeleteComment);
 
 		$('button#fav').on('click', function() {
 		    $.ajax({
