@@ -526,7 +526,9 @@
 				.bind('click', showFull);
 		}
 		$(window).bind('resize', function () {
-			$('.btn-info:contains(Hide Comment)').trigger('click');
+			var expanded = $('.btn-info:contains(Hide Comment)')
+			expanded.trigger('click');
+			expanded.trigger('click');
 		});
 	</script>
 @stop
