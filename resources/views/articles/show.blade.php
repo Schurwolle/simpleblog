@@ -262,7 +262,7 @@
 			panel.css('display', 'none').fadeIn();
 			$('textarea#body')
 				.focus().text(txt)
-				.height($("textarea#body")[0].scrollHeight);
+				.height($("textarea#body")[0].scrollHeight)
 			;
 			textareaHeight();
 			$(this)
@@ -425,22 +425,14 @@
 		      }
 		    });
 		});
-		
-		function textareaHeight() {
-		    var txt = $('textarea').last();
-		    
-		    txt.on('keyup', function () {
-		    	var hiddenDiv = $(document.createElement('div'));
-		    	var content = null;
-		    	hiddenDiv.addClass('hiddendiv');
-		    	txt.parent().append(hiddenDiv);
-		        content = $(this).val();
-		        content = escapeHTML(content);
-		        hiddenDiv.html(content + '<br class="lbr">');
-		        $(this).css('height', hiddenDiv.height()+14);
-		        hiddenDiv.remove();
-
-		    });
+		function textareaHeight() 
+		{
+			$('textarea').last(function () {
+				  this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+				}).on('input', function () {
+				  this.style.height = 'auto';
+				  this.style.height = (this.scrollHeight) + 'px';
+			});
 		}
 		function escapeHTML(txt)
 		{
