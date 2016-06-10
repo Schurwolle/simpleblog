@@ -254,17 +254,15 @@
 				change(panel, txt);
 			}
 			$(this).closest('.panel-body').find('.btn-info').hide();
-			txt = $(this).closest('.panel-body').prev('.panel-body').text();
-			txt = txt.trim();
 			id  = $(this).closest('.panel-body').attr('id');
 			panel = $(this).closest('.panel-body').prev('.panel-body');
+			txt = panel.text().trim();
 			panel.html('<form method="POST" action="/comment/'+ id +'"id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input name="_method" type="hidden" value="PATCH"><textarea id="body" class="form-control textareaComment" required="required" name="body"></textarea>');
 			panel.css('display', 'none').fadeIn();
 			$('textarea#body')
 				.focus().text(txt)
 				.height($("textarea#body")[0].scrollHeight)
 			;
-			panel.height($("textarea#body")[0].scrollHeight);
 			textareaHeight();
 			$(this)
 				.unbind('click')	
@@ -319,8 +317,6 @@
 		function change(panel, txt) 
 		{
 			panel.text(txt);
-			var tempHeight = panel.css({"height" : "auto"}).height();
-			panel.css({"height" : "0px"}).height(tempHeight);
 		 	panel.next('.panel-body').find('.btn-primary')
 		 			.unbind('click')
 		 			.bind('click', updating)
@@ -490,7 +486,6 @@
 			var commentPanel = $(this).closest('.panel-body').prev('.panel-body');
 			commentPanel
 					.css('max-height', 'none')
-					.innerHeight(commentPanel.prop('scrollHeight'));
 			buttons.show();
 			$(this)
 				.blur()
@@ -501,7 +496,7 @@
 			});
 		}
 		function hideComment(btn) {
-			btn.closest('.panel-body').prev('.panel-body').innerHeight(300);
+			btn.closest('.panel-body').prev('.panel-body').css('max-height', 300);
 			btn.closest('.panel-body').find('button').not('.btn-info, .btn-warning').hide();
 			btn
 				.blur()

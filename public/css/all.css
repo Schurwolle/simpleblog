@@ -1602,6 +1602,7 @@ img {
 }
 .panel-body[name=panelbody] {
   white-space: pre-line;
+  height: auto;
 }
 .sectionHeading {
   text-align: center;
