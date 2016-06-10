@@ -508,6 +508,12 @@
 			var expanded = $('.btn-info:contains(Hide Comment)')
 			expanded.trigger('click');
 			expanded.trigger('click');
+			$('textarea').each(function(){
+				if($(this).val() != '')
+				{
+					$(this).trigger('input');
+				}
+			});
 		});
 	</script>
 @stop
