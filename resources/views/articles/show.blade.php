@@ -505,7 +505,7 @@
 				.bind('click', showFull);
 		}
 		$(window).bind('resize', function () {
-			var expanded = $('.btn-info:contains(Hide Comment)')
+			var expanded = $('.btn-info:visible:contains(Hide Comment)')
 			expanded.trigger('click');
 			expanded.trigger('click');
 			$('textarea').each(function(){
