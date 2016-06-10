@@ -264,6 +264,7 @@
 				.focus().text(txt)
 				.height($("textarea#body")[0].scrollHeight)
 			;
+			panel.height($("textarea#body")[0].scrollHeight);
 			textareaHeight();
 			$(this)
 				.unbind('click')	
@@ -318,6 +319,8 @@
 		function change(panel, txt) 
 		{
 			panel.text(txt);
+			var tempHeight = panel.css({"height" : "auto"}).height();
+			panel.css({"height" : "0px"}).height(tempHeight);
 		 	panel.next('.panel-body').find('.btn-primary')
 		 			.unbind('click')
 		 			.bind('click', updating)
@@ -433,17 +436,6 @@
 				  this.style.height = 'auto';
 				  this.style.height = (this.scrollHeight) + 'px';
 			});
-		}
-		function escapeHTML(txt)
-		{
-			return txt = txt
-					.replace(/&/g, "&amp;")
-					.replace(/</g, "&lt;")
-			        .replace(/>/g, "&gt;")
-			        .replace(/"/g, "&quot;")
-			        .replace(/'/g, "&#039;")
-			        .replace(/\n/g,"<br>")
-			;
 		}
 		window.onload = textareaHeight;
 	</script>
