@@ -398,7 +398,7 @@
 
 		$('button#fav').on('click', function() {
 		    $.ajax({
-		      url: "{{$article->slug}}/favorite",
+		      url: "/articles/{{$article->slug}}/favorite",
 		      success: function(){
 		      	var counters = $('#counters').text();
 		        var numFavs = parseInt(counters.trim().substring(0,1));
