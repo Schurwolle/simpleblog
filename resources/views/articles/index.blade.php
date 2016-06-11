@@ -166,10 +166,19 @@
 					if($(this).prop('scrollHeight') > 300 && $(this).next('.panel-body').find('button').text() != 'See Full Comment')
 					{
 						$(this).next('.panel-body').find('button').text('See Full Comment');
+						$(this).after('<span class="dots">...</span>');
 					}
 				});
 			</script>
 		@endif
 	@endif
+	<script>
+		$('.articleBody').children('div').each(function(){
+			if($(this).prop('scrollHeight') > 300)
+			{
+				$(this).after('<span>...</span>');
+			}
+		});
+	</script>
 	@include('searchfooter')
 @endsection
