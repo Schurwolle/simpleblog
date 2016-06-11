@@ -458,32 +458,34 @@
 						.css('max-height', 'none')
 						.innerHeight($(this).prop('scrollHeight'));
 					btnInfo = '<button class="btn btn-info">Hide Comment</button>';
-					if($(this).next('.panel-body').length)
+					if($(this).siblings('.panel-body').length)
 					{
-						$(this).next('.panel-body').find('tr').append('<td>' +btnInfo+ '</td>');
+						$(this).siblings('.panel-body').find('tr').append('<td>' +btnInfo+ '</td>');
 					} else {
 						$(this).after('<div class="panel-body">' +btnInfo+ '</div>');
 					}
-					$(this).next('.panel-body').find('.btn-info').on('click', function() {
+					$(this).siblings('.panel-body').find('.btn-info').on('click', function() {
 						hideComment($(this));
 					});
 					btnInfo = '<button class="btn btn-info">Show Full Comment</button>';
 				} else {
-					if($(this).next('.panel-body').length)
+					if($(this).siblings('.panel-body').length)
 					{
-						$(this).next('.panel-body').find('button').hide();
-						$(this).next('.panel-body').find('tr').append('<td>' +btnInfo+ '</td>');
+						$(this).siblings('.panel-body').find('button').hide();
+						$(this).siblings('.panel-body').find('tr').append('<td>' +btnInfo+ '</td>');
 						
 					} else {
 						$(this).after('<div class="panel-body">' +btnInfo+ '</div>');
 					}
-					$(this).next('.panel-body').find('.btn-info').on('click', showFull);
+					$(this).after('<span class="dots">...</span>');
+					$(this).siblings('.panel-body').find('.btn-info').on('click', showFull);
 				}
 			}
 		});
 		function showFull() {
 			var buttons = $(this).closest('.panel-body').find('button').not('.btn-info, .btn-warning');
-			var commentPanel = $(this).closest('.panel-body').prev('.panel-body');
+			var commentPanel = $(this).closest('.panel-body').siblings('.panel-body');
+			commentPanel.next('span').hide();
 			commentPanel
 					.css('max-height', 'none')
 			buttons.show();
@@ -496,8 +498,14 @@
 			});
 		}
 		function hideComment(btn) {
-			btn.closest('.panel-body').prev('.panel-body').css('max-height', 300);
+			btn.closest('.panel-body').siblings('.panel-body').css('max-height', 300);
 			btn.closest('.panel-body').find('button').not('.btn-info, .btn-warning').hide();
+			if(btn.closest('.panel-body').prev('span').length)
+			{
+				btn.closest('.panel-body').prev('span').show();
+			} else {
+				btn.closest('.panel-body').before('<span class="dots">...</span>');
+			}
 			btn
 				.blur()
 				.text('Show Full Comment')

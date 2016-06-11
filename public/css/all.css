@@ -1669,4 +1669,7 @@ img {
   overflow: hidden;
   resize: none;
 }
+.dots {
+  padding-left: 1em;
+}
 /*# sourceMappingURL=all.css.map */
