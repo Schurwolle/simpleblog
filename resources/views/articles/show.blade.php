@@ -230,9 +230,7 @@
 					if($('div#'+comment.id).prev('.panel-body').prop('scrollHeight') > 300)
 					{
 						$('div#'+comment.id).find('tr').append('<button class="btn btn-info">Hide Comment</button></td>');
-						$('div#'+comment.id).find('.btn-info').on('click', function() {
-							hideComment($(this));
-						});
+						$('div#'+comment.id).find('.btn-info').on('click', hideComment);
 					}
 					$('textarea#add').val('');
 					$('textarea#add').height(80);
@@ -462,9 +460,7 @@
 					} else {
 						$(this).after('<div class="panel-body">' +btnInfo+ '</div>');
 					}
-					$(this).siblings('.panel-body').find('.btn-info').on('click', function() {
-						hideComment($(this));
-					});
+					$(this).siblings('.panel-body').find('.btn-info').on('click', hideComment);
 					btnInfo = '<button class="btn btn-info">Show Full Comment</button>';
 				} else {
 					if($(this).siblings('.panel-body').length)
@@ -485,26 +481,25 @@
 			var commentPanel = $(this).closest('.panel-body').siblings('.panel-body');
 			commentPanel.next('span').hide();
 			commentPanel
-					.css('max-height', 'none')
+					.css('max-height', 'none');
 			buttons.show();
 			$(this)
 				.blur()
 				.text('Hide Comment')
 				.unbind('click')
-				.bind('click', function() {
-			hideComment($(this));
-			});
+				.bind('click', hideComment);
 		}
-		function hideComment(btn) {
-			btn.closest('.panel-body').siblings('.panel-body').css('max-height', 300);
-			btn.closest('.panel-body').find('button').not('.btn-info, .btn-warning').hide();
-			if(btn.closest('.panel-body').prev('span').length)
+		function hideComment() {
+			buttonsPanel = $(this).closest('.panel-body');
+			buttonsPanel.siblings('.panel-body').css('max-height', 300);
+			buttonsPanel.find('button').not('.btn-info, .btn-warning').hide();
+			if(buttonsPanel.prev('span').length)
 			{
-				btn.closest('.panel-body').prev('span').show();
+				buttonsPanel.prev('span').show();
 			} else {
-				btn.closest('.panel-body').before('<span class="dots">...</span>');
+				buttonsPanel.before('<span class="dots">...</span>');
 			}
-			btn
+			$(this)
 				.blur()
 				.text('Show Full Comment')
 				.unbind('click')
