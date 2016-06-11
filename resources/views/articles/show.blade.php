@@ -454,9 +454,7 @@
 			{
 				if(url.endsWith('#' + $(this).parents('.row').children('.anchor').attr('name')))
 				{
-					$(this)
-						.css('max-height', 'none')
-						.innerHeight($(this).prop('scrollHeight'));
+					$(this).css('max-height', 'none');
 					btnInfo = '<button class="btn btn-info">Hide Comment</button>';
 					if($(this).siblings('.panel-body').length)
 					{
