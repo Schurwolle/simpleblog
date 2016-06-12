@@ -476,22 +476,9 @@
 				}
 			}
 		});
-		function showFull() {
-			var buttons = $(this).closest('.panel-body').find('button').not('.btn-info, .btn-warning');
-			var commentPanel = $(this).closest('.panel-body').siblings('.panel-body');
-			commentPanel.next('span').hide();
-			commentPanel
-					.css('max-height', 'none');
-			buttons.show();
-			$(this)
-				.blur()
-				.text('Hide Comment')
-				.unbind('click')
-				.bind('click', hideComment);
-		}
 		function hideComment() {
 			buttonsPanel = $(this).closest('.panel-body');
-			buttonsPanel.siblings('.panel-body').css('max-height', 300);
+			buttonsPanel.siblings('.panel-body').hide().css('max-height', 300).fadeIn();
 			buttonsPanel.find('button').not('.btn-info, .btn-warning').hide();
 			if(buttonsPanel.prev('span').length)
 			{
@@ -504,6 +491,19 @@
 				.text('Show Full Comment')
 				.unbind('click')
 				.bind('click', showFull);
+		}
+		function showFull() {
+			var buttons = $(this).closest('.panel-body').find('button').not('.btn-info, .btn-warning');
+			var commentPanel = $(this).closest('.panel-body').siblings('.panel-body');
+			commentPanel.next('span').hide();
+			commentPanel
+					.hide().css('max-height', 'none').fadeIn();
+			buttons.show();
+			$(this)
+				.blur()
+				.text('Hide Comment')
+				.unbind('click')
+				.bind('click', hideComment);
 		}
 		$(window).bind('resize', function () {
 			var expanded = $('.btn-info:visible:contains(Hide Comment)')
