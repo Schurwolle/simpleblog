@@ -199,7 +199,7 @@
 				$('textarea#add').focus();
 				return;
 			}
-			var hr = $('#addform').next('h3').next('hr');
+			var hr = $('#addform').nextAll().eq(1);
 			var src = $('#addform').find('img').attr('src');
 			var href = $('#link').attr('href');
 			var username = ($('#username').text()).trim();
@@ -219,16 +219,16 @@
 					if(!hr.length)
 					{
 						$('#addform').after('<h3 id="numComm">1 Comment:</h3><hr>');
-						hr = $('#addform').next('h3').next('hr');
+						hr = $('#addform').nextAll().eq(1);
 					} else {
 			        	$('#numComm').text(numComm + ' Comments:');
 			        }
 					hr.after('<div class="row comment" style="display:none;"><div class="col-sm-2"><div class="thumbnail"><a href="'+ href +'"><img src='+ src +'></a></div></div><div class="col-sm-10"><div class="panel panel-default"><div class="panel-heading comment-heading"><a class="black" href="'+ href +'"><strong>'+ username +'</strong></a><span class="text-muted"> commented 1 second ago</span></div><div class="panel-body new" name="panelbody"></div><div id="'+ comment.id +'" class="panel-body"><table><tr><td><button class="btn btn-primary edit-comment"><i class="fa fa-edit"></i> Edit</button></td><td><button class="btn btn-danger delete-comment" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td><td></tr></table></div></div></div></div>');
-					$('div#'+comment.id).prev('.panel-body').text(comment.body);
+					$('div#'+comment.id).siblings('.panel-body').text(comment.body);
 					$('div#'+comment.id).parents('.row').slideDown();
 					$('div#'+comment.id).find('button.edit-comment').on('click', updating);
 					$('div#'+comment.id).find('button.delete-comment').on('click', confirmDeleteComment);
-					if($('div#'+comment.id).prev('.panel-body').prop('scrollHeight') > 300)
+					if($('div#'+comment.id).siblings('.panel-body').prop('scrollHeight') > 300)
 					{
 						$('div#'+comment.id).find('tr').append('<button class="btn btn-info">Hide Comment</button></td>');
 						$('div#'+comment.id).find('.btn-info').on('click', hideComment);
@@ -255,7 +255,7 @@
 			}
 			$(this).closest('.panel-body').find('.btn-info').hide();
 			id = $(this).closest('.panel-body').attr('id');
-			panel = $(this).closest('.panel-body').prev('.panel-body');
+			panel = $(this).closest('.panel-body').siblings('.panel-body');
 			txt = panel.text().trim();
 			panel.html('<form method="POST" action="/comment/'+ id +'"id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input name="_method" type="hidden" value="PATCH"><textarea id="body" class="form-control textareaComment" required="required" name="body"></textarea>');
 			panel.css('display', 'none').fadeIn();
@@ -319,14 +319,14 @@
 		function change(panel, txt) 
 		{
 			panel.text(txt);
-		 	panel.next('.panel-body').find('.btn-primary')
+		 	panel.siblings('.panel-body').find('.btn-primary')
 		 			.unbind('click')
 		 			.bind('click', updating)
 		 			.html('<i class="fa fa-edit"></i> Edit')
 		 	;
-		 	panel.next('.panel-body').find('.btn-danger, .btn-info').show();
-		 	panel.next('.panel-body').find('.btn-warning').hide();
-		 	(panel, panel.next('.panel-body')).css('display', 'none').fadeIn();
+		 	panel.siblings('.panel-body').find('.btn-danger, .btn-info').show();
+		 	panel.siblings('.panel-body').find('.btn-warning').hide();
+		 	(panel, panel.siblings('.panel-body')).css('display', 'none').fadeIn();
 		}
 		function changePanelHeading(panel)
 		{
