@@ -196,7 +196,8 @@
 			if($.trim(comment).length === 0)
 			{
 				errorMsg("Please enter your comment first.");
-				return $('textarea#add').focus();
+				$('textarea#add').focus();
+				return;
 			}
 			var hr = $('#addform').next('h3').next('hr');
 			var src = $('#addform').find('img').attr('src');
@@ -241,18 +242,19 @@
 				}
 			});
 		});
-
-		function updating (){
-			$('textarea#add').on('focus', function(){
+		$('textarea#add').on('focus', function(){
+			if($('textarea#body').length)
+			{
 				change(panel, txt);
-			});
-
+			}
+		});
+		function updating (){
 			if($('textarea#body').length)
 			{
 				change(panel, txt);
 			}
 			$(this).closest('.panel-body').find('.btn-info').hide();
-			id  = $(this).closest('.panel-body').attr('id');
+			id = $(this).closest('.panel-body').attr('id');
 			panel = $(this).closest('.panel-body').prev('.panel-body');
 			txt = panel.text().trim();
 			panel.html('<form method="POST" action="/comment/'+ id +'"id = "updateform"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input name="_method" type="hidden" value="PATCH"><textarea id="body" class="form-control textareaComment" required="required" name="body"></textarea>');
@@ -270,15 +272,17 @@
 					if($.trim(newtxt).length === 0)
 					{
 						errorMsg("Comment cannot be empty.");
-						return $('textarea#body')
+						$('textarea#body')
 									.focus().val(txt)
 									.height($("textarea#body")[0].scrollHeight)
 						;
+						return;
 
 					} 
 					if(txt === newtxt) 
 					{
-						return change(panel, txt);
+						change(panel, txt);
+						return;
 					}
 					created = panel.siblings('.panel-heading').children('span').text()
 					created = created.trim();
@@ -306,7 +310,7 @@
 				$(this).closest('td').next('td').children('.btn-warning').show();
 			} else {
 				$(this).closest('td').next('td').append('<button class="btn btn-warning" style="width: 85px;" type="button"><i class="fa fa-remove"></i> Cancel</button></form>');
-				$('.btn-warning').on('click', function(){
+				$(this).closest('tr').find('.btn-warning').on('click', function(){
 					change(panel, txt);
 				});
 			}
