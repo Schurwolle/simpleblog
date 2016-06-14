@@ -297,8 +297,21 @@
 						  errorMsg(err);
 						},
 						 success: function(body) { 
-							 change(panel, body);
-							 changePanelHeading(panel);
+							change(panel, body);
+							changePanelHeading(panel);
+							if(panel.prop('scrollHeight') > 300)
+							{	
+								if(!panel.siblings('.panel-body').find('.btn-info').length)
+								{
+									panel.siblings('.panel-body').find('tr').append('<button class="btn btn-info">Hide Comment</button></td>');
+									panel.siblings('.panel-body').find('.btn-info').on('click', hideComment);
+								}
+							} else {
+								if(panel.siblings('.panel-body').find('.btn-info').length)
+								{
+									panel.siblings('.panel-body').find('.btn-info').remove();
+								}
+							}
 						}
 					});
 				})
