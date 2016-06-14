@@ -454,29 +454,20 @@
 		$('.panel-body[name="panelbody"]').each(function() {
 			if ($(this).prop('scrollHeight') > 300)
 			{
+				if($(this).siblings('.panel-body').length)
+				{
+					$(this).siblings('.panel-body').find('button').hide();
+					$(this).siblings('.panel-body').find('tr').append('<td>' +btnInfo+ '</td>');
+					
+				} else {
+					$(this).after('<div class="panel-body">' +btnInfo+ '</div>');
+				}
+				$(this).after('<span class="dots">...</span>');
+				$(this).siblings('.panel-body').find('.btn-info').on('click', showFull);
+
 				if(url.endsWith('#' + $(this).parents('.row').children('.anchor').attr('name')))
 				{
-					$(this).css('max-height', 'none');
-					btnInfo = '<button class="btn btn-info">Hide Comment</button>';
-					if($(this).siblings('.panel-body').length)
-					{
-						$(this).siblings('.panel-body').find('tr').append('<td>' +btnInfo+ '</td>');
-					} else {
-						$(this).after('<div class="panel-body">' +btnInfo+ '</div>');
-					}
-					$(this).siblings('.panel-body').find('.btn-info').on('click', hideComment);
-					btnInfo = '<button class="btn btn-info">Show Full Comment</button>';
-				} else {
-					if($(this).siblings('.panel-body').length)
-					{
-						$(this).siblings('.panel-body').find('button').hide();
-						$(this).siblings('.panel-body').find('tr').append('<td>' +btnInfo+ '</td>');
-						
-					} else {
-						$(this).after('<div class="panel-body">' +btnInfo+ '</div>');
-					}
-					$(this).after('<span class="dots">...</span>');
-					$(this).siblings('.panel-body').find('.btn-info').on('click', showFull);
+					$(this).siblings('.panel-body').find('.btn-info').trigger('click');
 				}
 			}
 		});
@@ -487,7 +478,6 @@
 			commentPanel
 					.hide().css('max-height', 'none').fadeIn();
 			buttons.show();
-			console.log(commentPanel[0].scrollHeight);
 			if(commentPanel[0].scrollHeight <= 300)
 			{
 				$(this).remove();
