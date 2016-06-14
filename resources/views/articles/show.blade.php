@@ -491,7 +491,7 @@
 			commentPanel
 					.hide().css('max-height', 'none').fadeIn();
 			buttons.show();
-			if(commentPanel[0].scrollHeight <= 300)
+			if(commentPanel.innerHeight() < 300)
 			{
 				$(this).remove();
 				commentPanel.next('span').remove();
