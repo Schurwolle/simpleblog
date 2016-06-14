@@ -231,9 +231,7 @@
 					if($('div#'+comment.id).siblings('.panel-body').prop('scrollHeight') > 300)
 					{
 						$('div#'+comment.id).find('tr').append('<button class="btn btn-info">Hide Comment</button></td>');
-						$('div#'+comment.id).find('.btn-info').on('click', function() {
-							hideComment($(this).closest('.panel-body').siblings('.panel-body'))
-						});
+						$('div#'+comment.id).find('.btn-info').on('click', hideComment);
 					}
 					$('textarea#add').val('');
 					$('textarea#add').height(80);
@@ -456,7 +454,6 @@
 		$('.panel-body[name="panelbody"]').each(function() {
 			if ($(this).prop('scrollHeight') > 300)
 			{
-				
 				if(url.endsWith('#' + $(this).parents('.row').children('.anchor').attr('name')))
 				{
 					$(this).css('max-height', 'none');
@@ -467,9 +464,7 @@
 					} else {
 						$(this).after('<div class="panel-body">' +btnInfo+ '</div>');
 					}
-					$(this).siblings('.panel-body').find('.btn-info').on('click', function() {
-						hideComment($(this).closest('.panel-body').siblings('.panel-body'))
-					});
+					$(this).siblings('.panel-body').find('.btn-info').on('click', hideComment);
 					btnInfo = '<button class="btn btn-info">Show Full Comment</button>';
 				} else {
 					if($(this).siblings('.panel-body').length)
@@ -481,35 +476,36 @@
 						$(this).after('<div class="panel-body">' +btnInfo+ '</div>');
 					}
 					$(this).after('<span class="dots">...</span>');
-					$(this).siblings('.panel-body').find('.btn-info').on('click', function() {
-						showFull($(this).closest('.panel-body').siblings('.panel-body')); 
-					});
+					$(this).siblings('.panel-body').find('.btn-info').on('click', showFull);
 				}
-				height = showFull($(this));
-				hideComment($(this));
-				console.log(height);
 			}
 		});
-		function showFull(panel) {
-			height = panel.prop('scrollHeight');
-			console.log(height);
-			var buttons = panel.siblings('.panel-body').find('button').not('.btn-info, .btn-warning');
-			panel.next('span').hide();
-			panel
+		function showFull() {
+			var buttons = $(this).closest('.panel-body').find('button').not('.btn-info, .btn-warning');
+			var commentPanel = $(this).closest('.panel-body').siblings('.panel-body');
+			commentPanel.next('span').hide();
+			commentPanel
 					.hide().css('max-height', 'none').fadeIn();
 			buttons.show();
-			var btn = panel.siblings('.panel-body').find('.btn-info');
-			btn
+			console.log(commentPanel[0].scrollHeight);
+			if(commentPanel[0].scrollHeight <= 300)
+			{
+				$(this).remove();
+				commentPanel.next('span').remove();
+				if (!commentPanel.siblings('.panel-body').find('button').length)
+				{
+					commentPanel.siblings('.panel-body').remove();
+				}
+				return;
+			}
+			$(this)
 				.blur()
 				.text('Hide Comment')
 				.unbind('click')
-				.bind('click', function(){
-					hideComment($(this).closest('.panel-body').siblings('.panel-body'));
-				});
-			return height;
+				.bind('click', hideComment);
 		}
-		function hideComment(panel) {
-			buttonsPanel = panel.siblings('.panel-body');
+		function hideComment() {
+			buttonsPanel = $(this).closest('.panel-body');
 			buttonsPanel.siblings('.panel-body').hide().css('max-height', 300).fadeIn();
 			buttonsPanel.find('button').not('.btn-info, .btn-warning').hide();
 			if(buttonsPanel.prev('span').length)
@@ -518,13 +514,11 @@
 			} else {
 				buttonsPanel.before('<span class="dots">...</span>');
 			}
-			buttonsPanel.find('.btn-info')
+			$(this)
 				.blur()
 				.text('Show Full Comment')
 				.unbind('click')
-				.bind('click', function () {
-					showFull($(this).closest('.panel-body').siblings('.panel-body'));
-				});
+				.bind('click', showFull);
 		}
 		$(window).bind('resize', function () {
 			var expanded = $('.btn-info:visible:contains(Hide Comment)')
