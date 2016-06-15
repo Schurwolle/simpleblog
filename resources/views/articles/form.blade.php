@@ -202,11 +202,17 @@
 		</script>
 		<script type="text/javascript">
 			var warning = false;
+			var field = CKEDITOR.instances['body'];
 			$(':input').on('change keyup', function(){
 				warning = true;
+				if($(this).attr('type') != 'file') 
+				{
+					field = $(this);	
+				}
 			});
 			CKEDITOR.instances['body'].on('change', function(e) {
 			    warning = true;
+			    field = $(this);
 			});
 			$('#submit').on('click', function() {
 				warning = false;
@@ -214,6 +220,7 @@
 			$(window).on("beforeunload", function() {
 				if(warning == true)
 				{
+					field.focus();
 					return ('You have unsaved changes!');
 				}
 			});
