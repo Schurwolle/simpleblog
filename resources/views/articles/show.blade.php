@@ -476,9 +476,9 @@
 					$(this).after('<div class="panel-body">' +btnInfo+ '</div>');
 				}
 				$(this).after('<span class="dots">...</span>');
-				$(this).siblings('.panel-body').find('.btn-info').on('click', showFull).trigger('click');
+				$(this).siblings('.panel-body').find('.btn-info').on('click', showFull);
 
-				if($(this).siblings('.panel-body').find('.btn-info').length && !url.endsWith('#' + $(this).parents('.row').children('.anchor').attr('name')))
+				if(url.endsWith('#' + $(this).parents('.row').children('.anchor').attr('name')))
 				{
 					$(this).siblings('.panel-body').find('.btn-info').trigger('click');
 				}
