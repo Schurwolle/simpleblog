@@ -57,37 +57,36 @@
 
 		function ajaxAdd() {
 			$(this).blur();
-			var tagname = $('#name').val();
+			var tagname = $('#name').val().trim();
 			if(validateName(tagname) === false)
 			{
-				errorMsg("Tag name cannot be empty and can contain only alphanumeric characters.");
 				$('#name').focus();
-			} else {
-				$('button#newTag')
-					.unbind('click')
-					.bind('click', newTag)
-				;
-				var dataString = $('#addform').serialize();
-				var tr = $(this).closest('tr');
-				var tbody = $(this).closest('tbody');
-				$.ajax({
-					url: '/tags',
-					type: 'POST',
-					data: dataString,
-					error: function(jqXHR) {
-					  var err = jqXHR.responseText.substring(10,jqXHR.responseText.length-3);
-					  errorMsg(err);
-					},
-					success: function(tag) {
-						tr.hide();
-						tr.find('#name').val('');
-						tr.after('<tr style="display:none"><td><button class="btn btn-default">'+ tag.name +' (0)</button></td><td align="middle"><button id="editTag" class="btn btn-default"><i class="fa fa-edit"></i> Edit</button></td><td align="right"><button class="btn btn-danger" id ="deleteTag" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td></tr>');
-						tr.next('tr').fadeIn();
-						$('button#editTag').on('click', updating);
-						$('button#deleteTag').on('click', confirmDeleteTag);
-					}
-				});
+				return;
 			}
+			$('button#newTag')
+				.unbind('click')
+				.bind('click', newTag)
+			;
+			var dataString = $('#addform').serialize();
+			var tr = $(this).closest('tr');
+			var tbody = $(this).closest('tbody');
+			$.ajax({
+				url: '/tags',
+				type: 'POST',
+				data: dataString,
+				error: function(jqXHR) {
+				  var err = jqXHR.responseText.substring(10,jqXHR.responseText.length-3);
+				  errorMsg(err);
+				},
+				success: function(tag) {
+					tr.hide();
+					tr.find('#name').val('');
+					tr.after('<tr style="display:none"><td><button class="btn btn-default">'+ tag.name +' (0)</button></td><td align="middle"><button id="editTag" class="btn btn-default"><i class="fa fa-edit"></i> Edit</button></td><td align="right"><button class="btn btn-danger" id ="deleteTag" data-token="{{ csrf_token() }}"><i class="fa fa-trash"></i> Delete</button></td></tr>');
+					tr.next('tr').fadeIn();
+					$('button#editTag').on('click', updating);
+					$('button#deleteTag').on('click', confirmDeleteTag);
+				}
+			});
 		}
 	}
 	$('button#newTag').on('click', newTag);
@@ -125,15 +124,15 @@
 		}
 		function ajaxUpdate(){
 			$(this).blur();
-			var newtagname = $('#editName').val();
-			if(validateName(newtagname) === false)
-			{
-				errorMsg("Tag name cannot be empty and can contain only alphanumeric characters.");
-				return $('#editName').focus();
-			}
+			var newtagname = $('#editName').val().trim();
 			if (tagname === newtagname)
 			{
 				return change(td, tagname, txt);
+			}
+			if(validateName(newtagname, tagname) === false)
+			{
+				$('#editName').focus();
+				return; 
 			}
 			dataString = $("#updateform").serialize();
 			$.ajax({				 
@@ -166,17 +165,27 @@
 	{
 		swal({ title: "Error!", text: err, timer: 2000, showConfirmButton: false, type:"error" });
 	}
-	function validateName(tagname)
+	function validateName(tagname, old_tagname)
 	{
-		if($.trim(tagname).length === 0)
+		if(tagname.length === 0)
+		{	
+			errorMsg("Tag name cannot be empty.");
+			if(old_tagname)
+			{
+				$('#editName').val(old_tagname);
+			}
+			return false;
+		}
+		if(tagname.length > 32)
 		{
+			errorMsg("Tag name cannot be longer than 32 characters.");
 			return false;
 		}
 	    if(/[^a-zA-Z0-9]/.test(tagname)) 
 	    {
-	       return false;
+	    	errorMsg("Tag name can contain only alphanumeric characters.");
+	        return false;
 	    }
-	    return true;     
 	}
 	function closeAddForm()
 	{

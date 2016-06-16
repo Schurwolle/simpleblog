@@ -352,7 +352,7 @@
 			}
 			if(comment.length > 64443)
 			{
-				errorMsg("Your comment is too long.");
+				errorMsg("Your comment cannot be longer than 64443 characters.");
 				$('textarea').last().focus();
 				return false;
 			}
