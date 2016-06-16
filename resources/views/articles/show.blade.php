@@ -192,13 +192,12 @@
 	<script type="text/javascript">
 		$('button#addcomment').on('click', function(){
 			$(this).blur();
-			var comment = $('textarea#add').val();
-			if($.trim(comment).length === 0)
+			var comment = $('textarea#add').val().trim();
+			if(commentLength(comment) == false)
 			{
-				errorMsg("Please enter your comment first.");
-				$('textarea#add').focus();
 				return;
 			}
+
 			var hr = $('#addform').nextAll().eq(1);
 			var src = $('#addform').find('img').attr('src');
 			var href = $('#link').attr('href');
@@ -268,22 +267,16 @@
 				.unbind('click')	
 				.bind('click', function(){
 					$(this).blur();
-					var newtxt = $('textarea#body').val();
-					if($.trim(newtxt).length === 0)
-					{
-						errorMsg("Comment cannot be empty.");
-						$('textarea#body')
-									.focus().val(txt)
-									.height($("textarea#body")[0].scrollHeight)
-						;
-						return;
-
-					} 
+					var newtxt = $('textarea#body').val().trim();
 					if(txt === newtxt) 
 					{
 						change(panel, txt);
 						return;
 					}
+					if(commentLength(newtxt, txt) == false)
+					{
+						return;
+					} 
 					created = panel.siblings('.panel-heading').children('span').text()
 					created = created.trim();
 					created = created.split('(')[0];
@@ -344,6 +337,25 @@
 		function changePanelHeading(panel)
 		{
 			panel.siblings('.panel-heading').children('span').html(' '+ created +' (last edited 1 second ago)');
+		}
+		function commentLength(comment, old_comment)
+		{
+			if(comment.length === 0)
+			{
+				errorMsg("Your comment cannot be empty.");
+				if(old_comment)
+				{
+					$('textarea').last().val(old_comment);
+				}
+				$('textarea').last().focus().trigger('input');
+				return false;
+			}
+			if(comment.length > 64443)
+			{
+				errorMsg("Your comment is too long.");
+				$('textarea').last().focus();
+				return false;
+			}
 		}
 		function errorMsg(err)
 		{
