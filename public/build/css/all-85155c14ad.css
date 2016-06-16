@@ -1657,7 +1657,6 @@ img {
   clear: none;
 }
 .searchComment {
-  word-break: break-all;
   word-break: break-word;
   text-align: left;
   max-width: 90%;
