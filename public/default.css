@@ -118,6 +118,7 @@ img {
 }
 .articleBody, .articleTitle, .panel-body[name=panelbody] {
   word-wrap: break-word;
+  word-break: break-word;
 }
 .panel-body[name=panelbody] {
   white-space: pre-line;
