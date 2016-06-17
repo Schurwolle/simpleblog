@@ -118,7 +118,7 @@
 						<div class="panel-heading comment-heading">
 							<a class="black" href="/{{Auth::user()->name}}/profile"><strong id="username">{{Auth::user()->name}}</strong></a>
 						</div>
-		          		<textarea id="add" required="required" placeholder="Your Comment" name = "body" class="form-control textareaComment"></textarea>
+		          		<textarea id="add" required="required" maxlength="64443" placeholder="Your Comment" name = "body" class="form-control textareaComment"></textarea>
 		          	</div>
 		          	<button type="button" id="addcomment" name='article_comment' class="btn btn-primary"><i class="fa fa-plus"></i> Add Comment</button>
 		          	<br><br>

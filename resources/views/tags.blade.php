@@ -45,7 +45,7 @@
 		{
 			$('#addTagRow').fadeIn();
 		} else {
-			$(this).closest('thead').next('tbody').prepend('<tr id="addTagRow" style="display:none"><td><form id="addform" method="POST" action ="/tags" onkeypress="return event.keyCode != 13;"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="text" name="name" id ="name" required="required" class="form-control"></form></td><td align="middle"><button id="add" class="btn btn-default"><i class="fa fa-plus"></i> Add</button></td><td align="right"><button id="cancel" class="btn btn-warning"><i class="fa fa-remove"></i> Cancel</button></td></tr></form>');
+			$(this).closest('thead').next('tbody').prepend('<tr id="addTagRow" style="display:none"><td><form id="addform" method="POST" action ="/tags" onkeypress="return event.keyCode != 13;"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="text" name="name" id="name" maxlength="32" required="required" class="form-control"></form></td><td align="middle"><button id="add" class="btn btn-default"><i class="fa fa-plus"></i> Add</button></td><td align="right"><button id="cancel" class="btn btn-warning"><i class="fa fa-remove"></i> Cancel</button></td></tr></form>');
 			$('#addTagRow').fadeIn();
 			$('#name').bind('enterKey', ajaxAdd);
 			ajaxOnEnter($('#name'));
@@ -101,7 +101,7 @@
 		td = $(this).closest('td').prev('td');
 		td
 			
-			.html('<form action="/tags/'+ tagname +'"method="POST" id = "updateform" onkeypress="return event.keyCode != 13;"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="text" id="editName" name="name" class="form-control">')
+			.html('<form action="/tags/'+ tagname +'"method="POST" id = "updateform" onkeypress="return event.keyCode != 13;"><input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="text" id="editName" name="name" maxlength="32" class="form-control">')
 			.find('#editName').focus().val(tagname)
 		;
 		td.parents('tr').css('display', 'none').fadeIn();

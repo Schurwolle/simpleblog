@@ -24,9 +24,9 @@ class ArticleRequest extends Request
     public function rules()
     {
         return [ 
-            'title'          => 'required|unique:articles,title',
+            'title'          => 'required|max:78|unique:articles,title',
             'slug'           => 'required|unique:articles,slug',
-            'body'           => 'required',
+            'body'           => 'required|max:64443',
             'published_at'   => 'required|date|after:yesterday',
             'img'            => 'required',
             'thumbnailImage' => 'required',

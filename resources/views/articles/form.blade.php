@@ -18,6 +18,8 @@
 							'placeholder'					=> 'Title of the Article',
 							'required',
 							'data-parsley-required-message' => 'Title is required.',
+							'data-parsley-maxlength'		=> '78',
+							'data-parsley-maxlength-message'=> 'Title cannot be longer than 78 characters.',
 							'data-parsley-unique'			=>  $article->title ? 'article$title#'.$article->title : 'article$title#',
 							'data-parsley-unique-message'   => 'That title has already been taken.',
 							'data-parsley-trigger' 			=> 'keyup focusout',
@@ -89,6 +91,13 @@
 		</script>
 		<script>
 			CKEDITOR.replace('body');
+			CKEDITOR.instances['body'].on('blur', function () {
+				console.log(CKEDITOR.instances['body'].getData());
+				if(CKEDITOR.instances['body'].getData().length > 64443)
+				{
+					swal({title:"Error!", text: "Article cannot be longer than 64443 characters.", showConfirmButton:false, timer: 2000, type:"error"})
+				}
+			});
 		</script>
 		@include('parsleyfooter')
 		<script>

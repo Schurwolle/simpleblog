@@ -1597,7 +1597,7 @@ img {
 .articleBody div, .panel-body[name=panelbody], .row.comment, .searchComment {
   overflow: hidden;
 }
-.articleBody, .articleTitle, .panel-body[name=panelbody] {
+.articleBody, .articleTitle, .panel-body[name=panelbody], .thumb {
   word-wrap: break-word;
   word-break: break-word;
 }
