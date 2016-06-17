@@ -60,7 +60,7 @@
         </a></td>
         <td>{{ $user->articles()->latest('published_at')->first()->published_at }}</td>
       </tr>
-      <tr><td>{!! \Illuminate\Support\Str::words(html_entity_decode($user->articles()->latest('published_at')->published()->first()->body), 12) !!}</td></tr>
+      <tr><td>{!! \Illuminate\Support\Str::words(strip_tags($user->articles()->latest('published_at')->published()->first()->body), 12) !!}</td></tr>
     </table>
  
   </div>
