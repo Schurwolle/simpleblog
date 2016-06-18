@@ -73,21 +73,26 @@
 	@section('footer')
 	    <script src="/ckeditor/ckeditor.js"></script>
 		<script>
+			$.fn.select2.defaults.defaults['language'].inputTooLong = function(){
+		  		return 'Tag cannot be longer than 32 characters.';
+			};
 			$('#tag_list').select2({
 
 				placeholder: 'Choose a tag or type your own',
 				allowClear: true, 
+				maximumSelectionLength: 8,
+				maximumInputLength: 32,
 				width: '100%',
 				tags: true,
 			    tokenSeparators: [",", " "],
 			    createTag: function(newTag) {
-			     
 			        return {
 			            id: 'new' + newTag.term,
 			            text: newTag.term + ' (new)'
 			        };
 			    }
 			});
+			
 		</script>
 		<script>
 			CKEDITOR.replace('body');
