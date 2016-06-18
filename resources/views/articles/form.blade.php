@@ -103,6 +103,15 @@
 					swal({title:"Error!", text: "Article cannot be longer than 64443 characters.", showConfirmButton:false, timer: 2000, type:"error"})
 				}
 			});
+			$('#submit').on('click', function(e) {
+				e.preventDefault();
+				if(CKEDITOR.instances['body'].getData().length > 64443)
+				{
+					swal({title:"Error!", text: "Article cannot be longer than 64443 characters.", showConfirmButton:false, timer: 2000, type:"error"})
+				} else {
+					$(this).parents('form').submit();
+				}
+			});
 		</script>
 		@include('parsleyfooter')
 		<script>
