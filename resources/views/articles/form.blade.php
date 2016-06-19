@@ -126,7 +126,7 @@
 					swal({title:"Error!", text: "Body is required.", showConfirmButton:false, timer: 2000, type:"error"})
 					return false;
 				}
-				if(CKEDITOR.instances['body'].getData().length > 20)
+				if(CKEDITOR.instances['body'].getData().length > 64443	)
 				{
 					swal({title:"Error!", text: "Body cannot be longer than 64443 characters.", showConfirmButton:false, timer: 2000, type:"error"})
 					return false;
@@ -258,7 +258,14 @@
 			    field = $(this);
 			});
 			$('#sub').on('click', function() {
+				var old = warning;
 				warning = false;
+				if(old == true)
+				{
+					setTimeout(function(){
+						warning = true;
+					}, 500);
+				}
 			});
 			$(window).on("beforeunload", function() {
 				if(warning == true)
