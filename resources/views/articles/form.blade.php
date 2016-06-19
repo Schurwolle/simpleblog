@@ -96,22 +96,28 @@
 		</script>
 		<script>
 			CKEDITOR.replace('body');
-			CKEDITOR.instances['body'].on('blur', function () {
-				console.log(CKEDITOR.instances['body'].getData());
-				if(CKEDITOR.instances['body'].getData().length > 64443)
-				{
-					swal({title:"Error!", text: "Article cannot be longer than 64443 characters.", showConfirmButton:false, timer: 2000, type:"error"})
-				}
-			});
-			$('#submit').on('click', function(e) {
+			CKEDITOR.instances['body'].on('blur', checkBody);
+
+			$('#sub').on('click', function(e) {
 				e.preventDefault();
-				if(CKEDITOR.instances['body'].getData().length > 64443)
+				if(checkBody() == false)
 				{
-					swal({title:"Error!", text: "Article cannot be longer than 64443 characters.", showConfirmButton:false, timer: 2000, type:"error"})
-				} else {
-					$(this).parents('form').submit();
+					return;
 				}
+				$(this).parents('form').submit();
 			});
+			function checkBody() {
+				if (CKEDITOR.instances['body'].getData().length == 0)
+				{
+					swal({title:"Error!", text: "Body is required.", showConfirmButton:false, timer: 2000, type:"error"})
+					return false;
+				}
+				if(CKEDITOR.instances['body'].getData().length > 20)
+				{
+					swal({title:"Error!", text: "Body cannot be longer than 64443 characters.", showConfirmButton:false, timer: 2000, type:"error"})
+					return false;
+				}
+			}
 		</script>
 		@include('parsleyfooter')
 		<script>
@@ -237,7 +243,7 @@
 			    warning = true;
 			    field = $(this);
 			});
-			$('#submit').on('click', function() {
+			$('#sub').on('click', function() {
 				warning = false;
 			});
 			$(window).on("beforeunload", function() {
