@@ -100,11 +100,19 @@
 
 			$('#sub').on('click', function(e) {
 				e.preventDefault();
+				var arrErrorMsg = window.ParsleyUI.getErrorsMessages($('#title').parsley());
+				if(arrErrorMsg.length > 0)
+				{
+					$(this).parents('form').submit();
+				}
 				if(checkBody() == false)
 				{
 					return;
 				}
-				$(this).parents('form').submit();
+				if(arrErrorMsg.length == 0)
+				{
+					$(this).parents('form').submit();
+				}
 			});
 			function checkBody() {
 				if (CKEDITOR.instances['body'].getData().length == 0)
