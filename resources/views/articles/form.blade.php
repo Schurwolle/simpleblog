@@ -75,6 +75,9 @@
 		<script>
 			$.fn.select2.defaults.defaults['language'].inputTooLong = function(){
 		  		return 'Tag cannot be longer than 32 characters.';
+			}
+			$.fn.select2.defaults.defaults['language'].noResults = function() {
+				return 'Tag can contain only aplhanumeric characters.';
 			};
 			$('#tag_list').select2({
 
@@ -86,10 +89,13 @@
 				tags: true,
 			    tokenSeparators: [",", " "],
 			    createTag: function(newTag) {
-			        return {
-			            id: 'new' + newTag.term,
-			            text: newTag.term + ' (new)'
-			        };
+			    	if(newTag.term.match(/^[a-zA-Z0-9]+$/g))
+			    	{
+				        return {
+				            id: 'new' + newTag.term,
+				            text: newTag.term + ' (new)'
+				        };
+				    }
 			    }
 			});
 			
