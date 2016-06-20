@@ -141,7 +141,17 @@
 			modal: true,
 			rotateControls:false,
 			enableMousescroll:true,
-			outputUrlId:'thumbnailImage'
+			outputUrlId:'thumbnailImage',
+			onAfterImgCrop:	function() { 
+				arrThisErr = window.ParsleyUI.getErrorsMessages($('#thumbnailImage').parsley());
+				if(arrThisErr.length > 0)
+				{
+					$('#thumbnailImage').parsley().validate();
+				}
+			},
+			onReset: function(){ 
+				$('#thumbnailImage').parsley().validate();
+			}
 		}		
 		var cropperThumbnail = new Croppic('thumbnail', thumbnailOptions);
 
@@ -151,7 +161,17 @@
 			modal: true,
 			rotateControls:false,
 			enableMousescroll:true,
-			outputUrlId:'img'
+			outputUrlId:'img',
+			onAfterImgCrop:	function() { 
+				arrThisErr = window.ParsleyUI.getErrorsMessages($('#img').parsley());
+				if(arrThisErr.length > 0)
+				{
+					$('#img').parsley().validate();
+				}
+			},
+			onReset: function(){ 
+				$('#img').parsley().validate();
+			}
 		}
 		var cropperImage = new Croppic('image', imageOptions);
 		</script>
