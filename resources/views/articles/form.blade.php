@@ -40,6 +40,19 @@
 	<div class="form-group">
 	{!! Form::label('body', 'Body:') !!}
 	{!! Form::textarea('body', null, ['id' =>'body' , 'class' => 'form-control', 'required']) !!}
+	{!! Form::textarea('body-hidden', null, 
+							[
+								'id' 							=>'body-hidden', 
+								'class' 						=> 'form-control', 
+								'style' 						=> 'display:none', 
+								'required', 
+								'data-parsley-required-message' => 'Body is required.',
+								'data-parsley-maxlength'		=> '20',
+								'data-parsley-maxlength-message'=> 'Body cannot be longer than 64443 characters.',
+							]
+						) 
+	!!}
+
 	</div>
 	
 	<div class="form-group">
@@ -102,36 +115,10 @@
 		</script>
 		<script>
 			CKEDITOR.replace('body');
-			CKEDITOR.instances['body'].on('blur', checkBody);
-
-			$('#sub').on('click', function(e) {
-				e.preventDefault();
-				var arrErrorMsg = window.ParsleyUI.getErrorsMessages($('#title').parsley());
-				if(arrErrorMsg.length > 0)
-				{
-					$(this).parents('form').submit();
-				}
-				if(checkBody() == false)
-				{
-					return;
-				}
-				if(arrErrorMsg.length == 0)
-				{
-					$(this).parents('form').submit();
-				}
+			CKEDITOR.instances['body'].on('change focusout', function(){
+				$('#body-hidden').val(CKEDITOR.instances['body'].getData());
+				$('#body-hidden').parsley().validate();
 			});
-			function checkBody() {
-				if (CKEDITOR.instances['body'].getData().length == 0)
-				{
-					swal({title:"Error!", text: "Body is required.", showConfirmButton:false, timer: 2000, type:"error"})
-					return false;
-				}
-				if(CKEDITOR.instances['body'].getData().length > 64443	)
-				{
-					swal({title:"Error!", text: "Body cannot be longer than 64443 characters.", showConfirmButton:false, timer: 2000, type:"error"})
-					return false;
-				}
-			}
 		</script>
 		@include('parsleyfooter')
 		<script>
