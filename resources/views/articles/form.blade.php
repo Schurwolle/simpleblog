@@ -42,7 +42,7 @@
 	{!! Form::textarea('body', null, ['id' =>'body' , 'class' => 'form-control', 'required']) !!}
 	{!! Form::textarea('body-hidden', null, 
 							[
-								'id' 							=>'body-hidden', 
+								'id' 							=> 'body-hidden', 
 								'class' 						=> 'form-control', 
 								'style' 						=> 'display:none', 
 								'required', 
@@ -115,10 +115,13 @@
 		</script>
 		<script>
 			CKEDITOR.replace('body');
-			CKEDITOR.instances['body'].on('change focusout', function(){
+			CKEDITOR.instances['body'].on('blur', CKEParsley);
+			CKEDITOR.instances['body'].on('change', CKEParsley);
+			
+			function CKEParsley(){
 				$('#body-hidden').val(CKEDITOR.instances['body'].getData());
 				$('#body-hidden').parsley().validate();
-			});
+			}
 		</script>
 		@include('parsleyfooter')
 		<script>
