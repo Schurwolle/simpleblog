@@ -38,6 +38,7 @@ class SearchController extends Controller
         {   
             $article->title = $this->mark($string_words, $article->title);
             $article->body = $this->hasAllWords($string_words, $article->body);
+            $article->body = $this->cropBody($article->body);
             $comments = $this->pickComments($article, $query_words, $string_words, $comments);
             		// if(strpos($article->body, "<span style='background-color:#FFFF00'>")) 
             		// {
@@ -106,34 +107,33 @@ class SearchController extends Controller
             }
             $body = implode($exploded);
         }
-        return $this->cropBody($body);
+        return $body;
     }
 
     private function cropBody($body)
-   {
+    {
         $exploded = preg_split("/(<|>)/", $body, null, PREG_SPLIT_DELIM_CAPTURE);
-
         for($i = 0; $i < count($exploded); $i++)
         {
-            if(strstr($exploded[$i], "span style='background-color:#FFFF00'"))
+            if($exploded[$i] == "span style='background-color:#FFFF00'")
             {
                 $body = "";
                 for($j = 1; $j < $i-3; $j++)
                 {   
-                    if($exploded[$j] != "<" && $exploded[$j] != ">" && $exploded[$j] != "" && ($exploded[$j-1] != "<" ||                       $exploded[$j+1] != ">"))
+                    if($exploded[$j] != "<" && $exploded[$j] != ">" && $exploded[$j] != "" && ($exploded[$j-1] != "<" ||     $exploded[$j+1] != ">"))
                     {
                         $body = "...";
                         break;
                     }
                 }
-                $limit = $i;
-                for($m = 1, $n = 2; $n < $i; $m += 4, $n += 4)
+                $limit = $i+1;
+                for($m = 1, $n = 2; $n < $i+1; $m += 4, $n += 4)
                 {
-                    if($i > $m && $i+$n < count($exploded) && $exploded[$i+$n] != "/".explode(" ", $exploded[$i-$n])[0])
+                    if($i+1 > $m && $i+1+$n < count($exploded) && $exploded[$i+1+$n] != "/".explode(" ", $exploded[$i+1-$n])[0])
                     {
                         break;
                     }
-                    $limit = $i-$n-1;
+                    $limit = $i+1-$n-1;
                 }
 
                 for($j = 0; $j < $limit; $j++)
@@ -149,9 +149,8 @@ class SearchController extends Controller
                 }
                 break;
             }
-            $body = implode($exploded);
-            return $body;
         }
+        return $body;
     }
 
     private function pickComments($article, $query_words, $string_words, $comments = "null")
