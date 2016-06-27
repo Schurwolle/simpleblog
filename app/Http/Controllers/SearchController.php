@@ -39,7 +39,7 @@ class SearchController extends Controller
             $article->title = $this->mark($string_words, $article->title);
             $article->body = $this->hasAllWords($string_words, $article->body);
             $article->body = $this->findQuery($article->body, $query);
-            $comments = $this->pickComments($article, $query_words, $string_words, $comments);
+            $comments = $this->pickComments($article, $query_words, $string_words, $comments, $query);
             		// if(strpos($article->body, "<span style='background-color:#FFFF00'>")) 
             		// {
               //           if(strlen($article->body) - strpos($article->body, "<span style='background-color:#FFFF00'>") < 300)
@@ -167,7 +167,7 @@ class SearchController extends Controller
             return $body;
     }
 
-    private function pickComments($article, $query_words, $string_words, $comments = "null")
+    private function pickComments($article, $query_words, $string_words, $comments = "null", $query = "null")
     {
         foreach($article->comments->sortByDesc('created_at') as $comment)
             {   
@@ -184,6 +184,7 @@ class SearchController extends Controller
                     $comment->body = $this->markComments($string_words, $comment->body);
                     if($comments != "null")
                     {
+                        $comment->body = $this->cropComment($comment->body, $query);
                         $comments[$article->id][] = $comment;
                     } 
                         
@@ -217,6 +218,16 @@ class SearchController extends Controller
                 }
             }
             $body = implode($exploded);
+        }
+        return $body;
+    }
+    private function cropComment($body, $query)
+    {
+        if(stripos($body, "<span style='background-color:#FFFF00'>".$query))
+        {
+            $body = "...".substr($body, stripos($body, "<span style='background-color:#FFFF00'>".$query));
+        } else if(stripos($body, "<span style='background-color:#FFFF00'>")) {
+            $body = "...".substr($body, stripos($body, "<span style='background-color:#FFFF00'>"));
         }
         return $body;
     }
