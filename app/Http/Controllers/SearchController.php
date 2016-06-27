@@ -38,7 +38,7 @@ class SearchController extends Controller
         {   
             $article->title = $this->mark($string_words, $article->title);
             $article->body = $this->hasAllWords($string_words, $article->body);
-            $article->body = $this->cropBody($article->body);
+            $article->body = $this->findQuery($article->body, $query);
             $comments = $this->pickComments($article, $query_words, $string_words, $comments);
             		// if(strpos($article->body, "<span style='background-color:#FFFF00'>")) 
             		// {
@@ -110,48 +110,61 @@ class SearchController extends Controller
         return $body;
     }
 
-    private function cropBody($body)
+    private function findQuery($body, $query)
     {
         $exploded = preg_split("/(<|>)/", $body, null, PREG_SPLIT_DELIM_CAPTURE);
         for($i = 0; $i < count($exploded); $i++)
         {
+            if($exploded[$i] == "span style='background-color:#FFFF00'" && strcasecmp($exploded[$i+2], $query) == 0)
+            {
+                $body = $this->cropBody($exploded, $i, $query);
+                return $body;
+            }
+        }
+        for($i = 0; $i < count($exploded); $i++)
+        {
             if($exploded[$i] == "span style='background-color:#FFFF00'")
             {
-                $body = "";
-                for($j = 1; $j < $i-2; $j++)
-                {   
-                    if($exploded[$j] != "<" && $exploded[$j] != ">" && $exploded[$j] != "" && ($exploded[$j-1] != "<" ||     $exploded[$j+1] != ">"))
-                    {
-                        $body = "...";
-                        break;
-                    }
-                }
-                $limit = $i;
-                $x = $i+2;
-                for($m = 1, $n = 2; $n < $x; $m += 4, $n += 4)
-                {
-                    if($x > $m && $x+$n < count($exploded) && $exploded[$x+$n] != "/".explode(" ", $exploded[$x-$n])[0])
-                    {
-                        break;
-                    }
-                    $limit = $x-$n-1;
-                }
-
-                for($j = 0; $j < $limit; $j++)
-                {
-                    unset($exploded[$j]);
-                }
-
-                $body .= implode($exploded);
-
-                if (strpos($body, "<span style='background-color:#FFFF00'>") > 300)
-                {
-                    $body = "...".substr($body, strpos($body, "<span style='background-color:#FFFF00'>"));
-                }
-                break;
+                $body = $this->cropBody($exploded, $i, $query);
+                return $body;
             }
         }
         return $body;
+    }
+    private function cropBody($exploded, $i, $query)
+    {
+            $body = "";
+            for($j = 1; $j < $i-2; $j++)
+            {   
+                if($exploded[$j] != "<" && $exploded[$j] != ">" && $exploded[$j] != "" && ($exploded[$j-1] != "<" ||     $exploded[$j+1] != ">"))
+                {
+                    $body = "...";
+                    break;
+                }
+            }
+            $limit = $i;
+            $x = $i+2;
+            for($m = 1, $n = 2; $n < $x; $m += 4, $n += 4)
+            {
+                if($x > $m && $x+$n < count($exploded) && $exploded[$x+$n] != "/".explode(" ", $exploded[$x-$n])[0])
+                {
+                    break;
+                }
+                $limit = $x-$n-1;
+            }
+
+            for($j = 0; $j < $limit; $j++)
+            {
+                unset($exploded[$j]);
+            }
+
+            $body .= implode($exploded);
+
+            if (strpos($body, "<span style='background-color:#FFFF00'>") > 300)
+            {
+                $body = "...".substr($body, strpos($body, "<span style='background-color:#FFFF00'>"));
+            }
+            return $body;
     }
 
     private function pickComments($article, $query_words, $string_words, $comments = "null")
