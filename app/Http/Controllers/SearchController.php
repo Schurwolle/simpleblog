@@ -223,11 +223,14 @@ class SearchController extends Controller
     }
     private function cropComment($body, $query)
     {
-        if(stripos($body, "<span style='background-color:#FFFF00'>".$query))
+        if (str_word_count(strip_tags($body)) > 60)
         {
-            $body = "...".substr($body, stripos($body, "<span style='background-color:#FFFF00'>".$query));
-        } else if(stripos($body, "<span style='background-color:#FFFF00'>")) {
-            $body = "...".substr($body, stripos($body, "<span style='background-color:#FFFF00'>"));
+            if(stripos($body, "<span style='background-color:#FFFF00'>".$query))
+            {
+                $body = "...".substr($body, stripos($body, "<span style='background-color:#FFFF00'>".$query));
+            } else if(stripos($body, "<span style='background-color:#FFFF00'>")) {
+                $body = "...".substr($body, stripos($body, "<span style='background-color:#FFFF00'>"));
+            }
         }
         return $body;
     }
