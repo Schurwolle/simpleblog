@@ -134,15 +134,6 @@ class SearchController extends Controller
     private function cropBody($exploded, $i, $query)
     {
             $body = "";
-            for($j = 1; $j < $i-2; $j++)
-            {   
-                if($exploded[$j] != "<" && $exploded[$j] != ">" && $exploded[$j] != "" && ($exploded[$j-1] != "<" ||     $exploded[$j+1] != ">"))
-                {
-                    $body = "...";
-                    break;
-                }
-            }
-            $limit = $i-2;
             $x = $i+2;
             for($m = 1, $n = 2; $n < $x; $m += 4, $n += 4)
             {
@@ -153,9 +144,20 @@ class SearchController extends Controller
                 $limit = $x-$n-2;
             }
 
-            for($j = 0; $j < $limit; $j++)
+            for($j = 1; $j < $limit; $j++)
+            {   
+                if($exploded[$j] != "<" && $exploded[$j] != ">" && $exploded[$j] != "" && ($exploded[$j-1] != "<" ||     $exploded[$j+1] != ">"))
+                {
+                    $body = "...";
+                    break;
+                }
+            }
+            if ($body == "...")
             {
-                unset($exploded[$j]);
+                for($j = 0; $j < $limit; $j++)
+                {
+                    unset($exploded[$j]);
+                }
             }
 
             $body .= implode($exploded);
