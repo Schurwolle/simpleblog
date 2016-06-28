@@ -142,7 +142,7 @@ class SearchController extends Controller
                     break;
                 }
             }
-            $limit = $i;
+            $limit = $i-2;
             $x = $i+2;
             for($m = 1, $n = 2; $n < $x; $m += 4, $n += 4)
             {
@@ -150,7 +150,7 @@ class SearchController extends Controller
                 {
                     break;
                 }
-                $limit = $x-$n-1;
+                $limit = $x-$n-2;
             }
 
             for($j = 0; $j < $limit; $j++)
