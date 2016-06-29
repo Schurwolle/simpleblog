@@ -156,18 +156,37 @@ class SearchController extends Controller
             }
             if ($body == "...")
             {
+                $num_of_words = 0;
+                $num = 0;
+                while($num_of_words < 80 && $limit > 0)
+                {
+                    $num_of_words = 0;
+                    for($k = $limit; $k < count($exploded); $k++)
+                    {
+                        if($exploded[$k] != "<" && $exploded[$k] != ">")
+                        {
+                            $num_of_words = $num_of_words + str_word_count($exploded[$k]);
+                            $num++;
+                        }
+                    }
+                    $limit--;
+                }
                 for($j = 0; $j < $limit; $j++)
                 {
                     unset($exploded[$j]);
+                }
+                if($exploded[$limit] == ">") 
+                {
+                    unset($exploded[$limit]);
                 }
             }
 
             $body .= implode($exploded);
 
-            if (strpos($body, "<span style='background-color:#FFFF00'>") > 300)
-            {
-                $body = "...".substr($body, strpos($body, "<span style='background-color:#FFFF00'>"));
-            }
+            // if (strpos($body, "<span style='background-color:#FFFF00'>") > 300)
+            // {
+            //     $body = "...".substr($body, strpos($body, "<span style='background-color:#FFFF00'>"));
+            // }
             return $body;
     }
 
