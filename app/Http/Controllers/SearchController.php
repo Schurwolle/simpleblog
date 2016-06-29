@@ -252,8 +252,7 @@ class SearchController extends Controller
     private function decodeBody($body)
     {
         $list = get_html_translation_table(HTML_ENTITIES);
-        unset($list['<']);
-        unset($list['>']);
+        unset($list['<'], $list['>']);
         $list["'"] = "&#39;";
         $find = array_values($list);
         $replace = array_keys($list);
@@ -266,7 +265,7 @@ class SearchController extends Controller
         $ind = 0;
         for($i = 1; $i < count($string_words); $i++)
         {
-            if (preg_match($string_words[$i], $body))
+            if (preg_match($string_words[$i], html_entity_decode($body, ENT_QUOTES)))
             {
                 $ind += 1;
             }
