@@ -59,6 +59,7 @@ class SearchController extends Controller
         	    	// }
         }
         $query_link = urlencode($query);
+        $query_link = str_replace('.', '%tačka%', $query_link);
         foreach($query_words as &$word)
         {
             $word = preg_quote(htmlentities($word));
@@ -68,6 +69,7 @@ class SearchController extends Controller
 
     public function show(article $article, $query)
     {
+        $query = str_replace('%tačka%', '.', $query);
         $query = urldecode($query);
         $query_words = explode(" ", $query);
         array_unshift($query_words, $query);
