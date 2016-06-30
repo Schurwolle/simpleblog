@@ -119,7 +119,7 @@ class SearchController extends Controller
         {
             if($exploded[$i] == "span style='background-color:#FFFF00'" && strcasecmp($exploded[$i+2], $query) == 0)
             {
-                $body = $this->cropBody($exploded, $i, $query);
+                $body = $this->cropBody($exploded, $i);
                 return $body;
             }
         }
@@ -127,27 +127,26 @@ class SearchController extends Controller
         {
             if($exploded[$i] == "span style='background-color:#FFFF00'")
             {
-                $body = $this->cropBody($exploded, $i, $query);
+                $body = $this->cropBody($exploded, $i);
                 return $body;
             }
         }
         return $body;
     }
-    private function cropBody($exploded, $i, $query)
+    private function cropBody($exploded, $i)
     {
             $body = "";
             $x = $i+2;
             for($m = 1, $n = 2; $n < $x; $m += 4, $n += 4)
             {
-                if($x > $m && $x+$n < count($exploded) && $exploded[$x+$n] != "/".explode(" ", $exploded[$x-$n])[0])
+                if($x > $m || $x+$n < count($exploded) || $exploded[$x+$n] != "/".explode(" ", $exploded[$x-$n])[0])
                 {
                     break;
                 }
-                $limit = $x-$n-2;
             }
-
+            $limit = $x-$n-2;
             for($j = 1; $j < $limit; $j++)
-            {   
+            {
                 if($exploded[$j] != "<" && $exploded[$j] != ">" && $exploded[$j] != "" && ($exploded[$j-1] != "<" ||     $exploded[$j+1] != ">"))
                 {
                     $body = "...";
@@ -157,7 +156,6 @@ class SearchController extends Controller
             if ($body == "...")
             {
                 $num_of_words = 0;
-                $num = 0;
                 while($num_of_words < 80 && $limit > 0)
                 {
                     $num_of_words = 0;
@@ -166,7 +164,6 @@ class SearchController extends Controller
                         if($exploded[$k] != "<" && $exploded[$k] != ">")
                         {
                             $num_of_words = $num_of_words + str_word_count($exploded[$k]);
-                            $num++;
                         }
                     }
                     $limit--;
@@ -180,7 +177,6 @@ class SearchController extends Controller
                     unset($exploded[$limit]);
                 }
             }
-
             $body .= implode($exploded);
 
             // if (strpos($body, "<span style='background-color:#FFFF00'>") > 300)
@@ -209,8 +205,7 @@ class SearchController extends Controller
                     {
                         $comment->body = $this->cropComment($comment->body, $query);
                         $comments[$article->id][] = $comment;
-                    } 
-                        
+                    }                        
                 }
             }
         if($comments != "null")
