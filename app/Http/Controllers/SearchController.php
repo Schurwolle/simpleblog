@@ -139,7 +139,7 @@ class SearchController extends Controller
             $x = $i+2;
             for($m = 1, $n = 2; $n < $x; $m += 4, $n += 4)
             {
-                if($x > $m || $x+$n < count($exploded) || $exploded[$x+$n] != "/".explode(" ", $exploded[$x-$n])[0])
+                if($x < $m || $x+$n > count($exploded) || $exploded[$x+$n] != "/".explode(" ", $exploded[$x-$n])[0])
                 {
                     break;
                 }
