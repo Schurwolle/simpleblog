@@ -268,7 +268,12 @@ class SearchController extends Controller
             });
         foreach($query_words as $word)
         {
-            $string_words[] = "*".preg_quote($word)."*i";
+            if(strlen($word) <= 3)
+            {
+                $string_words[] = "*".preg_quote(" ".$word." ")."*i";
+            } else {
+                $string_words[] = "*".preg_quote($word)."*i";
+            }
         }
         return $string_words;
     }
