@@ -162,6 +162,10 @@ class SearchController extends Controller
                 $num_of_words = 0;
                 while($num_of_words < 80 && $limit > 0)
                 {
+                    if(str_word_count($exploded[$limit-1]) > 70)
+                    {
+                        break;
+                    }
                     $num_of_words = 0;
                     for($k = $limit; $k < count($exploded); $k++)
                     {
@@ -172,7 +176,6 @@ class SearchController extends Controller
                     }
                     $limit--;
                 }
-                
                 for($j = 0; $j < $limit; $j++)
                 {
                     unset($exploded[$j]);
