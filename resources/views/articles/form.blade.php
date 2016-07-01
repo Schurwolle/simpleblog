@@ -47,7 +47,7 @@
 								'style' 						=> 'display:none', 
 								'required', 
 								'data-parsley-required-message' => 'Body is required.',
-								'data-parsley-maxlength'		=> '20',
+								'data-parsley-maxlength'		=> '64443',
 								'data-parsley-maxlength-message'=> 'Body cannot be longer than 64443 characters.',
 							]
 						) 

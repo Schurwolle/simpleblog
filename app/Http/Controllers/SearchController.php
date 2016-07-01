@@ -139,12 +139,16 @@ class SearchController extends Controller
             $x = $i+2;
             for($m = 1, $n = 2; $n < $x; $m += 4, $n += 4)
             {
-                if($x < $m || $x+$n > count($exploded) || $exploded[$x+$n] != "/".explode(" ", $exploded[$x-$n])[0])
+                if($x < $m || $x+$n > count($exploded) || $exploded[$x+$n] != "/".explode(" ", $exploded[$x-$n])[0] || str_word_count($exploded[$x-$n+2]) > 70)
                 {
+                    if(str_word_count($exploded[$x-$n+2]) > 70)
+                    {
+                        $n-=4;
+                    }
                     break;
                 }
             }
-            $limit = $x-$n-2;
+            $limit = $x-$n;
             for($j = 1; $j < $limit; $j++)
             {
                 if($exploded[$j] != "<" && $exploded[$j] != ">" && $exploded[$j] != "" && ($exploded[$j-1] != "<" ||     $exploded[$j+1] != ">"))
@@ -168,6 +172,7 @@ class SearchController extends Controller
                     }
                     $limit--;
                 }
+                
                 for($j = 0; $j < $limit; $j++)
                 {
                     unset($exploded[$j]);
