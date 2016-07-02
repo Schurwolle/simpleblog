@@ -270,7 +270,7 @@ class SearchController extends Controller
         {
             if(strlen($word) <= 3)
             {
-                $string_words[] = "*".preg_quote(" ".$word." ")."*i";
+                $string_words[] = "*(?<![a-zA-Z])".preg_quote($word)."(?![a-zA-Z])*i";
             } else {
                 $string_words[] = "*".preg_quote($word)."*i";
             }
