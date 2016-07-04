@@ -211,7 +211,7 @@ class SearchController extends Controller
                     $comment->body = $this->markComments($string_words, $comment->body);
                     if($comments != "null")
                     {
-                        $comment->body = $this->cropComment($comment->body, $query);
+                        $comment->body = $this->findQueryInComment($comment->body, $query);
                         $comments[$article->id][] = $comment;
                     }                        
                 }
@@ -247,16 +247,27 @@ class SearchController extends Controller
         }
         return $body;
     }
-    private function cropComment($body, $query)
+    private function findQueryInComment($body, $query)
     {
-        if (str_word_count(strip_tags($body)) > 60)
+        if(str_word_count(strip_tags($body)) > 60)
         {
             if(stripos($body, "<span style='background-color:#FFFF00'>".$query))
             {
-                $body = "...".substr($body, stripos($body, "<span style='background-color:#FFFF00'>".$query));
+                $body = $this->cropComment($body, stripos($body, "<span style='background-color:#FFFF00'>".$query));
             } else if(stripos($body, "<span style='background-color:#FFFF00'>")) {
-                $body = "...".substr($body, stripos($body, "<span style='background-color:#FFFF00'>"));
+                $body = $this->cropComment($body, stripos($body, "<span style='background-color:#FFFF00'>"));
             }
+        }
+        return $body;
+    }
+    private function cropComment($body, $occurence)
+    {
+        $body1 = substr($body, 0, $occurence);
+        $body = "...".substr($body, $occurence);
+        while(str_word_count($body) < 60)
+        {
+            $body = "...".strrchr($body1, " ").substr($body, 3);
+            $body1 = substr($body1, 0, strrpos($body1, " "));
         }
         return $body;
     }
