@@ -210,8 +210,11 @@ class SearchController extends Controller
                 {
                     $comment->body = $this->markComments($string_words, $comment->body);
                     if($comments != "null")
-                    {
-                        $comment->body = $this->findQueryInComment($comment->body, $query);
+                    {   
+                        if(str_word_count(strip_tags($comment->body)) > 60)
+                        {
+                            $comment->body = $this->findQueryInComment($comment->body, $query);
+                        }
                         $comments[$article->id][] = $comment;
                     }                        
                 }
@@ -249,15 +252,12 @@ class SearchController extends Controller
     }
     private function findQueryInComment($body, $query)
     {
-        if(str_word_count(strip_tags($body)) > 60)
+        $occurence = stripos($body, "<span style='background-color:#FFFF00'>".$query);
+        if($occurence == FALSE)
         {
-            if(stripos($body, "<span style='background-color:#FFFF00'>".$query))
-            {
-                $body = $this->cropComment($body, stripos($body, "<span style='background-color:#FFFF00'>".$query));
-            } else if(stripos($body, "<span style='background-color:#FFFF00'>")) {
-                $body = $this->cropComment($body, stripos($body, "<span style='background-color:#FFFF00'>"));
-            }
+           $occurence = stripos($body, "<span style='background-color:#FFFF00'>");
         }
+        $body = $this->cropComment($body, $occurence);
         return $body;
     }
     private function cropComment($body, $occurence)
