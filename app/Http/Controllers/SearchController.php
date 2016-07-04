@@ -268,7 +268,7 @@ class SearchController extends Controller
             });
         foreach($query_words as $word)
         {
-            if(strlen($word) <= 3)
+            if(strlen($word) <= 3 && count($query_words) >=3)
             {
                 $string_words[] = "*(?<![a-zA-Z])".preg_quote($word)."(?![a-zA-Z])*i";
             } else {
