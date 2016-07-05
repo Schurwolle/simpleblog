@@ -106,7 +106,7 @@
 													</span>
 												</div>
 												<div name="panelbody" class="panel-body">
-													@for($i = 60; ends_with(\Illuminate\Support\Str::words($comment->body, $i),"span..."); $i++)
+													@for($i = 60; ends_with(\Illuminate\Support\Str::words($comment->body, $i),"span...") || substr_count(\Illuminate\Support\Str::words($comment->body, $i), "<span style='background-color:#FFFF00'>") > substr_count(\Illuminate\Support\Str::words($comment->body, $i), "</span>"); $i++)
 													@endfor
 													@if(str_word_count(strip_tags($comment->body)) > $i)
 														{{\Illuminate\Support\Str::words($comment->body, $i)}}
