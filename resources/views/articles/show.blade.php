@@ -262,6 +262,7 @@
 				.focus().text(txt)
 				.height($("textarea#body")[0].scrollHeight)
 			;
+			panel.css('max-height', 'none');
 			textareaHeight();
 			$(this)
 				.unbind('click')	
