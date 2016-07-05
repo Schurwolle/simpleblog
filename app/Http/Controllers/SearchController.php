@@ -264,7 +264,7 @@ class SearchController extends Controller
     {
         $body1 = substr($body, 0, $occurence);
         $body = "...".substr($body, $occurence);
-        while(str_word_count($body) < 60)
+        while(str_word_count($body) < 60 || ends_with($body1, "<span"))
         {
             $body = "...".strrchr($body1, " ").substr($body, 3);
             $body1 = substr($body1, 0, strrpos($body1, " "));
