@@ -544,6 +544,7 @@
 				if($(this).val() != '')
 				{
 					$(this).trigger('input');
+					$(this).focus();
 				}
 			});
 		});
