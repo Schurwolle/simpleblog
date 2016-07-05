@@ -277,9 +277,17 @@ class SearchController extends Controller
         usort($query_words, function($a, $b) {
                 return strlen($b) - strlen($a);
             });
+        $num = 0;
         foreach($query_words as $word)
         {
-            if(strlen($word) <= 3 && count($query_words) >=3)
+            if(strlen($word) <= 3)
+            {
+                $num++;
+            }
+        }
+        foreach($query_words as $word)
+        {
+            if(strlen($word) <= 3 && $num < count($query_words)-1)
             {
                 $string_words[] = "*(?<![a-zA-Z])".preg_quote($word)."(?![a-zA-Z])*i";
             } else {
