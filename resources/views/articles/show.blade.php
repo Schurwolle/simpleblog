@@ -464,7 +464,7 @@
 		window.onload = textareaHeight;
 
 		$(window).on("beforeunload", function() {
-			if($('textarea#add').val().trim() != '' || $('textarea#body').val() != txt)
+			if($('textarea#add').val().trim() != '' || ($('textarea#body').length && $('textarea#body').val() != txt))
 			{
 					return('You haven\'t finished your comment.');
 			}
