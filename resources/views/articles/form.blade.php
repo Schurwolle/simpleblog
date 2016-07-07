@@ -254,18 +254,33 @@
 			})
 		</script>
 		<script type="text/javascript">
-			var warning = false;
+		$(window).on("load", function() {
+			$(':input').each(function(){
+				window["value" + $(this).attr('name')] = $(this).val();
+			});
+		});
+			var warning = [];
 			var field = CKEDITOR.instances['body'];
 			$(':input').on('change keyup', function(){
-				warning = true;
-				if($(this).attr('type') != 'file') 
+				if($(this).val() != window["value" + $(this).attr('name')])
 				{
-					field = $(this);	
+					warning[$(this).attr('name')] = true;
+					if($(this).attr('type') != 'file') 
+					{
+						field = $(this);
+					}
+				} else {
+					warning[$(this).attr('name')] = false;
 				}
 			});
 			CKEDITOR.instances['body'].on('change', function(e) {
-			    warning = true;
-			    field = $(this);
+				if(CKEDITOR.instances['body'].getData() != valuebody)
+				{
+					warning['CKE'] = true;
+			    	field = $(this);
+			    } else {
+			    	waring['CKE'] = false;
+			    }
 			});
 			$('#sub').on('click', function() {
 				var old = warning;
@@ -278,10 +293,12 @@
 				}
 			});
 			$(window).on("beforeunload", function() {
-				if(warning == true)
-				{
-					field.focus();
-					return ('You have unsaved changes!');
+				for (var key in warning) {
+					if(warning[key] == true)
+					{
+						field.focus();
+						return ('You have unsaved changes!');
+					}
 				}
 			});
 		</script>
