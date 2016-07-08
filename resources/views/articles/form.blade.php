@@ -115,6 +115,8 @@
 		</script>
 		<script>
 			CKEDITOR.replace('body');
+			CKEDITOR.config.basicEntities = false;
+			CKEDITOR.config.entities = false;
 			window.onload = CKEParsley;
 			CKEDITOR.instances['body'].on('blur', CKEParsley);
 			CKEDITOR.instances['body'].on('change', CKEParsley);
@@ -280,7 +282,7 @@
 					warning['CKE'] = true;
 			    	field = $(this);
 			    } else {
-			    	waring['CKE'] = false;
+			    	warning['CKE'] = false;
 			    }
 			});
 			$('#sub').on('click', function() {
