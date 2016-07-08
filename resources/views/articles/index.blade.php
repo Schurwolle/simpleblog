@@ -173,12 +173,16 @@
 		@endif
 	@endif
 	<script>
-		$('.articleBody').children('div').each(function(){
-			while($(this).prop('scrollHeight') > 300)
-			{
-				$(this).html($(this).html().substring(0, $(this).html().lastIndexOf(" ")) + "...");
-			}
-		});
+		function cropArticle()
+		{
+			$('.articleBody').children('div').each(function(){
+				while($(this).prop('scrollHeight') > 300)
+				{
+					$(this).html($(this).html().substring(0, $(this).html().lastIndexOf(" ")) + "...");
+				}
+			});
+		}
+		$(window).bind('onload resize', cropArticle);
 	</script>
 	@include('searchfooter')
 @endsection
