@@ -174,9 +174,9 @@
 	@endif
 	<script>
 		$('.articleBody').children('div').each(function(){
-			if($(this).prop('scrollHeight') > 300)
+			while($(this).prop('scrollHeight') > 300)
 			{
-				$(this).after('<span>...</span>');
+				$(this).html($(this).html().substring(0, $(this).html().lastIndexOf(" ")) + "...");
 			}
 		});
 	</script>
