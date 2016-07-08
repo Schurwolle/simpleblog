@@ -115,6 +115,7 @@
 		</script>
 		<script>
 			CKEDITOR.replace('body');
+			window.onload = CKEParsley;
 			CKEDITOR.instances['body'].on('blur', CKEParsley);
 			CKEDITOR.instances['body'].on('change', CKEParsley);
 			
