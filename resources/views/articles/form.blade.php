@@ -117,7 +117,10 @@
 			CKEDITOR.replace('body');
 			CKEDITOR.config.basicEntities = false;
 			CKEDITOR.config.entities = false;
-			window.onload = CKEParsley;
+			window.onload = function()
+			{
+				$('#body-hidden').val(CKEDITOR.instances['body'].getData());
+			}
 			CKEDITOR.instances['body'].on('blur', CKEParsley);
 			CKEDITOR.instances['body'].on('change', CKEParsley);
 			
