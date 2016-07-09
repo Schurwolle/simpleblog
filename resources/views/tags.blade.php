@@ -118,7 +118,7 @@
 			$(this).closest('td').children('.btn-warning').show();
 		} else {
 			$(this).closest('td').append('<button class="btn btn-warning" style="width: 85px;" type="button"><i class="fa fa-remove"></i> Cancel</button></form>')
-			$('.btn-warning').on('click', function(){
+			$(this).closest('td').find('.btn-warning').on('click', function(){
 				change(td, tagname, txt);
 			});
 		}
@@ -192,6 +192,7 @@
 		if($('#addTagRow').length)
 		{
 			$('#addTagRow').fadeOut();
+			$('#addTagRow').find('#name').val('');
 			$('button#newTag')
 				.unbind('click')
 				.bind('click', newTag)
