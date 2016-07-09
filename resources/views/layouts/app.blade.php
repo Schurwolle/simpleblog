@@ -138,11 +138,19 @@
 
     <script type="text/javascript">
             $(window).bind("resize", function () {
-               if($(window).width() < 753){
+                if($(window).width() < 685)
+                {
                     $('.right').hide();
                     $('.left').hide();
                     $('.center').css("width", "100%");
                     $('.bx-wrapper .bx-caption span').css("font-size", "3vw");
+                } else {
+                    $('.right').show();
+                    $('.left').show();
+                    $('.center').css("width", "53%");
+                    $('.bx-wrapper .bx-caption span').css("font-size", "1.5vw");
+                }
+                if($(window).width() < 753){
                     var profile = $('#profile').clone();
                     var logout  = $('#logout').clone();
                     $('#drop').hide();
@@ -152,10 +160,6 @@
                         logout.appendTo('#navbar');
                     }
                 } else {
-                    $('.right').show();
-                    $('.left').show();
-                    $('.center').css("width", "53%");
-                    $('.bx-wrapper .bx-caption span').css("font-size", "1.5vw");
                     $('#drop').show();
                     $('#navbar').children('#profile').remove();
                     $('#navbar').children('#logout').remove();
