@@ -1591,7 +1591,7 @@ img {
   border: none;
   outline: 1px solid #0782C1;
 }
-.articleBody div, .panel-body:not(.new)[name=panelbody] {
+.panel-body:not(.new)[name=panelbody] {
   max-height: 300px;
 }
 .articleBody div, .panel-body[name=panelbody], .row.comment, .searchComment {

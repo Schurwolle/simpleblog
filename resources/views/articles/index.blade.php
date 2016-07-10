@@ -173,19 +173,12 @@
 		@endif
 	@endif
 	<script>
-		function cropArticle()
-		{
-			if($(window).width() > 753)
+		$('.articleBody').children('div').each(function(){
+			while($(this).height() > 300)
 			{
-				$('.articleBody').children('div').each(function(){
-					while($(this).prop('scrollHeight') > 300)
-					{
-						$(this).html($(this).html().substring(0, $(this).html().lastIndexOf(" ")) + "...");
-					}
-				});
+				$(this).html($(this).html().substring(0, $(this).html().lastIndexOf(" ")) + "...");
 			}
-		}
-		$(window).bind('onload resize', cropArticle);
+		});
 	</script>
 	@include('searchfooter')
 @endsection
