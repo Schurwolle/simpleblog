@@ -88,6 +88,7 @@ class ArticlesController extends Controller
         $article = Auth::user()->articles()->create($request->all());
         $this->syncTags($article, $request);
         $this->uploadImages($article, $request);
+        $this->saveCKEImages($article);
 
     	\Session::flash('flash_message', 'Your article has been created!');
 
@@ -132,9 +133,11 @@ class ArticlesController extends Controller
             }
             $updated = 'true';
         }   
-    	$article->update($request->all());
+        
+        $article->update($request->all());
         $this->syncTags($article, $request, $updated);
         $this->uploadImages($article, $request, $updated);
+        $this->saveCKEImages($article);
         if ($updated != $article->updated_at)
         {
             \Session::flash('flash_message', 'The article has been updated!');
@@ -270,6 +273,19 @@ class ArticlesController extends Controller
         $manager = new ImageManager();
         $image = $manager->make($photo)->save('pictures/'.$fileName);
         $updated = 'true';
+    }
+
+    private function saveCKEImages($article)
+    {
+        if(preg_match_all('#<a href="[^<>"]*"[^<>]*><img [^<>]*src="[^<>"]*"[^<>]*/></a>#', $article->body, $matches))
+        {
+            for ($i = 0; $i < count($matches[0]); $i++)
+            {                
+                $photo = substr($matches[0][$i], 9, strpos($matches[0][$i], '"', 9) - 9);
+                $manager = new ImageManager();
+                $image = $manager->make($photo)->save('pictures/'.$article->id."CKE".$i);
+            }
+        }
     }
 }
 
