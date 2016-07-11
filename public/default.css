@@ -96,9 +96,14 @@ img {
   border: 3px solid #1468af;
 }
 @-moz-document url-prefix() {
- .additional img {
-  max-width: 120px;
- }
+.additional, .additional tbody tr{
+  display: block;
+  max-width: 100%;
+}
+.additional td {
+  display: inline-block;
+  max-width: 18%;
+}
  .main-table {
   width: 100%;
   table-layout:fixed;
