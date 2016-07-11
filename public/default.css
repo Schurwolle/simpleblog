@@ -99,6 +99,10 @@ img {
  .additional img {
   max-width: 120px;
  }
+ .main-table {
+  width: 100%;
+  table-layout:fixed;
+ }
 }
 
 .marker {

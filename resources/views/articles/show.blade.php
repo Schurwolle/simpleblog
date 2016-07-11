@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-	<table>
+	<table class="main-table">
 		<tr>
 			<td>
 				<table width="100%">

@@ -22,7 +22,7 @@
 		{!! $articles->links() !!}
 		</div>	
 	@endif
-	<table>
+	<table class="main-table">
 		@if($articles->count() > 0)
 			@foreach ($articles as $article)
 				<tr>
@@ -62,9 +62,9 @@
 				<tr>
 					<td>
 						@if (file_exists('pictures/'.$article->id))
-							<article><a href="/articles/{{ $article->slug }}/{{isset($query_link) ? 'search/'.$query_link : ''}}"> 
+							<a href="/articles/{{ $article->slug }}/{{isset($query_link) ? 'search/'.$query_link : ''}}"> 
 								{{ Html::image('pictures/'.$article->id) }}
-							</a></article>
+							</a>
 							<br>
 						@else
 							<a href="/articles/{{ $article->slug }}/{{isset($query_link) ? 'search/'.$query_link : ''}}"><button class="btn btn-primary">Read More</button></a>
