@@ -182,13 +182,10 @@
 	@include('trimComments')
 	<script type="text/javascript">
 		$('.articleBody').find('a[id]').addClass('anchor');
-		var i = 0;
-		var id = {{$article->id}}
+		
 		$('.articleBody').find('img').each(function() {
 			$(this).css('height', 'auto');
 			$(this).parents('a').attr('data-lightbox', 'lightbox2');
-			$(this).parents('a').attr('href', '/pictures/' + id + 'CKE' + i);
-			i++;
 		});
 	</script>
 

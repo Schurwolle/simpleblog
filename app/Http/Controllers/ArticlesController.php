@@ -284,6 +284,9 @@ class ArticlesController extends Controller
                 $photo = substr($matches[0][$i], 9, strpos($matches[0][$i], '"', 9) - 9);
                 $manager = new ImageManager();
                 $image = $manager->make($photo)->save('pictures/'.$article->id."CKE".$i);
+                $newlink = substr_replace($matches[0][$i], '/pictures/'.$article->id."CKE".$i, 9, strpos($matches[0][$i], '"', 9) - 9);
+                $article->body = str_replace($matches[0][$i], $newlink, $article->body);
+                $article->save();
             }
         }
     }
