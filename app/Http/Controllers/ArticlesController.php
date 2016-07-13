@@ -279,6 +279,7 @@ class ArticlesController extends Controller
     {
         if(preg_match_all('#<a href="[^<>"]*"[^<>]*><img [^<>]*src="[^<>"]*"[^<>]*/></a>#', $article->body, $matches))
         {
+            $img_num = count(glob('pictures/'.$article->id.'CKE*'));
             for ($i = 0; $i < count($matches[0]); $i++)
             {                
                 $photo = substr($matches[0][$i], 9, strpos($matches[0][$i], '"', 9) - 9);
@@ -291,17 +292,18 @@ class ArticlesController extends Controller
                     
                     if(!starts_with($photo, '/pictures/') && getimagesize($photo) != false)
                     {
-                        $image = $manager->make($photo)->save('pictures/'.$article->id."CKE".$i);
-                        $newlink = preg_replace('#<a href="(.*?)"#', '<a href="/pictures/'.$article->id.'CKE'.$i.'"', $newlink);
+                        $image = $manager->make($photo)->save('pictures/'.$article->id."CKE".$img_num);
+                        $newlink = preg_replace('#<a href="(.*?)"#', '<a href="/pictures/'.$article->id.'CKE'.$img_num.'"', $newlink);
                     }
                     if(!starts_with($thumb[1], '/pictures/') && getimagesize($thumb[1]) != false)
                     {
-                        $imageThumb = $manager->make($thumb[1])->save('pictures/'.$article->id."CKE".$i."thumb");
-                        $newlink = preg_replace('#src="(.*?)"#', 'src="/pictures/'.$article->id.'CKE'.$i.'thumb"', $newlink);
+                        $imageThumb = $manager->make($thumb[1])->save('pictures/'.$article->id."CKE".$img_num."thumb");
+                        $newlink = preg_replace('#src="(.*?)"#', 'src="/pictures/'.$article->id.'CKE'.$img_num.'thumb"', $newlink);
                     }
 
                     $article->body = str_replace($matches[0][$i], $newlink, $article->body);
                     $article->save();
+                    $img_num++;
                 }
             }
         }
