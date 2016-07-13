@@ -144,9 +144,12 @@
 				{
 					$('#thumbnailImage').parsley().validate();
 				}
+				$('#thumbnail').css('background-image', 'none')
 			},
 			onReset: function(){ 
 				$('#thumbnailImage').parsley().validate();
+				var id = {{$article->id}}
+				$('#thumbnail').css('background-image', id ? 'url(/pictures/'+ id +'thumbnail)' : 'url(/img/placeholder.jpg)');
 			}
 		}		
 		var cropperThumbnail = new Croppic('thumbnail', thumbnailOptions);
@@ -164,9 +167,12 @@
 				{
 					$('#img').parsley().validate();
 				}
+				$('#image').css('background-image', 'none')
 			},
 			onReset: function(){ 
 				$('#img').parsley().validate();
+				var id = {{$article->id}}
+				$('#image').css('background-image', id ? 'url(/pictures/'+ id +')' : 'url(/img/placeholder.jpg)');
 			}
 		}
 		var cropperImage = new Croppic('image', imageOptions);
