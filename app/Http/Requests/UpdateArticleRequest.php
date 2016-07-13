@@ -26,7 +26,7 @@ class UpdateArticleRequest extends Request
         return [
             'title'      => 'required|max:78|unique:articles,title,'.$this->articles->id,
             'slug'       => 'required|unique:articles,slug,'.$this->articles->id,
-            'body'       => 'required|max:64443',
+            'body'       => 'required|max:64443|ckeimgs',
             'addImgs.*'  => 'image|max:2048',
             'tag_list.*' => 'alpha_num',
         ];

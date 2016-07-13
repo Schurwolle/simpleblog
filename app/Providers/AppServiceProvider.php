@@ -15,6 +15,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Validator::extend('maximgs', 'App\Validators\CustomValidator@validateMaxImgs');
+        Validator::extend('ckeimgs', 'App\Validators\CustomValidator@validateCKEImgs');
     }
 
     /**

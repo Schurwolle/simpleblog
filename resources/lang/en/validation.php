@@ -88,6 +88,7 @@ return [
     |
     */
     'maximgs' => 'Maximum number of :attribute is 5.',
+    'ckeimgs' => 'Image(s) in the body of your article is (are) not linked correctly.',
 
     'custom' => [
         'addImgs.*' => [

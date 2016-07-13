@@ -12,4 +12,21 @@ class CustomValidator
 		}
 		return true;
 	}
+
+	public function validateCKEImgs($attribute, $value, $parameters, $validator)
+	{
+		if(preg_match_all('#<a href="[^<>"]*"[^<>]*><img [^<>]*src="[^<>"]*"[^<>]*/></a>#', $value, $matches))
+        {
+            for ($i = 0; $i < count($matches[0]); $i++)
+            {                
+                $photo = substr($matches[0][$i], 9, strpos($matches[0][$i], '"', 9) - 9);
+                preg_match('#src="(.*?)"#', $matches[0][$i], $thumb);
+                if(getimagesize($photo) == false && !starts_with($photo, '/pictures/') || getimagesize($thumb[1]) == false && !starts_with($thumb[1], '/pictures/'))
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+	}
 }

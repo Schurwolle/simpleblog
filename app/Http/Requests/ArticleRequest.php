@@ -26,7 +26,7 @@ class ArticleRequest extends Request
         return [ 
             'title'          => 'required|max:78|unique:articles,title',
             'slug'           => 'required|unique:articles,slug',
-            'body'           => 'required|max:64443',
+            'body'           => 'required|max:64443|ckeimgs',
             'published_at'   => 'required|date|after:yesterday',
             'img'            => 'required',
             'thumbnailImage' => 'required',
