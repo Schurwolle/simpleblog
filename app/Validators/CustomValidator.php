@@ -21,7 +21,7 @@ class CustomValidator
             {                
                 $photo = substr($matches[0][$i], 9, strpos($matches[0][$i], '"', 9) - 9);
                 preg_match('#src="(.*?)"#', $matches[0][$i], $thumb);
-                if(getimagesize($photo) == false && !starts_with($photo, '/pictures/') || getimagesize($thumb[1]) == false && !starts_with($thumb[1], '/pictures/'))
+                if(!starts_with($photo, '/pictures/') && getimagesize($photo) == false || (!starts_with($thumb[1], '/pictures/') && getimagesize($thumb[1]) == false))
                 {
                     return false;
                 }
