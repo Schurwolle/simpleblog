@@ -18,6 +18,7 @@ use App\Repositories\TagRepository;
 use Validator;
 use Intervention\Image\ImageManager;
 use App\Jobs\Delete;
+use App\Jobs\DeleteCKEImages;
 
 class ArticlesController extends Controller
 {	
@@ -277,9 +278,11 @@ class ArticlesController extends Controller
 
     private function saveCKEImages($article)
     {
+        $old_imgs = glob('pictures/'.$article->id.'CKE*');
+        $job = (new DeleteCKEImages($old_imgs, $article->body));
+        $this->dispatch($job);
         if(preg_match_all('#<a href="[^<>"]*"[^<>]*><img [^<>]*src="[^<>"]*"[^<>]*/></a>#', $article->body, $matches))
         {
-            $old_imgs = glob('pictures/'.$article->id.'CKE*');
             natsort($old_imgs);
             $img_num = $old_imgs[count($old_imgs) - 2];
             $img_num = substr($img_num, -1) +1;
