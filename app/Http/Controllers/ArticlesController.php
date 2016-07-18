@@ -286,8 +286,6 @@ class ArticlesController extends Controller
             natsort($old_imgs);
             $img_num = $old_imgs[count($old_imgs) - 2];
             $img_num = substr($img_num, -1) +1;
-            $thumb_num = $old_imgs[count($old_imgs)-1];
-            $thumb_num = substr($thumb_num, -6, 1) + 1;
             for ($i = 0; $i < count($matches[0]); $i++)
             {                
                 $photo = substr($matches[0][$i], 9, strpos($matches[0][$i], '"', 9) - 9);
@@ -299,10 +297,12 @@ class ArticlesController extends Controller
                 if(!starts_with($photo, '/pictures/'))
                 {
                     $image = $manager->make($photo)->save('pictures/'.$article->id."CKE".$img_num);
+                    $photo = $img_num;
                     $newlink = preg_replace('#<a href="(.*?)"#', '<a href="/pictures/'.$article->id.'CKE'.$img_num.'"', $newlink);
                 }
                 if(!starts_with($thumb[1], '/pictures/'))
                 {
+                    $thumb_num = $photo == $img_num ? $img_num : substr($photo, -1);
                     $imageThumb = $manager->make($thumb[1])->save('pictures/'.$article->id."CKE".$thumb_num."thumb");
                     $newlink = preg_replace('#src="(.*?)"#', 'src="/pictures/'.$article->id.'CKE'.$thumb_num.'thumb"', $newlink);
                 }
