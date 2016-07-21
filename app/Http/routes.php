@@ -45,6 +45,7 @@ Route::controllers([
 Route::get('login/facebook', 'Auth\AuthController@redirectToFacebook');
 Route::get('login/facebook/callback', 'Auth\AuthController@getFacebook');
 
+Route::post('validateCKEImages', 'ArticlesController@validateCKEImages');
 Route::post('unique', 'ArticlesController@unique');
 Route::resource('articles', 'ArticlesController');
 Route::get('articles/{articles}/favorite', 'ArticlesController@favorite');

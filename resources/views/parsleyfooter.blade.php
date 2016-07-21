@@ -31,5 +31,28 @@
 	  			}
 	  		});
 	  		return response;
-	    });
+	    })
+	  .addValidator('ckeimgs', function(value){
+	  	var regex = new RegExp('<a href="[^<>"]*"[^<>]*><img [^<>]*src="[^<>"]*"[^<>]*/></a>', 'g')
+	  	var matches = value.match(regex);
+	  	var response = true;
+	  	if(matches != null)
+	  	{
+	  		$.ajax({
+	  			url: '/validateCKEImages',
+	  			type: 'POST',
+	  			async: false,
+	  			data:{
+	  				'body': value,
+	  			},
+	  			success: function(validation){
+	  				if(validaton = false)
+	  				{
+	  					response = false;
+	  				}
+	  			}
+		  	});
+		}
+		return response;
+	  });
 	</script>

@@ -49,6 +49,8 @@
 								'data-parsley-required-message' => 'Body is required.',
 								'data-parsley-maxlength'		=> '64443',
 								'data-parsley-maxlength-message'=> 'Body cannot be longer than 64443 characters.',
+								'data-parsley-ckeimgs',
+								'data-parsley-ckeimgs-message'  => 'Your image is not linked correctly',
 							]
 						) 
 	!!}

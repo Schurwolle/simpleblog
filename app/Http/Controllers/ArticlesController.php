@@ -189,6 +189,17 @@ class ArticlesController extends Controller
             return 'false';
         }
     }
+    public function validateCKEImages(Request $request)
+    {
+        $inputs = array('body' => $request->body);
+        $rules  = array('body' => 'ckeimgs');
+        $validator = Validator::make($inputs, $rules);
+        if($validator->fails())
+        {
+            return false;
+        }
+        return true;
+    }
 
 
     private function syncTags($article, $request, &$updated = null)
