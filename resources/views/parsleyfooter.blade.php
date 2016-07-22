@@ -8,6 +8,7 @@
     </script>
     {{Html::script('/parsley.min.js')}}
     <script type="text/javascript">
+    var old_matches = "";
 	window.Parsley
 	  .addValidator('unique', function(value, requirement) {
 	  	var response = false;
@@ -33,27 +34,33 @@
 	  		return response;
 	    })
 	  .addValidator('ckeimgs', function(value, requirement){
-	  	var regex = new RegExp('<a href="[^<>"]*"[^<>]*><img [^<>]*src="[^<>"]*"[^<>]*/></a>', 'g')
+	  	var regex = new RegExp('<a href="[^<>"]*"[^<>]*><img [^<>]*src="[^<>"]*"[^<>]*/></a>', 'g');
 	  	var matches = value.match(regex);
   		var response = true;
-	  	if(matches != null)
-	  	{
-	  		$.ajax({
-	  			url: '/validateCKEImages',
-	  			type: 'POST',
-	  			async: false,
-	  			data:{
-	  				'body': value,
-	  				_token: requirement,
-	  			},
-	  			success: function(validation){
-	  				if(validation == 'false')
-	  				{
-	  					response = false;
-	  				}
-	  			}
-		  	});
-		}
+  			console.log(matches);
+  			console.log(old_matches);
+  		if(matches.toString() != old_matches.toString())
+  		{
+  			old_matches = matches;
+		  	if(matches != null)
+		  	{
+		  		$.ajax({
+		  			url: '/validateCKEImages',
+		  			type: 'POST',
+		  			async: false,
+		  			data:{
+		  				'body': value,
+		  				_token: requirement,
+		  			},
+		  			success: function(validation){
+		  				if(validation == 'false')
+		  				{
+		  					response = false;
+		  				}
+		  			}
+			  	});
+			}
+  		}
 		return response;
 	  });
 	</script>
