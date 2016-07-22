@@ -196,9 +196,9 @@ class ArticlesController extends Controller
         $validator = Validator::make($inputs, $rules);
         if($validator->fails())
         {
-            return false;
+            return 'false';
         }
-        return true;
+        return 'true';
     }
 
 

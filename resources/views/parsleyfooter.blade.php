@@ -32,10 +32,10 @@
 	  		});
 	  		return response;
 	    })
-	  .addValidator('ckeimgs', function(value){
+	  .addValidator('ckeimgs', function(value, requirement){
 	  	var regex = new RegExp('<a href="[^<>"]*"[^<>]*><img [^<>]*src="[^<>"]*"[^<>]*/></a>', 'g')
 	  	var matches = value.match(regex);
-	  	var response = true;
+  		var response = true;
 	  	if(matches != null)
 	  	{
 	  		$.ajax({
@@ -44,9 +44,10 @@
 	  			async: false,
 	  			data:{
 	  				'body': value,
+	  				_token: requirement,
 	  			},
 	  			success: function(validation){
-	  				if(validaton = false)
+	  				if(validation == 'false')
 	  				{
 	  					response = false;
 	  				}
