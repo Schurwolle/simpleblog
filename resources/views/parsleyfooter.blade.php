@@ -37,31 +37,29 @@
 	    })
 	  .addValidator('ckeimgs', function(value, requirement){
 	  	var regex = new RegExp('<a href="[^<>"]*"[^<>]*><img [^<>]*src="[^<>"]*"[^<>]*/></a>', 'g');
-	  	var matches = value.match(regex);
-  		if(matches.toString() != old_matches.toString())
+	  	var matches = "";
+	  	matches = value.match(regex);
+  		if(matches != null && matches.toString() != old_matches.toString())
   		{
-  			old_matches = matches;
-		  	if(matches != null)
-		  	{
-		  		$.ajax({
-		  			url: '/validateCKEImages',
-		  			type: 'POST',
-		  			async: false,
-		  			data:{
-		  				'body': value,
-		  				_token: requirement,
-		  			},
-		  			success: function(validation){
-		  				if(validation == 'false')
-		  				{
-		  					response = false;
-		  				} else {
-		  					response = true;
-		  				}
-		  			}
-			  	});
-			}
+	  		$.ajax({
+	  			url: '/validateCKEImages',
+	  			type: 'POST',
+	  			async: false,
+	  			data:{
+	  				'body': value,
+	  				_token: requirement,
+	  			},
+	  			success: function(validation){
+	  				if(validation == 'false')
+	  				{
+	  					response = false;
+	  				} else {
+	  					response = true;
+	  				}
+	  			}
+		  	});
   		}
+  		old_matches = matches;
 		return response;
 	  });
 	</script>
