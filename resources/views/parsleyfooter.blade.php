@@ -9,6 +9,8 @@
     {{Html::script('/parsley.min.js')}}
     <script type="text/javascript">
     var old_matches = "";
+	var response = true;
+
 	window.Parsley
 	  .addValidator('unique', function(value, requirement) {
 	  	var response = false;
@@ -36,9 +38,6 @@
 	  .addValidator('ckeimgs', function(value, requirement){
 	  	var regex = new RegExp('<a href="[^<>"]*"[^<>]*><img [^<>]*src="[^<>"]*"[^<>]*/></a>', 'g');
 	  	var matches = value.match(regex);
-  		var response = true;
-  			console.log(matches);
-  			console.log(old_matches);
   		if(matches.toString() != old_matches.toString())
   		{
   			old_matches = matches;
@@ -56,6 +55,8 @@
 		  				if(validation == 'false')
 		  				{
 		  					response = false;
+		  				} else {
+		  					response = true;
 		  				}
 		  			}
 			  	});
