@@ -39,7 +39,8 @@
 	  .addValidator('ckeimgs', function(value, requirement){
 	    if(old_matches == null) old_matches = "";
 	  	matches = value.match(regex);
-  		if(matches != null && matches.toString() != old_matches.toString())
+	    if(matches == null) matches = "";
+  		if(matches.toString() != old_matches.toString())
   		{
 	  		$.ajax({
 	  			url: '/validateCKEImages',
@@ -58,8 +59,8 @@
 	  				}
 	  			}
 		  	});
+  			old_matches = matches;
   		}
-  		old_matches = matches;
 		return response;
 	  });
 	</script>
