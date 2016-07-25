@@ -8,7 +8,8 @@
     </script>
     {{Html::script('/parsley.min.js')}}
     <script type="text/javascript">
-    var old_matches = "";
+    var regex = new RegExp('<a href="[^<>"]*"[^<>]*><img [^<>]*src="[^<>"]*"[^<>]*/></a>', 'g');
+    var old_matches = CKEDITOR.instances['body'].getData().match(regex);
 	var response = true;
 
 	window.Parsley
@@ -36,8 +37,7 @@
 	  		return response;
 	    })
 	  .addValidator('ckeimgs', function(value, requirement){
-	  	var regex = new RegExp('<a href="[^<>"]*"[^<>]*><img [^<>]*src="[^<>"]*"[^<>]*/></a>', 'g');
-	  	var matches = "";
+	    if(old_matches == null) old_matches = "";
 	  	matches = value.match(regex);
   		if(matches != null && matches.toString() != old_matches.toString())
   		{
