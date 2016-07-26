@@ -21,7 +21,7 @@ class CustomValidator
             {                
                 $photo = substr($matches[0][$i], 9, strpos($matches[0][$i], '"', 9) - 9);
                 preg_match('#src="(.*?)"#', $matches[0][$i], $thumb);
-                if(starts_with($photo, '/pictures/') && (!file_exists(base_path().'/public'.$photo)) || starts_with($thumb[1], '/pictures/') && (!file_exists(base_path().'/public'.$thumb[1])) || ((!starts_with($photo, '/pictures/')) && ((!$this->url_exists($photo)) || (!getimagesize($photo)))) || ((!starts_with($thumb[1], '/pictures/')) && ((!$this->url_exists($thumb[1])) || (!getimagesize($thumb[1])))))
+                if(starts_with($photo, '/pictures/') && (!file_exists(base_path().'/public'.$photo)) || starts_with($thumb[1], '/pictures/') && (!file_exists(base_path().'/public'.$thumb[1])) || ((!starts_with($photo, '/pictures/')) && (!$this->is_image($photo))) || ((!starts_with($thumb[1], '/pictures/')) && (!$this->is_image($thumb[1]))))
                 {
                 	return false;
                 }
@@ -30,12 +30,13 @@ class CustomValidator
         return true;
 	}
 
-	private function url_exists($url)
+	private function is_image($url)
 	{
-		$url_headers = @get_headers($url);
-		if($url_headers[0] == 'HTTP/1.1 404 Not Found') {
-		    return false;
+		$url_headers = @get_headers($url,1);
+		if (isset($url_headers['Content-Type']) && strpos($url_headers['Content-Type'], 'image/') !== FALSE)
+		{
+		    return true;
 		}
-		return true;
+		return false;
 	}
 }
