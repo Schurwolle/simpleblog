@@ -90,6 +90,7 @@ class ArticlesController extends Controller
         $this->syncTags($article, $request);
         $this->uploadImages($article, $request);
         $this->saveCKEImages($article);
+        $this->fixCKEVideo($article);
 
     	\Session::flash('flash_message', 'Your article has been created!');
 
@@ -139,6 +140,7 @@ class ArticlesController extends Controller
         $this->syncTags($article, $request, $updated);
         $this->uploadImages($article, $request, $updated);
         $this->saveCKEImages($article);
+        $this->fixCKEVideo($article);
         if ($updated != $article->updated_at)
         {
             \Session::flash('flash_message', 'The article has been updated!');
@@ -323,6 +325,14 @@ class ArticlesController extends Controller
                 $article->save();
                 $num++;
             }
+        }
+    }
+    private function fixCKEVideo($article)
+    {
+        if(preg_match_all('#<input class="remove-videodetector" type="button" value="Remove video" />#', $article->body))
+        {
+            $article->body = str_replace('<input class="remove-videodetector" type="button" value="Remove video" />', '',$article->body);
+            $article->save();
         }
     }
 }
