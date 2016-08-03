@@ -331,7 +331,7 @@ class ArticlesController extends Controller
     {
         if(preg_match_all('#<input class="remove-videodetector" type="button" value="Remove video" />#', $article->body))
         {
-            $article->body = str_replace('<input class="remove-videodetector" type="button" value="Remove video" />', '',$article->body);
+            $article->body = str_replace('></iframe><input class="remove-videodetector" type="button" value="Remove video" />', ' allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"></iframe>', $article->body);
             $article->save();
         }
     }
