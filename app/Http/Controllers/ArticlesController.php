@@ -329,7 +329,7 @@ class ArticlesController extends Controller
     }
     private function fixCKEVideo($article)
     {
-        if(preg_match_all('#<input class="remove-videodetector" type="button" value="Remove video" />#', $article->body))
+        if(preg_match('#></iframe>#', $article->body))
         {
             $find = ['></iframe>', '<input class="remove-videodetector" type="button" value="Remove video" />'];
             $replace = [' allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"></iframe>'];
