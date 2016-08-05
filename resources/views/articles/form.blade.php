@@ -245,25 +245,33 @@
 						return; 
 					}
 				}
+				$('#message').remove();
 				$('#selected').parents('table').remove();
 				$('#addImgs').after('<table><tr id="selected" class="additional"></tr></table>')
 				for(var i = 0;i < $('#addImgs')[0].files.length;i++)
 				{
 					var reader = new FileReader();
-					var no = i;
 					reader.onload = function (img){
-						$('#selected').append('<td align="middle"><a href="' +img.target.result+ '" data-lightbox="selected"><img src="' +img.target.result+ '"></a><br><input type="checkbox" id="input' +no+ '"></td>');
+						$('#selected').append('<td align="middle"><a href="' +img.target.result+ '" data-lightbox="selected"><img src="' +img.target.result+ '"></a><br></td>');
 					}
-					reader.readAsDataURL($('#addImgs')[0].files[i]);
+					reader.readAsDataURL($('#addImgs')[0].files[i]);					
 				}
 				if($('#addImgs')[0].files.length > 1)
 				{
-					$('#addImgs').next('table').after('<table width="100%"><tr><td align="middle">Order images by clicking checkboxes</td></tr></table>');
+					for(i = 0; i < $('#addImgs')[0].files.length; i++)
+					{
+						console.log($('#selected'));
+						console.log($('#selected').children('td'));		
+						console.log($('#selected').children('td').eq(i));
+						$('#selected').children('td').eq(i).append('<input type="checkbox" id="input' +i+ '">');
+					}
+					$('#addImgs').next('table').after('<table id="message" width="100%"><tr><td align="middle">Order images by clicking checkboxes</td></tr></table>');
 				}
 
 			});
 			function erase()
 			{
+				$('#message').remove();
 				$('#selected').parents('table').remove();
 				$('#addImgs').val('');
 			}
