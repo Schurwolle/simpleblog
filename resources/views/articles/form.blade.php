@@ -265,6 +265,22 @@
 						$('#checkboxes').append('<td align="middle"><input type="checkbox" id="input' +i+ '"></td>');
 					}
 					$('#addImgs').next('table').after('<table id="message" width="100%"><tr><td align="middle">Order images by clicking checkboxes</td></tr></table>');
+					$('#checkboxes').find("input:checkbox").on('change', function(){
+						if($(this).prop('checked') == true)
+						{
+							$(this).before('<span>' +$('#checkboxes').find("input:checkbox:checked").length+ '</span>');
+							$(this).attr('name', $('#checkboxes').find("input:checkbox:checked").length);
+						} else {
+							if($(this).attr('name') != $('#checkboxes').find("input:checkbox:checked").length + 1)
+							{
+								console.log($(this).attr('name'));
+								console.log($('#checkboxes').find("input:checkbox:checked").length);
+								return $(this).prop('checked', true);
+							}
+							$(this).parents('td').find('span').remove();
+							$(this).attr('name', '');
+						}
+					});
 				}
 
 			});
