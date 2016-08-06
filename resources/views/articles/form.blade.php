@@ -245,6 +245,7 @@
 						return; 
 					}
 				}
+				$('#checkboxes').remove();
 				$('#message').remove();
 				$('#selected').parents('table').remove();
 				$('#addImgs').after('<table><tr id="selected" class="additional"></tr></table>')
@@ -258,12 +259,10 @@
 				}
 				if($('#addImgs')[0].files.length > 1)
 				{
+					$('#selected').parents('table').after('<table id="checkboxes" width="100%"></table>');
 					for(i = 0; i < $('#addImgs')[0].files.length; i++)
 					{
-						console.log($('#selected'));
-						console.log($('#selected').children('td'));		
-						console.log($('#selected').children('td').eq(i));
-						$('#selected').children('td').eq(i).append('<input type="checkbox" id="input' +i+ '">');
+						$('#checkboxes').append('<td align="middle"><input type="checkbox" id="input' +i+ '"></td>');
 					}
 					$('#addImgs').next('table').after('<table id="message" width="100%"><tr><td align="middle">Order images by clicking checkboxes</td></tr></table>');
 				}
@@ -271,6 +270,7 @@
 			});
 			function erase()
 			{
+				$('#checkboxes').remove();
 				$('#message').remove();
 				$('#selected').parents('table').remove();
 				$('#addImgs').val('');
