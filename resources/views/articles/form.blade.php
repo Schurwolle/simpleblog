@@ -253,7 +253,7 @@
 				{
 					var reader = new FileReader();
 					reader.onload = function (img){
-						$('#selected').append('<td align="middle"><a href="' +img.target.result+ '" data-lightbox="selected"><img src="' +img.target.result+ '"></a><br></td>');
+						$('#selected').append('<td align="middle"><a href="' +img.target.result+ '" data-lightbox="selected"><img src="' +img.target.result+ '"></a></td>');
 					}
 					reader.readAsDataURL($('#addImgs')[0].files[i]);					
 				}
@@ -262,23 +262,21 @@
 					$('#selected').parents('table').after('<table id="checkboxes" width="100%"></table>');
 					for(i = 0; i < $('#addImgs')[0].files.length; i++)
 					{
-						$('#checkboxes').append('<td align="middle"><input type="checkbox" id="input' +i+ '"></td>');
+						$('#checkboxes').append('<td align="middle"><input type="checkbox" id="' +i+ '"></td>');
 					}
 					$('#addImgs').next('table').after('<table id="message" width="100%"><tr><td align="middle">Order images by clicking checkboxes</td></tr></table>');
 					$('#checkboxes').find("input:checkbox").on('change', function(){
 						if($(this).prop('checked') == true)
 						{
-							$(this).before('<span>' +$('#checkboxes').find("input:checkbox:checked").length+ '</span>');
-							$(this).attr('name', $('#checkboxes').find("input:checkbox:checked").length);
+							$(this).before('<span>' +$('#checkboxes').find("input:checkbox:checked").length+ ' </span>');
+							$(this).attr('name', $(this).attr('id') +'-'+ $('#checkboxes').find("input:checkbox:checked").length);
 						} else {
 							if($(this).attr('name') != $('#checkboxes').find("input:checkbox:checked").length + 1)
 							{
-								console.log($(this).attr('name'));
-								console.log($('#checkboxes').find("input:checkbox:checked").length);
 								return $(this).prop('checked', true);
 							}
 							$(this).parents('td').find('span').remove();
-							$(this).attr('name', '');
+							$(this).removeAttr('name');
 						}
 					});
 				}
