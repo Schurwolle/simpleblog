@@ -262,21 +262,21 @@
 					$('#selected').parents('table').after('<table id="checkboxes" width="100%"></table>');
 					for(i = 0; i < $('#addImgs')[0].files.length; i++)
 					{
-						$('#checkboxes').append('<td align="middle"><input type="checkbox" id="' +i+ '"></td>');
+						$('#checkboxes').append('<td align="middle"><input type="checkbox" name="images[' +i+ ']"></td>');
 					}
 					$('#addImgs').next('table').after('<table id="message" width="100%"><tr><td align="middle">Order images by clicking checkboxes</td></tr></table>');
 					$('#checkboxes').find("input:checkbox").on('change', function(){
 						if($(this).prop('checked') == true)
 						{
 							$(this).before('<span>' +$('#checkboxes').find("input:checkbox:checked").length+ ' </span>');
-							$(this).attr('name', $(this).attr('id') +'-'+ $('#checkboxes').find("input:checkbox:checked").length);
+							$(this).attr('value', $('#checkboxes').find("input:checkbox:checked").length);
 						} else {
-							if($(this).attr('name') != $('#checkboxes').find("input:checkbox:checked").length + 1)
+							if($(this).attr('value') != $('#checkboxes').find("input:checkbox:checked").length + 1)
 							{
 								return $(this).prop('checked', true);
 							}
 							$(this).parents('td').find('span').remove();
-							$(this).removeAttr('name');
+							$(this).removeAttr('value');
 						}
 					});
 				}
