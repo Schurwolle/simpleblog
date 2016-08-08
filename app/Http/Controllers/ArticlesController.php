@@ -270,13 +270,13 @@ class ArticlesController extends Controller
                 $mask = array_values($mask);
                 $uploadCount = explode('lb', $mask[count($mask)-1])[1] + 1;
             }
-            
-            foreach($files as $file)
+            for($i = 0; $i < count($files); $i++)
             {
+                $file = $files[$i];
+                $j = $request->input('images')[$i];
                 $destinationPath = 'pictures/';
-                $fileName = $article->id.'lb'.$uploadCount;
+                $fileName = $article->id.'lb'.$j;
                 $file->move($destinationPath, $fileName);
-                $uploadCount++;
             }
         }
     }
