@@ -268,15 +268,16 @@ class ArticlesController extends Controller
             } else {
                 natsort($mask);
                 $mask = array_values($mask);
-                $uploadCount = explode('lb', $mask[count($mask)-1])[1] + 1;
+                $uploadCount = explode('lb', $mask[count($mask)-1])[1];
             }
-            for($i = 0; $i < count($files); $i++)
+            foreach($files as $i => $file)
             {
-                $file = $files[$i];
                 $j = $request->input('images')[$i];
+                $uploadCount = $uploadCount + $j;
                 $destinationPath = 'pictures/';
-                $fileName = $article->id.'lb'.$j;
+                $fileName = $article->id.'lb'.$uploadCount;
                 $file->move($destinationPath, $fileName);
+                $uploadCount = $uploadCount - $j;
             }
         }
     }
