@@ -270,7 +270,7 @@ class ArticlesController extends Controller
                 $mask = array_values($mask);
                 $uploadCount = explode('lb', $mask[count($mask)-1])[1];
             }
-            if(count($files == 1))
+            if(count($files) == 1)
             {
                 $uploadCount++;
                 $this->uploadAddImg($files[0], $uploadCount, $article);
