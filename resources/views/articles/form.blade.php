@@ -290,11 +290,33 @@
 				$('#selected').parents('table').remove();
 				$('#addImgs').val('');
 			}
-			$('table.additional').find("input:checkbox(:checked)").on('change', function () {
-				if($('table.additional').find("input:checkbox:not(:checked)").length + $("#addImgs")[0].files.length > 5)
+			$('table.additional').find("input:checkbox").on('change', function () {
+				if($(this).prop('checked') != true)
 				{
-					swal({ title: "Error!", text: "Maximum number of additional images is 5.", timer: 2000, showConfirmButton: false, type:"error" });
-					$(this).prop('checked', true);
+					if($('table.additional').find("input:checkbox:not(:checked)").length + $("#addImgs")[0].files.length > 5)
+					{
+						swal({ title: "Error!", text: "Maximum number of additional images is 5.", timer: 2000, showConfirmButton: false, type:"error" });
+						$(this).prop('checked', true);
+						return;
+					}
+					if($('#checkboxes').length)
+					{
+						for(var i = 0; i < $('#checkboxes').find('input:checkbox:checked').length; i++)
+						{
+							$('#checkboxes').find('input:checkbox:checked').eq(i).attr('value', +$('#checkboxes').find('input:checkbox:checked').eq(i).attr('value') + 1);
+							$('#checkboxes').find('span').eq(i).text(parseInt($('#checkboxes').find('span').eq(i).text(), 10) + 1 + ' ');
+						}
+					}
+				} else {
+					if($('#checkboxes').length)
+					{
+						for(var i = 0; i < $('#checkboxes').find('input:checkbox:checked').length; i++)
+						{
+							console.log($('#checkboxes').find('span').eq(i).text());
+							$('#checkboxes').find('input:checkbox:checked').eq(i).attr('value', +$('#checkboxes').find('input:checkbox:checked').eq(i).attr('value') - 1);
+							$('#checkboxes').find('span').eq(i).text(parseInt($('#checkboxes').find('span').eq(i).text(), 10) - 1 + ' ');
+						}
+					}
 				}
 			})
 		</script>
