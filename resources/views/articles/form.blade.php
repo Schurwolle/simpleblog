@@ -257,9 +257,9 @@
 					}
 					reader.readAsDataURL($('#addImgs')[0].files[i]);					
 				}
-				var ord_num = $('table.additional').find('input:checkbox:not(:checked)').length;
-				if(ord_num + $('#addImgs')[0].files.length > 1)
+				if($('#addImgs')[0].files.length > 1)
 				{
+					var ord_num = $('table.additional').find('input:checkbox:not(:checked)').length;
 					$('#selected').parents('table').after('<table id="checkboxes" width="100%"></table>');
 					for(i = 0; i < $('#addImgs')[0].files.length; i++)
 					{

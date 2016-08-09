@@ -241,21 +241,21 @@ class ArticlesController extends Controller
         if(!empty($mask) && $request->img != "")
         {
             $fileName = $article->id;
-            $this->upload($mask, $fileName, $updated);
+            $this->upload($mask[0], $fileName, $updated);
         }
 
         $mask = glob('pictures/cropper/croppedthumb'.$userName.'*');
         if(!empty($mask) && $request->thumbnailImage != "")
         {
             $fileName = $article->id.'thumbnail';
-            $this->upload($mask, $fileName, $updated);
+            $this->upload($mask[0], $fileName, $updated);
         }
 
         $mask = glob('pictures/cropper/lightbox2'.$userName);
         if(!empty($mask) && $request->img != "")
         {
             $fileName = $article->id.'lightbox2';
-            $this->upload($mask, $fileName, $updated);
+            $this->upload($mask[0], $fileName, $updated);
         }
 
         if($request->hasFile('addImgs'))
@@ -270,21 +270,30 @@ class ArticlesController extends Controller
                 $mask = array_values($mask);
                 $uploadCount = explode('lb', $mask[count($mask)-1])[1];
             }
-            foreach($files as $i => $file)
+            if(count($files == 1))
             {
-                $j = $request->input('images')[$i];
-                $uploadCount = $uploadCount + $j;
-                $destinationPath = 'pictures/';
-                $fileName = $article->id.'lb'.$uploadCount;
-                $file->move($destinationPath, $fileName);
-                $uploadCount = $uploadCount - $j;
+                $uploadCount++;
+                $this->uploadAddImg($files[0], $uploadCount, $article);
+            } else {    
+                foreach($files as $i => $file)
+                {
+                    $j = $request->input('images')[$i];
+                    $uploadCount = $uploadCount + $j;
+                    $this->uploadAddImg($file, $uploadCount, $article);
+                    $uploadCount = $uploadCount - $j;
+                }
             }
         }
     }
-
-    private function upload($mask, $fileName, &$updated)
+    private function uploadAddImg($file, $uploadCount, $article)
     {
-        $photo = $mask[0];
+        $destinationPath = 'pictures/';
+        $fileName = $article->id.'lb'.$uploadCount;
+        $file->move($destinationPath, $fileName);
+    }
+
+    private function upload($photo, $fileName, &$updated)
+    {
         $manager = new ImageManager();
         $image = $manager->make($photo)->save('pictures/'.$fileName);
         $updated = 'true';
