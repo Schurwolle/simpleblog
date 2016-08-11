@@ -222,7 +222,7 @@
 
 		<script type="text/javascript">
 			$('#addImgs').on('change', function(){
-				if($('table.additional').find("input:checkbox:not(:checked)").length + $("#addImgs")[0].files.length > 5)
+				if($('tr.additional').find("input:checkbox:not(:checked)").length + $("#addImgs")[0].files.length > 5)
 				{
 					swal({ title: "Error!", text: "Maximum number of additional images is 5.", timer: 2000, showConfirmButton: false, type:"error" });
 					erase();
@@ -248,7 +248,7 @@
 				$('#checkboxes').remove();
 				$('#message').remove();
 				$('#selected').parents('table').remove();
-				$('#addImgs').after('<table class="new_add_imgs"><tr id="selected" class="additional"></tr></table>')
+				$('#addImgs').after('<tr id="selected" class="additional new_add_imgs"></tr>')
 				for(var i = 0;i < $('#addImgs')[0].files.length;i++)
 				{
 					var reader = new FileReader();
@@ -259,13 +259,13 @@
 				}
 				if($('#addImgs')[0].files.length > 1)
 				{
-					var ord_num = $('table.additional').find('input:checkbox:not(:checked)').length;
-					$('#selected').parents('table').after('<table id="checkboxes" width="100%" class="new_add_imgs"></table>');
+					var ord_num = $('tr.additional').find('input:checkbox:not(:checked)').length;
+					$('#selected').after('<tr id="checkboxes" class="new_add_imgs"></tr>');
 					for(i = 0; i < $('#addImgs')[0].files.length; i++)
 					{
 						$('#checkboxes').append('<td align="middle"><input type="checkbox" name="images[' +i+ ']"></td>');
 					}
-					$('#addImgs').next('table').after('<table id="message" width="100%" class="new_add_imgs"><tr><td align="middle">Order images by clicking checkboxes</td></tr></table>');
+					$('#selected').after('<tr id="message" class="new_add_imgs"><td colspan="4" align="middle">Order images by clicking checkboxes</td></tr>');
 					$('#checkboxes').find("input:checkbox").on('change', function(){
 						if($(this).prop('checked') == true)
 						{
@@ -280,8 +280,8 @@
 							$(this).removeAttr('value');
 						}
 					});
-					$('.new_add_imgs').wrapAll('<table></table>');
 				}
+				$('.new_add_imgs').wrapAll('<table></table>');
 
 			});
 			function erase()
@@ -291,10 +291,10 @@
 				$('#selected').parents('table').remove();
 				$('#addImgs').val('');
 			}
-			$('table.additional').find("input:checkbox").on('change', function () {
+			$('tr.additional').find("input:checkbox").on('change', function () {
 				if($(this).prop('checked') != true)
 				{
-					if($('table.additional').find("input:checkbox:not(:checked)").length + $("#addImgs")[0].files.length > 5)
+					if($('tr.additional').find("input:checkbox:not(:checked)").length + $("#addImgs")[0].files.length > 5)
 					{
 						swal({ title: "Error!", text: "Maximum number of additional images is 5.", timer: 2000, showConfirmButton: false, type:"error" });
 						$(this).prop('checked', true);
