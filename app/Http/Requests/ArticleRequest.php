@@ -32,7 +32,8 @@ class ArticleRequest extends Request
             'thumbnailImage' => 'required',
             'addImgs'        => 'max:5',
             'addImgs.*'      => 'image|max:2048',
-            'tag_list.*'     => 'alpha_num'
+            'tag_list.*'     => 'alpha_num',
+            'images'         => 'size:'.count($this->addImgs),
             
         ];
     }

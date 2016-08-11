@@ -98,6 +98,9 @@ return [
         'addImgs'   => [
             'max'     => 'Maximum number of additional images is :max.',
         ],
+        'images'   => [
+            'size'     => 'Additional images are not ordered.',
+        ],
     ],   
 
     /*

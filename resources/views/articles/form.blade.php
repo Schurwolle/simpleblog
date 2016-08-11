@@ -245,8 +245,6 @@
 						return; 
 					}
 				}
-				$('#checkboxes').remove();
-				$('#message').remove();
 				$('#selected').parents('table').remove();
 				$('#addImgs').after('<tr id="selected" class="additional new_add_imgs"></tr>')
 				for(var i = 0;i < $('#addImgs')[0].files.length;i++)
@@ -286,8 +284,6 @@
 			});
 			function erase()
 			{
-				$('#checkboxes').remove();
-				$('#message').remove();
 				$('#selected').parents('table').remove();
 				$('#addImgs').val('');
 			}
