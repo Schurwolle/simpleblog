@@ -222,7 +222,7 @@
 
 		<script type="text/javascript">
 			$('#addImgs').on('change', function(){
-				if($('tr.additional').find("input:checkbox:not(:checked)").length + $("#addImgs")[0].files.length > 5)
+				if($('table.additional').find("input:checkbox:not(:checked)").length + $("#addImgs")[0].files.length > 5)
 				{
 					swal({ title: "Error!", text: "Maximum number of additional images is 5.", timer: 2000, showConfirmButton: false, type:"error" });
 					erase();
@@ -259,13 +259,13 @@
 				}
 				if($('#addImgs')[0].files.length > 1)
 				{
-					var ord_num = $('tr.additional').find('input:checkbox:not(:checked)').length;
+					var ord_num = $('table.additional').find('input:checkbox:not(:checked)').length;
 					$('#selected').after('<tr id="checkboxes" class="new_add_imgs"></tr>');
 					for(i = 0; i < $('#addImgs')[0].files.length; i++)
 					{
 						$('#checkboxes').append('<td align="middle"><input type="checkbox" name="images[' +i+ ']"></td>');
 					}
-					$('#selected').after('<tr id="message" class="new_add_imgs"><td colspan="4" align="middle">Order images by clicking checkboxes</td></tr>');
+					$('#selected').after('<tr id="message" class="new_add_imgs"><td colspan="4" align="middle">Order images from first to last: </td></tr>');
 					$('#checkboxes').find("input:checkbox").on('change', function(){
 						if($(this).prop('checked') == true)
 						{
@@ -291,10 +291,10 @@
 				$('#selected').parents('table').remove();
 				$('#addImgs').val('');
 			}
-			$('tr.additional').find("input:checkbox").on('change', function () {
+			$('table.additional').find("input:checkbox").on('change', function () {
 				if($(this).prop('checked') != true)
 				{
-					if($('tr.additional').find("input:checkbox:not(:checked)").length + $("#addImgs")[0].files.length > 5)
+					if($('table.additional').find("input:checkbox:not(:checked)").length + $("#addImgs")[0].files.length > 5)
 					{
 						swal({ title: "Error!", text: "Maximum number of additional images is 5.", timer: 2000, showConfirmButton: false, type:"error" });
 						$(this).prop('checked', true);
