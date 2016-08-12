@@ -222,10 +222,14 @@
 
 		<script type="text/javascript">
 			$('#addImgs').on('change', function(){
+				
+				$('#selected').parents('table').remove();
+				$('.my_error_container').remove();
+
 				if($('table.additional').find("input:checkbox:not(:checked)").length + $("#addImgs")[0].files.length > 5)
 				{
 					swal({ title: "Error!", text: "Maximum number of additional images is 5.", timer: 2000, showConfirmButton: false, type:"error" });
-					erase();
+					$('#addImgs').val('');
 					return; 
 				}
 
@@ -235,18 +239,19 @@
 					if(type != "image/jpeg" && type != "image/png" && type != "image/bmp" && type != "image/gif" && type != "image/svg")
 					{
 						swal({ title: "Error!", text: "File number " +(i+1)+ " is not an image.", timer: 2000, showConfirmButton: false, type:"error" });
-						erase();
+						$('#addImgs').val('');
 						return;
 					}
 					if($('#addImgs')[0].files[i].size > 2048000)
 					{
 						swal({ title: "Error!", text: "Image number " +(i+1)+ " is too big. Maximum size allowed is 2048KB.", timer: 2000, showConfirmButton: false, type:"error" });
-						erase();
+						$('#addImgs').val('');
 						return; 
 					}
 				}
-				$('#selected').parents('table').remove();
+
 				$('#addImgs').after('<tr id="selected" class="additional new_add_imgs"></tr>')
+
 				for(var i = 0;i < $('#addImgs')[0].files.length;i++)
 				{
 					var reader = new FileReader();
@@ -255,6 +260,7 @@
 					}
 					reader.readAsDataURL($('#addImgs')[0].files[i]);					
 				}
+
 				if($('#addImgs')[0].files.length > 1)
 				{
 					var ord_num = $('table.additional').find('input:checkbox:not(:checked)').length;
@@ -290,13 +296,8 @@
 					});
 				}
 				$('.new_add_imgs').wrapAll('<table></table>');
-
 			});
-			function erase()
-			{
-				$('#selected').parents('table').remove();
-				$('#addImgs').val('');
-			}
+
 			$('table.additional').find("input:checkbox").on('change', function () {
 				if($(this).prop('checked') != true)
 				{
