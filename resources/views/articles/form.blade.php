@@ -261,9 +261,17 @@
 					$('#selected').after('<tr id="checkboxes" class="new_add_imgs"></tr>');
 					for(i = 0; i < $('#addImgs')[0].files.length; i++)
 					{
-						$('#checkboxes').append('<td align="middle"><input type="checkbox" name="images[' +i+ ']"></td>');
+						if(i == $('#addImgs')[0].files.length - 1)
+						{
+							$('#checkboxes').append('<td align="middle"><input type="checkbox" name="images[' +i+ ']" data-parsley-multiple="checkbox_group" data-parsley-mincheck="'+ $('#addImgs')[0].files.length +'" data-parsley-error-message="Additional images are not ordered." data-parsley-errors-container=".my_error_container" data-parsley-class-handler=".my_error_container" required="required"></td>');
+							$('#checkboxes').after('<div class="my_error_container"></div>');
+						} else {
+							$('#checkboxes').append('<td align="middle"><input type="checkbox" name="images[' +i+ ']" data-parsley-multiple="checkbox_group" data-parsley-errors-container=".my_error_container" data-parsley-class-handler=".my_error_container" data-parsley-error-message="Additional images are not ordered."></td>');
+						}
 					}
-					$('#selected').after('<tr id="message" class="new_add_imgs"><td colspan="4" align="middle">Order images from first to last: </td></tr>');
+
+					$('#selected').after('<tr id="message" class="new_add_imgs"><td colspan="5" align="middle">Order images from first to last: </td></tr>');
+
 					$('#checkboxes').find("input:checkbox").on('change', function(){
 						if($(this).prop('checked') == true)
 						{
