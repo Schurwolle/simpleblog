@@ -294,6 +294,26 @@
 							$(this).removeAttr('value');
 						}
 					});
+					$('#checkboxes').after('<tr class="new_add_imgs"><td colspan="5"><input type="checkbox" id="auto_order"> Order automatically.</td></tr>');
+					$('#auto_order').on('change', function() {
+
+						$('#checkboxes').find('span').remove();
+						$('#checkboxes').find("input:checkbox").removeAttr('checked');
+
+						if($(this).prop('checked') == true)
+						{
+							for(var i = 0; i < ord_num + $('#addImgs')[0].files.length; i++)
+							{
+								$('#checkboxes').find("input:checkbox").eq(i).attr({
+									'value': ord_num + $('#checkboxes').find("input:checkbox:checked").length + 1,
+									'checked': true
+								});
+								$('#checkboxes').find("input:checkbox").eq(i).before('<span>' +(ord_num + $('#checkboxes').find("input:checkbox:checked").length)+ ' </span>');
+							}
+						} else {
+							$('#checkboxes').find("input:checkbox").removeAttr('value');
+						}
+					});
 				}
 				$('.new_add_imgs').wrapAll('<table></table>');
 			});
