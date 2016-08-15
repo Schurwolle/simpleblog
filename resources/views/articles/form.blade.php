@@ -304,9 +304,9 @@
 						{
 							for(var i = 0; i < ord_num + $('#addImgs')[0].files.length; i++)
 							{
-								$('#checkboxes').find("input:checkbox").eq(i).attr({
-									'value': ord_num + $('#checkboxes').find("input:checkbox:checked").length + 1,
-									'checked': true
+								$('#checkboxes').find("input:checkbox").eq(i).prop({
+									'checked': true,
+									'value': ord_num + $('#checkboxes').find("input:checkbox:checked").length
 								});
 								$('#checkboxes').find("input:checkbox").eq(i).before('<span>' +(ord_num + $('#checkboxes').find("input:checkbox:checked").length)+ ' </span>');
 							}
