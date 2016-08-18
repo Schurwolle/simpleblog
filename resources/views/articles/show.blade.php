@@ -129,8 +129,7 @@
 		    <h3 id ="numComm">{{ $comments->count() }} {{ $comments->count() == 1 ? ' Comment:' : ' Comments:' }} </h3>
 		    <hr>
 		    @foreach($comments as $comment)
-		    	<div class="row comment">
-		    		<a name="comment{{$comment->id}}" class="anchor"></a>
+		    	<div class="row comment" id="comment{{$comment->id}}">
 					<div class="col-sm-2">
 						<div class="thumbnail">
 							<a href="/{{$comment->user->name}}/profile"><img src="{{ file_exists('pictures/'.$comment->user->name) ? '/pictures/'.$comment->user->name : '/img/avatar.png' }}"></a>
@@ -499,7 +498,7 @@
 				$(this).after('<span class="dots">...</span>');
 				$(this).siblings('.panel-body').find('.btn-info').on('click', showFull);
 
-				if(url.endsWith('#' + $(this).parents('.row').children('.anchor').attr('name')))
+				if(url.endsWith('#' + $(this).parents('.row').attr('id')))
 				{
 					$(this).siblings('.panel-body').find('.btn-info').trigger('click');
 				}
