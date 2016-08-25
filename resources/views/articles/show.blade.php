@@ -495,7 +495,7 @@
 				} else {
 					$(this).after('<div class="panel-body">' +btnInfo+ '</div>');
 				}
-				
+
 				$(this).after('<span class="dots">...</span>');
 				$(this).siblings('.panel-body').find('.btn-info').on('click', showFull);
 
@@ -506,6 +506,7 @@
 			}
 		});
 		function showFull() {
+			console.trace();
 			var buttons = $(this).closest('.panel-body').find('button').not('.btn-info, .btn-warning');
 			var commentPanel = $(this).closest('.panel-body').siblings('.panel-body');
 			commentPanel.next('span').hide();
@@ -543,7 +544,7 @@
 				.unbind('click')
 				.bind('click', showFull);
 		}
-		$(window).bind('resize', function () {
+		window.resize = function () {
 			var expanded = $('.btn-info:visible:contains(Hide Comment)')
 			expanded.trigger('click');
 			expanded.trigger('click');
@@ -554,6 +555,6 @@
 					$(this).focus();
 				}
 			});
-		});
+		};
 	</script>
 @stop
