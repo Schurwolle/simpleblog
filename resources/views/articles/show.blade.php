@@ -129,7 +129,8 @@
 		    <h3 id ="numComm">{{ $comments->count() }} {{ $comments->count() == 1 ? ' Comment:' : ' Comments:' }} </h3>
 		    <hr>
 		    @foreach($comments as $comment)
-		    	<div class="row comment" id="comment{{$comment->id}}">
+		    	<div class="row comment">
+		    		<a name="comment{{$comment->id}}" class="anchor"></a>
 					<div class="col-sm-2">
 						<div class="thumbnail">
 							<a href="/{{$comment->user->name}}/profile"><img src="{{ file_exists('pictures/'.$comment->user->name) ? '/pictures/'.$comment->user->name : '/img/avatar.png' }}"></a>
@@ -490,15 +491,15 @@
 				if($(this).siblings('.panel-body').length)
 				{
 					$(this).siblings('.panel-body').find('button').hide();
-					$(this).siblings('.panel-body').find('tr').append('<td>' +btnInfo+ '</td>');
-					
+					$(this).siblings('.panel-body').find('tr').append('<td>' +btnInfo+ '</td>');	
 				} else {
 					$(this).after('<div class="panel-body">' +btnInfo+ '</div>');
 				}
+				
 				$(this).after('<span class="dots">...</span>');
 				$(this).siblings('.panel-body').find('.btn-info').on('click', showFull);
 
-				if(url.endsWith('#' + $(this).parents('.row').attr('id')))
+				if(url.endsWith('#' + $(this).parents('.row').children('.anchor').attr('name')))
 				{
 					$(this).siblings('.panel-body').find('.btn-info').trigger('click');
 				}
@@ -508,8 +509,7 @@
 			var buttons = $(this).closest('.panel-body').find('button').not('.btn-info, .btn-warning');
 			var commentPanel = $(this).closest('.panel-body').siblings('.panel-body');
 			commentPanel.next('span').hide();
-			commentPanel
-					.hide().css('max-height', 'none').fadeIn();
+			commentPanel.css('max-height', 'none');
 			buttons.show();
 			if(commentPanel.innerHeight() < 300)
 			{
