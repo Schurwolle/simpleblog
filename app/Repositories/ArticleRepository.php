@@ -9,6 +9,11 @@ use App\User;
 class ArticleRepository 
 {
 
+	public function showLatest5()
+	{
+		$articles = article::latest('published_at')->published()->get();
+		return $articles->slice(0, 5);
+	}
 
 	public function showPublished()
 	{

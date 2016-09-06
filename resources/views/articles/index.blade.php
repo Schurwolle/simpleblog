@@ -17,7 +17,7 @@
 	    </ul>
 	</div>
 	<h1 class="sectionHeading">@yield('h1')</h1>
-	@if(!isset($query))
+	@if(!isset($query) && $articles->count() > 5)
 		<div align="center"> 
 		{!! $articles->links() !!}
 		</div>	
@@ -136,7 +136,7 @@
 		@endif
 	</table>
 	<br>
-	@if(!isset($query))
+	@if(!isset($query) && $articles->count() > 5)
 		<div align="center"> 
 		{!! $articles->links() !!}
 		</div>	

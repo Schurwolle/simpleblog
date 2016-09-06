@@ -38,8 +38,15 @@ class ArticlesController extends Controller
 
 
 
-    public function index()
+    public function home()
     {	
+        $articles = $this->articles->showLatest5();
+
+    	return view('articles.headings.articles', compact('articles'));
+    }
+
+    public function index()
+    {   
         if (session()->has('article'))
         {
             $articles = $this->articles->showExcept(session('article'));
@@ -47,9 +54,8 @@ class ArticlesController extends Controller
             $articles = $this->articles->showPublished();
         }
 
-    	return view('articles.headings.articles', compact('articles'));
+        return view('articles.headings.articles', compact('articles'));
     }
-
 
     public function show(article $article)
     {

@@ -47,6 +47,7 @@ Route::get('login/facebook/callback', 'Auth\AuthController@getFacebook');
 
 Route::post('validateCKEImages', 'ArticlesController@validateCKEImages');
 Route::post('unique', 'ArticlesController@unique');
+Route::get('home', 'ArticlesController@home');
 Route::resource('articles', 'ArticlesController');
 Route::get('articles/{articles}/favorite', 'ArticlesController@favorite');
 Route::get('articles/{articles}/search/{query}', 'SearchController@show')->where('query', '(.*)');;
