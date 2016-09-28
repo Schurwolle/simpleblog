@@ -313,7 +313,7 @@ class SearchController extends Controller
         $ind = 0;
         for($i = 1; $i < count($string_words); $i++)
         {
-            if (preg_match($string_words[$i], html_entity_decode($body, ENT_QUOTES)))
+            if (preg_match($string_words[$i], html_entity_decode($body, ENT_QUOTES)) || starts_with($string_words[$i], "*(?<![a-zA-Z])"))
             {
                 $ind += 1;
             }
