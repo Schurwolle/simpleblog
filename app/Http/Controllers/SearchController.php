@@ -92,7 +92,24 @@ class SearchController extends Controller
     {
         foreach($string_words as $string)
         {
-            $exploded = preg_split("/(<|>)/", $body, null, PREG_SPLIT_DELIM_CAPTURE);
+            $body = $this->paint($string, $body);
+
+            if(starts_with($string, "*(?<![a-zA-Z])") && strlen($string) > 29)
+            {
+                $word = substr($string, 14, strlen($string) - 28);
+                
+                if(strpos($body, "<span style='background-color:#FFFF00'>".$word."</span>") === false)
+                {
+                    $word = "*".preg_quote($word)."*i";
+                    $body = $this->paint($word, $body);
+                }
+            }
+        }
+        return $body;
+    }
+    private function paint($string, $body)
+    {
+        $exploded = preg_split("/(<|>)/", $body, null, PREG_SPLIT_DELIM_CAPTURE);
 
             for($i = 0; $i < count($exploded); $i++)
             {
@@ -107,9 +124,7 @@ class SearchController extends Controller
                     }
                 }
             }
-            $body = implode($exploded);
-        }
-        return $body;
+        return implode($exploded);
     }
 
     private function findQuery($body, $query)
@@ -277,17 +292,10 @@ class SearchController extends Controller
         usort($query_words, function($a, $b) {
                 return strlen($b) - strlen($a);
             });
-        $num = 0;
+
         foreach($query_words as $word)
         {
             if(strlen($word) <= 3)
-            {
-                $num++;
-            }
-        }
-        foreach($query_words as $word)
-        {
-            if(strlen($word) <= 3 && $num < count($query_words)-1)
             {
                 $string_words[] = "*(?<![a-zA-Z])".preg_quote($word)."(?![a-zA-Z])*i";
             } else {
