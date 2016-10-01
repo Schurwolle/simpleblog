@@ -30,14 +30,14 @@ class SearchController extends Controller
     	$num = $articles->count();
 
         array_unshift($query_words, $query);
-        $string_words = $this->makeString($query_words);
+        $string_words = $this->sortWords($query_words);
         array_shift($query_words);
 
     	$comments = array();
     	foreach ($articles as $article)
         {   
             $article->title = $this->mark($string_words, $article->title);
-            $article->body = $this->hasAllWords($string_words, $article->body);
+            $article->body = $this->hasAllWords($query_words, $string_words, $article->body);
             $article->body = $this->findQuery($article->body, $query);
             $comments = $this->pickComments($article, $query_words, $string_words, $comments, $query);
             		// if(strpos($article->body, "<span style='background-color:#FFFF00'>")) 
@@ -73,10 +73,10 @@ class SearchController extends Controller
         $query = urldecode($query);
         $query_words = explode(" ", $query);
         array_unshift($query_words, $query);
-        $string_words = $this->makeString($query_words);
+        $string_words = $this->sortWords($query_words);
         array_shift($query_words);
         $article->title = $this->mark($string_words, $article->title);
-        $article->body = $this->hasAllWords($string_words, $article->body);
+        $article->body = $this->hasAllWords($query_words, $string_words, $article->body);
         $article->comments = $this->pickComments($article, $query_words, $string_words);
         foreach($query_words as &$word)
         {
@@ -287,19 +287,21 @@ class SearchController extends Controller
         return $body;
     }
 
-    private function makeString($query_words)
+    private function sortWords($query_words)
     {
+        $original_query_words = $query_words;
+        
         foreach($query_words as $i => $word)
         {
             foreach($query_words as $j => $query)
             {
                 if($i != 0 && $j != 0 && $word != $query)
                 {
-                    for($i = 1; $i <= strlen($query); $i++)
+                    for($m = 1; $m <= strlen($query); $m++)
                     {
-                        if(ends_with($word, substr($query, 0, $i)))
+                        if(ends_with(strtolower($word), strtolower(substr($query, 0, $m))))
                         {
-                            $query_words[] = $word.substr($query, $i);
+                            $query_words[] = $word.substr($query, $m);
                         }
                     }
                 }
@@ -310,6 +312,11 @@ class SearchController extends Controller
                 return strlen($b) - strlen($a);
             });
 
+        return $this->makeString($query_words);
+    }
+
+    private function makeString($query_words)
+    {
         foreach($query_words as $word)
         {
             if(strlen($word) <= 3)
@@ -333,17 +340,18 @@ class SearchController extends Controller
         return (str_replace($find, $replace, $body));
     }
 
-    private function hasAllWords($string_words, $body)
+    private function hasAllWords($query_words, $string_words, $body)
     {
+        $strings = $this->makeString($query_words);
         $ind = 0;
-        for($i = 1; $i < count($string_words); $i++)
+        for($i = 1; $i < count($strings); $i++)
         {
-            if (preg_match($string_words[$i], html_entity_decode($body, ENT_QUOTES)) || starts_with($string_words[$i], "*(?<![a-zA-Z])"))
+            if (preg_match($strings[$i], html_entity_decode($body, ENT_QUOTES)) || starts_with($strings[$i], "*(?<![a-zA-Z])"))
             {
                 $ind += 1;
             }
         }
-        if($ind == count($string_words)-1)
+        if($ind == count($strings)-1)
         {
             return $this->mark($string_words, $this->decodeBody($body));
         }
