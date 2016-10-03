@@ -312,9 +312,14 @@ class ArticlesController extends Controller
         $this->dispatch($job);
         if(preg_match_all('#<a href="[^<>"]*"[^<>]*><img [^<>]*src="[^<>"]*"[^<>]*/></a>#', $article->body, $matches))
         {
-            natsort($old_imgs);
-            $num = $old_imgs[count($old_imgs) - 2];
-            $num = substr($num, -1) + 1;
+            if(!empty($old_imgs))
+            {
+                natsort($old_imgs);
+                $num = $old_imgs[count($old_imgs) - 1];
+                $num = substr($num, -1) + 1;    
+            } else {
+                $num = 0;
+            }
             for ($i = 0; $i < count($matches[0]); $i++)
             {                
                 $photo = substr($matches[0][$i], 9, strpos($matches[0][$i], '"', 9) - 9);
