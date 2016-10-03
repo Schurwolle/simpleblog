@@ -315,8 +315,9 @@ class ArticlesController extends Controller
             if(!empty($old_imgs))
             {
                 natsort($old_imgs);
+                $old_imgs = array_values($old_imgs);
                 $num = $old_imgs[count($old_imgs) - 1];
-                $num = substr($num, -1) + 1;    
+                $num = substr(filter_var($num, FILTER_SANITIZE_NUMBER_INT), 2) + 1;
             } else {
                 $num = 0;
             }
