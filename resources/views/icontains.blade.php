@@ -4,7 +4,7 @@
 	        return $(e).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
 	    };
 	});
-	var queryWords = {!!json_encode($query_words)!!}
+	var queryWords = {!!json_encode($new_query_words)!!}
 	var query = {!!json_encode(preg_quote($query))!!}
 	queryWords.unshift(query);
 	for(var i=0; i<queryWords.length;i++)

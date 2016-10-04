@@ -30,7 +30,8 @@ class SearchController extends Controller
     	$num = $articles->count();
 
         array_unshift($query_words, $query);
-        $string_words = $this->sortWords($query_words);
+        $new_query_words = $this->sortWords($query_words);
+        $string_words = $this->makeString($new_query_words);
         array_shift($query_words);
 
     	$comments = array();
@@ -64,7 +65,7 @@ class SearchController extends Controller
         {
             $word = preg_quote(htmlentities($word));
         }
-        return view('articles.headings.search', compact('articles', 'query', 'query_words', 'query_link', 'num', 'comments'));
+        return view('articles.headings.search', compact('articles', 'query', 'query_words', 'new_query_words', 'query_link', 'num', 'comments'));
     }
 
     public function show(article $article, $query)
@@ -73,7 +74,8 @@ class SearchController extends Controller
         $query = urldecode($query);
         $query_words = explode(" ", $query);
         array_unshift($query_words, $query);
-        $string_words = $this->sortWords($query_words);
+        $new_query_words = $this->sortWords($query_words);
+        $string_words = $this->makeString($new_query_words);
         array_shift($query_words);
         $article->title = $this->mark($string_words, $article->title);
         $article->body = $this->hasAllWords($query_words, $string_words, $article->body);
@@ -85,7 +87,8 @@ class SearchController extends Controller
         return redirect('articles/'.$article->slug)
                                     ->with('article', $article)
                                     ->with('query', $query)
-                                    ->with('query_words', $query_words);
+                                    ->with('query_words', $query_words)
+                                    ->with('new_query_words', $new_query_words);
     }   
 
     private function mark($string_words, $body)
@@ -262,7 +265,7 @@ class SearchController extends Controller
                 }
             }
             $body = implode($exploded);
-        }
+        }   
         return $body;
     }
     private function findQueryInComment($body, $query)
@@ -288,9 +291,7 @@ class SearchController extends Controller
     }
 
     private function sortWords($query_words)
-    {
-        $original_query_words = $query_words;
-        
+    {        
         foreach($query_words as $i => $word)
         {
             foreach($query_words as $j => $query)
@@ -312,7 +313,7 @@ class SearchController extends Controller
                 return strlen($b) - strlen($a);
             });
 
-        return $this->makeString($query_words);
+        return $query_words;
     }
 
     private function makeString($query_words)

@@ -77,7 +77,7 @@
 							@unless ($article->tags->isEmpty())
 								<h5>Tags: 
 									@foreach($article->tags as $tag)
-										<a href="/tags/{{ $tag->name }}"><button class="btn btn-default btn-xs @if($tag->name == strtolower(implode($query_words))) marker @else @foreach($query_words as $word) {{ $tag->name == strtolower($word) ? 'marker' : '' }}@endforeach @endif"> {{ $tag->name }} </button></a>
+										<a href="/tags/{{ $tag->name }}"><button class="btn btn-default btn-xs @if($tag->name == strtolower(implode($query_words))) marker @else @foreach($new_query_words as $word) {{ $tag->name == strtolower($word) ? 'marker' : '' }}@endforeach @endif"> {{ $tag->name }} </button></a>
 									@endforeach
 								</h5>
 							@endunless
