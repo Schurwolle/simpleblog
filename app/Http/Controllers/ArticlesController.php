@@ -77,9 +77,10 @@ class ArticlesController extends Controller
                 $article = session('article');
                 $query = session('query');
                 $query_words = session('query_words');
+                $new_query_words = session('new_query_words');
                 $comments = $article->comments;
             }
-    	    return view('articles.show', compact('article', 'comments', 'addImgs', 'query', 'query_words'));
+    	    return view('articles.show', compact('article', 'comments', 'addImgs', 'query', 'query_words', 'new_query_words'));
         
     }
 
