@@ -45,7 +45,7 @@ class ArticleRepository
 		return $tag->articles()->latest('published_at')->published()->paginate(5);
 	}
 
-	public function forQuery($query, $query_words)
+	public function forQuery($query, $query_words, $new_query_words)
 	{
 		$allArticles = article::published()->get();
 		$articles = collect();
@@ -70,7 +70,7 @@ class ArticleRepository
 				$articles[] = $article;
 				continue;
 			}
-			foreach($query_words as $word)
+			foreach($new_query_words as $word)
 			{
 				if($article->tags->contains('name', strtolower($word))) 
 				{

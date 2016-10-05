@@ -26,13 +26,14 @@ class SearchController extends Controller
     	$query = preg_replace('/ {2,}/',' ', trim($request->input('search')));
         $query_words = explode(" ", $query);
 
-    	$articles = $this->articles->forQuery($query, $query_words);
-    	$num = $articles->count();
-
         array_unshift($query_words, $query);
         $new_query_words = $this->sortWords($query_words);
         $string_words = $this->makeString($new_query_words);
         array_shift($query_words);
+
+        $articles = $this->articles->forQuery($query, $query_words, $new_query_words);
+        $num = $articles->count();
+
 
     	$comments = array();
     	foreach ($articles as $article)
