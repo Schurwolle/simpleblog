@@ -92,11 +92,16 @@ class SearchController extends Controller
                                     ->with('new_query_words', $new_query_words);
     }   
 
-    private function mark($string_words, $body)
+    private function mark($string_words, $body, $comment = 0)
     {
         foreach($string_words as $string)
         {
-            $body = $this->paintBody($string, $body);
+            if ($comment == 0)
+            {
+                $body = $this->paintBody($string, $body);
+            } else {
+                $body = $this->paintComment($string, $body);
+            }
 
             if(starts_with($string, "*(?<![a-zA-Z])") && strlen($string) > 29)
             {
@@ -105,7 +110,12 @@ class SearchController extends Controller
                 if(strpos($body, "<span style='background-color:#FFFF00'>".$word."</span>") === false)
                 {
                     $word = "*".preg_quote($word)."*i";
-                    $body = $this->paintBody($word, $body);
+                    if ($comment == 0)
+                    {
+                        $body = $this->paintBody($word, $body);
+                    } else {
+                        $body = $this->paintComment($word, $body);
+                    }
                 }
             }
         }
@@ -128,6 +138,25 @@ class SearchController extends Controller
                     }
                 }
             }
+        return implode($exploded);
+    }
+    private function paintComment($string, $body)
+    {
+        $exploded = preg_split("/(<span style='background-color:#FFFF00'>|<\/span>)/", $body, null, PREG_SPLIT_DELIM_CAPTURE);
+
+        for($i = 0; $i < count($exploded); $i++)
+        {
+            if($exploded[$i] != "<span style='background-color:#FFFF00'>")
+            {
+                if($i == 0 || $exploded[$i-1] != "<span style='background-color:#FFFF00'>")
+                {
+                    if($i == 0 || $i == 1 || $exploded[$i] != "</span>" || ($exploded[$i] == "</span>" && $exploded[$i-2] != "<span style='background-color:#FFFF00'>"))
+                    {
+                        $exploded[$i] = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", $exploded[$i]);
+                    }
+                }
+            }
+        }
         return implode($exploded);
     }
 
@@ -227,7 +256,7 @@ class SearchController extends Controller
                 }
                 if($ind == count($query_words))
                 {
-                    $comment->body = $this->markComments($string_words, $comment->body);
+                    $comment->body = $this->mark($string_words, $comment->body, 1);
                     if($comments != "null")
                     {   
                         if(str_word_count(strip_tags($comment->body)) > 60)
@@ -244,47 +273,6 @@ class SearchController extends Controller
         }
         return $article->comments->sortByDesc('created_at');
     }
-
-    private function markComments($string_words, $body)
-    {
-
-        foreach($string_words as $string)
-        {
-            $body = $this->paintComment($string, $body);
-
-            if(starts_with($string, "*(?<![a-zA-Z])") && strlen($string) > 29)
-            {
-                $word = substr($string, 14, strlen($string) - 28);
-                
-                if(strpos($body, "<span style='background-color:#FFFF00'>".$word."</span>") === false)
-                {
-                    $word = "*".preg_quote($word)."*i";
-                    $body = $this->paintComment($word, $body);
-                }
-            }
-        }   
-        return $body;
-    }
-    private function paintComment($string, $body)
-    {
-        $exploded = preg_split("/(<span style='background-color:#FFFF00'>|<\/span>)/", $body, null, PREG_SPLIT_DELIM_CAPTURE);
-
-        for($i = 0; $i < count($exploded); $i++)
-        {
-            if($exploded[$i] != "<span style='background-color:#FFFF00'>")
-            {
-                if($i == 0 || $exploded[$i-1] != "<span style='background-color:#FFFF00'>")
-                {
-                    if($i == 0 || $i == 1 || $exploded[$i] != "</span>" || ($exploded[$i] == "</span>" && $exploded[$i-2] != "<span style='background-color:#FFFF00'>"))
-                    {
-                        $exploded[$i] = preg_replace($string, "<span style='background-color:#FFFF00'>\$0</span>", $exploded[$i]);
-                    }
-                }
-            }
-        }
-        return implode($exploded);
-    }
-    
     private function findQueryInComment($body, $query)
     {
         $occurence = stripos($body, "<span style='background-color:#FFFF00'>".$query);
