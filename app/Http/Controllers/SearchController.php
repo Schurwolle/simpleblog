@@ -287,9 +287,13 @@ class SearchController extends Controller
     {
         $body1 = substr($body, 0, $occurence);
         $body = "...".substr($body, $occurence);
-        if((!ends_with($body1, " ")) || ends_with($body1, "<span"))
+        if(!ends_with($body1, " "))
         {
-            $body = "...".strrchr($body1, " ").substr($body, 3);
+            $body2 = substr($body1, 0, strlen($body1) - strlen(strrchr($body1, " ")));
+            if(!ends_with($body2, "<span"))
+            {
+                $body = "...".strrchr($body1, " ").substr($body, 3);
+            }
         }
         return $body;
     }
