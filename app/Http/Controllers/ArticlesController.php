@@ -45,6 +45,14 @@ class ArticlesController extends Controller
     	return view('articles.headings.articles', compact('articles'));
     }
 
+    public function grid()
+    {
+        $articles = $this->articles->showPublished();
+        $articles = $articles->chunk(3);
+
+        return view('articles.grid', compact('articles'));
+    }
+
     public function index()
     {   
         if (session()->has('article'))
