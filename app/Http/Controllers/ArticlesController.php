@@ -47,7 +47,7 @@ class ArticlesController extends Controller
 
     public function grid()
     {
-        $articles = $this->articles->showPublished();
+        $articles = $this->articles->showUnpaginated();
         $articles = $articles->chunk(3);
 
         return view('articles.grid', compact('articles'));

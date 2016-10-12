@@ -25,6 +25,11 @@ class ArticleRepository
 		return article::latest('published_at')->unpublished()->paginate(5);
 	}
 
+	public function showUnpaginated()
+	{
+		return article::latest('published_at')->published()->get();
+	}
+
 	public function forUser(User $user)
 	{
 		return $user->articles()->latest('published_at')->published()->paginate(5);
