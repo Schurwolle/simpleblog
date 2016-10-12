@@ -118,6 +118,14 @@ img {
   margin: 1px;
   border: none;
   outline: 1px solid #0782C1;
+  box-shadow: 2px 2px 5px 1px #999;
+}
+.grid-td {
+  vertical-align: bottom; 
+  background-color: #EBE3E2; 
+  padding: 10px 20px 30px;
+  outline: 1px solid #73AD21;
+  box-shadow: 2px 2px 5px 1px #999;
 }
 .panel-body:not(.new)[name=panelbody] {
   max-height: 300px;
