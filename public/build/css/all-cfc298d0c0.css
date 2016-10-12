@@ -1594,7 +1594,7 @@ img {
 .marker {
   background-color: Yellow;
 }
-.articleBody img, .side img {
+.articleBody img, .side img, .grid-image {
   padding: 1px;
   margin: 1px;
   border: none;
