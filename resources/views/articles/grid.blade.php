@@ -1,11 +1,9 @@
 @extends('layouts.app')
 
-@section('sides')
-	@include('leftandright')
-@endsection
-
 @section('content')
-	<table style="border-spacing: 15px; border-collapse: separate;">
+	<title> Archive </title>
+	<table style="border-spacing: 35px; border-collapse: separate;" align="center">
+	<thead><td style="vertical-align: bottom;"><h1>Articles</h1></td></thead>
 	<tr>
 		@foreach($articles as $chunk)
 			<tr>

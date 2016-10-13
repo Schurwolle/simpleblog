@@ -147,7 +147,11 @@
                 } else {
                     $('.right').show();
                     $('.left').show();
-                    $('.center').css("width", "53%");
+                    if($("title").text().trim() != "Blog Archive") {
+                        $('.center').css("width", "53%");
+                    } else {
+                        $('.center').css("width", "100%");
+                    }
                     $('.bx-wrapper .bx-caption span').css("font-size", "1.5vw");
                 }
                 if($(window).width() < 753){
@@ -166,7 +170,6 @@
                 }
             }).trigger('resize');
     </script>
-
 
 
 </body>
