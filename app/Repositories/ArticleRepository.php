@@ -15,6 +15,11 @@ class ArticleRepository
 		return $articles->slice(0, 5);
 	}
 
+	public function showLatest15()
+	{
+		return article::latest('published_at')->published()->paginate(15);
+	}
+
 	public function showPublished()
 	{
 		return article::latest('published_at')->published()->paginate(5);
@@ -23,11 +28,6 @@ class ArticleRepository
 	public function showUnpublished()
 	{
 		return article::latest('published_at')->unpublished()->paginate(5);
-	}
-
-	public function showUnpaginated()
-	{
-		return article::latest('published_at')->published()->get();
 	}
 
 	public function forUser(User $user)
