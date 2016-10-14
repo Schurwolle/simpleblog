@@ -151,6 +151,7 @@
                         $('.center').css("width", "53%");
                     } else {
                         $('.center').css("width", "100%");
+                        $('.footer').find('.center').css("width", "65%")
                     }
                     $('.bx-wrapper .bx-caption span').css("font-size", "1.5vw");
                 }
