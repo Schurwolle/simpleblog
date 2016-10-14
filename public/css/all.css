@@ -1607,6 +1607,8 @@ img {
   padding: 10px 20px 30px;
   outline: 1px solid #73AD21;
   box-shadow: 2px 2px 5px 1px #999;
+  word-wrap: break-word; 
+  max-width: 244px;
 }
 .panel-body:not(.new)[name=panelbody] {
   max-height: 300px;
