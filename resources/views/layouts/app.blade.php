@@ -51,7 +51,7 @@
                         <li><a href="{{ url('/register') }}">Register</a></li>
                     @else
                     @if($latest)
-                        <li><a href="/articles/{{ $latest->slug }}">{{str_limit($latest->title)}}</a></li>
+                        <li class="latest-article"><a href="/articles/{{ $latest->slug }}">{{str_limit($latest->title)}}</a></li>
                     @endif
                     @if(Auth::check() && Auth::user()->isAdmin())
                         <li><a href="{{ url('/users') }}">Users</a></li>
