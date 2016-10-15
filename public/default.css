@@ -129,6 +129,12 @@ img {
   word-wrap: break-word; 
   max-width: 244px;
 }
+.grid-td div {
+  max-width:204px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
 .panel-body:not(.new)[name=panelbody] {
   max-height: 300px;
 }

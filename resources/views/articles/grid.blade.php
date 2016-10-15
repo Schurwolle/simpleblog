@@ -9,8 +9,10 @@
 				<tr>
 			@endif
 			<td class="grid-td">
+				<div>
 				<h4 align="middle"><a class="black" href="/articles/{{ $article->slug }}/">{{$article->title}}</a></h4>
-				<a href="/articles/{{$article->slug}}">{{ Html::image(('pictures/'.$article->id.'thumbnail'), null, ['class' => 'grid-image']) }}
+				<a href="/articles/{{$article->slug}}">{{ Html::image(('pictures/'.$article->id.'thumbnail'), null, ['class' => 'grid-image']) }}</a>
+				</div>
 			</td>
 		@endforeach
 	</table>
